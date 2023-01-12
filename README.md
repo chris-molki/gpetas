@@ -39,10 +39,10 @@ using `conda`.
 
 ## Create virtual environment
 ```
-conda create --name gpetas_env
+conda create --name gpetas_env python=3.9
 conda activate gpetas_env
-conda install python=3.9
 ```
+This creates a virtual environment with python==3.9 installed and activates it
 In order to return to the base environment afterwards, use: *conda deactivate*.
 
 ## Package installation
