@@ -71,11 +71,27 @@ For more details find the tutorials below.
 
 ## Provide data
 Provide (i) observed data
-or (ii) simulate data using, e.g., ``gpetas``.
+or (ii) simulate data, latter can be done using``gpetas``.
 
 ### Observed data
-Data are time series and have to have 
-a specific format which ``gpetas`` can read.
+
+Observed data have to have a specific format which ``gpetas`` can read.
+Following format is supported,
+* a text file with 5 columns, no header, where each row corresponds to a single event (earthquake)
+```
+idx, x_lon, y_lat, mag, time 
+```
+where *time* is decimal in days. Assuming N observed events, the data file has dimension (N,5), e.g.,
+```
+    1	2.7523	2.1859	4.6	0.000000
+    2	2.7447	2.0783	3.4	0.004436
+    3	3.0142	2.1734	3.4	0.320997
+    4	3.4610	1.5132	3.5	2.271304
+    5	2.8646	2.2552	3.4	11.108739
+    6	2.8682	3.0405	4.1	41.841438
+    7	2.8948	3.0755	4.9	41.963901
+    8	2.6674	3.0231	3.4	42.026355
+```
 
 
 
