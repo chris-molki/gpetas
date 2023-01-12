@@ -34,8 +34,7 @@ the joint posterior distribution. More specifically we employ MH within Gibbs sa
 # Installation
 
 `gpetas` requires `python>=3.9`.
-For a proper installation create a virtual environment first and activate it. Just do the following 
-using `conda`.
+For a proper installation create a virtual environment first and activate it. Just do the following.
 
 ## Create virtual environment
 ```
