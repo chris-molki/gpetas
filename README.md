@@ -28,7 +28,8 @@ Spatio-temporal Hawkes process with conditional intensity function:
 
 ## Bayesian inference via data augmentation and Gibbs sampling
 
-Posterior distribution has no simple closed form.
+Posterior distribution has no simple closed form. We use Markov chain Monte Carlo (MCMC) methods for generating samples from 
+the joint posterior distribution. More specifically we employ MH within Gibbs sampling.
 
 # Installation
 
