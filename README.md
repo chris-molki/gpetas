@@ -8,8 +8,6 @@ The code follows this [Statistics and Computing paper](https://link.springer.com
 
 [**Basic Usage**](#basics) | [**Install guide**](#installation) | [**Citing**](#citation) | [**Documentation**](https://chris-molki.github.io/gaussian-toolbox/)
 
-# About
-
 # Basics
 
 ## ETAS model a Hawkes process
