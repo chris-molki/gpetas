@@ -405,7 +405,6 @@ class create_data_obj_from_cat_file():
     def __init__(self, fname, X_borders=None, T_borders_all=None, T_borders_training=None, utm_yes=None,
                  T_borders_test=None, m0=None, outdir=None, case_name='case_01', time_origin=None):
         """
-
         :param time_origin:
         :type time_origin:
         :param fname:
