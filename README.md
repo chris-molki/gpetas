@@ -41,7 +41,7 @@ For a proper installation create a virtual environment first and activate it. Ju
 conda create --name gpetas_env python=3.9
 conda activate gpetas_env
 ```
-This creates a virtual environment with python==3.9 installed and activates it
+This creates a virtual environment with python==3.9 installed, and activates it.
 In order to return to the base environment afterwards, use: *conda deactivate*.
 
 ## Package installation
