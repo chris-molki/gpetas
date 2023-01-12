@@ -34,8 +34,8 @@ the joint posterior distribution. More specifically we employ MH within Gibbs sa
 # Installation
 
 `gpetas` requires `python>=3.9`.
-For a proper installation create a virtual environment and activate it.
-Clone the repository into a directory and go into the folder. Just do the following
+For a proper installation create a virtual environment first and activate it. Just do the following 
+using `conda`.
 
 ## Create virtual environment
 ```
@@ -46,6 +46,7 @@ conda install python=3.9
 In order to return to the base environment afterwards, use: *conda deactivate*.
 
 ## Package installation
+Clone the repository into a directory and change into the folder and do the following.
 ```
 git clone https://github.com/chris-molki/gpetas.git
 cd gpetas
