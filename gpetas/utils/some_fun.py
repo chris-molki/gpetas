@@ -453,9 +453,9 @@ class create_data_obj_from_cat_file():
             self.utm_conversion()
 
         # mark domain: cut off magnitude
+        if m0 is None:
+            m0 = np.min(self.data_all.magnitudes)
         self.domain.m0 = m0
-        if self.domain.m0 is None:
-            self.domain.m0 = np.min(self.data_all.magnitudes)
         # new: cut data set
         idx_m0 = aux[:, 3] >= m0
         self.data_all.times = aux[idx_m0, 4]  # time

@@ -70,6 +70,7 @@ import gpetas
 For more details find the tutorials below.
 
 ## Provide data
+Provide data and save it to a `gpetas` data class (object).
 ### As a text file
 Observed data can be provided either directly 
 in a text file with a specific format which ``gpetas`` can read.
