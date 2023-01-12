@@ -70,13 +70,10 @@ import gpetas
 For more details find the tutorials below.
 
 ## Provide data
-Provide (i) observed data
-or (ii) simulate data, latter can be done using``gpetas``.
+### As a text file
+Observed data can be provided either directly 
+in a text file with a specific format which ``gpetas`` can read.
 
-### Observed data
-
-Observed data have to have a specific format which ``gpetas`` can read.
-Following format is supported,
 * a text file with 5 columns, no header, where each row corresponds to a single event (earthquake)
 ```
 idx, x_lon, y_lat, mag, time 
@@ -93,7 +90,8 @@ where *time* is decimal in days. Assuming N observed events, the data file has d
     8	2.6674	3.0231	3.4	42.026355
 ```
 
-
+### From an online source
+In order to ...
 
 
 
