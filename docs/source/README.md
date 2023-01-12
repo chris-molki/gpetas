@@ -91,7 +91,18 @@ where *time* is decimal in days. Assuming N observed events, the data file has d
 ```
 
 ### From an online source
-In order to ...
+Data can be easily downloaded from online sources as
+* USGS: HOST = 'earthquake.usgs.gov'
+
+Here we use functionalities provided by the ``pycsep`` package which 
+facilitates the data access.
+
+First install ``pycsep`` using ``conda``
+```
+conda activate gpetas_env
+conda install --channel conda-forge pycsep
+```
+
 
 
 
