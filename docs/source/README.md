@@ -90,6 +90,13 @@ where *time* is decimal in days. Assuming N observed events, the data file has d
     7	2.8948	3.0755	4.9	41.963901
     8	2.6674	3.0231	3.4	42.026355
 ```
+Generate ```gpetas``` data class
+```
+import gpetas
+fname = './data/comcat_RSCA_m35_t0_0101_2010_all.cat'
+data_obj = gpetas.some_fun.create_data_obj_from_cat_file(fname)
+```
+```data_obj``` is a class object and contains the data and all information about the data and the considered temporal domain, spatial domain and mark domain.
 
 ### From an online source
 Data can be easily downloaded from online sources as
