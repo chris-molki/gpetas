@@ -1,9 +1,8 @@
 # Install
 
-Just use the following commands using conda.
-
 ## Create virtual environment
-Creates virtual environment with python==3.9 installed and activates it
+Just use the following commands using conda.
+It creates virtual environment with python==3.9 installed and activates it
 ```
 conda create --name gpetas_env python=3.9
 conda activate gpetas_env
