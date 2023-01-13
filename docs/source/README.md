@@ -107,11 +107,27 @@ Data can be easily downloaded from online sources as
 
 Here we use functionalities provided by the ``pycsep`` package which 
 facilitates the data access.
+Related functions require a 
+*datetime.datetime*
+to specify the start and end dates.
+``pycsep`` provides access to the 
+ComCat web API and to the 
+Bollettino Sismico Italiano API using
+* csep.query_comcat()
+* csep.query_bsi().
+
+In ``pycsep`` data is downloaded saved into 
+a *catalog object* (pyhton class) which 
+can be easily converted into a ``gpetas``` 
+*data_obj* using ***data_obj__from_catalog_obj()***.
 
 First install ``pycsep`` using ``conda``
 ```bash
 conda activate gpetas_env
 conda install --channel conda-forge pycsep
+```
+Start ``python`` and do the following.
+```python
 ```
 
 
