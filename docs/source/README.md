@@ -17,6 +17,14 @@ pip install -r requirements.txt
 pip install -r requirements_docs.txt
 pip install -e .
 ```
+Warning: Currently there is an issue with ```pandoc```, 
+which is for example used when notebooks are embedded in the documentation.
+It is not properly install via ```pip```, therefore
+install ```pandoc``` via ```conda```
+```bash
+pip uninstall pandoc
+conda install pandoc
+```
 
 `gpetas` is installed in developer/editable mode.
 
