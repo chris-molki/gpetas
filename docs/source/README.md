@@ -63,10 +63,10 @@ Then you can already get started:
 import gpetas
 ```
 ``gpetas`` is based on following main objects (implemented as python ``class``):
-* data_obj
-* domain_obj
-* setup_obj
-* inference_obj (as *GS_obj* or *mle_obj*)
+* *<data_obj>*
+* *domain_obj*
+* <setup_obj> for the inference procedure
+* inference_obj (as *<GS_obj>* or *mle_obj*)
   
 
 
