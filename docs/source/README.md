@@ -59,7 +59,7 @@ or just delete the directory of *gpetas_env*.
 
 Then you can already get started:
 
-```
+```python
 import gpetas
 ```
 ``gpetas`` is based on following main objects (implemented as python ``class``):
@@ -74,7 +74,7 @@ For more details find the tutorials below.
 
 ## Provide data
 Provide data and save it as a `gpetas` data object (python class).
-### As a text file
+### Data from a text file
 Observed data can be provided either directly 
 in a text file with a specific format which ``gpetas`` can read.
 
@@ -101,7 +101,7 @@ data_obj = gpetas.some_fun.create_data_obj_from_cat_file(fname)
 ```
 ```data_obj``` is a class object and contains the data and all information about the data and the considered temporal domain, spatial domain and mark domain.
 It is the bases for the inference.
-### From an online source
+### Data from an online source
 Data can be easily downloaded from online sources as
 * USGS: HOST = 'earthquake.usgs.gov'
 
