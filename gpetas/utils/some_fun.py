@@ -403,21 +403,41 @@ class create_data_obj_from_cat_file():
     """
 
     def __init__(self, fname, X_borders=None, T_borders_all=None, T_borders_training=None, utm_yes=None,
-                 T_borders_test=None, m0=None, outdir=None, case_name='case_01', time_origin=None):
+                 T_borders_test=None, m0=None, outdir=None, case_name='case_01', time_origin=None,
+                 domain_obj=None):
         """
-        :param time_origin:
-        :type time_origin:
         :param fname:
+        :type fname:
         :param X_borders:
+        :type X_borders:
         :param T_borders_all:
+        :type T_borders_all:
         :param T_borders_training:
-        :param utm_yes: 1 or None
+        :type T_borders_training:
+        :param utm_yes:
+        :type utm_yes:
         :param T_borders_test:
-        :param case_name:
-        :type case_name:
+        :type T_borders_test:
+        :param m0:
+        :type m0:
         :param outdir:
         :type outdir:
+        :param case_name:
+        :type case_name:
+        :param time_origin:
+        :type time_origin:
+        :param domain_obj:
+        :type domain_obj:
         """
+        # domain_obj
+        if domain_obj is not None:
+            X_borders = domain_obj.X_borders
+            T_borders_all = domain_obj.T_borders_all
+            T_borders_training = domain_obj.T_borders_training
+            T_borders_test = domain_obj.T_borders_testing
+            m0 = domain_obj.m0
+            time_origin = domain_obj.time_origin
+
         # init
         self.fname = fname
         self.case_name = case_name
