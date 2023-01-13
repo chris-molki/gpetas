@@ -28,7 +28,7 @@ and generate a local documentation in html.
 cd docs
 make html
 ```
-For opening the documentation just open *index.html* file
+For opening the documentation just open *index.html* file in a browser, e.g.,
 ```
 open ./build/html/index.html
 ```
