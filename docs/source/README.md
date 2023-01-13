@@ -73,15 +73,15 @@ import gpetas
 For more details find the tutorials below.
 
 ## Provide data
-Provide data and save it to a `gpetas` data class (object).
+Provide data and save it as a `gpetas` data object (python class).
 ### As a text file
 Observed data can be provided either directly 
 in a text file with a specific format which ``gpetas`` can read.
 
 * a text file with 5 columns, no header, where each row corresponds to a single event (earthquake)
-```
-idx, x_lon, y_lat, mag, time 
-```
+
+    > idx, x_lon, y_lat, mag, time 
+
 where *time* is decimal in days. Assuming N observed events, the data file has dimension (N,5), e.g.,
 ```
     1	2.7523	2.1859	4.6	0.000000
