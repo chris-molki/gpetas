@@ -15,12 +15,13 @@ Welcome to gpetas's documentation!
 
 .. toctree::
    :maxdepth: 1
-   :caption: Introduction:
+   :caption: Introduction
 
+   notebooks/01_getdata_from_file
 
 .. toctree::
    :maxdepth: 1
-   :caption: API
+   :caption: API reference
 
    gpetas
 

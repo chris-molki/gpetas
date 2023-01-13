@@ -49,7 +49,6 @@ extensions = [
 # 'sphinx_autodoc_typehints' only with sphinx>=5.x. but
 # sphinx_book_theme requires currently <5.x.
 
-
 autodoc_default_options = {
     "members": "var1, var2",
     "member-order": "bysource",
