@@ -94,7 +94,7 @@ where *time* is decimal in days. Assuming N observed events, the data file has d
     8	2.6674	3.0231	3.4	42.026355
 ```
 Generate ```gpetas``` data class
-```
+```python
 import gpetas
 fname = '<path to data file>' # as a string
 data_obj = gpetas.some_fun.create_data_obj_from_cat_file(fname)
@@ -109,7 +109,7 @@ Here we use functionalities provided by the ``pycsep`` package which
 facilitates the data access.
 
 First install ``pycsep`` using ``conda``
-```
+```bash
 conda activate gpetas_env
 conda install --channel conda-forge pycsep
 ```
