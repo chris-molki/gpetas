@@ -235,14 +235,35 @@ class R00x_california_set_domain:
 
 # subclasses
 class region_class():
-    def __init__(self):
-        self.T_borders_all = None
-        self.T_borders_training = None
-        self.T_borders_testing = None
-        self.X_borders = None
-        self.X_borders_UTM_km = None
-        self.X_borders_original = None
+    def __init__(self,T_borders_all=None,T_borders_training=None,T_borders_testing=None, time_origin=None,
+                 X_borders=None,X_borders_UTM_km=None,X_borders_original=None,
+                 m0=None):
+        '''
+        :param T_borders_all:
+        :type T_borders_all:
+        :param T_borders_training:
+        :type T_borders_training:
+        :param T_borders_testing:
+        :type T_borders_testing:
+        :param time_origin:
+        :type time_origin:
+        :param X_borders:
+        :type X_borders:
+        :param X_borders_UTM_km:
+        :type X_borders_UTM_km:
+        :param X_borders_original:
+        :type X_borders_original:
+        :param m0:
+        :type m0:
+        '''
+        self.T_borders_all = T_borders_all
+        self.T_borders_training = T_borders_training
+        self.T_borders_testing = T_borders_testing
+        self.X_borders = X_borders
+        self.X_borders_UTM_km = X_borders_UTM_km
+        self.X_borders_original = X_borders_original
         self.time_origin = None
+        self.m0 = m0
 
 
 class event():
