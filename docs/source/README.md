@@ -72,7 +72,7 @@ import gpetas
 
 For more details find the tutorials below.
 
-## Provide data
+## Provide data and generate a ``gpetas`` data object
 Provide data and save it as a `gpetas` data object (python class).
 ### Data from a text file
 Observed data can be provided either directly 
@@ -101,6 +101,8 @@ data_obj = gpetas.some_fun.create_data_obj_from_cat_file(fname)
 ```
 ```data_obj``` is a class object and contains the data and all information about the data and the considered temporal domain, spatial domain and mark domain.
 It is the bases for the inference.
+See this [notebook](../../examples/01_getdata_from_file.ipynb)
+
 ### Data from an online source
 Data can be easily downloaded from online sources as
 * USGS: HOST = 'earthquake.usgs.gov'
