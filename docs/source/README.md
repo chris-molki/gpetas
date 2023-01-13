@@ -20,7 +20,7 @@ pip install -e .
 ***Warning:*** Currently there is an issue with ```pandoc```, 
 which is for example used when notebooks are embedded in the documentation.
 It is not properly install via ```pip```, therefore
-install ```pandoc``` via ```conda```
+installed ```pandoc``` via ```conda```
 ```bash
 pip uninstall pandoc
 conda install pandoc
