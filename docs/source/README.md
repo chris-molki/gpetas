@@ -20,9 +20,6 @@ pip install -e .
 
 `gpetas` is installed in developer/editable mode.
 
-For uninstall just change to the parent directory *cd ..* and (1) remove gpetas directory *rm -rf gpetas* and (2) remove the virtual environment
-using *env remove -n gpetas_env* (deactivate gpetas_env before as mentioned above).
-
 ## Build documentation locally
 
 Change into the folder *docs*
