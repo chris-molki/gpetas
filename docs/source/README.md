@@ -80,7 +80,23 @@ import gpetas
 For more details find the tutorials below.
 
 ## Provide data and generate a ``gpetas`` data object
-Provide data and save it as a `gpetas` data object (python class).
+Provide data and save it as a `gpetas` data 
+object (python class), which is the basis for the inference.
+
+### Define domain
+You have to specify following aspects of 
+the domain:
+* time domain
+  * time borders for the training *T_borders_training*
+  * time borders for the testing *T_borders_testing*
+  * time origin (when was '0.' days)
+* spatial domain *X_borders*
+* domain of the marks (magnitudes) usually by *m0*
+
+```python
+import gpetas
+
+```
 ### Data from a text file
 Observed data can be provided either directly 
 in a text file with a specific format which ``gpetas`` can read.
