@@ -95,7 +95,23 @@ the domain:
 
 ```python
 import gpetas
+import numpy as np
 
+# specify domain
+time_origin = '2010-01-01 00:00:00.0'
+T_borders_all = np.array([0.,4383.]) # until '2022-01-01 00:00:00.0'
+T_borders_training = np.array([0.,3000.])
+X_borders = np.array([[-120., -113.],[  30.,   37.]])
+m0=3.5
+
+# save specifications into domain_obj
+domain_obj = gpetas.utils.R00x_setup.region_class()
+domain_obj.T_borders_all = T_borders_all
+domain_obj.T_borders_training=T_borders_training
+domain_obj.T_borders_testing = np.array([T_borders_training[1],T_borders_all[1]])
+domain_obj.time_origin = time_origin
+domain_obj.X_borders = X_borders
+domain_obj.m0 = m0
 ```
 ### Data from a text file
 Observed data can be provided either directly 
@@ -156,8 +172,43 @@ conda install --channel conda-forge pycsep
 ```
 Start ``python`` and do the following.
 ```python
+import gpetas
+import numpy as np
+import csep
+from csep.utils import time_utils, comcat
 ```
+Specify domain for data download and save it to *domain_obj*
+```python
+time_origin = '2010-01-01 00:00:00.0'
+T_borders_all = np.array([0.,4383.]) # until '2022-01-01 00:00:00.0'
+T_borders_training = np.array([0.,3000.])
+X_borders = np.array([[-120., -113.],[  30.,   37.]])
+m0=3.0
 
+domain_obj = gpetas.utils.R00x_setup.region_class()
+domain_obj.T_borders_all = T_borders_all
+domain_obj.T_borders_training=T_borders_training
+domain_obj.T_borders_testing = np.array([T_borders_training[1],T_borders_all[1]])
+domain_obj.time_origin = time_origin
+domain_obj.X_borders = X_borders
+domain_obj.m0 = m0
+```
+Based on *domain_obj* use ``pycsep`` for 
+downloading the data into a *catalog_obj*
+```python
+# get pycsep catalog_obj
+start_time = csep.utils.time_utils.strptime_to_utc_datetime(domain_obj.time_origin)
+end_time = csep.utils.time_utils.strptime_to_utc_datetime('2022-01-01 00:00:00.0')
+min_magnitude=domain_obj.m0
+min_latitude=domain_obj.X_borders[1,0]
+max_latitude=domain_obj.X_borders[1,1]
+min_longitude=domain_obj.X_borders[0,0]
+max_longitude=domain_obj.X_borders[0,1]
+catalog_obj = csep.query_comcat(start_time=start_time, end_time=end_time, 
+                        min_magnitude=min_magnitude, 
+                        min_latitude=min_latitude,max_latitude=max_latitude, 
+                        min_longitude=min_longitude, max_longitude=max_longitude)
+```
 
 
 
