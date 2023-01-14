@@ -43,7 +43,7 @@ class R00x_california_set_domain:
         self.T_borders_all = np.copy(T_borders_all)
         self.T_borders_training = np.copy(T_borders_training)
         self.T_borders_testing = np.copy(T_borders_testing)
-        self.t0_time_origin = time_origin
+        self.time_origin = time_origin
         self.t1_time_end_training = time_end_training
         self.t2_time_end_total = time_end_total
 
@@ -90,13 +90,13 @@ class R00x_california_set_domain:
         # time domain
         time_format = self.time_format
         if time_origin is None:
-            time_origin = self.t0_time_origin
+            time_origin = self.time_origin
             region_obj.time_origin = time_origin
-            region_obj.t0_time_origin = time_origin
+            region_obj.time_origin = time_origin
         else:
             time_origin = datetime.datetime.strptime(time_origin, time_format).replace(tzinfo=datetime.timezone.utc)
             region_obj.time_origin = time_origin
-            region_obj.t0_time_origin = time_origin
+            region_obj.time_origin = time_origin
         if time_end_training is None:
             time_end_training = self.t1_time_end_training
             region_obj.t1_time_end_training = time_end_training

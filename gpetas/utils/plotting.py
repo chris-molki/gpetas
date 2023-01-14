@@ -1298,7 +1298,7 @@ def plot_setting(data_obj=None, save_obj_GS=None, test_data_blue=None, gm_obj=No
     if np.sum(idx_test) > 0:
         # plt.text(training_end, 0,
         if pos_xy_text_star is None:
-            plt.text(0.95 * training_end, 0.7*x.shape[0],
+            plt.text(0.95 * training_end, 0.2*x.shape[0],
                  '$N_{\mathcal{D}^{\\ast}} =$ %s\n$m_{\mathcal{D}^{\\ast}}\in$[%.2f,%.2f]'
                  % (x[idx_test].shape[0], np.min(x[idx_test, 1]), np.max(x[idx_test, 1])),
                  horizontalalignment='right',

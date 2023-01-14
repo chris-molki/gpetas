@@ -23,20 +23,26 @@ def init_outdir():
         os.mkdir(output_dir_data)
 
 
-def data_obj__from_catalog_obj(catalog_obj, R_obj, m_min=None, fname_ixymt=None):
+def data_obj__from_catalog_obj(catalog_obj, R_obj, m_min=None, fname_ixymt=None, case_name = None):
     init_outdir()
     catalog = catalog_obj
-    t0_time_origin = R_obj.t0_time_origin
+    time_origin = R_obj.time_origin
     X_borders = R_obj.X_borders
     T_borders_all = R_obj.T_borders_all
     T_borders_training = R_obj.T_borders_training
     T_borders_testing = R_obj.T_borders_testing
-    case_name = R_obj.case_name
+    if case_name is None:
+        case_name='case01'
+        if hasattr(R_obj, 'case_name'):
+            case_name = R_obj.case_name
+        else:
+            time_origin = datetime.datetime.strptime(time_origin, time_format).replace(tzinfo=datetime.timezone.utc)
+
 
     # time milli sec into days
     UNIX_timestamp_origin = datetime.datetime.strptime('1970-01-01 00:00:00.0', time_format).replace(
         tzinfo=datetime.timezone.utc)
-    t_shift_msec = (t0_time_origin - UNIX_timestamp_origin).total_seconds() * 1000.
+    t_shift_msec = (time_origin - UNIX_timestamp_origin).total_seconds() * 1000.
     t_days = (catalog.data['origin_time'] - t_shift_msec) / (1000 * 60 * 60 * 24)
     # space
     xlon = catalog.data['longitude']
@@ -88,7 +94,7 @@ def data_obj__from_catalog_obj(catalog_obj, R_obj, m_min=None, fname_ixymt=None)
     # some info
     print('----------------------------------------------------------------------')
     print('total number of events = ', N_lines)
-    print('time origin            = ', t0_time_origin)
+    print('time origin            = ', time_origin)
     print('Starting time          =', T_borders_all[0], 'time max=', T_borders_all[1])
     print('T_borders all          =', T_borders_all)
     print('|T|                    =', np.diff(T_borders_all).squeeze(), ' days.')
@@ -120,7 +126,7 @@ def data_obj__from_catalog_obj(catalog_obj, R_obj, m_min=None, fname_ixymt=None)
                                                              m0=m_min,
                                                              outdir=outdir,
                                                              case_name=case_name,
-                                                             time_origin=t0_time_origin)
+                                                             time_origin=time_origin)
 
     return data_obj
 
