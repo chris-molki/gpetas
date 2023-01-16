@@ -383,7 +383,6 @@ print(case_name)
 output_dir = './output/inference_results'
 fname = output_dir+'/setup_obj_%s.all'%case_name
 setup_obj = np.load(fname,allow_pickle=True)
-#vars(setup_obj)
 ```
 Subsequently, ```gpetas sampler``` can be initialized.
 
