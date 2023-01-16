@@ -72,8 +72,8 @@ import gpetas
 ``gpetas`` is based on following main objects (implemented as python ``class``):
 * ***data_obj*** has all information about the data and includes the ***domain_obj***
 * ***domain_obj*** has all information about
-  * temporal domain $$\mathcal{X}\cup \mathcal{R}$$ including absolute time origin, training and testing window
-  * spatial domain $$\mathcal{X}\cup \mathcal{R}^2$$
+  * temporal domain $$\mathcal{X}\subset \mathcal{R}$$ including absolute time origin, training and testing window
+  * spatial domain $$\mathcal{X}\subset \mathcal{R}^2$$
   * domain of the marks (earthquake magnitudes) implemented as $$m\in[m_0,\infty)$$
 * ***setup_obj*** has all information required for the inference procedures, e.g., priors
 * inference_obj (as ***GS_obj*** or ***mle_obj***) which is used to perform inference 
