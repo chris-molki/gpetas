@@ -188,7 +188,8 @@ time_format = "%Y-%m-%d %H:%M:%S.%f"
 import csep
 from csep.utils import time_utils, comcat
 ```
-Specify the domain of the data to be downloaded and save it to a *domain_obj*.
+Specify the domain of the data to be downloaded and save it to a *domain_obj* as
+described before.
 
 #### Californian data
 ```python
