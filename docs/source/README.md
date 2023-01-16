@@ -253,7 +253,15 @@ See this [notebook](notebooks/02_getdata_from_online_via_pycsep.ipynb)
 In order to perform inference (Bayesian or Maximum Likelihood)
 one needs to define or setup several auxiliary variables.
 This is done by creating a ***setup_obj*** for the inference which 
-includes all required information.
+includes all required information of the
+* Bayesian inference, i.e., Gibbs sampling procedure with Gaussian process 
+modelling of the background intensity (GP-ETAS, gpetas) or
+* classical Maximum Likelihood estimation (MLE) using a kernel density estimator 
+for the background intensity
+
+### Setup object for Bayesian inference (Gibbs sampler)
+
+### Setup object for classical MLE
 
 
 ## Inference
