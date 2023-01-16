@@ -385,7 +385,18 @@ fname = output_dir+'/setup_obj_%s.all'%case_name
 setup_obj = np.load(fname,allow_pickle=True)
 ```
 Subsequently, ```gpetas sampler``` can be initialized.
-
+```python
+GS = gpetas.Gibbs_sampler.GS_ETAS(data_obj=setup_obj.data_obj, 
+        setup_obj=setup_obj, 
+        burnin=setup_obj.burnin,
+        num_samples=setup_obj.Ksamples, 
+        stat_background=False, 
+        thinning=setup_obj.thinning,
+        kth_sample_obj=setup_obj.kth_sample_obj, 
+        case_name=setup_obj.case_name, 
+        MH_proposals_offspring=setup_obj.MH_proposals_offspring, 
+        MH_cov_empirical_yes=setup_obj.MH_cov_empirical_yes)
+```
 
 
 ### Maximum likelihood (classical way)
