@@ -81,7 +81,7 @@ import gpetas
 and storing the results. In particular, results of  ***GS_obj***, e.g. samples of the 
 joint posterior among other things are saved in a ***save_GS_obj*** as saving 
 ***GS_obj*** is to heavy. In contrast, ***mle_obj*** can be directly saved and reloaded as 
-it is much lighter in terms of strorage.
+it is much lighter in terms of storage.
 
 For more details find the tutorials below.
 
