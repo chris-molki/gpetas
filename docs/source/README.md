@@ -73,7 +73,7 @@ import gpetas
 * ***data_obj*** has all information about the data $\mathcal{D}=\\{(t_i,\boldsymbol{x}_i,m_i)\\}\_{i=1}\^{N\_{\mathcal{D}}}$ and includes the ***domain_obj***
 * ***domain_obj*** has all information about
   * temporal domain $\mathcal{T_{\rm all}}\subset \mathcal{R}$ including absolute time origin, training window $\mathcal{T}$ and testing 
-  window $\mathcal{T\^ast}$ with $\mathcal{T_{\rm all}}=\mathcal{T}\cup\mathcal{T^\ast}$.
+  window $\mathcal{T^\ast}$ with $\mathcal{T_{\rm all}}=\mathcal{T}\cup\mathcal{T^\ast}$.
   * spatial domain $\mathcal{X}\subset \mathcal{R}^2$
   * domain of the marks (earthquake magnitudes) implemented as $m\in[m_0,\infty)$
 * ***setup_obj*** has all information required for the inference procedures, e.g., priors
