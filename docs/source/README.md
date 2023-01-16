@@ -355,7 +355,7 @@ the GP-ETAS Gibbs sampler. It contains *data_obj*, *domain_obj* and
 all required information in order to perform the inference.
 See this [notebook](notebooks/03_inference_setup.ipynb)
 
-For the sampling procedure and obtained posterior samples see
+For the sampling procedure and obtain posterior samples see
 section [Bayesian inference via sampling]().
 
 ### Setup object for classical MLE
