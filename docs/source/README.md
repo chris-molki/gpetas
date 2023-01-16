@@ -174,16 +174,32 @@ Start ``python`` and do the following.
 ```python
 import gpetas
 import numpy as np
+import datetime
+time_format = "%Y-%m-%d %H:%M:%S.%f"
+
+
 import csep
 from csep.utils import time_utils, comcat
 ```
 Specify domain for data download and save it to *domain_obj*
+#### Californian data
 ```python
+# time domain
 time_origin = '2010-01-01 00:00:00.0'
-T_borders_all = np.array([0.,4383.]) # until '2022-01-01 00:00:00.0'
+time_end = '2022-01-01 00:00:00.0'
+time_origin_obj = datetime.datetime.strptime(time_origin, time_format).replace(
+                tzinfo=datetime.timezone.utc)
+time_end_obj = datetime.datetime.strptime(time_end, time_format).replace(
+                tzinfo=datetime.timezone.utc)
+delta_Tall=(time_end_obj-time_origin_obj).total_seconds()/(60.*60.*24)
+T_borders_all = np.array([0.,delta_Tall])
 T_borders_training = np.array([0.,3000.])
+
+# spatial domain
 X_borders = np.array([[-120., -113.],[  30.,   37.]])
-m0=3.0
+
+# mark domain: [m0,+inf)
+m0=3.5
 
 domain_obj = gpetas.utils.R00x_setup.region_class()
 domain_obj.T_borders_all = T_borders_all
@@ -192,13 +208,14 @@ domain_obj.T_borders_testing = np.array([T_borders_training[1],T_borders_all[1]]
 domain_obj.time_origin = time_origin
 domain_obj.X_borders = X_borders
 domain_obj.m0 = m0
+vars(domain_obj)
 ```
 Based on *domain_obj* use ``pycsep`` for 
 downloading the data into a *catalog_obj*
 ```python
-# get pycsep catalog_obj
-start_time = csep.utils.time_utils.strptime_to_utc_datetime(domain_obj.time_origin)
-end_time = csep.utils.time_utils.strptime_to_utc_datetime('2022-01-01 00:00:00.0')
+# get pycsep catalog object
+start_time = time_origin_obj
+end_time = time_end_obj
 min_magnitude=domain_obj.m0
 min_latitude=domain_obj.X_borders[1,0]
 max_latitude=domain_obj.X_borders[1,1]
@@ -209,8 +226,19 @@ catalog_obj = csep.query_comcat(start_time=start_time, end_time=end_time,
                         min_latitude=min_latitude,max_latitude=max_latitude, 
                         min_longitude=min_longitude, max_longitude=max_longitude)
 ```
-
-
+Use ```gpetas``` routine *data_obj__from_catalog_obj()* to convert 
+*catalog_obj* into a ```gpetas``` 
+*data_obj*.
+```python
+# cat2data_obj
+data_obj = gpetas.utils.get_data_pycsep.data_obj__from_catalog_obj(catalog_obj=catalog_obj,R_obj=domain_obj)
+```
+Data setup including domain information can 
+be easily plotted as follows
+```python
+h=gpetas.plotting.plot_setting(data_obj=data_obj)
+```
+See this [notebook](notebooks/02_getdata_from_online_via_pycsep.ipynb)
 
 
 
