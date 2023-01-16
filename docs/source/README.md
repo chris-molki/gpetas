@@ -515,6 +515,14 @@ mle_obj = gpetas.mle_KDE_ETAS.mle_units(data_obj=setup_obj_mle.data_obj, setup_o
 ```
 
 ## Results
+A summary of the inference results can be obtained
+by using ```gpetas``` summary routine.
+Load results *save_GS_obj* and *mle_obj* and 
+*mle_obj_silverman* and generate summary plots and 
+tables as follows
+```python
+
+```
 
 ## Prediction
 
