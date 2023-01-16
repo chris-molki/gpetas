@@ -244,6 +244,7 @@ class region_class():
         self.X_borders_original = None
         self.time_origin = None
         self.m0 = None
+        self.case_name = 'Rxxx'
 
 
 class event():

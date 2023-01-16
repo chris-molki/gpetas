@@ -32,11 +32,13 @@ def data_obj__from_catalog_obj(catalog_obj, R_obj, m_min=None, fname_ixymt=None,
     T_borders_training = R_obj.T_borders_training
     T_borders_testing = R_obj.T_borders_testing
     if case_name is None:
-        case_name='case01'
+        case_name='Rxxx'
         if hasattr(R_obj, 'case_name'):
             case_name = R_obj.case_name
         else:
             time_origin = datetime.datetime.strptime(time_origin, time_format).replace(tzinfo=datetime.timezone.utc)
+    if isinstance(time_origin, str):
+        time_origin = datetime.datetime.strptime(time_origin, time_format).replace(tzinfo=datetime.timezone.utc)
 
 
     # time milli sec into days
