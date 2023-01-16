@@ -275,7 +275,56 @@ can be created as follows,
 import gpetas
 import numpy as np
 ```
+Load or generate *data_obj* as it is a central part of *setup_obj*.
+```python
+### load data_obj
+case_name = 'Rxxx'
+output_dir = './output/inference_results'
+fname = output_dir+'/data_obj_%s.all'%case_name
+data_obj = np.load(fname,allow_pickle=True)
+```
+Set variables for the Bayesian inference,
+```python
+### variables of the Gibbs sampler
 
+# sampler parameters
+burnin = 50                                # number of discared initial samples. default: 5000
+Ksamples = 10                              # number of samples of the joint posterior default: 500 (a few hundreds)
+thinning = 20                              # default:10 # or 20:thinning of the obtained samples in order to avoid autocorrelation
+num_iterations = Ksamples*thinning+1
+MH_proposals_offspring = 100               # Number of MH proposals for offspring params
+MH_cov_empirical_yes = None                # using empirical cov for proposal distribution
+sigma_proposal_offspring_params = None     # uses default values: 0.01**2 # alternatives:0.03**2
+kth_sample_obj = None                      # starting sampling from kth sample 
+print('#iters',num_iterations)
+
+
+# offspring
+prior_theta_dist = 'gamma'                 # specifies prior distribution either 'gamma' or 'uniform'
+prior_theta_params = None
+theta_start_Kcpadgq = None                 # uses default values:
+spatial_offspring = 'R'                    # alternatives: 'G' gaussian 
+stable_theta_sampling = 'yes'              # constraint on theta that only stable Hawkes processes are allowed
+
+
+# bg: 
+cov_params = None                          # start values of hypers, uses default: silverman rule
+mu_nu0 = None                              # mean of hyper prior on nu_0, uses default value:
+
+
+
+# bg: spatial resolution for plotting/evaluations
+ngrid_per_dim = 50                         # default value: 50
+X_grid = gpetas.some_fun.make_X_grid(data_obj.domain.X_borders, nbins=ngrid_per_dim)
+                                           # generates spatial grid for plotting etc.
+    
+# general 
+time_origin = data_obj.domain.time_origin
+case_name = data_obj.case_name
+    
+# save results
+outdir = output_dir
+```
 
 ### Setup object for classical MLE
 
