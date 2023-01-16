@@ -119,6 +119,8 @@ def data_obj__from_catalog_obj(catalog_obj, R_obj, m_min=None, fname_ixymt=None,
 
     # create data_obj for inference: Gibbs sampling, mle
     outdir = output_dir + '/inference_results'
+    if not (isinstance(time_origin, str)):
+        time_origin = time_origin.strftime(time_format)
     data_obj = gpetas.some_fun.create_data_obj_from_cat_file(fname=fout,
                                                              X_borders=X_borders,
                                                              T_borders_all=T_borders_all,
