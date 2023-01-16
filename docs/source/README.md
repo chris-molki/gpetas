@@ -77,6 +77,9 @@ import gpetas
   * spatial domain $\mathcal{X}\subset \mathcal{R}^2$
   * domain of the marks (earthquake magnitudes) implemented as $m\in[m_0,\infty)$
 * ***setup_obj*** has all information required for the inference procedures, e.g., priors
+but also the data (stored in *data_obj*), thus *setup_obj* includes 
+*data_obj* which includes *domain_obj* 
+${\\rm domain_obj}\subset{\rm data_obj}\subset{\rm setup_obj}$
 * inference_obj (as ***GS_obj*** or ***mle_obj***) which is used to perform inference 
 and storing the results. In particular, results of  ***GS_obj***, e.g. samples of the 
 joint posterior among other things are saved in a ***save_GS_obj*** as saving 
