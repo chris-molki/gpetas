@@ -95,9 +95,10 @@ the domain:
 * time domain in days
   * time borders for the training *T_borders_training*
   * time borders for the testing *T_borders_testing*
-  * time origin (what corresponds to '0.' days) given by a *datetime* format: '%Y-%m-%d %H:%M:%S.%f'
-* spatial domain *X_borders*
-* domain of the marks (magnitudes) usually by *m0*
+  * time origin as *sting* (what corresponds to '0.' days) given by a *datetime* format: '%Y-%m-%d %H:%M:%S.%f',
+  e.g.,'2010-01-01 00:00:00.0'
+* spatial domain *X_borders* usually in degrees (Lon,Lat)
+* domain of the marks (magnitudes) usually defined through *m0* as $m\in[m_0,\infty)$
 
 ```python
 import gpetas
