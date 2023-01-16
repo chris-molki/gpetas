@@ -249,7 +249,12 @@ h=gpetas.plotting.plot_setting(data_obj=data_obj)
 ```
 See this [notebook](notebooks/02_getdata_from_online_via_pycsep.ipynb)
 
-## Model setup
+## Inference setup, model setup
+In order to perform inference (Bayesian or Maximum Likelihood)
+one needs to define or setup several auxiliary variables.
+This is done by creating a ***setup_obj*** for the inference which 
+includes all required information.
+
 
 ## Inference
 
