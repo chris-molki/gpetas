@@ -171,7 +171,7 @@ Bollettino Sismico Italiano API using
 
 In ``pycsep`` data is downloaded and stored into 
 a *catalog object* (pyhton class) which 
-can be easily converted into a ``gpetas``` 
+can be easily converted into a ```gpetas``` 
 *data_obj* using ***data_obj__from_catalog_obj()***.
 
 First install ``pycsep`` using ``conda``
