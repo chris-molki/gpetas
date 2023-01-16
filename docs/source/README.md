@@ -283,7 +283,7 @@ output_dir = './output/inference_results'
 fname = output_dir+'/data_obj_%s.all'%case_name
 data_obj = np.load(fname,allow_pickle=True)
 ```
-Set variables for the Bayesian inference,
+Set variables for the Bayesian inference.
 ```python
 ### variables of the Gibbs sampler
 
@@ -325,6 +325,35 @@ case_name = data_obj.case_name
 # save results
 outdir = output_dir
 ```
+Create *setup_obj* and save it to a directory.
+```python
+setup_obj = gpetas.setup_Gibbs_sampler.setup_sampler(data_obj=data_obj,
+             utm_yes=None,
+             spatial_offspring=spatial_offspring,
+             theta_start_Kcpadgq=theta_start_Kcpadgq,
+             sigma_proposal_offspring_params=sigma_proposal_offspring_params,
+             ngrid_per_dim=ngrid_per_dim,
+             cov_params=cov_params,
+             mu_nu0=None,
+             X_grid=X_grid,
+             outdir=outdir,
+             prior_theta_dist=prior_theta_dist,
+             prior_theta_params=prior_theta_params,
+             stable_theta_sampling=stable_theta_sampling,
+             time_origin=time_origin,
+             case_name=case_name,
+             burnin=burnin, 
+             Ksamples=Ksamples,
+             num_iterations=num_iterations,
+             thinning=thinning,
+             MH_proposals_offspring=MH_proposals_offspring,
+             MH_cov_empirical_yes=MH_cov_empirical_yes,
+             kth_sample_obj=kth_sample_obj)
+```
+This object is the bases for the Bayesian inference, 
+the GP-ETAS Gibbs sampler. It contains *data_obj*, *domain_obj* and 
+all required information in order to perform the inference.
+See this [notebook](notebooks/03_inference_setup.ipynb)
 
 ### Setup object for classical MLE
 
