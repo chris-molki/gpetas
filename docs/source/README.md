@@ -520,8 +520,22 @@ by using ```gpetas``` summary routine.
 Load results *save_GS_obj* and *mle_obj* and 
 *mle_obj_silverman* and generate summary plots and 
 tables as follows
-```python
 
+You can directly plot a summary of the Bayesian inference or 
+you can first do MLE and plot subsequently 
+a summary with comparison
+```python
+case_name = 'Rxxx'
+print(case_name)
+output_dir = './output/inference_results'
+
+# sampler
+fname = output_dir+'/GS_save_data_%s.bin'%case_name
+save_GS_obj = np.load(fname,allow_pickle=True)
+
+# mle default
+fname = output_dir+'/mle_default_hmin_%s.all'%case_name
+mle_obj = np.load(fname,allow_pickle=True)
 ```
 
 ## Prediction
