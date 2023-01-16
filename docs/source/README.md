@@ -364,12 +364,31 @@ section [Bayesian inference via sampling](#bayesian-inference-via-sampling).
 ## Inference
 
 ### Bayesian inference via sampling
-Starting the GP-ETAS sampler require a ```gpetas```
+Starting the GP-ETAS sampler requires a ```gpetas```
 *setup_obj* as described above. It contains everything
 you need: data, domain definition, setup variables.
 
 Load or generate a *setup_obj* as described above and 
 initialize the sampler.
+
+In this example we load a previously generated *setup_obj*
+```python
+import gpetas
+import numpy as np
+import datetime
+time_format = "%Y-%m-%d %H:%M:%S.%f"
+
+case_name = 'Rxxx'
+print(case_name)
+output_dir = './output/inference_results'
+fname = output_dir+'/setup_obj_%s.all'%case_name
+setup_obj = np.load(fname,allow_pickle=True)
+#vars(setup_obj)
+```
+Subsequently the ```gpetas sampler``` can be 
+initialized.
+
+
 
 ### Maximum likelihood (classical way)
 
