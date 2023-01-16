@@ -144,7 +144,6 @@ Generate ```gpetas``` data class
 import gpetas
 fname = '<path to data file>' # as a string
 # automatic domain if domain is None
-data_obj = gpetas.some_fun.create_data_obj_from_cat_file(fname)
 data_obj = gpetas.some_fun.create_data_obj_from_cat_file(fname=fname,domain_obj=domain_obj)
 ```
 ```data_obj``` is a class object and contains the data and all information about the data and the considered temporal domain, spatial domain and mark domain.
