@@ -366,7 +366,10 @@ section [Bayesian inference via sampling](#bayesian-inference-via-sampling).
 ### Bayesian inference via sampling
 Starting the GP-ETAS sampler require a ```gpetas```
 *setup_obj* as described above. It contains everything
-you need: data, domain definition, setup variables
+you need: data, domain definition, setup variables.
+
+Load or generate a *setup_obj* as described above and 
+initialize the sampler.
 
 ### Maximum likelihood (classical way)
 
