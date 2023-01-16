@@ -363,7 +363,22 @@ Similarly to the *setup_obj* for the Bayesian inference
 (GP-ETAS Gibbs sampler) also for the classical 
 KDE-ETAS one has to create first a *setup_obj_mle* before 
 the MLE can start.
+Similarly, *setup_obj_mle* contains *data_obj* and *domain_obj*.
+In addition, several auxiliary required for the MLE procedure 
+have to be defined and are stored in *setup_obj_mle*.
 
+Load or generate *data_obj* as it is a central 
+part of *setup_obj_mle*.
+```python
+### load data_obj
+case_name = 'Rxxx'
+output_dir = './output/inference_results'
+fname = output_dir+'/data_obj_%s.all'%case_name
+data_obj = np.load(fname,allow_pickle=True)
+```
+Set variables for the MLE.
+
+Create *setup_obj_mle* and save it to a directory.
 
 
 ## Inference
