@@ -167,7 +167,7 @@ Bollettino Sismico Italiano API using
 * csep.query_comcat()
 * csep.query_bsi().
 
-In ``pycsep`` data is downloaded saved into 
+In ``pycsep`` data is downloaded and stored into 
 a *catalog object* (pyhton class) which 
 can be easily converted into a ``gpetas``` 
 *data_obj* using ***data_obj__from_catalog_obj()***.
