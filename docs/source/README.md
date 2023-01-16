@@ -397,7 +397,10 @@ GS = gpetas.Gibbs_sampler.GS_ETAS(data_obj=setup_obj.data_obj,
         MH_proposals_offspring=setup_obj.MH_proposals_offspring, 
         MH_cov_empirical_yes=setup_obj.MH_cov_empirical_yes)
 ```
-
+Start sampling
+```python
+GS.sample()
+```
 
 ### Maximum likelihood (classical way)
 
