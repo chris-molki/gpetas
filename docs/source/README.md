@@ -159,8 +159,8 @@ Data can be easily downloaded from online sources as
 Here we use functionalities provided by the ``pycsep`` package which 
 facilitates the data access.
 Related functions require a 
-*datetime.datetime*
-to specify the start and end dates.
+*datetime.datetime* object
+to specify the start and end times/dates.
 ``pycsep`` provides access to the 
 ComCat web API and to the 
 Bollettino Sismico Italiano API using
