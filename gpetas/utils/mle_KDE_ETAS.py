@@ -15,6 +15,9 @@ class setup_mle:
                  spatial_units='degree', utm_yes=None, bins=50, X_grid=None, outdir=None, stable_theta=None,
                  case_name='case_01',silverman=None):
 
+        # data
+        self.data_obj = data_obj
+
         # spatial coordinates (usually degrees)
         self.utm_yes = utm_yes
         self.spatial_units = spatial_units

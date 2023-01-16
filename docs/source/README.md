@@ -360,11 +360,12 @@ section [Bayesian inference via sampling](#bayesian-inference-via-sampling).
 
 ### Setup object for classical MLE
 Similarly to the *setup_obj* for the Bayesian inference
-(GP-ETAS Gibbs sampler) also for the classical 
-KDE-ETAS one has to create first a *setup_obj_mle* before 
+(GP-ETAS Gibbs sampler) also for MLE of the classical 
+KDE-ETAS, one has to create first a *setup_obj_mle* before 
 the MLE can start.
+
 Similarly, *setup_obj_mle* contains *data_obj* and *domain_obj*.
-In addition, several auxiliary required for the MLE procedure 
+In addition, several auxiliary variables required for the MLE procedure 
 have to be defined and are stored in *setup_obj_mle*.
 
 Load or generate *data_obj* as it is a central 
@@ -372,19 +373,61 @@ part of *setup_obj_mle*.
 
 Here we assume that *data_obj* was already created and 
 was saved in './output/inference_results'.
+
+In this example we load a previously generated *data_obj* and
+we also load a previously generated *setup_obj* of the Gibbs sampler
+in order to generate a *setup_obj_mle* comparable to the Gibbs sampler
+setup. We load required objects and we 
+create *setup_obj_mle* and save it to a directory.
 ```python
 import gpetas
 import numpy as np
 
 ### load data_obj
 case_name = 'Rxxx'
+print(case_name)
 output_dir = './output/inference_results'
 fname = output_dir+'/data_obj_%s.all'%case_name
 data_obj = np.load(fname,allow_pickle=True)
-```
-Set variables for the MLE.
 
-Create *setup_obj_mle* and save it to a directory.
+### load setup_obj from the GP-ETAS sampler
+fname = output_dir+'/setup_obj_%s.all'%case_name
+setup_obj = np.load(fname,allow_pickle=True)
+
+### variables of the MLE procedure (EM)
+
+# bg KDE parameters
+Nnearest=15                                     # default value: 15
+h_min_degree=0.05                               # default value: 0.05 in degrees
+silverman = None                                # default value: None #alternative 'yes'; minimal bandwith via Silverman Rule yes or no(None)
+bins = int(np.sqrt(setup_obj.X_grid.shape[0]))  # default value: 50
+X_grid = setup_obj.X_grid
+
+# offspring
+stable_theta = setup_obj.stable_theta_sampling
+theta_start_Kcpadgqbm0 = setup_obj.theta_start_Kcpadgqbm0  # uses default values for a stabil Hawkes process:
+spatial_offspring = setup_obj.spatial_offspring
+
+# save setup_obj_mle
+outdir = setup_obj.outdir 
+case_name = setup_obj.case_name
+
+# create setup_obj_mle
+setup_obj_mle = gpetas.mle_KDE_ETAS.setup_mle(data_obj=data_obj,
+                    theta_start_Kcpadgqbm0=theta_start_Kcpadgqbm0,
+                    spatial_offspring=spatial_offspring,
+                    Nnearest=Nnearest,
+                    h_min_degree=h_min_degree,
+                    spatial_units='degree',
+                    utm_yes=None,
+                    bins=bins,
+                    X_grid=X_grid,
+                    outdir=outdir,
+                    stable_theta=stable_theta,
+                    case_name=case_name,
+                    silverman=silverman)
+```
+See this [notebook](notebooks/03_inference_setup.ipynb)
 
 
 ## Inference
@@ -427,8 +470,49 @@ Start sampling
 ```python
 GS.sample()
 ```
-
+Summary plots of the inference results can 
+be easily plotted using
+```python
+save_GS_obj = GS.save_data
+gpetas.summary.summary_gpetas(save_GS_obj)
+```
+After ```getas``` sampler has finished, results of 
+the inference are saved in an ***save_GS_obj*** (python class)
+into a file named 
+```
+'./output/inference_results/GS_save_data_Rxxx.bin'
+```
+which can loaded later for post-processing 
+(statistical analysis, summaries, plotting)
+as follows
+```python
+fname = './output/inference_results/GS_save_data_Rxxx.bin'
+save_GS_obj = np.load(fname,allow_pickle=True)
+```
 ### Maximum likelihood (classical way)
+Starting classical MLE requires a ```gpetas```
+*setup_obj_mle* as described above. It contains everything
+you need: data, domain definition, setup variables.
+
+Load or generate a *setup_obj_mle* as described above and 
+start ML inference the sampler.
+
+In this example we load a previously 
+generated *setup_obj_mle* and start ML inference
+```python
+import gpetas
+import numpy as np
+
+case_name = 'Rxxx'
+print(case_name)
+output_dir = './output/inference_results'
+fname = output_dir+'/setup_obj_default_%s_mle.all'%case_name
+setup_obj_mle = np.load(fname,allow_pickle=True)
+```
+Start MLE
+```python
+mle_obj = gpetas.mle_KDE_ETAS.mle_units(data_obj=setup_obj_mle.data_obj, setup_obj=setup_obj_mle)
+```
 
 ## Results
 
