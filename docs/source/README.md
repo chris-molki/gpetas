@@ -356,7 +356,7 @@ all required information in order to perform the inference.
 See this [notebook](notebooks/03_inference_setup.ipynb)
 
 For the sampling procedure and obtain posterior samples see
-section [Bayesian inference via sampling](#bayesian-inference-via-sampling).
+section *Bayesian inference via sampling*.
 
 ### Setup object for classical MLE
 Similarly to the *setup_obj* for the Bayesian inference

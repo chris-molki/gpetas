@@ -17,7 +17,14 @@ Welcome to gpetas's documentation!
    :maxdepth: 1
    :caption: Introduction
 
+   notebooks/00_domain_setup
    notebooks/01_getdata_from_file
+   notebooks/02_getdata_from_online_via_pycsep
+   notebooks/03_inference_setup
+   notebooks/04_gibbs_sampling_gpetas
+   notebooks/04a_classical_inference_MLE_KDE_ETAS
+   notebooks/05_results_summary.ipynb
+
 
 .. toctree::
    :maxdepth: 1
