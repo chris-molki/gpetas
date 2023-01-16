@@ -385,8 +385,7 @@ fname = output_dir+'/setup_obj_%s.all'%case_name
 setup_obj = np.load(fname,allow_pickle=True)
 #vars(setup_obj)
 ```
-Subsequently the ```gpetas sampler``` can be 
-initialized.
+Subsequently, ```gpetas sampler``` can be initialized.
 
 
 
