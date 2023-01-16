@@ -71,11 +71,16 @@ import gpetas
 ```
 ``gpetas`` is based on following main objects (implemented as python ``class``):
 * ***data_obj*** has all information about the data and includes the ***domain_obj***
-* ***domain_obj*** has all information about the temporal and spatial domain, time origin
-* ***setup_obj*** has all information required for the inference procedures
-* inference_obj (as ***GS_obj*** or ***mle_obj***)
-  
-
+* ***domain_obj*** has all information about
+  * temporal domain including absolute time origin, training and testing window
+  * spatial domain
+  * domain of the marks (earthquake magnitudes) implemented as $$m\in$$
+* ***setup_obj*** has all information required for the inference procedures, e.g., priors
+* inference_obj (as ***GS_obj*** or ***mle_obj***) which is used to perform inference 
+and storing the results. In particular, results of  ***GS_obj***, e.g. samples of the 
+joint posterior among other things are saved in a ***save_GS_obj*** as saving 
+***GS_obj*** is to heavy. In contrast, ***mle_obj*** can be directly saved and reloaded as 
+it is much lighter in terms of strorage.
 
 For more details find the tutorials below.
 
@@ -239,8 +244,6 @@ be easily plotted as follows
 h=gpetas.plotting.plot_setting(data_obj=data_obj)
 ```
 See this [notebook](notebooks/02_getdata_from_online_via_pycsep.ipynb)
-
-
 
 ## Model setup
 
