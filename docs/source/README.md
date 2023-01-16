@@ -525,5 +525,6 @@ tables as follows
 ```
 
 ## Prediction
+For predictions use ```gpetas``` routine *prediction2D(save_GS_obj,mle_obj,setup_obj_pred)*.
 
 
