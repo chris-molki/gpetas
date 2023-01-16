@@ -369,7 +369,13 @@ have to be defined and are stored in *setup_obj_mle*.
 
 Load or generate *data_obj* as it is a central 
 part of *setup_obj_mle*.
+
+Here we assume that *data_obj* was already created and 
+was saved in './output/inference_results'.
 ```python
+import gpetas
+import numpy as np
+
 ### load data_obj
 case_name = 'Rxxx'
 output_dir = './output/inference_results'
