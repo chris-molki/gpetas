@@ -359,6 +359,11 @@ For the sampling procedure and obtain posterior samples see
 section [Bayesian inference via sampling](#bayesian-inference-via-sampling).
 
 ### Setup object for classical MLE
+Similarly to the *setup_obj* for the Bayesian inference
+(GP-ETAS Gibbs sampler) also for the classical 
+KDE-ETAS one has to create first a *setup_obj_mle* before 
+the MLE can start.
+
 
 
 ## Inference
