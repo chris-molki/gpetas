@@ -250,8 +250,10 @@ h=gpetas.plotting.plot_setting(data_obj=data_obj)
 See this [notebook](notebooks/02_getdata_from_online_via_pycsep.ipynb)
 
 ## Inference setup, model setup
-In order to perform inference (Bayesian or Maximum Likelihood)
-one needs to define or setup several auxiliary variables.
+In order to perform inference (Bayesian or Maximum Likelihood estimation,(MLE))
+one needs to define or setup several auxiliary variables, which for example
+includes priors, number of samples or in the case of MLE stopping rules for 
+iterative schemes etc.
 This is done by creating a ***setup_obj*** for the inference which 
 includes all required information of the
 * Bayesian inference, i.e., Gibbs sampling procedure with Gaussian process 
@@ -259,7 +261,11 @@ modelling of the background intensity (GP-ETAS, gpetas) or
 * classical Maximum Likelihood estimation (MLE) using a kernel density estimator 
 for the background intensity
 
-### Setup object for Bayesian inference (Gibbs sampler)
+### Setup object for Bayesian inference (Gibbs sampler, gpetas)
+In GP-ETAS (gpetas) we need to define priors on ...
+In addition, we have to choose control parameters of the Gibbs sampler ...
+A summary of the setup of GP-ETAS (gpetas) is given in the paper 
+at page 13.
 
 
 ### Setup object for classical MLE
