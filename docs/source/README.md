@@ -261,6 +261,7 @@ for the background intensity
 
 ### Setup object for Bayesian inference (Gibbs sampler)
 
+
 ### Setup object for classical MLE
 
 
