@@ -267,6 +267,13 @@ In addition, we have to choose control parameters of the Gibbs sampler ...
 A summary of the setup of GP-ETAS (gpetas) is given in the paper 
 at page 13.
 
+All this information is contained in the ```gpetas``` *setup_obj* which 
+can be created as follows,
+```python
+import gpetas
+import numpy as np
+```
+
 
 ### Setup object for classical MLE
 
