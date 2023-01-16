@@ -92,10 +92,10 @@ object (python class), which is the basis for the inference.
 ### Define domain
 You have to specify following aspects of 
 the domain:
-* time domain
+* time domain in days
   * time borders for the training *T_borders_training*
   * time borders for the testing *T_borders_testing*
-  * time origin (when was '0.' days) given by a *datetime* format: '%Y-%m-%d %H:%M:%S.%f'
+  * time origin (what corresponds to '0.' days) given by a *datetime* format: '%Y-%m-%d %H:%M:%S.%f'
 * spatial domain *X_borders*
 * domain of the marks (magnitudes) usually by *m0*
 
