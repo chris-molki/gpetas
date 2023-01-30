@@ -19,8 +19,8 @@ pip install -e .
 ```
 ***Warning:*** Currently there is an issue with ```pandoc```, 
 which is for example used when notebooks are embedded in the documentation.
-It is not properly install via ```pip```, therefore
-installed ```pandoc``` via ```conda```
+It is not properly installed via ```pip```, therefore
+install ```pandoc``` via ```conda```
 ```bash
 pip uninstall pandoc
 conda install pandoc
@@ -58,7 +58,7 @@ conda deactivate
 Subsequently remove virtual environment *gpetas_env* using the following
 command,
 ```
-env remove -n gpetas_env
+conda env remove -n gpetas_env
 ```
 or just delete the directory of *gpetas_env*.
 
