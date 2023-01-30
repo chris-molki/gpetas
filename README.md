@@ -88,7 +88,7 @@ conda deactivate
 Subsequently remove virtual environment *gpetas_env* using the following 
 command,
 ```
-env remove -n gpetas_env
+conda env remove -n gpetas_env
 ```
 or just delete the directory of *gpetas_env*.
 
