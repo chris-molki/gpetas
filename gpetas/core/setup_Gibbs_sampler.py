@@ -9,8 +9,8 @@ class setup_sampler():
                  sigma_proposal_offspring_params=None, ngrid_per_dim=50, cov_params=None, sigma_proposal_hypers=None,
                  mu_nu0=None, X_grid=None, outdir=None, prior_theta_dist=None, prior_theta_params=None,
                  stable_theta_sampling=None, time_origin=None, case_name='case_01',
-                 burnin=None,Ksamples=None,num_iterations=None,thinning=None,MH_proposals_offspring=None,
-                 MH_cov_empirical_yes=None,kth_sample_obj=None):
+                 burnin=None, Ksamples=None, num_iterations=None, thinning=None, MH_proposals_offspring=None,
+                 MH_cov_empirical_yes=None, kth_sample_obj=None):
         """
 
         :param data_obj:
@@ -59,7 +59,6 @@ class setup_sampler():
         :type kth_sample_obj:
         """
 
-
         """
         inititialization as in the paper
         :type data_obj_all: all data object including training and test data
@@ -102,14 +101,15 @@ class setup_sampler():
         self.m_beta = 1. / np.mean(data_obj_training.magnitudes - self.m0)  # or default np.log(10.)
         # start: ETAS offspring time params: theta_tilde = [0.01, 0.01, 1.5, 2.3, 0.1, 0.5, 2., self.m_beta, self.m0]
         if theta_start_Kcpadgq is None:
-            #prior_theta_uniform = np.array([[1e-7, 10], [1e-7, 10], [1e-7, 10], [1e-7, 10], [1e-7, 10], [1e-7, 10], [1., 10]])
-            #self.theta_start_Kcpadgqbm0 = np.array([0.01, 0.01, 1.2, 2.3, 0.05, 0.5, 2., self.m_beta, self.m0])
-            #self.theta_start_Kcpadgqbm0[:7]=np.random.uniform(prior_theta_uniform[:,0],prior_theta_uniform[:,1])
-            #self.theta_start_Kcpadgqbm0 = np.array([0.01, 0.01, 1.2, 2.3, 0.05, 0.5, 2., self.m_beta, self.m0])
-            self.theta_start_Kcpadgqbm0 = np.array([0.01/4., 0.01, 1.2, 2.3-0.5, 0.05, 0.5, 2., self.m_beta, self.m0])
-            #fac = 3.#np.random.uniform(1.5, 2.5)
-            #print('factor start=',fac)
-            #self.theta_start_Kcpadgqbm0[:6] = fac*self.theta_start_Kcpadgqbm0[:6]
+            # prior_theta_uniform = np.array([[1e-7, 10], [1e-7, 10], [1e-7, 10], [1e-7, 10], [1e-7, 10], [1e-7, 10], [1., 10]])
+            # self.theta_start_Kcpadgqbm0 = np.array([0.01, 0.01, 1.2, 2.3, 0.05, 0.5, 2., self.m_beta, self.m0])
+            # self.theta_start_Kcpadgqbm0[:7]=np.random.uniform(prior_theta_uniform[:,0],prior_theta_uniform[:,1])
+            # self.theta_start_Kcpadgqbm0 = np.array([0.01, 0.01, 1.2, 2.3, 0.05, 0.5, 2., self.m_beta, self.m0])
+            self.theta_start_Kcpadgqbm0 = np.array(
+                [0.01 / 4., 0.01, 1.2, 2.3 - 0.5, 0.05, 0.5, 2., self.m_beta, self.m0])
+            # fac = 3.#np.random.uniform(1.5, 2.5)
+            # print('factor start=',fac)
+            # self.theta_start_Kcpadgqbm0[:6] = fac*self.theta_start_Kcpadgqbm0[:6]
         if theta_start_Kcpadgq is not None:
             self.theta_start_Kcpadgqbm0 = np.zeros(9)
             self.theta_start_Kcpadgqbm0[:-2] = theta_start_Kcpadgq
@@ -179,9 +179,11 @@ class setup_sampler():
         file.close()
         print('setup_obj has been created and saved:', fname_setup_obj)
 
+
 # get kth-sample
 class kth_sample():
-    def __init__(self, mu_grid, lambda_bar, cov_params,theta_phi, spatial_offspring, X_grid_NN=None,save_to_file=None):
+    def __init__(self, mu_grid, lambda_bar, cov_params, theta_phi, spatial_offspring, X_grid_NN=None,
+                 save_to_file=None):
         self.mu_grid = mu_grid
         self.lambda_bar = lambda_bar
         self.cov_params = cov_params
@@ -204,11 +206,12 @@ def get_last_sample(save_obj_GS, k=-1):
     kth_sample_obj = kth_sample(mu_grid, lambda_bar, cov_params, theta_phi, spatial_offspring, X_grid_NN)
     return kth_sample_obj
 
+
 def get_kth_sample_from_mle(mle_obj):
     mu_grid = mle_obj.mu_grid
     lambda_bar = np.max(mle_obj.mu_grid)
     theta_phi = mle_obj.theta_mle_Kcpadgq
-    cov_params = [np.array([20.]),np.array([np.mean(mle_obj.h_i_vec),np.mean(mle_obj.h_i_vec)])]
+    cov_params = [np.array([20.]), np.array([np.mean(mle_obj.h_i_vec), np.mean(mle_obj.h_i_vec)])]
     spatial_offspring = mle_obj.setup_obj.spatial_offspring
     X_grid_NN = mle_obj.X_grid_NN
     kth_sample_obj = kth_sample(mu_grid, lambda_bar, cov_params, theta_phi, spatial_offspring, X_grid_NN)
