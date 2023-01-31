@@ -56,7 +56,8 @@ pip install -e .
 
 ### For online data download install pycsep
 First make clear that *gpetas_env* is activated,
-otherwise activate it via *conda activate gpetas_env*
+otherwise activate it via *conda activate gpetas_env*.
+If *gpetas_env* is activate, install pycsep as follows,
 ```
 conda install --channel conda-forge pycsep
 ```
