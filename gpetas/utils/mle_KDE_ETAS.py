@@ -340,7 +340,7 @@ class mle_units():
         """
         X = data_positions_training
         dim = X.shape[1]
-        N = np.int(np.size(X) / dim)
+        N = int(np.size(X) / dim)
         assert h_vec.size == N
         assert p_vec.size == N
         # proper shaping

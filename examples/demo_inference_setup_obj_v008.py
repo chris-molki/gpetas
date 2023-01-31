@@ -15,8 +15,8 @@ if __name__ == '__main__':
     """
     parser = argparse.ArgumentParser()
     parser.add_argument("--fsetup", type=str, help="file name of the setup file which includes the data_obj",required=True)
-    parser.add_argument("--mle_yes", type=str, help="any string, in order to compute mle")
-    parser.add_argument("--mle_yes_silverman", type=str, help="any string, in order to compute mle with hmin Silverman")
+    parser.add_argument("--mle_yes", type=str, help="any string, in order to NOT compute mle")
+    parser.add_argument("--mle_yes_silverman", type=str, help="any string, in order to NOT compute mle with hmin Silverman")
     parser.add_argument("--mle_Nnearest", type=int, help="MLE: number of nearest neighbours considered for the individual bandwidth of kde background intensity")
     parser.add_argument("--mle_hmin", type=float, help="MLE: minimum bandwith hmin of kde background intensity")
 

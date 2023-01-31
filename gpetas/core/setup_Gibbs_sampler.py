@@ -126,7 +126,7 @@ class setup_sampler():
         self.cov_params = cov_params
         if self.cov_params is None:
             nu_lengthscale_start = gpetas.some_fun.silverman_scott_rule_d(data_obj_training.positions)
-            self.cov_params = [5., np.array([nu_lengthscale_start, nu_lengthscale_start])]
+            self.cov_params = [np.array([5.]), np.array([nu_lengthscale_start, nu_lengthscale_start])]
         self.cov_params_start = self.cov_params
 
         # hyper-prior background sampler:
