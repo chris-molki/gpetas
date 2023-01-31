@@ -6,7 +6,7 @@ The main motivation of this package is to make
 `gpetas` usable for a broader community.
 The code follows this [Statistics and Computing paper](https://link.springer.com/article/10.1007/s11222-022-10085-3).
 
-[**Basic Usage**](#basics) | [**Install guide**](#installation) | [**Citing**](#citation) | [**Documentation**](https://chris-molki.github.io/gaussian-toolbox/)
+[**Basic Usage**](#basics) | [**Install guide**](#installation) | [**Citing**](#citation) | [**Documentation**](https://chris-molki.github.io/gpetas/)
 
 # Basics
 
