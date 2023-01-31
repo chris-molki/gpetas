@@ -83,6 +83,7 @@ def plot_l_ltest(save_obj_GS, mle_obj=None, mle_obj_silverman=None, t1=None, t2=
                                                  idx_samples=idx_samples,
                                                  method_posterior_GP=method_posterior_GP,
                                                  method_integral=None)
+    print('===============Numbers==============================================')
     print('gpetas:', l_values.l_test_GPetas_log_E_L,'Events:',l_values.Ntest_arr)
 
     # mle
