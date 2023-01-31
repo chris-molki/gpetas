@@ -54,7 +54,17 @@ pip install -e .
 
 `gpetas` has been installed in developer/editable mode.
 
-For uninstall just change to the parent directory *cd ..* and (1) remove gpetas directory *rm -rf gpetas* and (2) remove the virtual environment 
+### For online data download install pycsep
+First make clear that *gpetas_env* is activated,
+otherwise activate it via *conda activate gpetas_env*
+```
+conda install --channel conda-forge pycsep
+```
+
+## Uninstall gpetas and gpetas_env
+For uninstall just change to the parent directory *cd ..* and 
+* (1) remove gpetas directory *rm -rf gpetas* (-rf option due to git VC) and 
+* (2) remove the virtual environment 
 using *env remove -n gpetas_env* (deactivate gpetas_env before as mentioned above).
 
 ## Build documentation locally
