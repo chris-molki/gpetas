@@ -83,7 +83,7 @@ def plot_l_ltest(save_obj_GS, mle_obj=None, mle_obj_silverman=None, t1=None, t2=
                                                  idx_samples=idx_samples,
                                                  method_posterior_GP=method_posterior_GP,
                                                  method_integral=None)
-    print('gpetas:', l_values.l_test_GPetas_log_E_L)
+    print('gpetas:', l_values.l_test_GPetas_log_E_L,'Events:',l_values.Ntest_arr)
 
     # mle
     if mle_obj is not None:
@@ -108,7 +108,8 @@ def plot_l_ltest(save_obj_GS, mle_obj=None, mle_obj_silverman=None, t1=None, t2=
                                                 X_borders_eval_l=mle_obj.data_obj.domain.X_borders,
                                                 T_borders_eval_l=testing_periods[1, :],
                                                 spatial_kernel='R')
-        print('MLE:', l_mle_training.lnl_value, l_mle_testing.lnl_value)
+        print('MLE:', l_mle_training.lnl_value, l_mle_testing.lnl_value,'Events:',
+              l_mle_training.N_lnl_eval,l_mle_testing.N_lnl_eval)
 
     if mle_obj_silverman is not None:
         data_obj = save_obj_GS['data_obj']  # mle_obj.data_obj
@@ -134,7 +135,8 @@ def plot_l_ltest(save_obj_GS, mle_obj=None, mle_obj_silverman=None, t1=None, t2=
                                                           X_borders_eval_l=mle_obj_silverman.data_obj.domain.X_borders,
                                                           T_borders_eval_l=testing_periods[1, :],
                                                           spatial_kernel='R')
-        print('MLE:', l_mle_training_silverman.lnl_value, l_mle_testing_silverman.lnl_value)
+        print('MLE:', l_mle_training_silverman.lnl_value, l_mle_testing_silverman.lnl_value,'Events:',
+              l_mle_training_silverman.N_lnl_eval,l_mle_testing_silverman.N_lnl_eval)
 
     h1 = plt.figure(figsize=(10, 7.5))
     plt.subplot(211)
@@ -146,7 +148,7 @@ def plot_l_ltest(save_obj_GS, mle_obj=None, mle_obj_silverman=None, t1=None, t2=
     if mle_obj_silverman is not None:
         plt.axhline(y=l_mle_training_silverman.lnl_value, color='b', linestyle='--',
                     label='$\\ell_{\\rm \\mathcal{D},mle_{\\rm Silverman}}$')
-    plt.ylabel('$\\ell$')
+    plt.ylabel('$\\ell_{\\rm training}$')
     plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
     plt.subplot(212)
     plt.plot(l_values.lnl_samples_mat[1, :], '.k', label='$\\ell_{\\rm test,post}$')
