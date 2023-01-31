@@ -122,7 +122,7 @@ class GS_ETAS():
                                                                  points_xy=self.data.positions,
                                                                  X_borders=self.X_borders_NN)
             self.lmbda_star_start = np.copy(kth_sample_obj.lambda_bar)
-            cov_params = np.copy(kth_sample_obj.cov_params)
+            cov_params = setup_obj.kth_sample_obj.cov_params.copy()
             self.mu0_grid = np.copy(kth_sample_obj.mu_grid)
             self.sample_branching_structure()
             kth_sample_obj.branching = np.copy(self.branching)
