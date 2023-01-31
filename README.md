@@ -54,7 +54,7 @@ pip install -e .
 
 `gpetas` has been installed in developer/editable mode.
 
-### For online data download install pycsep
+### For online data downloads install pycsep
 First make clear that *gpetas_env* is activated,
 otherwise activate it via *conda activate gpetas_env*.
 If *gpetas_env* is activate, install pycsep as follows,
