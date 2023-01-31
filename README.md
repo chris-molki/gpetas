@@ -115,30 +115,3 @@ pip install -e .
 # Citation
 
 To cite this repository:
-
-```
-@software{gpetas2023github,
-  author = {CM,CD},
-  title = {{gpetas}: A Python package for Bayesian inference of GP-ETAS model.},
-  url = {https://gitup.uni-potsdam.de/molkenth/gpetas},
-  version = {0.0.1},
-  year = {2023},
-}
-```
-The development of the repository is based on the following
-publication,
-
-```
-@article{molkenthin2022gp,
-  title={GP-ETAS: semiparametric Bayesian inference for the spatio-temporal epidemic type
-  aftershock sequence model},
-  author={Molkenthin, Christian and Donner, Christian and Reich, Sebastian and Z{\"o}ller, Gert
-  and Hainzl, Sebastian and Holschneider, Matthias and Opper, Manfred},
-  journal={Statistics and Computing},
-  volume={32},
-  number={2},
-  pages={1--25},
-  year={2022},
-  publisher={Springer}
-}
-```
