@@ -208,8 +208,9 @@ def get_last_sample(save_obj_GS, k=-1):
 
 
 def get_kth_sample_from_mle(mle_obj):
-    mu_grid = mle_obj.mu_grid
+    # lambda_bar should be limited due to computational reasons
     lambda_bar = np.max(mle_obj.mu_grid)
+    mu_grid = mle_obj.mu_grid
     theta_phi = mle_obj.theta_mle_Kcpadgq
     cov_params = [np.array([20.]), np.array([np.mean(mle_obj.h_i_vec), np.mean(mle_obj.h_i_vec)])]
     spatial_offspring = mle_obj.setup_obj.spatial_offspring
