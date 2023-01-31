@@ -15,5 +15,6 @@ from gpetas.core import prediction_1d
 from gpetas.utils import summary
 from gpetas.utils import R00x_setup
 from gpetas.utils import get_data_pycsep
+from gpetas.utils import domain_setup
 
 

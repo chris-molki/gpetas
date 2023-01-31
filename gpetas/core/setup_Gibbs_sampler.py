@@ -89,7 +89,7 @@ class setup_sampler():
         # start: bg rate at all data points
         absX = np.prod(np.diff(data_obj.domain.X_borders))
         absT_training = np.diff(data_obj.domain.T_borders_training)
-        self.mu0_start = np.asscalar(len(data_obj_training.times) / 2. / absX / absT_training)
+        self.mu0_start = (len(data_obj_training.times) / 2. / absX / absT_training).item()
         self.mu0_grid = None
 
         # ETAS offspring parameters

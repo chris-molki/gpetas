@@ -1,7 +1,7 @@
 time_format = "%Y-%m-%d %H:%M:%S.%f"
 
 
-class region_class():
+class domain_class():
     def __init__(self):
         self.T_borders_all = None
         self.T_borders_training = None

@@ -87,7 +87,7 @@ class GS_ETAS():
         self.MH_cov_empirical_proposal = MH_cov_empirical_yes
         mu0_start = self.setup_obj.mu0_start
         if mu0_start is None:
-            mu0_start = np.asscalar(len(self.data.times) / 2. / self.R / self.T)
+            mu0_start = (len(self.data.times) / 2. / self.R / self.T).item()
         self.mu0_start = mu0_start
         self.lmbda_star_start = mu0_start  # len(data[:,0])/self.R/self.T #2. * np.mean(mu0)
         self.stat_background = stat_background
@@ -360,9 +360,9 @@ class GS_ETAS():
 
             # sample from multinomial with probabilities in P (each row)
             b_sample = np.random.multinomial(1, P[i, 0:i + 1])
-            zvec[i] = np.int(np.asscalar(np.arange(1, i + 2)[b_sample > 0]))
-            if np.int(np.asscalar(np.arange(1, i + 2)[b_sample > 0])) == i + 1:
-                zvec[i] = np.int(0)
+            zvec[i] = int((np.arange(1, i + 2)[b_sample > 0]).item())
+            if int((np.arange(1, i + 2)[b_sample > 0]).item()) == i + 1:
+                zvec[i] = int(0)
 
             i = i + 1
         self.prob_background = np.diag(P)
@@ -545,7 +545,7 @@ class GS_ETAS():
             return -np.inf
 
         for o_idx in offspring_idx:
-            z_i = np.int(self.branching[o_idx])  # z_i = j with j=1,... (starts at 1
+            z_i = int(self.branching[o_idx])  # z_i = j with j=1,... (starts at 1
             # not at 0)
             m_j = self.data.magnitudes[z_i - 1]
             delta_t_ij = self.data.times[o_idx] - self.data.times[z_i - 1]
