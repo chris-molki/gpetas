@@ -117,7 +117,13 @@ pip install -e .
 To cite this repository:
 
 ```
-egal
+@software{gpetas2023github,
+  author = {CM,CD},
+  title = {{gpetas}: A Python package for Bayesian inference of GP-ETAS model.},
+  url = {https://gitup.uni-potsdam.de/molkenth/gpetas},
+  version = {0.0.1},
+  year = {2023},
+}
 ```
 The development of the repository is based on the following
 publication,
