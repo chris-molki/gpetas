@@ -120,7 +120,7 @@ To cite this repository:
 @software{gpetas2023github,
 	author = {CM,CD},
 	title = {{gpetas}: A Python package for Bayesian inference of GP-ETAS model.},
-	url = {https://gitup.uni-potsdam.de/molkenth/gpetas},
+	url = {https://github.com/chris-molki/gpetas},
 	version = {0.0.1},
 	year = {2023},
 }
