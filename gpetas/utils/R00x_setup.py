@@ -215,7 +215,7 @@ class R00x_california_set_domain:
         # SOUTHERN CALIFORNIA
         x_low, x_up = -120., -113.
         y_low, y_up = 30., 37.
-        self.polygon_RSCA = np.array([
+        self.polygon_RSC7 = np.array([
             [x_low, y_up],
             [x_up, y_up],
             [x_up, y_low],
