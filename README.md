@@ -54,6 +54,12 @@ pip install -e .
 
 `gpetas` has been installed in developer/editable mode.
 
+***Hint:*** In case there is a problem with pip installation 
+of a subpackage/library just try,
+```
+conda install -c conda-forge --file requirements.txt
+```
+
 ### For online data downloads install pycsep
 First make clear that *gpetas_env* is activated,
 otherwise activate it via *conda activate gpetas_env*.
