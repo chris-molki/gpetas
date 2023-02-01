@@ -1,0 +1,60 @@
+burnin                               = 500
+Number of iterations                 = 2501
+Thinning                             = 10
+K_samples after burnin               = 250.000000
+Total number of iterations           = 3001
+-----------------------------------------------------
+h_silverman in degrees               = 2397.945116
+h_silverman in km                    = 266171.907926
+m0                                   = 1.500000
+-----------------------------------------------------
+ (0) GP COV function: hyperparameters initialization:
+-----------------------------------------------------
+cov_params_init nu_0                 = 5.000000
+cov_params_init nu_1                 = 2397.945116
+cov_params_init nu_2                 = 2397.945116
+initial values for nu_1, nu_2 from Silverman rule using all the data
+-----------------------------------------------------
+ (1) GP COV function: hyper prior initialization:
+-----------------------------------------------------
+mean nu_0                            = 5.000000
+mean nu_1                            = 3316.400000
+mean nu_2                            = 4590.900000
+beta nu_0                            = 0.200000
+beta nu_1                            = 0.000302
+beta nu_2                            = 0.000218
+hyper_prior_length_scale_factor      = 0.100000
+prior_mu_length_scale: mean nu_1 = mean nu_2 = default 0.1*dx
+default value for mu_nu12 (length scale) 0.1*dx would be in this case: 3316.400000
+sigma_proposal_hypers in log units   = 0.050000
+-----------------------------------------------------
+ (2) SGCP upper bound:
+-----------------------------------------------------
+lambda_bar start                     = 1.060990e-11
+hyper prior Gamma(mu,c):
+mu lambda_bar                        = 2.380858e-10
+c =coeffi. of var                    = 1.000000e+00
+The choice of mu and c determines Gamma(alpha_0,beta_0) parameterization
+alpha_0                              =1.000000
+beta_0                               =4200166622.166666
+-----------------------------------------------------
+ (3) offspring:
+-----------------------------------------------------
+GS.setup_obj.spatial_offspring       =R
+GS.spatial_kernel                    =Rupture Length Power Law with params: D_RL_pwl, gamma_RL_pwl, q_RL_pwl
+K_start                           =0.002500
+c_start                           =0.010000
+p_start                           =1.200000
+m_alpha_start                     =1.800000
+D_start                           =100.000000
+gamma_start                       =0.500000
+q_start                           =2.000000
+sigma proposal offspring log units=0.030000
+m_beta_start                      =2.475728
+m0_start                          =1.500000
+-----------------------------------------------------
+ (4) branching:
+-----------------------------------------------------
+N                                 =357
+N0_start                          =261
+M_start                           =1215
