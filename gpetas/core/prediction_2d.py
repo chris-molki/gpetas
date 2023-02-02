@@ -518,7 +518,7 @@ class predictions_mle():
                 tictoc = time.perf_counter() - self.tic
                 print('current simulation is k =', k + 1, 'of K =', Ksim,
                       '%.2f sec. elapsed time.' % tictoc,
-                      ' approx. done %.1f percent.' % (100. * (k / np.float(Ksim))))
+                      ' approx. done %.1f percent.' % (100. * (k / float(Ksim))))
         return
 
 
@@ -635,7 +635,7 @@ class predictions_gpetas():
                 tictoc = time.perf_counter() - self.tic
                 print('current simulation is k =', i + 1, 'of K =', Ksim,
                       '%.2f sec. elapsed time.' % tictoc,
-                      ' approx. done %.1f percent.' % (100. * (i / np.float(Ksim))))
+                      ' approx. done %.1f percent.' % (100. * (i / float(Ksim))))
             k = sample_idx_vec[i]
             # background using: lambda_bar, f_grid, hyper_nus, X_grid
             lmbda_bar = save_obj_GS['lambda_bar'][k].item()
