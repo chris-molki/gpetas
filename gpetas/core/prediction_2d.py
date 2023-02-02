@@ -445,7 +445,7 @@ class predictions_mle():
             X_thinned = X_unthinned[thinned_idx]
 
             # writing to a matrix
-            bg_events = np.zeros([np.int(len(X_thinned[:, 0])), 5])
+            bg_events = np.zeros([int(len(X_thinned[:, 0])), 5])
             bg_events[:, 0] = np.random.rand(len(X_thinned[:, 0])) * (tau2 - tau1)
             bg_events[:, 1] = np.random.exponential(1. / self.m_beta,
                                                     len(X_thinned[:, 0])) + self.m0  # m_i: marks
@@ -663,7 +663,7 @@ class predictions_gpetas():
                 mu_unthinned = lmbda_bar * 1. / (1 + np.exp(-f_unthinned))
             thinned_idx = np.where(lmbda_bar * np.random.rand(len(X_unthinned)) <= mu_unthinned)[0]
             X_thinned = X_unthinned[thinned_idx] + self.data_obj.domain.X_borders[:, 0][np.newaxis]
-            bg_events = np.zeros([np.int(len(X_thinned[:, 0])), 5])
+            bg_events = np.zeros([int(len(X_thinned[:, 0])), 5])
             bg_events[:, 0] = np.random.rand(len(X_thinned[:, 0])) * (tau2 - tau1)
             if Bayesian_m_beta is not None:
                 bg_events[:, 1] = sc.stats.lomax.rvs(size=len(X_thinned[:, 0]), c=alpha_posterior_mb, loc=self.m0,
