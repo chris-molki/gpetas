@@ -11,7 +11,6 @@ import gpetas
 
 def eval_n(save_obj_GS=None, mle_obj=None, t_start=0.0, t_end=np.inf):
     """
-
     :param save_obj_GS:
     :type save_obj_GS:
     :param mle_obj:
