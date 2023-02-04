@@ -225,3 +225,45 @@ class data_structure():
         self.times = None
         self.magnitudes = None
         self.positions = None
+
+
+# setup_obj_mle
+def setup_obj_mle_from_setup_obj_GS(setup_obj, **kwargs):
+    case_name = setup_obj.case_name
+    Nnearest = 15
+    if 'Nnearest' in kwargs:
+        Nnearest = kwargs['Nnearest']
+    h_min_degree = 0.05
+    if 'h_min_degree' in kwargs:
+        h_min_degree = kwargs['h_min_degree']
+    # if case_name == 'gron':
+    #    h_min_degree = 100.
+    data_obj = setup_obj.data_obj
+    theta_start_Kcpadgqbm0 = setup_obj.theta_start_Kcpadgqbm0
+    if 'theta_start_Kcpadgq' in kwargs:
+        theta_start_Kcpadgqbm0[:7] = kwargs['theta_start_Kcpadgq']
+    spatial_offspring = setup_obj.spatial_offspring
+    bins = int(np.sqrt(setup_obj.X_grid.shape[0]))
+    X_grid = setup_obj.X_grid
+    stable_theta = setup_obj.stable_theta_sampling
+
+    # mle default
+    outdir = setup_obj.outdir
+
+    # (2.1) default: h_min = small and fixed from before
+    setup_obj_mle = gpetas.mle_KDE_ETAS.setup_mle(data_obj=data_obj,
+                                                  theta_start_Kcpadgqbm0=theta_start_Kcpadgqbm0,
+                                                  spatial_offspring=spatial_offspring,
+                                                  Nnearest=Nnearest,
+                                                  h_min_degree=h_min_degree,
+                                                  spatial_units='degree',
+                                                  utm_yes=None,
+                                                  bins=bins,
+                                                  X_grid=X_grid,
+                                                  outdir=outdir,
+                                                  stable_theta=stable_theta,
+                                                  case_name=case_name)
+
+    # if "h_min_degree" in kwargs:
+    #    print("this will execute")
+    return setup_obj_mle
