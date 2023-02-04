@@ -446,6 +446,9 @@ class create_data_obj_from_cat_file():
         :param domain_obj:
         :type domain_obj:
         """
+        init_outdir()
+        outdir = output_dir + '/inference_results'
+
         # domain_obj
         if domain_obj is not None:
             X_borders = domain_obj.X_borders
@@ -468,6 +471,7 @@ class create_data_obj_from_cat_file():
         self.data_all.times = aux[:, 4]  # time
         self.data_all.magnitudes = aux[:, 3]  # magnitude
         self.data_all.positions = aux[:, 1:3]  # [x_lon,y_lat]
+        np.savetxt(output_dir_data+'/cat_%s.dat'%self.case_name,aux)
 
         # set domain
         if X_borders is not None:

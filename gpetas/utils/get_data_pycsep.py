@@ -116,7 +116,6 @@ def data_obj__from_catalog_obj(catalog_obj, R_obj, m_min=None, fname_ixymt=None,
     # save idx,x,y,m,t format for MLE estimation, Gibbs-sampling
     fout = output_dir_data + '/' + fname_ixymt
     np.savetxt(fout, write_out[:, :5], delimiter='\t', fmt='%.0f\t%.4f\t%.4f\t%.2f\t%.9f')
-
     # create data_obj for inference: Gibbs sampling, mle
     outdir = output_dir + '/inference_results'
     if not (isinstance(time_origin, str)):
