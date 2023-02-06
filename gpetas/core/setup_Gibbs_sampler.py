@@ -8,11 +8,10 @@ class setup_sampler():
     def __init__(self, data_obj, utm_yes=None, spatial_offspring='R', theta_start_Kcpadgq=None,
                  sigma_proposal_offspring_params=None, ngrid_per_dim=50, cov_params=None, sigma_proposal_hypers=None,
                  mu_nu0=None, X_grid=None, outdir=None, prior_theta_dist=None, prior_theta_params=None,
-                 stable_theta_sampling=None, time_origin=None, case_name='case_01',
-                 burnin=None, Ksamples=None, num_iterations=None, thinning=None, MH_proposals_offspring=None,
-                 MH_cov_empirical_yes=None, kth_sample_obj=None):
+                 stable_theta_sampling=None, time_origin=None, case_name='case_01', burnin=None, Ksamples=None,
+                 num_iterations=None, thinning=None, MH_proposals_offspring=None, MH_cov_empirical_yes=None,
+                 kth_sample_obj=None, corresponding_mle=None):
         """
-
         :param data_obj:
         :type data_obj:
         :param utm_yes:
@@ -57,6 +56,8 @@ class setup_sampler():
         :type MH_cov_empirical_yes:
         :param kth_sample_obj:
         :type kth_sample_obj:
+        :param corresponding_mle: dict containing keywords for setup_obj_mle
+        :type corresponding_mle: dictionary as corresponding_mle={'type':'default','Nnearest': 20}
         """
 
         """
@@ -179,6 +180,13 @@ class setup_sampler():
         file.close()
         print('setup_obj has been created and saved:', fname_setup_obj)
 
+        if corresponding_mle is not None:
+            self.setup_obj_mle = setup_obj_mle_from_setup_obj_GS(self, **corresponding_mle)
+            corresponding_mle['h_min_degree'] = gpetas.some_fun.silverman_scott_rule_d(data_obj.data_all.positions)
+            self.setup_obj_mle_silverman = setup_obj_mle_from_setup_obj_GS(self, **corresponding_mle)
+
+
+
 
 # get kth-sample
 class kth_sample():
@@ -263,7 +271,4 @@ def setup_obj_mle_from_setup_obj_GS(setup_obj, **kwargs):
                                                   outdir=outdir,
                                                   stable_theta=stable_theta,
                                                   case_name=case_name)
-
-    # if "h_min_degree" in kwargs:
-    #    print("this will execute")
     return setup_obj_mle
