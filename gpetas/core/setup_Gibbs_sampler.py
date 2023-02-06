@@ -182,6 +182,7 @@ class setup_sampler():
 
         if corresponding_mle is not None:
             self.setup_obj_mle = setup_obj_mle_from_setup_obj_GS(self, **corresponding_mle)
+            corresponding_mle['silverman'] = 'yes'
             corresponding_mle['h_min_degree'] = gpetas.some_fun.silverman_scott_rule_d(data_obj.data_all.positions)
             self.setup_obj_mle_silverman = setup_obj_mle_from_setup_obj_GS(self, **corresponding_mle)
 
@@ -254,6 +255,9 @@ def setup_obj_mle_from_setup_obj_GS(setup_obj, **kwargs):
     bins = int(np.sqrt(setup_obj.X_grid.shape[0]))
     X_grid = setup_obj.X_grid
     stable_theta = setup_obj.stable_theta_sampling
+    silverman = None
+    if 'silverman' in kwargs:
+        silverman = kwargs['silverman']
 
     # mle default
     outdir = setup_obj.outdir
@@ -270,5 +274,6 @@ def setup_obj_mle_from_setup_obj_GS(setup_obj, **kwargs):
                                                   X_grid=X_grid,
                                                   outdir=outdir,
                                                   stable_theta=stable_theta,
-                                                  case_name=case_name)
+                                                  case_name=case_name,
+                                                  silverman=silverman)
     return setup_obj_mle
