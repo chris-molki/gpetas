@@ -15,7 +15,9 @@ output_dir_figures = "output_pred/figures"
 output_dir_data = "output_pred/data"
 
 class setup_pred():
-    def __init__(self,save_obj_GS=None,tau1=None,tau2=None,tau0_Ht=None,Ksim=None,mle_obj=None,mle_obj_silverman=None,epsilon_after_mainshock = 1e-4):
+    def __init__(self,save_obj_GS=None,tau1=None,tau2=None,tau0_Ht=None,
+                 Ksim=None,
+                 mle_obj=None,mle_obj_silverman=None,epsilon_after_mainshock = 1e-4):
         """
         Generates setup_obj_pred for T*=[tau1,tau2] based on inference results saved in corresponding objects
         :param save_obj_GS:
@@ -54,6 +56,7 @@ class setup_pred():
         self.Ksim = Ksim
         self.epsilon_after_mainshock = epsilon_after_mainshock
         self.case_name = save_obj_GS['setup_obj'].case_name
+        self.output_dir = output_dir
 
         # write to file
         fname_setup_obj = output_dir + "/setup_obj_pred_%s.all" % (self.case_name)
