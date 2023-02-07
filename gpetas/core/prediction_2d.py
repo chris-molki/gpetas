@@ -16,7 +16,7 @@ output_dir_data = "output_pred/data"
 
 class setup_pred():
     def __init__(self,save_obj_GS=None,tau1=None,tau2=None,tau0_Ht=None,
-                 Ksim=None,
+                 Ksim=None,sample_idx_vec=None,
                  mle_obj=None,mle_obj_silverman=None,epsilon_after_mainshock = 1e-4):
         """
         Generates setup_obj_pred for T*=[tau1,tau2] based on inference results saved in corresponding objects
@@ -54,6 +54,10 @@ class setup_pred():
         self.tau2 = tau2
         self.tau0_Ht = tau0_Ht
         self.Ksim = Ksim
+        if sample_idx_vec is None:
+            Ksamples = len(save_obj_GS['lambda_bar'])
+            sample_idx_vec = np.arange(0, Ksamples, 1)
+        self.sample_idx_vec = sample_idx_vec
         self.epsilon_after_mainshock = epsilon_after_mainshock
         self.case_name = save_obj_GS['setup_obj'].case_name
         self.output_dir = output_dir
@@ -64,10 +68,6 @@ class setup_pred():
         pickle.dump(self, file)
         file.close()
         print('setup_obj has been created and saved:', fname_setup_obj)
-
-
-
-
 
 
 
