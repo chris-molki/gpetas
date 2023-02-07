@@ -4,6 +4,7 @@ import scipy as sc
 import time
 from gpetas.utils.some_fun import get_grid_data_for_a_point
 import os
+import pickle
 import datetime
 
 # some globals
@@ -52,8 +53,14 @@ class setup_pred():
         self.tau0_Ht = tau0_Ht
         self.Ksim = Ksim
         self.epsilon_after_mainshock = epsilon_after_mainshock
+        self.case_name = save_obj_GS['setup_obj'].case_name
 
-
+        # write to file
+        fname_setup_obj = output_dir + "/setup_obj_pred_%s.all" % (self.case_name)
+        file = open(fname_setup_obj, "wb")  # remember to open the file in binary mode
+        pickle.dump(self, file)
+        file.close()
+        print('setup_obj has been created and saved:', fname_setup_obj)
 
 
 
