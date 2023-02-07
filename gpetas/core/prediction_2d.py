@@ -3,7 +3,74 @@ from scipy.linalg import solve_triangular
 import scipy as sc
 import time
 from gpetas.utils.some_fun import get_grid_data_for_a_point
+import os
+import datetime
 
+# some globals
+time_format = "%Y-%m-%d %H:%M:%S.%f"
+output_dir = "output_pred"
+output_dir_tables = "output_pred/tables"
+output_dir_figures = "output_pred/figures"
+output_dir_data = "output_pred/data"
+
+class setup_pred():
+    def __init__(self,save_obj_GS=None,tau1=None,tau2=None,tau0_Ht=None,Ksim=None,mle_obj=None,mle_obj_silverman=None,epsilon_after_mainshock = 1e-4):
+        """
+        Generates setup_obj_pred for T*=[tau1,tau2] based on inference results saved in corresponding objects
+        :param save_obj_GS:
+        :type save_obj_GS: Python class
+        :param tau1: start time of prediction
+        :type tau1: float
+        :param tau2: end time of prediction
+        :type tau2: float
+        :param tau0_Ht: time before tau1 for which Ht is considered, e.g. tau1-100. in days
+        :type tau0_Ht: float
+        :param Ksim: number of simulations
+        :type Ksim: int
+        :param mle_obj:
+        :type mle_obj: Python class
+        :param mle_obj_silverman:
+        :type mle_obj_silverman: Python class
+        :param epsilon_after_mainshock: small value of time after tau1, e.g. 1e-4
+        :type epsilon_after_mainshock: float
+        """
+        init_outdir()
+        if tau1 is None:
+            tau1 = 0.
+        if tau2 is None:
+            tau2 = tau1 + 30.
+        if tau0_Ht is None:
+            tau0_Ht = 0.
+        if Ksim is None:
+            Ksim = 100
+
+        self.save_obj_GS = save_obj_GS
+        self.mle_obj = mle_obj
+        self.mle_obj_silverman = mle_obj_silverman
+        self.tau1 = tau1
+        self.tau2 = tau2
+        self.tau0_Ht = tau0_Ht
+        self.Ksim = Ksim
+        self.epsilon_after_mainshock = epsilon_after_mainshock
+
+
+
+
+
+
+
+
+
+
+def init_outdir():
+    if not os.path.isdir(output_dir):
+        os.mkdir(output_dir)
+    if not os.path.isdir(output_dir_tables):
+        os.mkdir(output_dir_tables)
+    if not os.path.isdir(output_dir_figures):
+        os.mkdir(output_dir_figures)
+    if not os.path.isdir(output_dir_data):
+        os.mkdir(output_dir_data)
 
 # stability issues
 def PHI_t_omori(c, p, t_start=0., t_end=np.inf):
