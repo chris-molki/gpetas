@@ -1,7 +1,9 @@
 # gpetas (GP-ETAS)
 
-[![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![Python 3.9](https://img.shields.io/badge/python-3.9-blue.svg)](https://www.python.org/downloads/release/python-390/)
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![Documentation](https://img.shields.io/badge/docs-master-blue.svg)](https://chris-molki.github.io/gpetas)
+![GitHub](https://img.shields.io/github/license/chris-molki/gpetas)
 
 The main motivation of this package is to make
 `gpetas` usable for a broader community.
