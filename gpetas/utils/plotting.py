@@ -196,7 +196,7 @@ def plot_1D_estimation(save_obj_GS=None, sample_idx_vec=None, mle_obj=None, mle_
                        quantile=0.05, resolution=None, xlim=None, figsize=(10, 5),
                        pos_textND=None, pos_textNDstar=None):
     '''
-
+    Computes and plots 1D estimation of ETAS, in time, given history H_t until t
     :param save_obj_GS:
     :type save_obj_GS:
     :param sample_idx_vec:
