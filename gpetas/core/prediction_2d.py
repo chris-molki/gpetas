@@ -979,6 +979,7 @@ def cumsum_events_pred(save_obj_pred, tau1, tau2, m0=None, which_events=None):
            'x_bg_off': [],
            'y_Htoff': [],
            'x_Htoff': [],
+           'm0': [],
            'Ksim': []}
 
     # observations
@@ -1081,4 +1082,17 @@ def cumsum_events_pred(save_obj_pred, tau1, tau2, m0=None, which_events=None):
             out['y_Htoff'].append(y)
             out['x_Htoff'].append(x)
 
+    out['m0']=m0
+
     return out
+
+def pred_marginal_N_in_time(t=None,save_obj_pred=None,m0_plot=None,which_events=None):
+    cumsum = cumsum_events_pred(save_obj_pred, tau1, tau2, m0=m0_plot, which_events=which_events)
+    if m0_plot is None: m0_plot = save_obj_pred['m0']
+    if m0_plot < save_obj_pred['m0']: m0_plot = save_obj_pred['m0']
+    Ksim = cumsum['Ksim']
+    N_t = np.zeros(Ksim)
+    for i in range(cumsum['Ksim']):
+        N_t[i]=cumsum['y'][i][cumsum['x'][i]<=t][-1]
+    Nobs_t=cumsum['y_obs'][cumsum['x_obs']<=t][-1]
+    return N_t,Nobs_t
