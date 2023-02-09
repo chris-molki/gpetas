@@ -14,10 +14,11 @@ output_dir_tables = "output_pred/tables"
 output_dir_figures = "output_pred/figures"
 output_dir_data = "output_pred/data"
 
+
 class setup_pred():
-    def __init__(self,save_obj_GS=None,tau1=None,tau2=None,tau0_Ht=None,
-                 Ksim=None,sample_idx_vec=None,
-                 mle_obj=None,mle_obj_silverman=None,epsilon_after_mainshock = 1e-4):
+    def __init__(self, save_obj_GS=None, tau1=None, tau2=None, tau0_Ht=None,
+                 Ksim=None, sample_idx_vec=None,
+                 mle_obj=None, mle_obj_silverman=None, epsilon_after_mainshock=1e-4):
         """
         Generates setup_obj_pred for T*=[tau1,tau2] based on inference results saved in corresponding objects
         :param save_obj_GS:
@@ -70,8 +71,6 @@ class setup_pred():
         print('setup_obj has been created and saved:', fname_setup_obj)
 
 
-
-
 def init_outdir():
     if not os.path.isdir(output_dir):
         os.mkdir(output_dir)
@@ -81,6 +80,7 @@ def init_outdir():
         os.mkdir(output_dir_figures)
     if not os.path.isdir(output_dir_data):
         os.mkdir(output_dir_data)
+
 
 # stability issues
 def PHI_t_omori(c, p, t_start=0., t_end=np.inf):
@@ -310,7 +310,7 @@ def sim_offspring_from_Ht(obj, theta_Kcpadgq, spatial_offspring, Ht=None, all_pt
     idx = 0
     z_parent = np.zeros((np.size(x0[:, 0]), 1))
     z_cluster = np.array(np.arange(np.size(x0[:, 0])) + 1)  # numbered clusters from 1,...,len(x)
-    #z_cluster = np.flipud(-np.array(np.arange(np.size(x0[:, 0])) + 1))  # numbered clusters from -N_Ht, ... -2, -1
+    # z_cluster = np.flipud(-np.array(np.arange(np.size(x0[:, 0])) + 1))  # numbered clusters from -N_Ht, ... -2, -1
     z_generation = np.zeros((np.size(x0[:, 0]), 1))  # zeros
     # lam_MOL = lambda t, m_i, K, c, p, m_alpha, m0: K * np.exp(m_alpha * (m_i - m0)) * 1. / (c + t) ** p
     MOL_fun = lambda t, t_i, m_i, K, c, p, m_alpha, m0: K * np.exp(m_alpha * (m_i - m0)) * 1. / (c + t - t_i) ** p
@@ -410,10 +410,10 @@ def sim_offspring_from_Ht(obj, theta_Kcpadgq, spatial_offspring, Ht=None, all_pt
     shift_Ht = len(Ht)
     data_tmxyz = np.zeros((np.size(x_sorted_t[:, 0]), 5)) * np.nan
     data_tmxyz[:, 0:4] = x_sorted_t
-    data_tmxyz[:, 4] = np.squeeze(parents_sorted_t-shift_Ht).astype(int)
+    data_tmxyz[:, 4] = np.squeeze(parents_sorted_t - shift_Ht).astype(int)
     complete_branching_structure_tmxyzcg = np.zeros((np.size(x_sorted_t[:, 0]), 8)) * np.nan
     complete_branching_structure_tmxyzcg[:, 0:5] = data_tmxyz[:, 0:5]
-    complete_branching_structure_tmxyzcg[:, 5] = z_cluster_sorted_t-shift_Ht
+    complete_branching_structure_tmxyzcg[:, 5] = z_cluster_sorted_t - shift_Ht
     complete_branching_structure_tmxyzcg[:, 6] = z_generation_sorted_t.reshape([-1, ])
     complete_branching_structure_tmxyzcg[:, 7] = -np.ones(
         np.size(x_sorted_t[:, 0]))  # np.array(np.arange(np.size(x_sorted_t[:, 0])) + 1)
@@ -509,8 +509,8 @@ class predictions_mle():
             if fast is not None:
                 X_borders = np.copy(self.data_obj.domain.X_borders)
                 mu_unthinned = get_grid_data_for_a_point(mle_obj.mu_grid,
-                                                      points_xy=X_unthinned,
-                                                       X_borders=X_borders,
+                                                         points_xy=X_unthinned,
+                                                         X_borders=X_borders,
                                                          method='nearest')
             else:
                 mu_unthinned = mle_obj.eval_kde_xprime(X_unthinned)
@@ -596,6 +596,11 @@ class predictions_mle():
                 print('current simulation is k =', k + 1, 'of K =', Ksim,
                       '%.2f sec. elapsed time.' % tictoc,
                       ' approx. done %.1f percent.' % (100. * (k / float(Ksim))))
+
+            # some postprocessing
+            self.save_pred['cumsum'] = cumsum_events_pred(save_obj_pred=self.save_pred,
+                                                              tau1=self.tau1, tau2=self.tau2, m0=self.m0,
+                                                              which_events='all')
         return
 
 
@@ -687,6 +692,7 @@ class predictions_gpetas():
         self.save_pred['seed'] = np.copy(self.seed)
         self.save_pred['data_obj'] = save_obj_GS['data_obj']
         self.save_pred['m0'] = np.copy(self.data_obj.domain.m0)
+        self.save_pred['data_obj'] = self.data_obj
         self.tic = time.perf_counter()
 
         if Ksim is not None:
@@ -818,6 +824,9 @@ class predictions_gpetas():
             self.n_stability_inf = n(m_alpha, m_beta, K, c, p, t_start=0., t_end=np.inf)
             self.save_pred['n_tau1_tau2'].append(self.n_stability)
             self.save_pred['n_inf'].append(self.n_stability_inf)
+            # some postprocessing
+            self.save_pred['cumsum'] = cumsum_events_pred(save_obj_pred=self.save_pred,
+                                          tau1=self.tau1, tau2=self.tau2, m0=self.m0, which_events='all')
         return
 
     def NHPPsim(self, tau1, tau2, lambda_fun, fargs, max_lambda, dim=1):
@@ -938,3 +947,138 @@ def sample_long_range_decay_RL_pwl(N, x_center, y_center, m_center, q, D, gamma_
     y_vec = y_center + r * np.sin(theta_j)
     xy_array = np.vstack((x_vec, y_vec)).T
     return xy_array
+
+
+# post processing
+def cumsum_events_pred(save_obj_pred, tau1, tau2, m0=None, which_events=None):
+    """
+    Extracts
+    :param save_obj_pred:
+    :type save_obj_pred: dictionary
+    :param tau1:
+    :type tau1: float
+    :param tau2:
+    :type tau2: float
+    :param m0:
+    :type m0:float
+    :param which_events:
+    :type which_events:any
+    :return:
+    :rtype:dictionary
+    """
+    data_obj = save_obj_pred['data_obj']
+    out = {'y_obs': [],
+           'x_obs': [],
+           'y': [],
+           'x': [],
+           'y_bg': [],
+           'x_bg': [],
+           'y_off': [],
+           'x_off': [],
+           'y_bg_off': [],
+           'x_bg_off': [],
+           'y_Htoff': [],
+           'x_Htoff': [],
+           'Ksim': []}
+
+    # observations
+    N_tau1 = np.sum(data_obj.data_all.times <= tau1)
+    N_in_tau1_tau2 = np.sum(np.logical_and(data_obj.data_all.times > tau1, data_obj.data_all.times <= tau2))
+    idx_test = np.logical_and(data_obj.data_all.times > tau1, data_obj.data_all.times <= tau2)
+    if m0 is not None:
+        N_tau1 = np.sum(np.logical_and(data_obj.data_all.times <= tau1, data_obj.data_all.magnitudes >= m0))
+        N_in_tau1_tau2 = np.sum(
+            np.logical_and(np.logical_and(data_obj.data_all.times > tau1, data_obj.data_all.times <= tau2),
+                           data_obj.data_all.magnitudes >= m0))
+        idx_test = np.logical_and(np.logical_and(data_obj.data_all.times > tau1, data_obj.data_all.times <= tau2),
+                                  data_obj.data_all.magnitudes >= m0)
+    out['y_obs'] = np.hstack([N_tau1, np.cumsum(np.ones(N_in_tau1_tau2)) + N_tau1]) - N_tau1
+    out['x_obs'] = np.hstack([tau1, data_obj.data_all.times[idx_test]]) - tau1
+
+    # simulations
+    Ksim = len(save_obj_pred['pred_bgnew_and_offspring_with_Ht_offspring'])
+    out['Ksim'] = Ksim
+    pred_data = []
+    for i in range(Ksim):
+        pred_data = save_obj_pred['pred_bgnew_and_offspring_with_Ht_offspring'][i]
+        N_in_tau1_tau2 = np.sum(np.logical_and(pred_data[:, 0] > tau1, pred_data[:, 0] <= tau2))
+        idx_test = np.logical_and(pred_data[:, 0] > tau1, pred_data[:, 0] <= tau2)
+        if m0 is not None:
+            N_in_tau1_tau2 = np.sum(np.logical_and(
+                np.logical_and(pred_data[:, 0] > tau1, pred_data[:, 0] <= tau2), pred_data[:, 1] >= m0))
+            idx_test = np.logical_and(np.logical_and(
+                pred_data[:, 0] > tau1, pred_data[:, 0] <= tau2), pred_data[:, 1] >= m0)
+        y = np.hstack([N_tau1, np.cumsum(np.ones(N_in_tau1_tau2)) + N_tau1]) - N_tau1
+        x = np.hstack([tau1, pred_data[idx_test, 0]]) - tau1
+        out['y'].append(y)
+        out['x'].append(x)
+
+    if which_events is not None:
+        pred_data = []
+        # bg only
+        for i in range(Ksim):
+            idx_bg = save_obj_pred['pred_bgnew_and_offspring'][i][:, 4] == 0
+            pred_data = save_obj_pred['pred_bgnew_and_offspring'][i][idx_bg, :]
+            N_in_tau1_tau2 = np.sum(np.logical_and(pred_data[:, 0] > tau1, pred_data[:, 0] <= tau2))
+            idx_test = np.logical_and(pred_data[:, 0] > tau1, pred_data[:, 0] <= tau2)
+            if m0 is not None:
+                N_in_tau1_tau2 = np.sum(np.logical_and(
+                    np.logical_and(pred_data[:, 0] > tau1, pred_data[:, 0] <= tau2), pred_data[:, 1] >= m0))
+                idx_test = np.logical_and(np.logical_and(
+                    pred_data[:, 0] > tau1, pred_data[:, 0] <= tau2), pred_data[:, 1] >= m0)
+            y = np.hstack([N_tau1, np.cumsum(np.ones(N_in_tau1_tau2)) + N_tau1]) - N_tau1
+            x = np.hstack([tau1, pred_data[idx_test, 0]]) - tau1
+            out['y_bg'].append(y)
+            out['x_bg'].append(x)
+
+        pred_data = []
+        # offspring (from bg) only
+        for i in range(Ksim):
+            idx_off = save_obj_pred['pred_bgnew_and_offspring'][i][:, 4] > 0
+            pred_data = save_obj_pred['pred_bgnew_and_offspring'][i][idx_off, :]
+            N_in_tau1_tau2 = np.sum(np.logical_and(pred_data[:, 0] > tau1, pred_data[:, 0] <= tau2))
+            idx_test = np.logical_and(pred_data[:, 0] > tau1, pred_data[:, 0] <= tau2)
+            if m0 is not None:
+                N_in_tau1_tau2 = np.sum(np.logical_and(
+                    np.logical_and(pred_data[:, 0] > tau1, pred_data[:, 0] <= tau2), pred_data[:, 1] >= m0))
+                idx_test = np.logical_and(np.logical_and(
+                    pred_data[:, 0] > tau1, pred_data[:, 0] <= tau2), pred_data[:, 1] >= m0)
+            y = np.hstack([N_tau1, np.cumsum(np.ones(N_in_tau1_tau2)) + N_tau1]) - N_tau1
+            x = np.hstack([tau1, pred_data[idx_test, 0]]) - tau1
+            out['y_off'].append(y)
+            out['x_off'].append(x)
+
+    if which_events == 2:
+        pred_data = []
+        # bg + offspring
+        for i in range(Ksim):
+            pred_data = save_obj_pred['pred_bgnew_and_offspring'][i]
+            N_in_tau1_tau2 = np.sum(np.logical_and(pred_data[:, 0] > tau1, pred_data[:, 0] <= tau2))
+            idx_test = np.logical_and(pred_data[:, 0] > tau1, pred_data[:, 0] <= tau2)
+            if m0 is not None:
+                N_in_tau1_tau2 = np.sum(np.logical_and(
+                    np.logical_and(pred_data[:, 0] > tau1, pred_data[:, 0] <= tau2), pred_data[:, 1] >= m0))
+                idx_test = np.logical_and(np.logical_and(
+                    pred_data[:, 0] > tau1, pred_data[:, 0] <= tau2), pred_data[:, 1] >= m0)
+            y = np.hstack([N_tau1, np.cumsum(np.ones(N_in_tau1_tau2)) + N_tau1]) - N_tau1
+            x = np.hstack([tau1, pred_data[idx_test, 0]]) - tau1
+            out['y_bg_off'].append(y)
+            out['x_bg_off'].append(x)
+
+        pred_data = []
+        # Htoff only
+        for i in range(Ksim):
+            pred_data = save_obj_pred['pred_offspring_Ht'][i]
+            N_in_tau1_tau2 = np.sum(np.logical_and(pred_data[:, 0] > tau1, pred_data[:, 0] <= tau2))
+            idx_test = np.logical_and(pred_data[:, 0] > tau1, pred_data[:, 0] <= tau2)
+            if m0 is not None:
+                N_in_tau1_tau2 = np.sum(np.logical_and(
+                    np.logical_and(pred_data[:, 0] > tau1, pred_data[:, 0] <= tau2), pred_data[:, 1] >= m0))
+                idx_test = np.logical_and(np.logical_and(
+                    pred_data[:, 0] > tau1, pred_data[:, 0] <= tau2), pred_data[:, 1] >= m0)
+            y = np.hstack([N_tau1, np.cumsum(np.ones(N_in_tau1_tau2)) + N_tau1]) - N_tau1
+            x = np.hstack([tau1, pred_data[idx_test, 0]]) - tau1
+            out['y_Htoff'].append(y)
+            out['x_Htoff'].append(x)
+
+    return out
