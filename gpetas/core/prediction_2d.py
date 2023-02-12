@@ -1215,6 +1215,7 @@ def plot_pred_cumsum_Nt_path(save_obj_pred=None, m0_plot=None, save_obj_pred_mle
     pSIZE = 20
     plt.rc('font', size=pSIZE)
     plt.rc('axes', titlesize=pSIZE)
+    xlim = 1e-04
 
     # input
     cumsum = None
@@ -1247,6 +1248,7 @@ def plot_pred_cumsum_Nt_path(save_obj_pred=None, m0_plot=None, save_obj_pred_mle
     if cumsum is not None:
         x_obs = cumsum['x_obs']
         y_obs = cumsum['y_obs']
+        Ksim = cumsum['Ksim']
         for i in range(cumsum['Ksim']):
             x = cumsum['x' + key_str][i]
             y = cumsum['y' + key_str][i]
@@ -1254,6 +1256,7 @@ def plot_pred_cumsum_Nt_path(save_obj_pred=None, m0_plot=None, save_obj_pred_mle
     if cumsum_mle is not None:
         x_obs = cumsum_mle['x_obs']
         y_obs = cumsum_mle['y_obs']
+        Ksim = cumsum_mle['Ksim']
         for i in range(cumsum_mle['Ksim']):
             x = cumsum_mle['x' + key_str][i]
             y = cumsum_mle['y' + key_str][i]
@@ -1261,6 +1264,7 @@ def plot_pred_cumsum_Nt_path(save_obj_pred=None, m0_plot=None, save_obj_pred_mle
     if cumsum_mle_silverman is not None:
         x_obs = cumsum_mle_silverman['x_obs']
         y_obs = cumsum_mle_silverman['y_obs']
+        Ksim = cumsum_mle_silverman['Ksim']
         for i in range(cumsum_mle_silverman['Ksim']):
             x = cumsum_mle_silverman['x' + key_str][i]
             y = cumsum_mle_silverman['y' + key_str][i]
@@ -1269,8 +1273,8 @@ def plot_pred_cumsum_Nt_path(save_obj_pred=None, m0_plot=None, save_obj_pred_mle
     print(tau1, tau2, m0_plot)
 
     plt.step(np.append(x_obs, tau2 - tau1), np.append(y_obs, y_obs[-1]), 'm', linewidth=3, where='post')
-    plt.text(0.15, 0.825, '$T^*=$[%.1f %.1f] days. $m\\geq$%.2f. $|T^*|$=%.1f days. $N_{\\rm obs}=$%i' % (
-    tau1, tau2, m0_plot, tau2 - tau1, max(y_obs)), transform=plt.gcf().transFigure)
+    plt.text(0.15, 0.775, '$T^*=$[%.1f %.1f] days. $m\\geq$%.2f. $|T^*|$=%.1f days. $N_{\\rm obs}=$%i.\n$K_{\\rm sim}$=%i' % (
+    tau1, tau2, m0_plot, tau2 - tau1, max(y_obs),Ksim), transform=plt.gcf().transFigure)
     plt.ylabel('counts')
     plt.xlabel('time, days')
     if scale == 'loglog':
@@ -1284,7 +1288,7 @@ def plot_pred_cumsum_Nt_path(save_obj_pred=None, m0_plot=None, save_obj_pred_mle
         plt.gca().set_ylim([0.9, ylim[1]])
     if scale == 'logx':
         plt.xscale('log')
-    plt.xlim([np.min(np.array(save_obj_pred['theta_Kcpadgq_k'])[:, 1]), tau2 - tau1])
+    plt.xlim([xlim, tau2 - tau1])
     plt.show()
     return hf
 
