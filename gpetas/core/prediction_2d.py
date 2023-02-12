@@ -1252,7 +1252,7 @@ def plot_pred_cumsum_Nt_path(save_obj_pred=None, m0_plot=None, save_obj_pred_mle
         for i in range(cumsum['Ksim']):
             x = cumsum['x' + key_str][i]
             y = cumsum['y' + key_str][i]
-            plt.step(np.append(x, tau2 - tau1), np.append(y, y[-1]), 'k', linewidth=0.1)
+            plt.step(np.append(x, tau2 - tau1), np.append(y, y[-1]), '#333333', linewidth=0.1) # gray
     if cumsum_mle is not None:
         x_obs = cumsum_mle['x_obs']
         y_obs = cumsum_mle['y_obs']
@@ -1260,7 +1260,7 @@ def plot_pred_cumsum_Nt_path(save_obj_pred=None, m0_plot=None, save_obj_pred_mle
         for i in range(cumsum_mle['Ksim']):
             x = cumsum_mle['x' + key_str][i]
             y = cumsum_mle['y' + key_str][i]
-            plt.step(np.append(x, tau2 - tau1), np.append(y, y[-1]), 'b', linewidth=0.1)
+            plt.step(np.append(x, tau2 - tau1), np.append(y, y[-1]), '#3776ab', linewidth=0.1) # some blue
     if cumsum_mle_silverman is not None:
         x_obs = cumsum_mle_silverman['x_obs']
         y_obs = cumsum_mle_silverman['y_obs']
@@ -1289,6 +1289,8 @@ def plot_pred_cumsum_Nt_path(save_obj_pred=None, m0_plot=None, save_obj_pred_mle
     if scale == 'logx':
         plt.xscale('log')
     plt.xlim([xlim, tau2 - tau1])
+    #ax = plt.gca()
+    #ax.set_rasterized(True)
     plt.show()
     return hf
 
@@ -1296,6 +1298,18 @@ def plot_pred_cumsum_Nt_path(save_obj_pred=None, m0_plot=None, save_obj_pred_mle
 ### summary of plots and tables
 def pred_summary(save_obj_pred=None, save_obj_pred_mle=None,save_obj_pred_mle_silverman=None, m0_plot=None):
     init_outdir()
+    if save_obj_pred is not None:
+        case_name = save_obj_pred['data_obj'].case_name
+    if save_obj_pred_mle is not None:
+        case_name = save_obj_pred_mle['data_obj'].case_name
+    if save_obj_pred_mle_silverman is not None:
+        case_name = save_obj_pred_mle_silverman['data_obj'].case_name
 
-    #h2.savefig(out_dir + '/%s_F10b_l_ltest02.pdf' % data_obj.case_name, bbox_inches='tight')
+    # FIG 01: sample path
+    scales = ['linear','logy','logx','loglog']
+    for i in range(len(scales)):
+        scale = scales[i]
+        hf = plot_pred_cumsum_Nt_path(save_obj_pred=save_obj_pred, m0_plot=m0_plot, save_obj_pred_mle=save_obj_pred_mle,
+                        save_obj_pred_mle_silverman=save_obj_pred_mle_silverman, scale=scale, which_events=None)
+        hf.savefig(output_dir_figures + '/F001_pred_%s_%0i_%s.pdf' %(case_name,i,scales[i]), bbox_inches='tight')
     return
