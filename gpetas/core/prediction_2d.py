@@ -1297,4 +1297,5 @@ def plot_pred_cumsum_Nt_path(save_obj_pred=None, m0_plot=None, save_obj_pred_mle
 def pred_summary(save_obj_pred=None, save_obj_pred_mle=None,save_obj_pred_mle_silverman=None, m0_plot=None):
     init_outdir()
 
+    #h2.savefig(out_dir + '/%s_F10b_l_ltest02.pdf' % data_obj.case_name, bbox_inches='tight')
     return
