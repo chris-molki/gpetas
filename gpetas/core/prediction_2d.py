@@ -1105,10 +1105,10 @@ def get_marginal_Nt_pred(t=None, save_obj_pred=None, m0_plot=None, which_events=
     :return:N_t,Nobs_t
     :rtype:int,int
     """
-    t0Ht,tau1,tau2 = save_obj_pred['tau_vec'][0]
+    t0Ht, tau1, tau2 = save_obj_pred['tau_vec'][0]
     if m0_plot is None:
         m0_plot = save_obj_pred['m0']
-    cumsum = cumsum_events_pred(save_obj_pred, tau1=tau1, tau2=tau1+t, m0=m0_plot, which_events=which_events)
+    cumsum = cumsum_events_pred(save_obj_pred, tau1=tau1, tau2=tau1 + t, m0=m0_plot, which_events=which_events)
     if m0_plot is None: m0_plot = save_obj_pred['m0']
     if m0_plot < save_obj_pred['m0']: m0_plot = save_obj_pred['m0']
     Ksim = cumsum['Ksim']
@@ -1125,10 +1125,10 @@ def get_marginal_Nt_pred(t=None, save_obj_pred=None, m0_plot=None, which_events=
     return N_t, Nobs_t
 
 
-
 # fast plotting routines
 
-def plot_pred_hist_cumsum_Nt_at_t(t, save_obj_pred=None, save_obj_pred_mle=None,save_obj_pred_mle_silverman=None, m0_plot=None, scale='linear'):
+def plot_pred_hist_cumsum_Nt_at_t(t, save_obj_pred=None, save_obj_pred_mle=None, save_obj_pred_mle_silverman=None,
+                                  m0_plot=None, scale='linear'):
     """
     Plots a histogram of the forecasted number of events of a region (integrated over space).
     :param t:time of the histogram
@@ -1156,7 +1156,7 @@ def plot_pred_hist_cumsum_Nt_at_t(t, save_obj_pred=None, save_obj_pred_mle=None,
     if save_obj_pred is not None:
         if m0_plot is None: m0_plot = save_obj_pred['m0']
         tau0Htm, tau1, tau2 = save_obj_pred['tau_vec'][0]
-        if t_slice > tau2-tau1: t_slice = tau2-tau1
+        if t_slice > tau2 - tau1: t_slice = tau2 - tau1
         N_t, Nobs_t = get_marginal_Nt_pred(t=t_slice, save_obj_pred=save_obj_pred, m0_plot=m0_plot)
         Ksim = save_obj_pred['cumsum']['Ksim']
         if scale == 'log10':
@@ -1165,9 +1165,9 @@ def plot_pred_hist_cumsum_Nt_at_t(t, save_obj_pred=None, save_obj_pred_mle=None,
     if save_obj_pred_mle is not None:
         if m0_plot is None: m0_plot = save_obj_pred_mle['m0']
         tau0Htm, tau1, tau2 = save_obj_pred_mle['tau_vec'][0]
-        if t_slice > tau2-tau1: t_slice = tau2-tau1
+        if t_slice > tau2 - tau1: t_slice = tau2 - tau1
         N_t_mle, Nobs_t = get_marginal_Nt_pred(t=t_slice, save_obj_pred=save_obj_pred_mle,
-                                                                    m0_plot=m0_plot)
+                                               m0_plot=m0_plot)
         Ksim = save_obj_pred_mle['cumsum']['Ksim']
         if scale == 'log10':
             N_t_mle = np.log10(N_t_mle)
@@ -1176,7 +1176,8 @@ def plot_pred_hist_cumsum_Nt_at_t(t, save_obj_pred=None, save_obj_pred_mle=None,
         if m0_plot is None: m0_plot = save_obj_pred_mle_silverman['m0']
         tau0Htm, tau1, tau2 = save_obj_pred_mle_silverman['tau_vec'][0]
         if t_slice > tau2 - tau1: t_slice = tau2 - tau1
-        N_t_mle_silverman, Nobs_t = get_marginal_Nt_pred(t=t_slice,save_obj_pred=save_obj_pred_mle_silverman,m0_plot=m0_plot)
+        N_t_mle_silverman, Nobs_t = get_marginal_Nt_pred(t=t_slice, save_obj_pred=save_obj_pred_mle_silverman,
+                                                         m0_plot=m0_plot)
         Ksim = save_obj_pred_mle_silverman['cumsum']['Ksim']
         if scale == 'log10':
             N_t_mle_silverman = np.log10(N_t_mle_silverman)
@@ -1199,18 +1200,23 @@ def plot_pred_hist_cumsum_Nt_at_t(t, save_obj_pred=None, save_obj_pred_mle=None,
     plt.xlabel('# events')
     plt.ylabel('density')
     if scale == 'log10':
-        plt.text(0.9, 0.25, '$t^*$=%.1f days\n$log_{10} N_{obs}$=%.2f\n$m\geq$%.2f\n$\\tau_1$=%.1f.\n$K_{\\rm sim}$=%i' % (t_slice, Nobs_t, m0_plot,tau1,Ksim),
-                 transform=plt.gcf().transFigure, horizontalalignment='right')
+        #plt.xlim([plt.gca().get_xlim()[0], int(np.ceil(np.log10(Nobs_t)) + 1.)])
+        plt.text(0.925, 0.225,
+                 '$t^*$=%.1f days\n$log_{10} N_{obs}$=%.2f\n$m\geq$%.2f\n$\\tau_1$=%.1f.\n$K_{\\rm sim}$=%i' % (
+                 t_slice, Nobs_t, m0_plot, tau1, Ksim),
+                 transform=plt.gcf().transFigure, horizontalalignment='left')
     else:
-        plt.text(0.9, 0.25, '$t^*$=%.1f days\n$N_{obs}$=%i\n$m\geq$%.2f\n$\\tau_1$=%.1f' % (t_slice, Nobs_t, m0_plot,tau1),
-                 transform=plt.gcf().transFigure, horizontalalignment='right')
-    plt.legend()
+        plt.text(0.925, 0.225,
+                 '$t^*$=%.1f days\n$N_{obs}$=%i\n$m\geq$%.2f\n$\\tau_1$=%.1f.\n$K_{\\rm sim}$=%i' % (
+                     t_slice, Nobs_t, m0_plot, tau1, Ksim),
+                 transform=plt.gcf().transFigure, horizontalalignment='left')
+    plt.legend(bbox_to_anchor=(1.04, 1.),loc='upper left')
     plt.show()
     return hf
 
 
 def plot_pred_cumsum_Nt_path(save_obj_pred=None, m0_plot=None, save_obj_pred_mle=None,
-                        save_obj_pred_mle_silverman=None, scale='logy', which_events=None):
+                             save_obj_pred_mle_silverman=None, scale='logy', which_events=None):
     # plot definitions
     pSIZE = 20
     plt.rc('font', size=pSIZE)
@@ -1224,19 +1230,19 @@ def plot_pred_cumsum_Nt_path(save_obj_pred=None, m0_plot=None, save_obj_pred_mle
     if save_obj_pred is not None:
         t0Ht, tau1, tau2 = save_obj_pred['tau_vec'][0]
         cumsum = cumsum_events_pred(save_obj_pred, tau1, tau2, m0=m0_plot,
-                                                         which_events=which_events)
+                                    which_events=which_events)
         if m0_plot is None: m0_plot = save_obj_pred['m0']
         if m0_plot < save_obj_pred['m0']: m0_plot = save_obj_pred['m0']
     if save_obj_pred_mle is not None:
         t0Ht, tau1, tau2 = save_obj_pred_mle['tau_vec'][0]
         cumsum_mle = cumsum_events_pred(save_obj_pred_mle, tau1, tau2, m0=m0_plot,
-                                                             which_events=which_events)
+                                        which_events=which_events)
         if m0_plot is None: m0_plot = save_obj_pred_mle['m0']
         if m0_plot < save_obj_pred_mle['m0']: m0_plot = save_obj_pred_mle['m0']
     if save_obj_pred_mle_silverman is not None:
         t0Ht, tau1, tau2 = save_obj_pred_mle_silverman['tau_vec'][0]
         cumsum_mle_silverman = cumsum_events_pred(save_obj_pred_mle_silverman, tau1, tau2,
-                                                                       m0=m0_plot, which_events=which_events)
+                                                  m0=m0_plot, which_events=which_events)
         if m0_plot is None: m0_plot = save_obj_pred_mle_silverman['m0']
         if m0_plot < save_obj_pred_mle_silverman['m0']: m0_plot = save_obj_pred_mle_silverman['m0']
 
@@ -1252,7 +1258,7 @@ def plot_pred_cumsum_Nt_path(save_obj_pred=None, m0_plot=None, save_obj_pred_mle
         for i in range(cumsum['Ksim']):
             x = cumsum['x' + key_str][i]
             y = cumsum['y' + key_str][i]
-            plt.step(np.append(x, tau2 - tau1), np.append(y, y[-1]), '#333333', linewidth=0.1) # gray
+            plt.step(np.append(x, tau2 - tau1), np.append(y, y[-1]), '#333333', linewidth=0.1)  # gray
     if cumsum_mle is not None:
         x_obs = cumsum_mle['x_obs']
         y_obs = cumsum_mle['y_obs']
@@ -1260,7 +1266,7 @@ def plot_pred_cumsum_Nt_path(save_obj_pred=None, m0_plot=None, save_obj_pred_mle
         for i in range(cumsum_mle['Ksim']):
             x = cumsum_mle['x' + key_str][i]
             y = cumsum_mle['y' + key_str][i]
-            plt.step(np.append(x, tau2 - tau1), np.append(y, y[-1]), '#3776ab', linewidth=0.1) # some blue
+            plt.step(np.append(x, tau2 - tau1), np.append(y, y[-1]), '#3776ab', linewidth=0.1)  # some blue
     if cumsum_mle_silverman is not None:
         x_obs = cumsum_mle_silverman['x_obs']
         y_obs = cumsum_mle_silverman['y_obs']
@@ -1272,9 +1278,10 @@ def plot_pred_cumsum_Nt_path(save_obj_pred=None, m0_plot=None, save_obj_pred_mle
 
     print(tau1, tau2, m0_plot)
 
-    plt.step(np.append(x_obs, tau2 - tau1), np.append(y_obs, y_obs[-1]), 'm', linewidth=3, where='post',label='Obs.')
-    plt.text(0.15, 0.775, '$T^*=$[%.1f %.1f] days. $m\\geq$%.2f. $|T^*|$=%.1f days. $N_{\\rm obs}=$%i.\n$K_{\\rm sim}$=%i' % (
-    tau1, tau2, m0_plot, tau2 - tau1, max(y_obs),Ksim), transform=plt.gcf().transFigure)
+    plt.step(np.append(x_obs, tau2 - tau1), np.append(y_obs, y_obs[-1]), 'm', linewidth=3, where='post', label='Obs.')
+    plt.text(0.3, 0.775,
+             '$T^*=$[%.1f %.1f] days. $m\\geq$%.2f. $|T^*|$=%.1f days.\n$N_{\\rm obs}=$%i. $K_{\\rm sim}$=%i' % (
+                 tau1, tau2, m0_plot, tau2 - tau1, max(y_obs), Ksim), transform=plt.gcf().transFigure)
     plt.ylabel('counts')
     plt.xlabel('time, days')
     if scale == 'loglog':
@@ -1289,22 +1296,25 @@ def plot_pred_cumsum_Nt_path(save_obj_pred=None, m0_plot=None, save_obj_pred_mle
     if scale == 'logx':
         plt.xscale('log')
     plt.xlim([xlim, tau2 - tau1])
-    #ax = plt.gca()
-    #ax.set_rasterized(True)
+    # ax = plt.gca()
+    # ax.set_rasterized(True)
     plt.legend()
     plt.show()
     return hf
 
 
 ### summary of plots and tables
-def pred_summary(save_obj_pred=None, save_obj_pred_mle=None,save_obj_pred_mle_silverman=None, m0_plot=None):
+def pred_summary(save_obj_pred=None, save_obj_pred_mle=None, save_obj_pred_mle_silverman=None, m0_plot=None):
     init_outdir()
     if save_obj_pred is not None:
         case_name = save_obj_pred['data_obj'].case_name
+        t0Ht, tau1, tau2 = save_obj_pred_mle['tau_vec'][0]
     if save_obj_pred_mle is not None:
         case_name = save_obj_pred_mle['data_obj'].case_name
+        t0Ht, tau1, tau2 = save_obj_pred_mle['tau_vec'][0]
     if save_obj_pred_mle_silverman is not None:
         case_name = save_obj_pred_mle_silverman['data_obj'].case_name
+        t0Ht, tau1, tau2 = save_obj_pred_mle['tau_vec'][0]
 
     # FIG 01: sample path
     scales = ['linear','logy','logx','loglog']
@@ -1313,4 +1323,17 @@ def pred_summary(save_obj_pred=None, save_obj_pred_mle=None,save_obj_pred_mle_si
         hf = plot_pred_cumsum_Nt_path(save_obj_pred=save_obj_pred, m0_plot=m0_plot, save_obj_pred_mle=save_obj_pred_mle,
                         save_obj_pred_mle_silverman=save_obj_pred_mle_silverman, scale=scale, which_events=None)
         hf.savefig(output_dir_figures + '/F001_pred_%s_%0i_%s.pdf' %(case_name,i,scales[i]), bbox_inches='tight')
+
+    # FIG 02: Nt histograms at t
+    t_vec = np.linspace(0., tau2 - tau1, 5)
+    scales = ['linear', 'log10']
+    for j in np.arange(1, len(t_vec)):
+        t = t_vec[j]
+        print(t)
+        for i in range(len(scales)):
+            scale = scales[i]
+            hf = plot_pred_hist_cumsum_Nt_at_t(t=t, save_obj_pred=save_obj_pred, save_obj_pred_mle=save_obj_pred_mle,
+                                               save_obj_pred_mle_silverman=save_obj_pred_mle_silverman, m0_plot=m0_plot,
+                                               scale=scale)
+            hf.savefig(output_dir_figures + '/F002_pred_%s_%0i_%0i_%s.pdf' % (case_name, i, j, scales[i]), bbox_inches='tight')
     return
