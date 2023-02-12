@@ -1259,8 +1259,8 @@ def plot_pred_cumsum_Nt_path(save_obj_pred=None, m0_plot=None, save_obj_pred_mle
             y = cumsum_mle['y' + key_str][i]
             plt.step(np.append(x, tau2 - tau1), np.append(y, y[-1]), 'b', linewidth=0.1)
     if cumsum_mle_silverman is not None:
-        x_obs = cumsum['x_obs']
-        y_obs = cumsum['y_obs']
+        x_obs = cumsum_mle_silverman['x_obs']
+        y_obs = cumsum_mle_silverman['y_obs']
         for i in range(cumsum_mle_silverman['Ksim']):
             x = cumsum_mle_silverman['x' + key_str][i]
             y = cumsum_mle_silverman['y' + key_str][i]
