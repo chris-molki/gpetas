@@ -6,6 +6,7 @@ from gpetas.utils.some_fun import get_grid_data_for_a_point
 import os
 import pickle
 import datetime
+import matplotlib.pyplot as plt
 
 # some globals
 time_format = "%Y-%m-%d %H:%M:%S.%f"
@@ -599,8 +600,8 @@ class predictions_mle():
 
             # some postprocessing
             self.save_pred['cumsum'] = cumsum_events_pred(save_obj_pred=self.save_pred,
-                                                              tau1=self.tau1, tau2=self.tau2, m0=self.m0,
-                                                              which_events='all')
+                                                          tau1=self.tau1, tau2=self.tau2, m0=self.m0,
+                                                          which_events='all')
         return
 
 
@@ -826,7 +827,8 @@ class predictions_gpetas():
             self.save_pred['n_inf'].append(self.n_stability_inf)
             # some postprocessing
             self.save_pred['cumsum'] = cumsum_events_pred(save_obj_pred=self.save_pred,
-                                          tau1=self.tau1, tau2=self.tau2, m0=self.m0, which_events='all')
+                                                          tau1=self.tau1, tau2=self.tau2, m0=self.m0,
+                                                          which_events='all')
         return
 
     def NHPPsim(self, tau1, tau2, lambda_fun, fargs, max_lambda, dim=1):
@@ -953,8 +955,8 @@ def sample_long_range_decay_RL_pwl(N, x_center, y_center, m_center, q, D, gamma_
 def cumsum_events_pred(save_obj_pred, tau1, tau2, m0=None, which_events=None):
     """
     Extracts
-    :param save_obj_pred:
-    :type save_obj_pred: dictionary
+    :param save_obj_pred:contains the forecast/prediction
+    :type save_obj_pred:dict
     :param tau1:
     :type tau1: float
     :param tau2:
@@ -962,7 +964,7 @@ def cumsum_events_pred(save_obj_pred, tau1, tau2, m0=None, which_events=None):
     :param m0:
     :type m0:float
     :param which_events:
-    :type which_events:any
+    :type which_events:string
     :return:
     :rtype:dictionary
     """
@@ -1014,7 +1016,7 @@ def cumsum_events_pred(save_obj_pred, tau1, tau2, m0=None, which_events=None):
         out['y'].append(y)
         out['x'].append(x)
 
-    if which_events is not None:
+    if which_events == 'bg':
         pred_data = []
         # bg only
         for i in range(Ksim):
@@ -1032,6 +1034,7 @@ def cumsum_events_pred(save_obj_pred, tau1, tau2, m0=None, which_events=None):
             out['y_bg'].append(y)
             out['x_bg'].append(x)
 
+    if which_events == 'off':
         pred_data = []
         # offspring (from bg) only
         for i in range(Ksim):
@@ -1049,7 +1052,7 @@ def cumsum_events_pred(save_obj_pred, tau1, tau2, m0=None, which_events=None):
             out['y_off'].append(y)
             out['x_off'].append(x)
 
-    if which_events == 2:
+    if which_events == 'bg_off':
         pred_data = []
         # bg + offspring
         for i in range(Ksim):
@@ -1066,6 +1069,7 @@ def cumsum_events_pred(save_obj_pred, tau1, tau2, m0=None, which_events=None):
             out['y_bg_off'].append(y)
             out['x_bg_off'].append(x)
 
+    if which_events == 'Htoff':
         pred_data = []
         # Htoff only
         for i in range(Ksim):
@@ -1082,17 +1086,205 @@ def cumsum_events_pred(save_obj_pred, tau1, tau2, m0=None, which_events=None):
             out['y_Htoff'].append(y)
             out['x_Htoff'].append(x)
 
-    out['m0']=m0
+    out['m0'] = m0
 
     return out
 
-def pred_marginal_N_in_time(t=None,save_obj_pred=None,m0_plot=None,which_events=None):
-    cumsum = cumsum_events_pred(save_obj_pred, tau1, tau2, m0=m0_plot, which_events=which_events)
+
+def get_marginal_Nt_pred(t=None, save_obj_pred=None, m0_plot=None, which_events=None):
+    """
+    Extracts cummulative number of events at time t with m>=m0_plot
+    :param t:time in days from the start point t=0 of the forecast
+    :type t:float
+    :param save_obj_pred:contains the forecast/prediction
+    :type save_obj_pred:dict
+    :param m0_plot:lower bound of m
+    :type m0_plot:float
+    :param which_events: determines which events, 'bg','off','bg_off','Htoff'
+    :type which_events: str
+    :return:N_t,Nobs_t
+    :rtype:int,int
+    """
+    t0Ht,tau1,tau2 = save_obj_pred['tau_vec'][0]
+    if m0_plot is None:
+        m0_plot = save_obj_pred['m0']
+    cumsum = cumsum_events_pred(save_obj_pred, tau1=tau1, tau2=tau1+t, m0=m0_plot, which_events=which_events)
     if m0_plot is None: m0_plot = save_obj_pred['m0']
     if m0_plot < save_obj_pred['m0']: m0_plot = save_obj_pred['m0']
     Ksim = cumsum['Ksim']
     N_t = np.zeros(Ksim)
     for i in range(cumsum['Ksim']):
-        N_t[i]=cumsum['y'][i][cumsum['x'][i]<=t][-1]
-    Nobs_t=cumsum['y_obs'][cumsum['x_obs']<=t][-1]
-    return N_t,Nobs_t
+        if which_events is None:
+            N_t[i] = cumsum['y'][i][cumsum['x'][i] <= t][-1]
+        else:
+            if len(which_events) == 0:
+                N_t[i] = cumsum['y'][i][cumsum['x'][i] <= t][-1]
+            else:
+                N_t[i] = cumsum['y_' + which_events][i][cumsum['x_' + which_events][i] <= t][-1]
+    Nobs_t = cumsum['y_obs'][cumsum['x_obs'] <= t][-1]
+    return N_t, Nobs_t
+
+
+
+# fast plotting routines
+
+def plot_pred_hist_cumsum_Nt_at_t(t, save_obj_pred=None, save_obj_pred_mle=None,save_obj_pred_mle_silverman=None, m0_plot=None, scale='linear'):
+    """
+    Plots a histogram of the forecasted number of events of a region (integrated over space).
+    :param t:time of the histogram
+    :type t:float
+    :param save_obj_pred:
+    :type save_obj_pred:
+    :param save_obj_pred_mle:
+    :type save_obj_pred_mle:
+    :param save_obj_pred_mle_silverman:
+    :type save_obj_pred_mle_silverman:
+    :param m0_plot:
+    :type m0_plot:float
+    :param scale: either 'linear' or 'log10'
+    :type scale: str
+    :return: hf
+    :rtype: figure handle
+    """
+    # plot definitions
+    pSIZE = 20
+    plt.rc('font', size=pSIZE)
+    plt.rc('axes', titlesize=pSIZE)
+
+    # input
+    t_slice = t  # in days
+    if save_obj_pred is not None:
+        if m0_plot is None: m0_plot = save_obj_pred['m0']
+        tau0Htm, tau1, tau2 = save_obj_pred['tau_vec'][0]
+        if t_slice > tau2-tau1: t_slice = tau2-tau1
+        N_t, Nobs_t = get_marginal_Nt_pred(t=t_slice, save_obj_pred=save_obj_pred, m0_plot=m0_plot)
+        Ksim = save_obj_pred['cumsum']['Ksim']
+        if scale == 'log10':
+            N_t = np.log10(N_t)
+            Nobs_t = np.log10(Nobs_t)
+    if save_obj_pred_mle is not None:
+        if m0_plot is None: m0_plot = save_obj_pred_mle['m0']
+        tau0Htm, tau1, tau2 = save_obj_pred_mle['tau_vec'][0]
+        if t_slice > tau2-tau1: t_slice = tau2-tau1
+        N_t_mle, Nobs_t = get_marginal_Nt_pred(t=t_slice, save_obj_pred=save_obj_pred_mle,
+                                                                    m0_plot=m0_plot)
+        Ksim = save_obj_pred_mle['cumsum']['Ksim']
+        if scale == 'log10':
+            N_t_mle = np.log10(N_t_mle)
+            Nobs_t = np.log10(Nobs_t)
+    if save_obj_pred_mle_silverman is not None:
+        if m0_plot is None: m0_plot = save_obj_pred_mle_silverman['m0']
+        tau0Htm, tau1, tau2 = save_obj_pred_mle_silverman['tau_vec'][0]
+        if t_slice > tau2 - tau1: t_slice = tau2 - tau1
+        N_t_mle_silverman, Nobs_t = get_marginal_Nt_pred(t=t_slice,save_obj_pred=save_obj_pred_mle_silverman,m0_plot=m0_plot)
+        Ksim = save_obj_pred_mle_silverman['cumsum']['Ksim']
+        if scale == 'log10':
+            N_t_mle_silverman = np.log10(N_t_mle_silverman)
+            Nobs_t = np.log10(Nobs_t)
+
+    # histograms
+    bins = None
+    hf = plt.figure()
+    if save_obj_pred is not None:
+        if bins is None and save_obj_pred is not None:
+            bins = np.histogram(np.hstack((N_t, N_t_mle)), bins=int(np.sqrt(Ksim)))[1]  # get the bin edges
+        plt.hist(N_t, bins=bins, density=True, facecolor='k', alpha=0.5, label='GP-E')
+    if save_obj_pred_mle is not None:
+        plt.hist(N_t_mle, bins=bins, density=True, facecolor='b', alpha=0.5, label='E')
+        if bins is None and save_obj_pred is not None:
+            bins = np.histogram(np.hstack((N_t, N_t_mle)), bins=int(np.sqrt(Ksim)))[1]  # get the bin edges
+    if save_obj_pred_mle_silverman is not None:
+        plt.hist(N_t_mle_silverman, bins=bins, density=True, facecolor='g', alpha=0.5, label='E-S')
+    plt.axvline(x=Nobs_t, color='r')
+    plt.xlabel('# events')
+    plt.ylabel('density')
+    if scale == 'log10':
+        plt.text(0.9, 0.25, '$t^*$=%.1f days\n$log_{10} N_{obs}$=%.2f\n$m\geq$%.2f\n$\\tau_1$=%.1f' % (t_slice, Nobs_t, m0_plot,tau1),
+                 transform=plt.gcf().transFigure, horizontalalignment='right')
+    else:
+        plt.text(0.9, 0.25, '$t^*$=%.1f days\n$N_{obs}$=%i\n$m\geq$%.2f\n$\\tau_1$=%.1f' % (t_slice, Nobs_t, m0_plot,tau1),
+                 transform=plt.gcf().transFigure, horizontalalignment='right')
+    plt.legend()
+    plt.show()
+    return hf
+
+
+def plot_pred_cumsum_Nt_path(save_obj_pred=None, m0_plot=None, save_obj_pred_mle=None,
+                        save_obj_pred_mle_silverman=None, scale='logy', which_events=None):
+    # plot definitions
+    pSIZE = 20
+    plt.rc('font', size=pSIZE)
+    plt.rc('axes', titlesize=pSIZE)
+
+    # input
+    cumsum = None
+    cumsum_mle = None
+    cumsum_mle_silverman = None
+    if save_obj_pred is not None:
+        t0Ht, tau1, tau2 = save_obj_pred['tau_vec'][0]
+        cumsum = cumsum_events_pred(save_obj_pred, tau1, tau2, m0=m0_plot,
+                                                         which_events=which_events)
+        if m0_plot is None: m0_plot = save_obj_pred['m0']
+        if m0_plot < save_obj_pred['m0']: m0_plot = save_obj_pred['m0']
+    if save_obj_pred_mle is not None:
+        t0Ht, tau1, tau2 = save_obj_pred_mle['tau_vec'][0]
+        cumsum_mle = cumsum_events_pred(save_obj_pred_mle, tau1, tau2, m0=m0_plot,
+                                                             which_events=which_events)
+        if m0_plot is None: m0_plot = save_obj_pred_mle['m0']
+        if m0_plot < save_obj_pred_mle['m0']: m0_plot = save_obj_pred_mle['m0']
+    if save_obj_pred_mle_silverman is not None:
+        t0Ht, tau1, tau2 = save_obj_pred_mle_silverman['tau_vec'][0]
+        cumsum_mle_silverman = cumsum_events_pred(save_obj_pred_mle_silverman, tau1, tau2,
+                                                                       m0=m0_plot, which_events=which_events)
+        if m0_plot is None: m0_plot = save_obj_pred_mle_silverman['m0']
+        if m0_plot < save_obj_pred_mle_silverman['m0']: m0_plot = save_obj_pred_mle_silverman['m0']
+
+    if which_events is None: which_events = ''
+    if len(which_events) == 0: key_str = ''
+    if len(which_events) > 0: key_str = '_' + which_events
+
+    hf = plt.figure(figsize=(14, 7))
+    if cumsum is not None:
+        x_obs = cumsum['x_obs']
+        y_obs = cumsum['y_obs']
+        for i in range(cumsum['Ksim']):
+            x = cumsum['x' + key_str][i]
+            y = cumsum['y' + key_str][i]
+            plt.step(np.append(x, tau2 - tau1), np.append(y, y[-1]), 'k', linewidth=0.1)
+    if cumsum_mle is not None:
+        x_obs = cumsum_mle['x_obs']
+        y_obs = cumsum_mle['y_obs']
+        for i in range(cumsum_mle['Ksim']):
+            x = cumsum_mle['x' + key_str][i]
+            y = cumsum_mle['y' + key_str][i]
+            plt.step(np.append(x, tau2 - tau1), np.append(y, y[-1]), 'b', linewidth=0.1)
+    if cumsum_mle_silverman is not None:
+        x_obs = cumsum['x_obs']
+        y_obs = cumsum['y_obs']
+        for i in range(cumsum_mle_silverman['Ksim']):
+            x = cumsum_mle_silverman['x' + key_str][i]
+            y = cumsum_mle_silverman['y' + key_str][i]
+            plt.step(np.append(x, tau2 - tau1), np.append(y, y[-1]), 'g', linewidth=0.1, alpha=0.9)
+
+    print(tau1, tau2, m0_plot)
+
+    plt.step(np.append(x_obs, tau2 - tau1), np.append(y_obs, y_obs[-1]), 'm', linewidth=3, where='post')
+    plt.text(0.15, 0.825, '$T^*=$[%.1f %.1f] days. $m\\geq$%.2f. $|T^*|$=%.1f days. $N_{\\rm obs}=$%i' % (
+    tau1, tau2, m0_plot, tau2 - tau1, max(y_obs)), transform=plt.gcf().transFigure)
+    plt.ylabel('counts')
+    plt.xlabel('time, days')
+    if scale == 'loglog':
+        plt.yscale('log')
+        plt.xscale('log')
+        ylim = plt.gca().get_ylim()
+        plt.gca().set_ylim([0.9, ylim[1]])
+    if scale == 'logy':
+        plt.yscale('log')
+        ylim = plt.gca().get_ylim()
+        plt.gca().set_ylim([0.9, ylim[1]])
+    if scale == 'logx':
+        plt.xscale('log')
+    plt.xlim([np.min(np.array(save_obj_pred['theta_Kcpadgq_k'])[:, 1]), tau2 - tau1])
+    plt.show()
+    return hf
+
