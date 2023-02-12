@@ -1272,7 +1272,7 @@ def plot_pred_cumsum_Nt_path(save_obj_pred=None, m0_plot=None, save_obj_pred_mle
 
     print(tau1, tau2, m0_plot)
 
-    plt.step(np.append(x_obs, tau2 - tau1), np.append(y_obs, y_obs[-1]), 'm', linewidth=3, where='post')
+    plt.step(np.append(x_obs, tau2 - tau1), np.append(y_obs, y_obs[-1]), 'm', linewidth=3, where='post',label='Obs.')
     plt.text(0.15, 0.775, '$T^*=$[%.1f %.1f] days. $m\\geq$%.2f. $|T^*|$=%.1f days. $N_{\\rm obs}=$%i.\n$K_{\\rm sim}$=%i' % (
     tau1, tau2, m0_plot, tau2 - tau1, max(y_obs),Ksim), transform=plt.gcf().transFigure)
     plt.ylabel('counts')
@@ -1291,6 +1291,7 @@ def plot_pred_cumsum_Nt_path(save_obj_pred=None, m0_plot=None, save_obj_pred_mle
     plt.xlim([xlim, tau2 - tau1])
     #ax = plt.gca()
     #ax.set_rasterized(True)
+    plt.legend()
     plt.show()
     return hf
 
