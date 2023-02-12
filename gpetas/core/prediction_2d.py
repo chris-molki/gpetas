@@ -1199,7 +1199,7 @@ def plot_pred_hist_cumsum_Nt_at_t(t, save_obj_pred=None, save_obj_pred_mle=None,
     plt.xlabel('# events')
     plt.ylabel('density')
     if scale == 'log10':
-        plt.text(0.9, 0.25, '$t^*$=%.1f days\n$log_{10} N_{obs}$=%.2f\n$m\geq$%.2f\n$\\tau_1$=%.1f' % (t_slice, Nobs_t, m0_plot,tau1),
+        plt.text(0.9, 0.25, '$t^*$=%.1f days\n$log_{10} N_{obs}$=%.2f\n$m\geq$%.2f\n$\\tau_1$=%.1f.\n$K_{\\rm sim}$=%i' % (t_slice, Nobs_t, m0_plot,tau1,Ksim),
                  transform=plt.gcf().transFigure, horizontalalignment='right')
     else:
         plt.text(0.9, 0.25, '$t^*$=%.1f days\n$N_{obs}$=%i\n$m\geq$%.2f\n$\\tau_1$=%.1f' % (t_slice, Nobs_t, m0_plot,tau1),
@@ -1292,3 +1292,9 @@ def plot_pred_cumsum_Nt_path(save_obj_pred=None, m0_plot=None, save_obj_pred_mle
     plt.show()
     return hf
 
+
+### summary of plots and tables
+def pred_summary(save_obj_pred=None, save_obj_pred_mle=None,save_obj_pred_mle_silverman=None, m0_plot=None):
+    init_outdir()
+
+    return
