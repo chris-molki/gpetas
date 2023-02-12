@@ -1200,7 +1200,6 @@ def plot_pred_hist_cumsum_Nt_at_t(t, save_obj_pred=None, save_obj_pred_mle=None,
     plt.xlabel('# events')
     plt.ylabel('density')
     if scale == 'log10':
-        #plt.xlim([plt.gca().get_xlim()[0], int(np.ceil(np.log10(Nobs_t)) + 1.)])
         plt.text(0.925, 0.225,
                  '$t^*$=%.1f days\n$log_{10} N_{obs}$=%.2f\n$m\geq$%.2f\n$\\tau_1$=%.1f.\n$K_{\\rm sim}$=%i' % (
                  t_slice, Nobs_t, m0_plot, tau1, Ksim),
@@ -1308,13 +1307,16 @@ def pred_summary(save_obj_pred=None, save_obj_pred_mle=None, save_obj_pred_mle_s
     init_outdir()
     if save_obj_pred is not None:
         case_name = save_obj_pred['data_obj'].case_name
-        t0Ht, tau1, tau2 = save_obj_pred_mle['tau_vec'][0]
+        t0Ht, tau1, tau2 = save_obj_pred['tau_vec'][0]
+        if m0_plot is None: m0_plot=save_obj_pred['m0']
     if save_obj_pred_mle is not None:
         case_name = save_obj_pred_mle['data_obj'].case_name
         t0Ht, tau1, tau2 = save_obj_pred_mle['tau_vec'][0]
+        if m0_plot is None: m0_plot = save_obj_pred_mle['m0']
     if save_obj_pred_mle_silverman is not None:
         case_name = save_obj_pred_mle_silverman['data_obj'].case_name
-        t0Ht, tau1, tau2 = save_obj_pred_mle['tau_vec'][0]
+        t0Ht, tau1, tau2 = save_obj_pred_mle_silverman['tau_vec'][0]
+        if m0_plot is None: m0_plot = save_obj_pred_mle_silverman['m0']
 
     # FIG 01: sample path
     scales = ['linear','logy','logx','loglog']
@@ -1335,5 +1337,5 @@ def pred_summary(save_obj_pred=None, save_obj_pred_mle=None, save_obj_pred_mle_s
             hf = plot_pred_hist_cumsum_Nt_at_t(t=t, save_obj_pred=save_obj_pred, save_obj_pred_mle=save_obj_pred_mle,
                                                save_obj_pred_mle_silverman=save_obj_pred_mle_silverman, m0_plot=m0_plot,
                                                scale=scale)
-            hf.savefig(output_dir_figures + '/F002_pred_%s_%0i_%0i_%s.pdf' % (case_name, i, j, scales[i]), bbox_inches='tight')
+            hf.savefig(output_dir_figures + '/F002_pred_%s_%0i_%0i_%s_m%i.pdf' % (case_name, i, j, scales[i],int(m0_plot*10)), bbox_inches='tight')
     return
