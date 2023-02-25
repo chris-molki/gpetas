@@ -1128,7 +1128,7 @@ def get_marginal_Nt_pred(t=None, save_obj_pred=None, m0_plot=None, which_events=
 # fast plotting routines
 
 def plot_pred_hist_cumsum_Nt_at_t(t, save_obj_pred=None, save_obj_pred_mle=None, save_obj_pred_mle_silverman=None,
-                                  m0_plot=None, scale='linear'):
+                                  m0_plot=None, scale=None, xlim=None):
     """
     Plots a histogram of the forecasted number of events of a region (integrated over space).
     :param t:time of the histogram
@@ -1150,28 +1150,44 @@ def plot_pred_hist_cumsum_Nt_at_t(t, save_obj_pred=None, save_obj_pred_mle=None,
     pSIZE = 20
     plt.rc('font', size=pSIZE)
     plt.rc('axes', titlesize=pSIZE)
+    if scale is None:
+        scale = 'linear'
 
     # input
     t_slice = t  # in days
+    N_t = None
+    Nobs_t = None
     if save_obj_pred is not None:
-        if m0_plot is None: m0_plot = save_obj_pred['m0']
+        if m0_plot is None:
+            m0_plot = save_obj_pred['m0']
+        if m0_plot < save_obj_pred['m0']:
+            m0_plot = save_obj_pred['m0']
+            print('Warning: lowest predicted magnitde is:',save_obj_pred['m0'])
         tau0Htm, tau1, tau2 = save_obj_pred['tau_vec'][0]
-        if t_slice > tau2 - tau1: t_slice = tau2 - tau1
+        if t_slice > tau2 - tau1:
+            t_slice = tau2 - tau1
         N_t, Nobs_t = get_marginal_Nt_pred(t=t_slice, save_obj_pred=save_obj_pred, m0_plot=m0_plot)
         Ksim = save_obj_pred['cumsum']['Ksim']
         if scale == 'log10':
             N_t = np.log10(N_t)
             Nobs_t = np.log10(Nobs_t)
+    N_t_mle = None
     if save_obj_pred_mle is not None:
-        if m0_plot is None: m0_plot = save_obj_pred_mle['m0']
+        if m0_plot is None:
+            m0_plot = save_obj_pred_mle['m0']
+        if m0_plot < save_obj_pred_mle['m0']:
+            m0_plot = save_obj_pred_mle['m0']
+            print('Warning: lowest predicted magnitde is:', save_obj_pred_mle['m0'])
         tau0Htm, tau1, tau2 = save_obj_pred_mle['tau_vec'][0]
-        if t_slice > tau2 - tau1: t_slice = tau2 - tau1
+        if t_slice > tau2 - tau1:
+            t_slice = tau2 - tau1
         N_t_mle, Nobs_t = get_marginal_Nt_pred(t=t_slice, save_obj_pred=save_obj_pred_mle,
                                                m0_plot=m0_plot)
         Ksim = save_obj_pred_mle['cumsum']['Ksim']
         if scale == 'log10':
             N_t_mle = np.log10(N_t_mle)
             Nobs_t = np.log10(Nobs_t)
+    N_t_mle_silverman = None
     if save_obj_pred_mle_silverman is not None:
         if m0_plot is None: m0_plot = save_obj_pred_mle_silverman['m0']
         tau0Htm, tau1, tau2 = save_obj_pred_mle_silverman['tau_vec'][0]
@@ -1185,15 +1201,27 @@ def plot_pred_hist_cumsum_Nt_at_t(t, save_obj_pred=None, save_obj_pred_mle=None,
 
     # histograms
     bins = None
+    if scale == 'linear':
+        if N_t is None and N_t_mle is not None and N_t_mle_silverman is not None:
+            bins = np.histogram(np.hstack((N_t_mle,N_t_mle_silverman)), bins=int(np.sqrt(Ksim)))[1]  # get the bin edges
+        if N_t is None and N_t_mle is not None and N_t_mle_silverman is None:
+            bins = np.histogram(N_t_mle, bins=int(np.sqrt(Ksim)))[1]  # get the bin edges
+        if N_t is None and N_t_mle is None and N_t_mle_silverman is not None:
+            bins = np.histogram(N_t_mle_silverman, bins=int(np.sqrt(Ksim)))[1]  # get the bin edges
+        if N_t is not None and N_t_mle is not None and N_t_mle_silverman is None:
+            bins = np.histogram(np.hstack((N_t, N_t_mle)), bins=int(np.sqrt(Ksim)))[1]  # get the bin edges
+        if N_t is not None and N_t_mle is None and N_t_mle_silverman is not None:
+            bins = np.histogram(np.hstack((N_t, N_t_mle_silverman)), bins=int(np.sqrt(Ksim)))[1]  # get the bin edges
+        if N_t is not None and N_t_mle is not None and N_t_mle_silverman is not None:
+            bins = np.histogram(np.hstack((N_t, N_t_mle,N_t_mle_silverman)), bins=int(np.sqrt(Ksim)))[1]  # get the bin edges
+        if N_t is not None and N_t_mle is None and N_t_mle_silverman is None:
+            bins = np.histogram(N_t, bins=int(np.sqrt(Ksim)))[1]  # get the bin edges
+            print(bins)
     hf = plt.figure()
     if save_obj_pred is not None:
-        if bins is None and save_obj_pred is not None:
-            bins = np.histogram(np.hstack((N_t, N_t_mle)), bins=int(np.sqrt(Ksim)))[1]  # get the bin edges
         plt.hist(N_t, bins=bins, density=True, facecolor='k', alpha=0.5, label='GP-E')
     if save_obj_pred_mle is not None:
         plt.hist(N_t_mle, bins=bins, density=True, facecolor='b', alpha=0.5, label='E')
-        if bins is None and save_obj_pred is not None:
-            bins = np.histogram(np.hstack((N_t, N_t_mle)), bins=int(np.sqrt(Ksim)))[1]  # get the bin edges
     if save_obj_pred_mle_silverman is not None:
         plt.hist(N_t_mle_silverman, bins=bins, density=True, facecolor='g', alpha=0.5, label='E-S')
     plt.axvline(x=Nobs_t, color='r')
@@ -1202,15 +1230,21 @@ def plot_pred_hist_cumsum_Nt_at_t(t, save_obj_pred=None, save_obj_pred_mle=None,
     if scale == 'log10':
         plt.text(0.925, 0.225,
                  '$t^*$=%.1f days\n$log_{10} N_{obs}$=%.2f\n$m\geq$%.2f\n$\\tau_1$=%.1f.\n$K_{\\rm sim}$=%i' % (
-                 t_slice, Nobs_t, m0_plot, tau1, Ksim),
+                     t_slice, Nobs_t, m0_plot, tau1, Ksim),
                  transform=plt.gcf().transFigure, horizontalalignment='left')
+        if xlim is not None:
+            if xlim[0]<=0:
+                xlim[0]=1e-04
+            plt.gca().set_xlim(np.log10(xlim))
     else:
         plt.text(0.925, 0.225,
                  '$t^*$=%.1f days\n$N_{obs}$=%i\n$m\geq$%.2f\n$\\tau_1$=%.1f.\n$K_{\\rm sim}$=%i' % (
                      t_slice, Nobs_t, m0_plot, tau1, Ksim),
                  transform=plt.gcf().transFigure, horizontalalignment='left')
-    plt.legend(bbox_to_anchor=(1.04, 1.),loc='upper left')
-    plt.show()
+        if xlim is not None:
+            plt.gca().set_xlim(xlim)
+    plt.legend(bbox_to_anchor=(1.04, 1.), loc='upper left')
+    #plt.show()
     return hf
 
 
@@ -1298,7 +1332,7 @@ def plot_pred_cumsum_Nt_path(save_obj_pred=None, m0_plot=None, save_obj_pred_mle
     # ax = plt.gca()
     # ax.set_rasterized(True)
     plt.legend()
-    plt.show()
+    #plt.show()
     return hf
 
 
@@ -1308,7 +1342,7 @@ def pred_summary(save_obj_pred=None, save_obj_pred_mle=None, save_obj_pred_mle_s
     if save_obj_pred is not None:
         case_name = save_obj_pred['data_obj'].case_name
         t0Ht, tau1, tau2 = save_obj_pred['tau_vec'][0]
-        if m0_plot is None: m0_plot=save_obj_pred['m0']
+        if m0_plot is None: m0_plot = save_obj_pred['m0']
     if save_obj_pred_mle is not None:
         case_name = save_obj_pred_mle['data_obj'].case_name
         t0Ht, tau1, tau2 = save_obj_pred_mle['tau_vec'][0]
@@ -1319,23 +1353,25 @@ def pred_summary(save_obj_pred=None, save_obj_pred_mle=None, save_obj_pred_mle_s
         if m0_plot is None: m0_plot = save_obj_pred_mle_silverman['m0']
 
     # FIG 01: sample path
-    scales = ['linear','logy','logx','loglog']
+    scales = ['linear', 'logy', 'logx', 'loglog']
     for i in range(len(scales)):
         scale = scales[i]
         hf = plot_pred_cumsum_Nt_path(save_obj_pred=save_obj_pred, m0_plot=m0_plot, save_obj_pred_mle=save_obj_pred_mle,
-                        save_obj_pred_mle_silverman=save_obj_pred_mle_silverman, scale=scale, which_events=None)
-        hf.savefig(output_dir_figures + '/F001_pred_%s_%0i_%s.pdf' %(case_name,i,scales[i]), bbox_inches='tight')
+                                      save_obj_pred_mle_silverman=save_obj_pred_mle_silverman, scale=scale,
+                                      which_events=None)
+        hf.savefig(output_dir_figures + '/F001_pred_%s_%0i_%s.pdf' % (case_name, i, scales[i]), bbox_inches='tight')
 
     # FIG 02: Nt histograms at t
     t_vec = np.linspace(0., tau2 - tau1, 5)
     scales = ['linear', 'log10']
     for j in np.arange(1, len(t_vec)):
-        t = t_vec[j]
+        t = t_vec[-j]
         print(t)
         for i in range(len(scales)):
             scale = scales[i]
             hf = plot_pred_hist_cumsum_Nt_at_t(t=t, save_obj_pred=save_obj_pred, save_obj_pred_mle=save_obj_pred_mle,
                                                save_obj_pred_mle_silverman=save_obj_pred_mle_silverman, m0_plot=m0_plot,
                                                scale=scale)
-            hf.savefig(output_dir_figures + '/F002_pred_%s_%0i_%0i_%s_m%i.pdf' % (case_name, i, j, scales[i],int(m0_plot*10)), bbox_inches='tight')
+            hf.savefig(output_dir_figures + '/F002_pred_%s_%0i_%0i_%s_m%i.pdf' % (
+                case_name, i, j, scales[i], int(m0_plot * 10)), bbox_inches='tight')
     return
