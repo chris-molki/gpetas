@@ -1189,7 +1189,11 @@ def plot_pred_hist_cumsum_Nt_at_t(t, save_obj_pred=None, save_obj_pred_mle=None,
             Nobs_t = np.log10(Nobs_t)
     N_t_mle_silverman = None
     if save_obj_pred_mle_silverman is not None:
-        if m0_plot is None: m0_plot = save_obj_pred_mle_silverman['m0']
+        if m0_plot is None:
+            m0_plot = save_obj_pred_mle_silverman['m0']
+        if m0_plot < save_obj_pred_mle_silverman['m0']:
+            m0_plot = save_obj_pred_mle_silverman['m0']
+            print('Warning: lowest predicted magnitde is:',save_obj_pred_mle_silverman['m0'])
         tau0Htm, tau1, tau2 = save_obj_pred_mle_silverman['tau_vec'][0]
         if t_slice > tau2 - tau1: t_slice = tau2 - tau1
         N_t_mle_silverman, Nobs_t = get_marginal_Nt_pred(t=t_slice, save_obj_pred=save_obj_pred_mle_silverman,
@@ -1216,7 +1220,23 @@ def plot_pred_hist_cumsum_Nt_at_t(t, save_obj_pred=None, save_obj_pred_mle=None,
             bins = np.histogram(np.hstack((N_t, N_t_mle,N_t_mle_silverman)), bins=int(np.sqrt(Ksim)))[1]  # get the bin edges
         if N_t is not None and N_t_mle is None and N_t_mle_silverman is None:
             bins = np.histogram(N_t, bins=int(np.sqrt(Ksim)))[1]  # get the bin edges
-            print(bins)
+    if scale == 'log10':
+        if N_t is None and N_t_mle is not None and N_t_mle_silverman is not None:
+            bins = np.histogram(np.hstack((np.log10(N_t_mle),np.log10(N_t_mle_silverman))), bins=int(np.sqrt(Ksim)))[1]  # get the bin edges
+        if N_t is None and N_t_mle is not None and N_t_mle_silverman is None:
+            bins = np.histogram(N_t_mle, bins=int(np.sqrt(Ksim)))[1]  # get the bin edges
+        if N_t is None and N_t_mle is None and N_t_mle_silverman is not None:
+            bins = np.histogram(N_t_mle_silverman, bins=int(np.sqrt(Ksim)))[1]  # get the bin edges
+        if N_t is not None and N_t_mle is not None and N_t_mle_silverman is None:
+            bins = np.histogram(np.hstack((N_t, N_t_mle)), bins=int(np.sqrt(Ksim)))[1]  # get the bin edges
+        if N_t is not None and N_t_mle is None and N_t_mle_silverman is not None:
+            bins = np.histogram(np.hstack((N_t, N_t_mle_silverman)), bins=int(np.sqrt(Ksim)))[1]  # get the bin edges
+        if N_t is not None and N_t_mle is not None and N_t_mle_silverman is not None:
+            bins = np.histogram(np.hstack((N_t, N_t_mle,N_t_mle_silverman)), bins=int(np.sqrt(Ksim)))[1]  # get the bin edges
+        if N_t is not None and N_t_mle is None and N_t_mle_silverman is None:
+            bins = np.histogram(N_t, bins=int(np.sqrt(Ksim)))[1]  # get the bin edges
+
+    print(Ksim)
     hf = plt.figure()
     if save_obj_pred is not None:
         plt.hist(N_t, bins=bins, density=True, facecolor='k', alpha=0.5, label='GP-E')
@@ -1234,7 +1254,7 @@ def plot_pred_hist_cumsum_Nt_at_t(t, save_obj_pred=None, save_obj_pred_mle=None,
                  transform=plt.gcf().transFigure, horizontalalignment='left')
         if xlim is not None:
             if xlim[0]<=0:
-                xlim[0]=1e-04
+                xlim[0]=1
             plt.gca().set_xlim(np.log10(xlim))
     else:
         plt.text(0.925, 0.225,
