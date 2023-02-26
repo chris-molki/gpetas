@@ -1522,7 +1522,7 @@ def plot_pred_quantile(t, save_obj_pred=None, save_obj_pred_mle=None, save_obj_p
 
     hf = plt.figure()
     if Nobs_t is not None:
-        plt.axhline(y=Nobs_t, color='m', linestyle='--', label='$N_{obs}$')
+        plt.axhline(y=Nobs_t, color='m', linestyle='--', label='$N_{obs}$=%i' %Nobs_t)
     if N_t is not None and N_t_mle is None and N_t_mle_silverman is None:
         plt.plot(1, np.median(N_t), 'ko', markersize=ms)
         plt.plot([1, 1], [np.quantile(a=N_t, q=quantile), np.quantile(a=N_t, q=1 - quantile)], '-k')
