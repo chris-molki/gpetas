@@ -1522,7 +1522,11 @@ def plot_pred_quantile(t, save_obj_pred=None, save_obj_pred_mle=None, save_obj_p
 
     hf = plt.figure()
     if Nobs_t is not None:
-        plt.axhline(y=Nobs_t, color='m', linestyle='--', label='$N_{obs}$=%i' %Nobs_t)
+        if scale == 'log10':
+            plt.axhline(y=Nobs_t, color='m', linestyle='--', label='$\\log10 N_{obs}$=%.2f' % Nobs_t)
+        else:
+            plt.axhline(y=Nobs_t, color='m', linestyle='--', label='$N_{obs}$=%i' %Nobs_t)
+
     if N_t is not None and N_t_mle is None and N_t_mle_silverman is None:
         plt.plot(1, np.median(N_t), 'ko', markersize=ms)
         plt.plot([1, 1], [np.quantile(a=N_t, q=quantile), np.quantile(a=N_t, q=1 - quantile)], '-k')
@@ -1557,7 +1561,122 @@ def plot_pred_quantile(t, save_obj_pred=None, save_obj_pred_mle=None, save_obj_p
         plt.ylabel('$log_{10}$ number of events')
     if scale == 'linear':
         plt.ylabel('number of events')
-    plt.legend()
+    plt.legend(fontsize=12)
     plt.title('$\\tau_2$=%.1f days. q=%.3f' % (t_slice, quantile))
+
+    return hf
+
+
+def plot_pred_histkernel_Nt_at_t(t, save_obj_pred=None,
+                                 save_obj_pred_mle=None,
+                                 save_obj_pred_mle_silverman=None,
+                                 m0_plot=None,
+                                 scale=None,
+                                 xlim=None,
+                                 bw_method='silverman',
+                                 nbins=None,
+                                 hist='yes'):
+    if scale is None:
+        scale = 'linear'
+    t_slice = t
+
+    N_t = None
+    Nobs_t = None
+    if save_obj_pred is not None:
+        if m0_plot is None:
+            m0_plot = save_obj_pred['m0']
+        if m0_plot < save_obj_pred['m0']:
+            m0_plot = save_obj_pred['m0']
+            print('Warning: lowest predicted magnitde is:', save_obj_pred['m0'])
+        tau0Htm, tau1, tau2 = save_obj_pred['tau_vec'][0]
+        if t_slice > tau2 - tau1:
+            t_slice = tau2 - tau1
+        N_t, Nobs_t = get_marginal_Nt_pred(t=t_slice, save_obj_pred=save_obj_pred, m0_plot=m0_plot)
+        Ksim = save_obj_pred['cumsum']['Ksim']
+        if scale == 'log10':
+            N_t = np.log10(N_t)
+            Nobs_t = np.log10(Nobs_t)
+
+    N_t_mle = None
+    if save_obj_pred_mle is not None:
+        if m0_plot is None:
+            m0_plot = save_obj_pred_mle['m0']
+        if m0_plot < save_obj_pred_mle['m0']:
+            m0_plot = save_obj_pred_mle['m0']
+            print('Warning: lowest predicted magnitde is:', save_obj_pred_mle['m0'])
+        tau0Htm, tau1, tau2 = save_obj_pred_mle['tau_vec'][0]
+        if t_slice > tau2 - tau1:
+            t_slice = tau2 - tau1
+        N_t_mle, Nobs_t = get_marginal_Nt_pred(t=t_slice, save_obj_pred=save_obj_pred_mle,
+                                                                    m0_plot=m0_plot)
+        Ksim = save_obj_pred_mle['cumsum']['Ksim']
+        if scale == 'log10':
+            N_t_mle = np.log10(N_t_mle)
+            Nobs_t = np.log10(Nobs_t)
+
+    N_t_mle_silverman = None
+    if save_obj_pred_mle_silverman is not None:
+        if m0_plot is None:
+            m0_plot = save_obj_pred_mle_silverman['m0']
+        if m0_plot < save_obj_pred_mle_silverman['m0']:
+            m0_plot = save_obj_pred_mle_silverman['m0']
+            print('Warning: lowest predicted magnitde is:', save_obj_pred_mle_silverman['m0'])
+        tau0Htm, tau1, tau2 = save_obj_pred_mle_silverman['tau_vec'][0]
+        if t_slice > tau2 - tau1: t_slice = tau2 - tau1
+        N_t_mle_silverman, Nobs_t = get_marginal_Nt_pred(t=t_slice,
+                                                                              save_obj_pred=save_obj_pred_mle_silverman,
+                                                                              m0_plot=m0_plot)
+        Ksim = save_obj_pred_mle_silverman['cumsum']['Ksim']
+        if scale == 'log10':
+            N_t_mle_silverman = np.log10(N_t_mle_silverman)
+            Nobs_t = np.log10(Nobs_t)
+
+    if N_t is not None:
+        kde_N_t = sc.stats.gaussian_kde(dataset=N_t, bw_method=bw_method, weights=None)
+        print('kde bw = ', kde_N_t.factor)
+    if N_t_mle is not None:
+        kde_N_t_mle = sc.stats.gaussian_kde(dataset=N_t_mle, bw_method=bw_method, weights=None)
+        print('kde bw = ', kde_N_t_mle.factor)
+    if N_t_mle_silverman is not None:
+        kde_N_t_mle_silverman = sc.stats.gaussian_kde(dataset=N_t_mle_silverman, bw_method=bw_method, weights=None)
+        print('kde bw = ', kde_N_t_mle_silverman.factor)
+
+    # all same bins
+    if nbins is None:
+        nbins = int(np.sqrt(Ksim))
+    if N_t is not None and N_t_mle is None and N_t_mle_silverman is None:
+        bins = np.histogram(np.hstack(N_t), bins=nbins)[1]  # get the bin edges
+    if N_t is not None and N_t_mle is not None and N_t_mle_silverman is None:
+        bins = np.histogram(np.hstack((N_t, N_t_mle)), bins=nbins)[1]  # get the bin edges
+    if N_t is not None and N_t_mle is None and N_t_mle_silverman is not None:
+        bins = np.histogram(np.hstack((N_t, N_t_mle_silverman)), bins=nbins)[1]  # get the bin edges
+    if N_t is not None and N_t_mle is not None and N_t_mle_silverman is not None:
+        bins = np.histogram(np.hstack((N_t, N_t_mle, N_t_mle_silverman)), bins=nbins)[1]  # get the bin edges
+
+    hf = plt.figure()
+    x = np.linspace(0.1, 1.1 * np.max(bins), 1000)
+    if N_t is not None:
+        if hist is not None:
+            plt.hist(N_t, bins=bins, density=True, facecolor='k', alpha=0.5)
+        plt.plot(x, kde_N_t.pdf(x), 'k', label='GP-E')
+    if N_t_mle is not None:
+        if hist is not None:
+            plt.hist(N_t_mle, bins=bins, density=True, facecolor='b', alpha=0.5)
+        plt.plot(x, kde_N_t_mle.pdf(x), 'b', label='E')
+    if N_t_mle_silverman is not None:
+        if hist is not None:
+            plt.hist(N_t_mle_silverman, bins=bins, density=True, facecolor='g', alpha=0.5)
+        plt.plot(x, kde_N_t_mle_silverman.pdf(x), 'g', label='E-S')
+    plt.ylabel('density')
+    if scale == 'log10':
+        plt.xlabel('$log_{10}$ number of events')
+        plt.axvline(x=Nobs_t, color='m', linestyle='--', label='$\\log_{10} N_{\\rm obs}$')
+        if xlim is not None:
+            plt.xlim(np.log10(xlim))
+    if scale == 'linear':
+        plt.xlabel('number of events')
+        plt.axvline(x=Nobs_t, color='m', linestyle='--', label='$N_{\\rm obs}')
+    plt.title('$\\tau_2$=%.1f days. $m\\geq%.2f$' % (t_slice, m0_plot))
+    plt.legend(fontsize=12)
 
     return hf
