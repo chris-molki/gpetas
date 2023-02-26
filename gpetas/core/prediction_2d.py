@@ -1162,7 +1162,7 @@ def plot_pred_hist_cumsum_Nt_at_t(t, save_obj_pred=None, save_obj_pred_mle=None,
             m0_plot = save_obj_pred['m0']
         if m0_plot < save_obj_pred['m0']:
             m0_plot = save_obj_pred['m0']
-            print('Warning: lowest predicted magnitde is:',save_obj_pred['m0'])
+            print('Warning: lowest predicted magnitde is:', save_obj_pred['m0'])
         tau0Htm, tau1, tau2 = save_obj_pred['tau_vec'][0]
         if t_slice > tau2 - tau1:
             t_slice = tau2 - tau1
@@ -1193,7 +1193,7 @@ def plot_pred_hist_cumsum_Nt_at_t(t, save_obj_pred=None, save_obj_pred_mle=None,
             m0_plot = save_obj_pred_mle_silverman['m0']
         if m0_plot < save_obj_pred_mle_silverman['m0']:
             m0_plot = save_obj_pred_mle_silverman['m0']
-            print('Warning: lowest predicted magnitde is:',save_obj_pred_mle_silverman['m0'])
+            print('Warning: lowest predicted magnitde is:', save_obj_pred_mle_silverman['m0'])
         tau0Htm, tau1, tau2 = save_obj_pred_mle_silverman['tau_vec'][0]
         if t_slice > tau2 - tau1: t_slice = tau2 - tau1
         N_t_mle_silverman, Nobs_t = get_marginal_Nt_pred(t=t_slice, save_obj_pred=save_obj_pred_mle_silverman,
@@ -1216,7 +1216,8 @@ def plot_pred_hist_cumsum_Nt_at_t(t, save_obj_pred=None, save_obj_pred_mle=None,
     if N_t is not None and N_t_mle is None and N_t_mle_silverman is not None:
         bins = np.histogram(np.hstack((N_t, N_t_mle_silverman)), bins=int(np.sqrt(Ksim)))[1]  # get the bin edges
     if N_t is not None and N_t_mle is not None and N_t_mle_silverman is not None:
-        bins = np.histogram(np.hstack((N_t, N_t_mle,N_t_mle_silverman)), bins=int(np.sqrt(Ksim)))[1]  # get the bin edges
+        bins = np.histogram(np.hstack((N_t, N_t_mle, N_t_mle_silverman)), bins=int(np.sqrt(Ksim)))[
+            1]  # get the bin edges
     if N_t is not None and N_t_mle is None and N_t_mle_silverman is None:
         bins = np.histogram(N_t, bins=int(np.sqrt(Ksim)))[1]  # get the bin edges
 
@@ -1236,8 +1237,8 @@ def plot_pred_hist_cumsum_Nt_at_t(t, save_obj_pred=None, save_obj_pred_mle=None,
                      t_slice, Nobs_t, m0_plot, tau1, Ksim),
                  transform=plt.gcf().transFigure, horizontalalignment='left')
         if xlim is not None:
-            if xlim[0]<=0:
-                xlim[0]=1
+            if xlim[0] <= 0:
+                xlim[0] = 1
             plt.gca().set_xlim(np.log10(xlim))
     else:
         plt.text(0.925, 0.225,
@@ -1247,7 +1248,7 @@ def plot_pred_hist_cumsum_Nt_at_t(t, save_obj_pred=None, save_obj_pred_mle=None,
         if xlim is not None:
             plt.gca().set_xlim(xlim)
     plt.legend(bbox_to_anchor=(1.04, 1.), loc='upper left')
-    #plt.show()
+    # plt.show()
     return hf
 
 
@@ -1335,7 +1336,7 @@ def plot_pred_cumsum_Nt_path(save_obj_pred=None, m0_plot=None, save_obj_pred_mle
     # ax = plt.gca()
     # ax.set_rasterized(True)
     plt.legend()
-    #plt.show()
+    # plt.show()
     return hf
 
 
@@ -1378,3 +1379,185 @@ def pred_summary(save_obj_pred=None, save_obj_pred_mle=None, save_obj_pred_mle_s
             hf.savefig(output_dir_figures + '/F002_pred_%s_%0i_%0i_%s_m%i.pdf' % (
                 case_name, i, j, scales[i], int(m0_plot * 10)), bbox_inches='tight')
     return
+
+
+def plot_pred_boxplot(t, save_obj_pred=None, save_obj_pred_mle=None, save_obj_pred_mle_silverman=None,
+                      m0_plot=None, scale=None, xlim=None):
+    if scale is None:
+        scale = 'linear'
+    t_slice = t
+
+    N_t = None
+    Nobs_t = None
+    if save_obj_pred is not None:
+        if m0_plot is None:
+            m0_plot = save_obj_pred['m0']
+        if m0_plot < save_obj_pred['m0']:
+            m0_plot = save_obj_pred['m0']
+            print('Warning: lowest predicted magnitde is:', save_obj_pred['m0'])
+        tau0Htm, tau1, tau2 = save_obj_pred['tau_vec'][0]
+        if t_slice > tau2 - tau1:
+            t_slice = tau2 - tau1
+        N_t, Nobs_t = get_marginal_Nt_pred(t=t_slice, save_obj_pred=save_obj_pred, m0_plot=m0_plot)
+        Ksim = save_obj_pred['cumsum']['Ksim']
+        if scale == 'log10':
+            N_t = np.log10(N_t)
+            Nobs_t = np.log10(Nobs_t)
+
+    N_t_mle = None
+    if save_obj_pred_mle is not None:
+        if m0_plot is None:
+            m0_plot = save_obj_pred_mle['m0']
+        if m0_plot < save_obj_pred_mle['m0']:
+            m0_plot = save_obj_pred_mle['m0']
+            print('Warning: lowest predicted magnitde is:', save_obj_pred_mle['m0'])
+        tau0Htm, tau1, tau2 = save_obj_pred_mle['tau_vec'][0]
+        if t_slice > tau2 - tau1:
+            t_slice = tau2 - tau1
+        N_t_mle, Nobs_t = get_marginal_Nt_pred(t=t_slice, save_obj_pred=save_obj_pred_mle,
+                                               m0_plot=m0_plot)
+        Ksim = save_obj_pred_mle['cumsum']['Ksim']
+        if scale == 'log10':
+            N_t_mle = np.log10(N_t_mle)
+            Nobs_t = np.log10(Nobs_t)
+
+    N_t_mle_silverman = None
+    if save_obj_pred_mle_silverman is not None:
+        if m0_plot is None:
+            m0_plot = save_obj_pred_mle_silverman['m0']
+        if m0_plot < save_obj_pred_mle_silverman['m0']:
+            m0_plot = save_obj_pred_mle_silverman['m0']
+            print('Warning: lowest predicted magnitde is:', save_obj_pred_mle_silverman['m0'])
+        tau0Htm, tau1, tau2 = save_obj_pred_mle_silverman['tau_vec'][0]
+        if t_slice > tau2 - tau1: t_slice = tau2 - tau1
+        N_t_mle_silverman, Nobs_t = get_marginal_Nt_pred(t=t_slice,
+                                                         save_obj_pred=save_obj_pred_mle_silverman,
+                                                         m0_plot=m0_plot)
+        Ksim = save_obj_pred_mle_silverman['cumsum']['Ksim']
+        if scale == 'log10':
+            N_t_mle_silverman = np.log10(N_t_mle_silverman)
+            Nobs_t = np.log10(Nobs_t)
+
+    hf = plt.figure()
+    if Nobs_t is not None:
+        plt.axhline(y=Nobs_t, color='m', linestyle='--')
+    if N_t is not None:
+        plt.boxplot(N_t, positions=range(1, 2))
+        plt.xticks([1], ['GP-E'])
+    if N_t is not None and N_t_mle is not None:
+        plt.boxplot(N_t_mle, positions=range(2, 3))
+        plt.xticks([1, 2], ['GP-E', 'E'])
+    if N_t is not None and N_t_mle_silverman is not None:
+        plt.boxplot(N_t_mle_silverman, positions=range(2, 3))
+        plt.xticks([1, 2], ['GP-E', 'E-S'])
+    if N_t is not None and N_t_mle is not None and N_t_mle_silverman is not None:
+        plt.boxplot(N_t_mle, positions=range(2, 3))
+        plt.boxplot(N_t_mle_silverman, positions=range(3, 4))
+        plt.xticks([1, 2, 3], ['GP-E', 'E', 'E-S'])
+    if scale == 'log10':
+        plt.ylabel('$log_{10}$ number of events')
+    if scale == 'linear':
+        plt.ylabel('number of events')
+    # plt.show()
+    return hf
+
+
+def plot_pred_quantile(t, save_obj_pred=None, save_obj_pred_mle=None, save_obj_pred_mle_silverman=None,
+                       m0_plot=None, scale=None, xlim=None, quantile=0.05):
+    if scale is None:
+        scale = 'linear'
+    t_slice = t
+    ms = 10
+
+    N_t = None
+    Nobs_t = None
+    if save_obj_pred is not None:
+        if m0_plot is None:
+            m0_plot = save_obj_pred['m0']
+        if m0_plot < save_obj_pred['m0']:
+            m0_plot = save_obj_pred['m0']
+            print('Warning: lowest predicted magnitde is:', save_obj_pred['m0'])
+        tau0Htm, tau1, tau2 = save_obj_pred['tau_vec'][0]
+        if t_slice > tau2 - tau1:
+            t_slice = tau2 - tau1
+        N_t, Nobs_t = get_marginal_Nt_pred(t=t_slice, save_obj_pred=save_obj_pred, m0_plot=m0_plot)
+        Ksim = save_obj_pred['cumsum']['Ksim']
+        if scale == 'log10':
+            N_t = np.log10(N_t)
+            Nobs_t = np.log10(Nobs_t)
+
+    N_t_mle = None
+    if save_obj_pred_mle is not None:
+        if m0_plot is None:
+            m0_plot = save_obj_pred_mle['m0']
+        if m0_plot < save_obj_pred_mle['m0']:
+            m0_plot = save_obj_pred_mle['m0']
+            print('Warning: lowest predicted magnitde is:', save_obj_pred_mle['m0'])
+        tau0Htm, tau1, tau2 = save_obj_pred_mle['tau_vec'][0]
+        if t_slice > tau2 - tau1:
+            t_slice = tau2 - tau1
+        N_t_mle, Nobs_t = get_marginal_Nt_pred(t=t_slice, save_obj_pred=save_obj_pred_mle,
+                                               m0_plot=m0_plot)
+        Ksim = save_obj_pred_mle['cumsum']['Ksim']
+        if scale == 'log10':
+            N_t_mle = np.log10(N_t_mle)
+            Nobs_t = np.log10(Nobs_t)
+
+    N_t_mle_silverman = None
+    if save_obj_pred_mle_silverman is not None:
+        if m0_plot is None:
+            m0_plot = save_obj_pred_mle_silverman['m0']
+        if m0_plot < save_obj_pred_mle_silverman['m0']:
+            m0_plot = save_obj_pred_mle_silverman['m0']
+            print('Warning: lowest predicted magnitde is:', save_obj_pred_mle_silverman['m0'])
+        tau0Htm, tau1, tau2 = save_obj_pred_mle_silverman['tau_vec'][0]
+        if t_slice > tau2 - tau1: t_slice = tau2 - tau1
+        N_t_mle_silverman, Nobs_t = get_marginal_Nt_pred(t=t_slice,
+                                                         save_obj_pred=save_obj_pred_mle_silverman,
+                                                         m0_plot=m0_plot)
+        Ksim = save_obj_pred_mle_silverman['cumsum']['Ksim']
+        if scale == 'log10':
+            N_t_mle_silverman = np.log10(N_t_mle_silverman)
+            Nobs_t = np.log10(Nobs_t)
+
+    hf = plt.figure()
+    if Nobs_t is not None:
+        plt.axhline(y=Nobs_t, color='m', linestyle='--', label='$N_{obs}$')
+    if N_t is not None and N_t_mle is None and N_t_mle_silverman is None:
+        plt.plot(1, np.median(N_t), 'ko', markersize=ms)
+        plt.plot([1, 1], [np.quantile(a=N_t, q=quantile), np.quantile(a=N_t, q=1 - quantile)], '-k')
+        plt.xticks([1], ['GP-E'])
+    if N_t is not None and N_t_mle is not None and N_t_mle_silverman is None:
+        plt.plot(1, np.median(N_t), 'ko', markersize=ms)
+        plt.plot([1, 1], [np.quantile(a=N_t, q=quantile), np.quantile(a=N_t, q=1 - quantile)], '-k')
+        plt.plot(2, np.median(N_t_mle), 'ob', markersize=ms)
+        plt.plot([2, 2], [np.quantile(a=N_t_mle, q=quantile), np.quantile(a=N_t_mle, q=1 - quantile)], '-b')
+        plt.xticks([1, 2], ['GP-E', 'E'])
+        plt.xlim([0.5, 2.5])
+    if N_t is not None and N_t_mle is None and N_t_mle_silverman is not None:
+        plt.plot(1, np.median(N_t), 'ko', markersize=ms)
+        plt.plot([1, 1], [np.quantile(a=N_t, q=quantile), np.quantile(a=N_t, q=1 - quantile)], '-k')
+        plt.plot(2, np.median(N_t_mle_silverman), 'og', markersize=ms)
+        plt.plot([2, 2],
+                 [np.quantile(a=N_t_mle_silverman, q=quantile), np.quantile(a=N_t_mle_silverman, q=1 - quantile)], '-g')
+        plt.xticks([1, 2], ['GP-E', 'E-S'])
+        plt.xlim([0.5, 2.5])
+    if N_t is not None and N_t_mle is not None and N_t_mle_silverman is not None:
+        plt.plot(1, np.median(N_t), 'ko', markersize=ms)
+        plt.plot([1, 1], [np.quantile(a=N_t, q=quantile), np.quantile(a=N_t, q=1 - quantile)], '-k')
+        plt.plot(2, np.median(N_t_mle), 'ob', markersize=ms)
+        plt.plot([2, 2], [np.quantile(a=N_t_mle, q=quantile), np.quantile(a=N_t_mle, q=1 - quantile)], '-b')
+        plt.plot(3, np.median(N_t_mle_silverman), 'og', markersize=ms)
+        plt.plot([3, 3],
+                 [np.quantile(a=N_t_mle_silverman, q=quantile), np.quantile(a=N_t_mle_silverman, q=1 - quantile)], '-g')
+        plt.xticks([1, 2, 3], ['GP-E', 'E', 'E-S'])
+        plt.xlim([0.5, 3.5])
+
+    if scale == 'log10':
+        plt.ylabel('$log_{10}$ number of events')
+    if scale == 'linear':
+        plt.ylabel('number of events')
+    plt.legend()
+    plt.title('$\\tau_2$=%.1f days. q=%.3f' % (t_slice, quantile))
+
+    return hf
