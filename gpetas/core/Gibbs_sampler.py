@@ -151,6 +151,7 @@ class GS_ETAS():
             nbins_1D = 1000
             S_borders_1D = self.T_borders_training.reshape([1, 2])
             X_grid_NN_1D = gpetas.some_fun.make_X_grid(X_borders=S_borders_1D,nbins=nbins_1D)
+
             self.bg_sampler = gpetas.bg_intensity_1D.BG_Intensity_Sampler(
                 S_borders=S_borders_1D,
                 X=self.data.times,
@@ -159,10 +160,10 @@ class GS_ETAS():
                 lmbda_star=self.lmbda_star_start,
                 X_grid=X_grid_NN_1D,
                 mu_upper_bound=mu_upper_bound,
-                std_factor=std_factor, mu_nu0=mu_nu0,
+                std_factor=std_factor,
+                mu_nu0=mu_nu0,
                 mu_length_scale=mu_length_scale,
-                sigma_proposal_hypers=
-                self.setup_obj.sigma_proposal_hypers,
+                sigma_proposal_hypers=self.setup_obj.sigma_proposal_hypers,
                 kth_sample_obj=kth_sample_obj)
         # bg only space --> dim=2
         if dim == 2:
