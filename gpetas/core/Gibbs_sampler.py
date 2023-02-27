@@ -13,8 +13,7 @@ class GS_ETAS():
     """
 
     def __init__(self, data_obj, setup_obj=None, burnin=None, num_samples=None, stat_background=False, thinning=None,
-                 kth_sample_obj=None, case_name=None, MH_proposals_offspring=None, MH_cov_empirical_yes=None,
-                 dim=None):
+                 kth_sample_obj=None, case_name=None, MH_proposals_offspring=None, MH_cov_empirical_yes=None):
         """
         :param MH_cov_empirical_yes:
         :type MH_cov_empirical_yes:
@@ -42,9 +41,6 @@ class GS_ETAS():
         :param mu_x: float
             Start value of the background intensity. (Default=1.)
         """
-        if dim is None:
-            dim = 2
-        self.dim = dim
         self.data_obj = data_obj
         self.setup_obj = setup_obj
         self.case_name = case_name
@@ -52,6 +48,12 @@ class GS_ETAS():
             thinning = 1
         self.thinning = thinning
         self.sigmoid = lambda x: 1. / (1. + np.exp(-x))
+
+        # dimension of bg: time only (1D) or space only (2D,default)
+        dim = self.setup_obj.dim
+        if dim is None:
+            dim=2
+        self.dim = dim
 
         # preparing training data
         self.T_borders_training = data_obj.domain.T_borders_training
