@@ -1109,8 +1109,10 @@ def get_marginal_Nt_pred(t=None, save_obj_pred=None, m0_plot=None, which_events=
     if m0_plot is None:
         m0_plot = save_obj_pred['m0']
     cumsum = cumsum_events_pred(save_obj_pred, tau1=tau1, tau2=tau1 + t, m0=m0_plot, which_events=which_events)
-    if m0_plot is None: m0_plot = save_obj_pred['m0']
-    if m0_plot < save_obj_pred['m0']: m0_plot = save_obj_pred['m0']
+    if m0_plot is None:
+        m0_plot = save_obj_pred['m0']
+    if m0_plot < save_obj_pred['m0']:
+        m0_plot = save_obj_pred['m0']
     Ksim = cumsum['Ksim']
     N_t = np.zeros(Ksim)
     for i in range(cumsum['Ksim']):
@@ -1338,47 +1340,6 @@ def plot_pred_cumsum_Nt_path(save_obj_pred=None, m0_plot=None, save_obj_pred_mle
     plt.legend()
     # plt.show()
     return hf
-
-
-### summary of plots and tables
-def pred_summary(save_obj_pred=None, save_obj_pred_mle=None, save_obj_pred_mle_silverman=None, m0_plot=None):
-    init_outdir()
-    if save_obj_pred is not None:
-        case_name = save_obj_pred['data_obj'].case_name
-        t0Ht, tau1, tau2 = save_obj_pred['tau_vec'][0]
-        if m0_plot is None: m0_plot = save_obj_pred['m0']
-    if save_obj_pred_mle is not None:
-        case_name = save_obj_pred_mle['data_obj'].case_name
-        t0Ht, tau1, tau2 = save_obj_pred_mle['tau_vec'][0]
-        if m0_plot is None: m0_plot = save_obj_pred_mle['m0']
-    if save_obj_pred_mle_silverman is not None:
-        case_name = save_obj_pred_mle_silverman['data_obj'].case_name
-        t0Ht, tau1, tau2 = save_obj_pred_mle_silverman['tau_vec'][0]
-        if m0_plot is None: m0_plot = save_obj_pred_mle_silverman['m0']
-
-    # FIG 01: sample path
-    scales = ['linear', 'logy', 'logx', 'loglog']
-    for i in range(len(scales)):
-        scale = scales[i]
-        hf = plot_pred_cumsum_Nt_path(save_obj_pred=save_obj_pred, m0_plot=m0_plot, save_obj_pred_mle=save_obj_pred_mle,
-                                      save_obj_pred_mle_silverman=save_obj_pred_mle_silverman, scale=scale,
-                                      which_events=None)
-        hf.savefig(output_dir_figures + '/F001_pred_%s_%0i_%s.pdf' % (case_name, i, scales[i]), bbox_inches='tight')
-
-    # FIG 02: Nt histograms at t
-    t_vec = np.linspace(0., tau2 - tau1, 5)
-    scales = ['linear', 'log10']
-    for j in np.arange(1, len(t_vec)):
-        t = t_vec[-j]
-        print(t)
-        for i in range(len(scales)):
-            scale = scales[i]
-            hf = plot_pred_hist_cumsum_Nt_at_t(t=t, save_obj_pred=save_obj_pred, save_obj_pred_mle=save_obj_pred_mle,
-                                               save_obj_pred_mle_silverman=save_obj_pred_mle_silverman, m0_plot=m0_plot,
-                                               scale=scale)
-            hf.savefig(output_dir_figures + '/F002_pred_%s_%0i_%0i_%s_m%i.pdf' % (
-                case_name, i, j, scales[i], int(m0_plot * 10)), bbox_inches='tight')
-    return
 
 
 def plot_pred_boxplot(t, save_obj_pred=None, save_obj_pred_mle=None, save_obj_pred_mle_silverman=None,
@@ -1680,3 +1641,72 @@ def plot_pred_histkernel_Nt_at_t(t, save_obj_pred=None,
     plt.legend(fontsize=12)
 
     return hf
+
+
+### summary of plots and tables
+def pred_summary(save_obj_pred=None, save_obj_pred_mle=None, save_obj_pred_mle_silverman=None, m0_plot=None):
+    init_outdir()
+    if save_obj_pred is not None:
+        case_name = save_obj_pred['data_obj'].case_name
+        t0Ht, tau1, tau2 = save_obj_pred['tau_vec'][0]
+        if m0_plot is None: m0_plot = save_obj_pred['m0']
+    if save_obj_pred_mle is not None:
+        case_name = save_obj_pred_mle['data_obj'].case_name
+        t0Ht, tau1, tau2 = save_obj_pred_mle['tau_vec'][0]
+        if m0_plot is None: m0_plot = save_obj_pred_mle['m0']
+    if save_obj_pred_mle_silverman is not None:
+        case_name = save_obj_pred_mle_silverman['data_obj'].case_name
+        t0Ht, tau1, tau2 = save_obj_pred_mle_silverman['tau_vec'][0]
+        if m0_plot is None: m0_plot = save_obj_pred_mle_silverman['m0']
+
+    # FIG 01: sample path
+    scales = ['linear', 'logy', 'logx', 'loglog']
+    for i in range(len(scales)):
+        scale = scales[i]
+        hf = plot_pred_cumsum_Nt_path(save_obj_pred=save_obj_pred, m0_plot=m0_plot, save_obj_pred_mle=save_obj_pred_mle,
+                                      save_obj_pred_mle_silverman=save_obj_pred_mle_silverman, scale=scale,
+                                      which_events=None)
+        hf.savefig(output_dir_figures + '/F001_pred_%s_%0i_%s.pdf' % (case_name, i, scales[i]), bbox_inches='tight')
+
+    # FIG 02: Nt histograms at t
+    # FIG 03: Nt histogram and kernel
+    t_vec = np.linspace(0., tau2 - tau1, 5)
+    scales = ['linear', 'log10']
+    for j in np.arange(1, len(t_vec)):
+        t = t_vec[j]
+        print(t)
+        for i in range(len(scales)):
+            scale = scales[i]
+            hf = plot_pred_hist_cumsum_Nt_at_t(t=t, save_obj_pred=save_obj_pred, save_obj_pred_mle=save_obj_pred_mle,
+                                               save_obj_pred_mle_silverman=save_obj_pred_mle_silverman, m0_plot=m0_plot,
+                                               scale=scale)
+            hf.savefig(output_dir_figures + '/F002_pred_%s_%0i_%0i_%s_m%i.pdf' % (
+                case_name, i, j, scales[i], int(m0_plot * 10)), bbox_inches='tight')
+            hf = plot_pred_histkernel_Nt_at_t(t, save_obj_pred=save_obj_pred,
+                                         save_obj_pred_mle=save_obj_pred_mle,
+                                         save_obj_pred_mle_silverman=save_obj_pred_mle_silverman,
+                                         m0_plot=m0_plot,
+                                         scale=scale,
+                                         xlim=None,
+                                         bw_method='silverman',
+                                         nbins=None,
+                                         hist='yes')
+            hf.savefig(output_dir_figures + '/F003_pred_kernel_%s_%0i_%0i_%s_m%i.pdf' % (
+                case_name, i, j, scales[i], int(m0_plot * 10)), bbox_inches='tight')
+
+            hf = plot_pred_quantile(t, save_obj_pred=save_obj_pred,
+                                    save_obj_pred_mle=save_obj_pred_mle,
+                                    save_obj_pred_mle_silverman=save_obj_pred_mle_silverman,
+                                    m0_plot=m0_plot,
+                                    scale=scale, xlim=None, quantile=0.01)
+            hf.savefig(output_dir_figures + '/F004_pred_quantiles_%s_%0i_%0i_%s_m%i.pdf' % (
+                case_name, i, j, scales[i], int(m0_plot * 10)), bbox_inches='tight')
+
+            hf = plot_pred_boxplot(t, save_obj_pred=save_obj_pred,
+                                   save_obj_pred_mle=save_obj_pred_mle,
+                                   save_obj_pred_mle_silverman=save_obj_pred_mle_silverman,
+                              m0_plot=m0_plot, scale=scale, xlim=None)
+            hf.savefig(output_dir_figures + '/F005_pred_boxplot_%s_%0i_%0i_%s_m%i.pdf' % (
+                case_name, i, j, scales[i], int(m0_plot * 10)), bbox_inches='tight')
+
+    return
