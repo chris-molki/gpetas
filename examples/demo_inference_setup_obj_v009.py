@@ -57,6 +57,8 @@ if __name__ == '__main__':
     print('---------------------------------------')
     print('case name                =',case_name)
     print('---------------------------------------')
+    print('dim                      =', GS.dim)
+    print('---------------------------------------')
     print('domain from data_obj')
     pprint.pprint(vars(data_obj.__dict__['domain']))
     print('---------------------------------------')
