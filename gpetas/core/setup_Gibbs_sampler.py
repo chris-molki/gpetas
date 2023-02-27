@@ -149,6 +149,10 @@ class setup_sampler():
         self.X_grid_NN = gpetas.some_fun.make_X_grid(X_borders_NN, nbins=ngrid_per_dim)
         if self.X_grid is None:
             self.X_grid = gpetas.some_fun.make_X_grid(data_obj.domain.X_borders, nbins=ngrid_per_dim)
+        if dim == 1:
+            X_borders_NN = (data_obj.domain.T_borders_training - data_obj.domain.T_borders_training[0]).reshape([1, -1])
+            self.X_grid_NN = gpetas.some_fun.make_X_grid(X_borders_NN, nbins=ngrid_per_dim)
+            self.X_grid = gpetas.some_fun.make_X_grid(data_obj.domain.T_borders_training.reshape([1, -1]), nbins=ngrid_per_dim)
 
         # prior theta offspring
         self.prior_theta_dist = prior_theta_dist
@@ -189,8 +193,6 @@ class setup_sampler():
             corresponding_mle['silverman'] = 'yes'
             corresponding_mle['h_min_degree'] = gpetas.some_fun.silverman_scott_rule_d(data_obj.data_all.positions)
             self.setup_obj_mle_silverman = setup_obj_mle_from_setup_obj_GS(self, **corresponding_mle)
-
-
 
 
 # get kth-sample

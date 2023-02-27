@@ -134,7 +134,10 @@ class BG_Intensity_Sampler():
             self.g[self.N:] = g_M
 
     def sample_unthinned_set(self):
-        expected_num_events = self.R * self.T * self.lmbda_star
+        if self.D == 2:
+            expected_num_events = self.R * self.T * self.lmbda_star
+        if self.D == 1:
+            expected_num_events = self.T * self.lmbda_star
         num_events = np.random.poisson(expected_num_events, 1)[0]
         # self.Pi_unthinned = self.base_rate.sample(num_events)
         self.Pi_unthinned = np.random.rand(num_events, self.D) * self.S[None] + \
@@ -178,7 +181,10 @@ class BG_Intensity_Sampler():
     def sample_lmbda(self):
 
         alpha = self.N + self.M + self.alpha0
-        beta = self.R * self.T + self.beta0
+        if self.D == 2:
+            beta = self.R * self.T + self.beta0
+        if self.D == 1:
+            beta = self.T + self.beta0
         shape = 1. / beta
         self.lmbda_star = np.random.gamma(alpha, shape)
 
