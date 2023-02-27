@@ -135,6 +135,7 @@ class GS_ETAS():
 
         # bg only time --> dim=1
         if dim == 1:
+            # cov_params 1D
             nu_lengthscale_start = gpetas.some_fun.silverman_scott_rule_d(self.data.times)
             cov_params = [np.array([5.]), np.array([nu_lengthscale_start])]
             self.cov_params = cov_params
@@ -142,8 +143,9 @@ class GS_ETAS():
             self.setup_obj.cov_params = cov_params
             self.setup_obj.cov_params_start = cov_params
             print(cov_params)
-            # lambda_bar start
+            # lambda_bar start 1D
             self.lmbda_star_start = (len(self.data.times) / 2. / self.T).item()
+            print(self.lmbda_star_start)
             self.bg_sampler = gpetas.bg_intensity_1D.BG_Intensity_Sampler(S_borders=self.T_borders_training,
                                                                        X=self.data.times,
                                                                        T=self.Tabs_training,
