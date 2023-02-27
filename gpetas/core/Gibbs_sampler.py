@@ -44,6 +44,7 @@ class GS_ETAS():
         """
         if dim is None:
             dim = 2
+        self.dim = dim
         self.data_obj = data_obj
         self.setup_obj = setup_obj
         self.case_name = case_name
