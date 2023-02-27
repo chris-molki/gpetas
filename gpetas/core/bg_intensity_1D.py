@@ -8,15 +8,13 @@ class BG_Intensity_Sampler():
 
     def __init__(self, S_borders, X, T, cov_params, lmbda_star=None, X_grid=None, noise=1e-4,
                  mu_upper_bound=None, std_factor=1., mu_nu0=None, mu_length_scale=None, sigma_proposal_hypers=None,
-                 kth_sample_obj=None,dim=None):
+                 kth_sample_obj=None):
         """
 
         :param sigma_proposal_hypers:
         :type sigma_proposal_hypers:
         :type noise: jitter for GP modeling
         """
-        if dim is None:
-            dim = 2
         self.S_borders = S_borders
         self.S = S_borders[:, 1] - S_borders[:, 0]
         self.R = np.prod(self.S)
