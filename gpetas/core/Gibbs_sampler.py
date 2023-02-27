@@ -13,7 +13,8 @@ class GS_ETAS():
     """
 
     def __init__(self, data_obj, setup_obj=None, burnin=None, num_samples=None, stat_background=False, thinning=None,
-                 kth_sample_obj=None, case_name=None, MH_proposals_offspring=None, MH_cov_empirical_yes=None):
+                 kth_sample_obj=None, case_name=None, MH_proposals_offspring=None, MH_cov_empirical_yes=None,
+                 dim=None):
         """
         :param MH_cov_empirical_yes:
         :type MH_cov_empirical_yes:
@@ -41,6 +42,8 @@ class GS_ETAS():
         :param mu_x: float
             Start value of the background intensity. (Default=1.)
         """
+        if dim is None:
+            dim = 2
         self.data_obj = data_obj
         self.setup_obj = setup_obj
         self.case_name = case_name
@@ -127,16 +130,32 @@ class GS_ETAS():
             self.sample_branching_structure()
             kth_sample_obj.branching = np.copy(self.branching)
 
-        self.bg_sampler = gpetas.bg_intensity.BG_Intensity_Sampler(S_borders=self.X_borders_NN, X=self.data.positions,
-                                                                   T=self.Tabs_training, cov_params=cov_params,
-                                                                   lmbda_star=self.lmbda_star_start,
-                                                                   X_grid=self.setup_obj.X_grid_NN,
-                                                                   mu_upper_bound=mu_upper_bound,
-                                                                   std_factor=std_factor, mu_nu0=mu_nu0,
-                                                                   mu_length_scale=mu_length_scale,
-                                                                   sigma_proposal_hypers=
-                                                                   self.setup_obj.sigma_proposal_hypers,
-                                                                   kth_sample_obj=kth_sample_obj)
+        # bg only time --> dim=1
+        if dim == 1:
+            self.bg_sampler = gpetas.bg_intensity.BG_Intensity_Sampler(S_borders=self.X_borders_NN,
+                                                                       X=self.data.positions,
+                                                                       T=self.Tabs_training, cov_params=cov_params,
+                                                                       lmbda_star=self.lmbda_star_start,
+                                                                       X_grid=self.setup_obj.X_grid_NN,
+                                                                       mu_upper_bound=mu_upper_bound,
+                                                                       std_factor=std_factor, mu_nu0=mu_nu0,
+                                                                       mu_length_scale=mu_length_scale,
+                                                                       sigma_proposal_hypers=
+                                                                       self.setup_obj.sigma_proposal_hypers,
+                                                                       kth_sample_obj=kth_sample_obj)
+        # bg only space --> dim=2
+        if dim == 2:
+            self.bg_sampler = gpetas.bg_intensity.BG_Intensity_Sampler(S_borders=self.X_borders_NN,
+                                                                       X=self.data.positions,
+                                                                       T=self.Tabs_training, cov_params=cov_params,
+                                                                       lmbda_star=self.lmbda_star_start,
+                                                                       X_grid=self.setup_obj.X_grid_NN,
+                                                                       mu_upper_bound=mu_upper_bound,
+                                                                       std_factor=std_factor, mu_nu0=mu_nu0,
+                                                                       mu_length_scale=mu_length_scale,
+                                                                       sigma_proposal_hypers=
+                                                                       self.setup_obj.sigma_proposal_hypers,
+                                                                       kth_sample_obj=kth_sample_obj)
         # some info
         self.case_name = np.copy(self.data_obj.case_name)
         if self.case_name is None:
