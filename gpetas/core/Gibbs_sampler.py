@@ -163,8 +163,7 @@ class GS_ETAS():
                 mu_length_scale=mu_length_scale,
                 sigma_proposal_hypers=
                 self.setup_obj.sigma_proposal_hypers,
-                kth_sample_obj=kth_sample_obj,
-                dim=dim)
+                kth_sample_obj=kth_sample_obj)
         # bg only space --> dim=2
         if dim == 2:
             self.bg_sampler = gpetas.bg_intensity.BG_Intensity_Sampler(S_borders=self.X_borders_NN,
@@ -177,8 +176,7 @@ class GS_ETAS():
                                                                        mu_length_scale=mu_length_scale,
                                                                        sigma_proposal_hypers=
                                                                        self.setup_obj.sigma_proposal_hypers,
-                                                                       kth_sample_obj=kth_sample_obj,
-                                                                       dim=dim)
+                                                                       kth_sample_obj=kth_sample_obj)
         # some info
         self.case_name = np.copy(self.data_obj.case_name)
         if self.case_name is None:
