@@ -10,7 +10,7 @@ class setup_sampler():
                  mu_nu0=None, X_grid=None, outdir=None, prior_theta_dist=None, prior_theta_params=None,
                  stable_theta_sampling=None, time_origin=None, case_name='case_01', burnin=None, Ksamples=None,
                  num_iterations=None, thinning=None, MH_proposals_offspring=None, MH_cov_empirical_yes=None,
-                 kth_sample_obj=None, corresponding_mle=None,dim=None):
+                 kth_sample_obj=None, corresponding_mle=None, dim=None):
         """
         :param data_obj:
         :type data_obj:

@@ -52,8 +52,9 @@ class GS_ETAS():
         # dimension of bg: time only (1D) or space only (2D,default)
         dim = self.setup_obj.dim
         if dim is None:
-            dim=2
+            dim = 2
         self.dim = dim
+        print('dim',dim)
 
         # preparing training data
         self.T_borders_training = data_obj.domain.T_borders_training
@@ -146,18 +147,24 @@ class GS_ETAS():
             # lambda_bar start 1D
             self.lmbda_star_start = (len(self.data.times) / 2. / self.T).item()
             print(self.lmbda_star_start)
-            self.bg_sampler = gpetas.bg_intensity_1D.BG_Intensity_Sampler(S_borders=self.T_borders_training,
-                                                                       X=self.data.times,
-                                                                       T=self.Tabs_training,
-                                                                       cov_params=cov_params,
-                                                                       lmbda_star=self.lmbda_star_start,
-                                                                       X_grid=self.setup_obj.X_grid_NN,
-                                                                       mu_upper_bound=mu_upper_bound,
-                                                                       std_factor=std_factor, mu_nu0=mu_nu0,
-                                                                       mu_length_scale=mu_length_scale,
-                                                                       sigma_proposal_hypers=
-                                                                       self.setup_obj.sigma_proposal_hypers,
-                                                                       kth_sample_obj=kth_sample_obj)
+            # X_grid_NN in 1D
+            nbins_1D = 1000
+            S_borders_1D = self.T_borders_training.reshape([1, 2])
+            X_grid_NN_1D = gpetas.some_fun.make_X_grid(X_borders=S_borders_1D,nbins=nbins_1D)
+            self.bg_sampler = gpetas.bg_intensity_1D.BG_Intensity_Sampler(
+                S_borders=S_borders_1D,
+                X=self.data.times,
+                T=self.Tabs_training,
+                cov_params=cov_params,
+                lmbda_star=self.lmbda_star_start,
+                X_grid=X_grid_NN_1D,
+                mu_upper_bound=mu_upper_bound,
+                std_factor=std_factor, mu_nu0=mu_nu0,
+                mu_length_scale=mu_length_scale,
+                sigma_proposal_hypers=
+                self.setup_obj.sigma_proposal_hypers,
+                kth_sample_obj=kth_sample_obj,
+                dim=dim)
         # bg only space --> dim=2
         if dim == 2:
             self.bg_sampler = gpetas.bg_intensity.BG_Intensity_Sampler(S_borders=self.X_borders_NN,
@@ -170,7 +177,8 @@ class GS_ETAS():
                                                                        mu_length_scale=mu_length_scale,
                                                                        sigma_proposal_hypers=
                                                                        self.setup_obj.sigma_proposal_hypers,
-                                                                       kth_sample_obj=kth_sample_obj)
+                                                                       kth_sample_obj=kth_sample_obj,
+                                                                       dim=dim)
         # some info
         self.case_name = np.copy(self.data_obj.case_name)
         if self.case_name is None:

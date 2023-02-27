@@ -4,6 +4,7 @@ from scipy.linalg import solve_triangular
 import gpetas
 import matplotlib.pyplot as plt
 
+
 class BG_Intensity_Sampler():
 
     def __init__(self, S_borders, X, T, cov_params, lmbda_star=None, X_grid=None, noise=1e-4,
@@ -21,7 +22,7 @@ class BG_Intensity_Sampler():
         self.D = S_borders.shape[0]
         self.cov_params = cov_params
         self.acc_hyperparams_per_iter = None
-        self.sigma_proposal_hypers=sigma_proposal_hypers
+        self.sigma_proposal_hypers = sigma_proposal_hypers
         self.noise = noise
         self.T = T
         self.X = X
@@ -30,7 +31,7 @@ class BG_Intensity_Sampler():
         self.S_0 = None
         self.N = 0
         self.M = 0
-        self._set_prior_upper_bound(mu_upper_bound=mu_upper_bound,std_factor=std_factor)
+        self._set_prior_upper_bound(mu_upper_bound=mu_upper_bound, std_factor=std_factor)
         if lmbda_star is None:
             self.lmbda_star = self.alpha0 / self.beta0
         else:
@@ -49,38 +50,41 @@ class BG_Intensity_Sampler():
         self.iteration = 0
         if kth_sample_obj is not None:
             mu_X = gpetas.some_fun.get_grid_data_for_a_point(grid_values_flattened=kth_sample_obj.mu_grid,
-                                                                 points_xy=self.X,
-                                                                 X_borders=self.S_borders)
+                                                             points_xy=self.X,
+                                                             X_borders=self.S_borders)
             self.g_X = -np.log(self.lmbda_star / mu_X - 1.)
             mu_Pi_latent = gpetas.some_fun.get_grid_data_for_a_point(grid_values_flattened=kth_sample_obj.mu_grid,
-                                                             points_xy=self.Pi_unthinned,
-                                                             X_borders=self.S_borders)
+                                                                     points_xy=self.Pi_unthinned,
+                                                                     X_borders=self.S_borders)
             self.g_unthinned = -np.log(self.lmbda_star / mu_Pi_latent - 1.)
             self.N = len(self.g_X)
             self.M = 0
             self.g = np.zeros(self.N + self.M)
             self.sample_latent_poisson()
 
-
     def _set_prior_upper_bound(self, mu_upper_bound, std_factor):
         """
         Prior is constructed that the mean is the maximum expected count from a histogramm of all (!) data.
         The standard deviation is then given by std_factor * mean
         """
-        if mu_upper_bound is None:
-            counts, x_bins, y_bins = np.histogram2d(self.X[:,0], self.X[:,1], bins=10)
-            dx, dy = x_bins[1] - x_bins[0], y_bins[1] - y_bins[0]
-            mu_upper_bound = np.amax(counts) / dx / dy / self.T
+        if self.D == 2:
+            if mu_upper_bound is None:
+                counts, x_bins, y_bins = np.histogram2d(self.X[:, 0], self.X[:, 1], bins=10)
+                dx, dy = x_bins[1] - x_bins[0], y_bins[1] - y_bins[0]
+                mu_upper_bound = np.amax(counts) / dx / dy / self.T
+        if self.D == 1:
+            counts, x_bins = np.histogram(self.X, bins=10)
+            dx = x_bins[1] - x_bins[0]
+            mu_upper_bound = np.amax(counts) / dx  # / self.T
+
         self.beta0 = 1. / std_factor ** 2. / mu_upper_bound
         self.alpha0 = 1. / std_factor ** 2.
         self.prior_mu_upper_bound = mu_upper_bound
         self.prior_std_factor_upper_bound = std_factor
-        print('START: hyper prior: self.prior_mu_upper_bound  =',self.prior_mu_upper_bound)
-        print('START: self.alpha0                             =',self.alpha0)
-        print('START: self.beta0                              =',self.beta0)
-        print('START: self.prior_std_factor_upper_bound       =',self.prior_std_factor_upper_bound)
-
-
+        print('START: hyper prior: self.prior_mu_upper_bound  =', self.prior_mu_upper_bound)
+        print('START: self.alpha0                             =', self.alpha0)
+        print('START: self.beta0                              =', self.beta0)
+        print('START: self.prior_std_factor_upper_bound       =', self.prior_std_factor_upper_bound)
 
     def sample(self, branching):
         self.set_new_branching(branching)
@@ -124,7 +128,7 @@ class BG_Intensity_Sampler():
         self.g_M = g_M
         self.g = np.empty(self.N + self.M)
         self.g[:self.N] = self.g_X[self.S_0_idx]
-        #self.g[self.N:] = g_M
+        # self.g[self.N:] = g_M
         # new: adjustment if M==0:
         if self.M > 0:
             self.g[self.N:] = g_M
@@ -132,9 +136,9 @@ class BG_Intensity_Sampler():
     def sample_unthinned_set(self):
         expected_num_events = self.R * self.T * self.lmbda_star
         num_events = np.random.poisson(expected_num_events, 1)[0]
-        #self.Pi_unthinned = self.base_rate.sample(num_events)
+        # self.Pi_unthinned = self.base_rate.sample(num_events)
         self.Pi_unthinned = np.random.rand(num_events, self.D) * self.S[None] + \
-        self.S_borders[:, 0][None]
+                            self.S_borders[:, 0][None]
 
     def cov_func(self, x, x_prime, only_diagonal=False, cov_params=None):
         """ Computes the covariance functions between x and x_prime.
@@ -163,7 +167,7 @@ class BG_Intensity_Sampler():
             h = np.sum(x_theta2 ** 2, axis=1)[:, None] - 2. * np.dot(
                 x_theta2, xprime_theta2.T) + \
                 np.sum(xprime_theta2 ** 2, axis=1)[None]
-            return theta_1 * np.exp(-.5*h)
+            return theta_1 * np.exp(-.5 * h)
 
     def sample_marks(self):
         self.marks = np.empty(self.N + self.M)
@@ -175,7 +179,7 @@ class BG_Intensity_Sampler():
 
         alpha = self.N + self.M + self.alpha0
         beta = self.R * self.T + self.beta0
-        shape = 1./beta
+        shape = 1. / beta
         self.lmbda_star = np.random.gamma(alpha, shape)
 
     def sample_g(self):
@@ -183,7 +187,7 @@ class BG_Intensity_Sampler():
         L_inv = np.linalg.cholesky(Sigma_g_inv + self.noise * np.eye(
             self.K.shape[0]))
         L = solve_triangular(L_inv, np.eye(self.L_inv.shape[0]),
-                                      lower=True, check_finite=False)
+                             lower=True, check_finite=False)
         Sigma_g = L.T.dot(L)
         u = np.empty(self.N + self.M)
         u[:self.N] = .5
@@ -194,7 +198,7 @@ class BG_Intensity_Sampler():
 
     def sample_latent_poisson(self):
         # Without lmbda_star
-        inv_intensity = 1./(1. + np.exp(self.g_unthinned))
+        inv_intensity = 1. / (1. + np.exp(self.g_unthinned))
         rand_nums = np.random.rand(len(self.Pi_unthinned))
         thinned_idx = np.where(inv_intensity >= rand_nums)[0]
         self.M = len(thinned_idx)
@@ -212,8 +216,8 @@ class BG_Intensity_Sampler():
         k = self.cov_func(self.X_all, xprime)
         mean = k.T.dot(self.K_inv.dot(self.g))
         kprimeprime = self.cov_func(xprime, xprime)
-        #var = (kprimeprime - k.T.dot(self.K_inv.dot(k))).diagonal()
-        #gprime = mean + numpy.sqrt(var)*numpy.random.randn(xprime.shape[0])
+        # var = (kprimeprime - k.T.dot(self.K_inv.dot(k))).diagonal()
+        # gprime = mean + numpy.sqrt(var)*numpy.random.randn(xprime.shape[0])
         Sigma = (kprimeprime - k.T.dot(self.K_inv.dot(k)))
         L = np.linalg.cholesky(Sigma + self.noise * np.eye(Sigma.shape[0]))
         gprime = mean + np.dot(L.T, np.random.randn(xprime.shape[0]))
@@ -234,7 +238,7 @@ class BG_Intensity_Sampler():
         """
 
         logp_old = self.compute_kernel_param_prop(self.K_inv, self.L, self.cov_params[0], self.cov_params[1])
-        theta1 = np.exp(np.log(self.cov_params[0]) + self.sigma_proposal_hypers *  np.random.randn(1))
+        theta1 = np.exp(np.log(self.cov_params[0]) + self.sigma_proposal_hypers * np.random.randn(1))
         theta2 = np.exp(np.log(self.cov_params[1]) + self.sigma_proposal_hypers * np.random.randn(
             self.D))
         K = self.cov_func(self.X_all, self.X_all, cov_params=[theta1, theta2])
@@ -273,14 +277,14 @@ class BG_Intensity_Sampler():
             mu_length_scale = self.mu_length_scale
         else:
             mu_length_scale = length_scale_factor * self.S
-        logp = -.5*self.g.T.dot(K_inv.dot(self.g)) - \
-            np.sum(np.log(L.diagonal())) - nu0 / mu_nu0 - \
-                np.sum(length_scales / mu_length_scale)
+        logp = -.5 * self.g.T.dot(K_inv.dot(self.g)) - \
+               np.sum(np.log(L.diagonal())) - nu0 / mu_nu0 - \
+               np.sum(length_scales / mu_length_scale)
         self.hyper_prior_length_scale_factor = length_scale_factor
         self.hyper_prior_mu_length_scale = mu_length_scale
         self.hyper_prior_mu_nu0 = mu_nu0
-        if self.iteration==0:
-            print('self.hyper_prior_length_scale_factor =',self.hyper_prior_length_scale_factor)
-            print('self.hyper_prior_mu_length_scale     =',self.hyper_prior_mu_length_scale)
-            print('self.hyper_prior_mu_nu0              =',self.hyper_prior_mu_nu0)
+        if self.iteration == 0:
+            print('self.hyper_prior_length_scale_factor =', self.hyper_prior_length_scale_factor)
+            print('self.hyper_prior_mu_length_scale     =', self.hyper_prior_mu_length_scale)
+            print('self.hyper_prior_mu_nu0              =', self.hyper_prior_mu_nu0)
         return logp
