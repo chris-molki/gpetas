@@ -378,10 +378,9 @@ def autocorr2(x):
     return r_normed[:int(len(x) / 2)]
 
 
-def make_X_grid(X_borders, nbins=50, D=2):
+def make_X_grid(X_borders, nbins=50):
     """
     Generates positions of a regular (nbins x nbins) grid.
-
     :param X_borders: array (D,2)
         Domain of the grid as np.array([[d1_min, d1_max],... ,[D_min, D_max]]).
     :param nbins: int
@@ -391,6 +390,7 @@ def make_X_grid(X_borders, nbins=50, D=2):
     :return: array (nbins**2,D)
         X_grid (meshgrid) positions.
     """
+    D = X_borders.shape[0]
     S = X_borders[:, 1] - X_borders[:, 0]
     grid_points = nbins
     X_grid = np.empty([grid_points, D])  # * np.nan
