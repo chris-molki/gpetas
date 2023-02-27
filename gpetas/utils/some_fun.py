@@ -571,9 +571,9 @@ def silverman_scott_rule_d(X_data, individual_yes=None):
     # h_opt goes with the std(data)* N**()
     # ==== in case of d=2 both are the same
     # silverman  H_ij=0 if i neq j (just diagonal)
-    d = X_data.shape[1]
+    d = X_data.ndim
     sigma_vec = np.std(X_data, axis=0)
-    N = len(X_data[:, 0])
+    N = len(X_data)
     silverman_hstar = 1. / d * np.sum(sigma_vec) * N ** (-1. / (d + 4))
     # ==== in case of d=2 both are the same
     if individual_yes is not None:
