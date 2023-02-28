@@ -677,8 +677,11 @@ class GS_ETAS():
         self.save_data['mu_grid'].append(np.copy(self.mu0_grid))
         self.save_data['cov_params'].append(np.copy(np.array(self.bg_sampler.cov_params, dtype=object)))
         self.save_data['cov_params_theta'].append(np.copy(self.bg_sampler.cov_params[0]))
-        self.save_data['cov_params_nu1'].append(np.copy(self.bg_sampler.cov_params[1][0]))
-        self.save_data['cov_params_nu2'].append(np.copy(self.bg_sampler.cov_params[1][1]))
+        if self.dim == 2:
+            self.save_data['cov_params_nu1'].append(np.copy(self.bg_sampler.cov_params[1][0]))
+            self.save_data['cov_params_nu2'].append(np.copy(self.bg_sampler.cov_params[1][1]))
+        if self.dim == 2:
+            self.save_data['cov_params_nu1'].append(np.copy(self.bg_sampler.cov_params[1]))
         self.save_data['acc_offspring_per_iter'].append(np.copy(self.acc_offspring_per_iter))
         # integral versions
         self.save_data['int_riemann_approx'].append(self.R / len(self.mu0_grid) * np.sum(self.mu0_grid) * self.T)
@@ -713,21 +716,25 @@ class GS_ETAS():
         fid.write(' (0) GP COV function: hyperparameters initialization:\n')
         fid.write('-----------------------------------------------------\n')
         fid.write('cov_params_init nu_0                 = %f\n' % (self.setup_obj.cov_params_start[0]))
-        fid.write('cov_params_init nu_1                 = %f\n' % (self.setup_obj.cov_params_start[1][0]))
-        fid.write('cov_params_init nu_2                 = %f\n' % (self.setup_obj.cov_params_start[1][1]))
+        if self.dim == 2:
+            fid.write('cov_params_init nu_1                 = %f\n' % (self.setup_obj.cov_params_start[1][0]))
+            fid.write('cov_params_init nu_2                 = %f\n' % (self.setup_obj.cov_params_start[1][1]))
+        if self.dim == 1 :
+            fid.write('cov_params_init nu_1                 = %f\n' % (self.setup_obj.cov_params_start[1]))
         fid.write('initial values for nu_1, nu_2 from Silverman rule using all the data\n')
         fid.write('-----------------------------------------------------\n')
         fid.write(' (1) GP COV function: hyper prior initialization:\n')
         fid.write('-----------------------------------------------------\n')
         fid.write('mean nu_0                            = %f\n' % (self.save_data['hyper_prior_mu_nu0']))
-        fid.write(
-            'mean nu_1                            = %f\n' % (self.save_data['hyper_prior_mu_nu12_length_scale'][0]))
-        fid.write(
-            'mean nu_2                            = %f\n' % (self.save_data['hyper_prior_mu_nu12_length_scale'][1]))
         fid.write('beta nu_0                            = %f\n' % (1. / self.save_data['hyper_prior_mu_nu0']))
-        fid.write('beta nu_1                            = %f\n' % (
+        if self.dim == 2:
+            fid.write(
+            'mean nu_1                            = %f\n' % (self.save_data['hyper_prior_mu_nu12_length_scale'][0]))
+            fid.write(
+            'mean nu_2                            = %f\n' % (self.save_data['hyper_prior_mu_nu12_length_scale'][1]))
+            fid.write('beta nu_1                            = %f\n' % (
                 1. / self.save_data['hyper_prior_mu_nu12_length_scale'][0]))
-        fid.write('beta nu_2                            = %f\n' % (
+            fid.write('beta nu_2                            = %f\n' % (
                 1. / self.save_data['hyper_prior_mu_nu12_length_scale'][1]))
         fid.write('hyper_prior_length_scale_factor      = %f\n' % (self.bg_sampler.hyper_prior_length_scale_factor))
         fid.write('prior_mu_length_scale: mean nu_1 = mean nu_2 = default 0.1*dx\n')
