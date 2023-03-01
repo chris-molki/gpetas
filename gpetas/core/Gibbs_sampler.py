@@ -680,7 +680,7 @@ class GS_ETAS():
         if self.dim == 2:
             self.save_data['cov_params_nu1'].append(np.copy(self.bg_sampler.cov_params[1][0]))
             self.save_data['cov_params_nu2'].append(np.copy(self.bg_sampler.cov_params[1][1]))
-        if self.dim == 2:
+        if self.dim == 1:
             self.save_data['cov_params_nu1'].append(np.copy(self.bg_sampler.cov_params[1]))
         self.save_data['acc_offspring_per_iter'].append(np.copy(self.acc_offspring_per_iter))
         # integral versions
