@@ -56,7 +56,7 @@ class R00x_california_set_domain:
         m2 = 'We use earthquakes of M ≥ 2 in the Advanced National Seismic System (ANSS) catalog,\n in the time period from 1 January 1981 to 23 August 2005. We selected earthquakes\n within a rectangu- lar area 30.55° < latitude < 43.95° and –126.35° < longitude < –112.15°,\n larger by 1° than the RELM testing area, to avoid finite region size effects.\n'
         m3 = 'Our final model (our forecast for the next five years) is model #21 in table 1, \n , which uses all available data.\n Model #21 in table 1 uses all the available input data, from 1 January 1981 to 23 August 2005\n'
         m4 = 'The resulting declustered catalog has 81,659 “indepen- dent events” \n (“mainshocks” and “background events”), and 75,545 “dependent events” \n (“foreshocks” and “aftershocks”). The parameters of the declustering algorithm \n were adjusted to remove large fluctuations of seismic activity in space and time.\n'
-        print(m1, m2, m3, m4)
+        #print(m1, m2, m3, m4)
 
     def get_region(self, region_string, time_origin=None, time_end_training=None, time_end_total=None, bins_Xgrid=None):
         region_obj = region_class()
