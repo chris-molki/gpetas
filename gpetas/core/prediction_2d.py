@@ -1849,7 +1849,7 @@ def pred_summary(save_obj_pred=None, save_obj_pred_mle=None, save_obj_pred_mle_s
                                     save_obj_pred_mle=save_obj_pred_mle,
                                     save_obj_pred_mle_silverman=save_obj_pred_mle_silverman,
                                     m0_plot=m0_plot,
-                                    scale=scale, xlim=None, quantile=0.01)
+                                    scale=scale, xlim=None, quantile=0.05)
             hf.savefig(output_dir_figures + '/F004_pred_quantiles_%s_%0i_%0i_%s_m%i.pdf' % (
                 case_name, i, j, scales[i], int(m0_plot * 10)), bbox_inches='tight')
 
@@ -1866,7 +1866,7 @@ def pred_summary(save_obj_pred=None, save_obj_pred_mle=None, save_obj_pred_mle_s
     save_obj_pred = save_obj_pred
     hf, x, y, z, clim_out = plot_pred_prediction2d(t, pred_data, save_obj_pred, scale=scale, quantile=None,
                                                    m0_plot=None, nbins=None,
-                                                   contour_lines=1, cl_color=None,
+                                                   contour_lines=None, cl_color=None,
                                                    points=None, data_testing_points=None, data_training_points=None,
                                                    cmap_dots=None, dt_points=10, clim=None)
     hf.savefig(output_dir_figures + '/F006_pred_2D_%s_%s_m%i.pdf' % (
@@ -1875,7 +1875,7 @@ def pred_summary(save_obj_pred=None, save_obj_pred_mle=None, save_obj_pred_mle_s
     pred_data = save_obj_pred_mle['pred_bgnew_and_offspring_with_Ht_offspring']
     hf, x, y, z, clim_out = plot_pred_prediction2d(t, pred_data, save_obj_pred, scale=scale, quantile=None,
                                                    m0_plot=None, nbins=None,
-                                                   contour_lines=1, cl_color=None,
+                                                   contour_lines=None, cl_color=None,
                                                    points=None, data_testing_points=None, data_training_points=None,
                                                    cmap_dots=None, dt_points=10, clim=clim_out)
     hf.savefig(output_dir_figures + '/F006_pred_2D_mle_%s_%s_m%i.pdf' % (
@@ -1884,7 +1884,7 @@ def pred_summary(save_obj_pred=None, save_obj_pred_mle=None, save_obj_pred_mle_s
     pred_data = save_obj_pred_mle_silverman['pred_bgnew_and_offspring_with_Ht_offspring']
     hf, x, y, z, clim_out = plot_pred_prediction2d(t, pred_data, save_obj_pred, scale=scale, quantile=None,
                                                    m0_plot=None, nbins=None,
-                                                   contour_lines=1, cl_color=None,
+                                                   contour_lines=None, cl_color=None,
                                                    points=None, data_testing_points=None, data_training_points=None,
                                                    cmap_dots=None, dt_points=10, clim=clim_out)
     hf.savefig(output_dir_figures + '/F006_pred_2D_mle_silverman_%s_%s_m%i.pdf' % (
