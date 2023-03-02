@@ -1643,6 +1643,158 @@ def plot_pred_histkernel_Nt_at_t(t, save_obj_pred=None,
     return hf
 
 
+# spatial prediction
+def plot_pred_prediction2d(t, pred_data, save_obj_pred, scale=None, quantile=None,
+                           m0_plot=None, nbins=None,
+                           contour_lines=1, cl_color=None,
+                           points=None, data_testing_points=None, data_training_points=None,
+                           cmap_dots=None, dt_points=10, clim=None):
+    tau0Htm, tau1, tau2 = save_obj_pred['tau_vec'][0]
+    t_slice = t
+    if t_slice is None or t_slice > tau2 - tau1:
+        t_slice = tau2 - tau1
+    if m0_plot is None or m0_plot < save_obj_pred['m0']:
+        m0_plot = save_obj_pred['m0']
+        print('Warning: lowest predicted magnitde is:', save_obj_pred['m0'])
+    if scale is None:
+        scale = 'linear'
+
+    # plot definitions
+    pSIZE = 20
+    plt.rc('font', size=pSIZE)
+    plt.rc('axes', titlesize=pSIZE)
+
+    if pred_data is None:
+        if save_obj_pred is not None:
+            pred_data = save_obj_pred['pred_bgnew_and_offspring_with_Ht_offspring']
+            if m0_plot is None:
+                m0_plot = save_obj_pred['m0']
+            if m0_plot < save_obj_pred['m0']:
+                m0_plot = save_obj_pred['m0']
+                print('Warning: lowest predicted magnitde is:', save_obj_pred['m0'])
+
+    Ksim = len(pred_data)
+    if m0_plot is None:
+        m0_plot = save_obj_pred['data_obj'].domain.m0
+    if nbins is None:
+        nbins = 50
+    L = nbins ** 2
+    range_hist = save_obj_pred['data_obj'].domain.X_borders
+
+    print(m0_plot)
+    h2d_arr = np.empty([Ksim, nbins, nbins]) * np.nan
+    for k in range(Ksim):
+        data_k = pred_data[k]
+        idx = np.logical_and(data_k[:, 1] >= m0_plot,
+                             np.logical_and(data_k[:, 0] > tau1, data_k[:, 0] <= t_slice + tau1))
+        H, xedges, yedges = np.histogram2d(np.array(data_k[idx, 2]),
+                                           np.array(data_k[idx, 3]), bins=nbins,
+                                           range=range_hist)
+        h2d_arr[k, :, :] = H.T
+    X_grid = gpetas.some_fun.make_X_grid(X_borders=save_obj_pred['data_obj'].domain.X_borders, nbins=nbins)
+
+    X_borders = save_obj_pred['data_obj'].domain.X_borders
+    midpoints = np.zeros([2, nbins])
+    delta = np.diff(X_borders) / nbins
+    dx1 = delta[0]
+    dx2 = delta[1]
+    midpoints[0, :] = np.arange(X_borders[0, 0] + dx1 / 2, X_borders[0, 1], dx1)
+    midpoints[1, :] = np.arange(X_borders[1, 0] + dx2 / 2, X_borders[1, 1], dx2)
+    x = midpoints[0, :]
+    y = midpoints[1, :]
+    real_x = np.unique(x)
+    real_y = np.unique(y)
+    dx = (real_x[1] - real_x[0]) / 2.
+    dy = (real_y[1] - real_y[0]) / 2.
+    extent = [real_x[0] - dx, real_x[-1] + dx, real_y[0] - dy, real_y[-1] + dy]
+
+    hf = plt.figure()
+    if quantile is None:
+        z = np.mean(h2d_arr, axis=0)
+        plt.title('mean forecast: $\\tau_2$=%.1f days. $m\\geq%.2f. K_{\\rm sim}$=%i' % (t_slice, m0_plot, Ksim))
+    else:
+        z = np.quantile(a=h2d_arr, q=quantile, axis=0)
+        plt.title('q=%.2f: $\\tau_2$=%.1f days. $m\\geq%.2f$' % (quantile, t_slice, m0_plot))
+    z = z / (dx1 * dx2) / (tau2 - tau1)
+    if scale == 'log10':
+        z = np.log10(z)
+
+    h = plt.imshow(z, origin='lower', extent=extent)
+    cb = plt.colorbar(shrink=.5)
+    if scale == 'linear':
+        cb.set_label('$\hat\lambda$, [1/(day*deg$^2$)]')
+    if scale == 'log10':
+        cb.set_label('$\log_{10}\ \hat\lambda$')
+
+    # clim
+    if clim is not None:
+        h.set_clim(clim[0], clim[1])
+
+    # contour lines
+    if contour_lines is not None:
+        contour_lines = np.linspace(np.nanmin(z[z != -np.inf]), np.nanmax(z[z != -np.inf]), 10)
+        if cl_color is None:
+            cl_color = 'k'
+        h = plt.contour(x, y, z, contour_lines.T, colors=cl_color, linestyles=':')
+        if np.max(contour_lines) < 0.0001:
+            plt.clabel(h, fontsize=9, inline=1, fmt='%2.2E')
+        else:
+            if scale == 'log10':
+                plt.clabel(h, fontsize=9, inline=1, fmt='%2.1f')
+            else:
+                plt.clabel(h, fontsize=9, inline=1, fmt='%2.4f')
+
+    # points
+    if cmap_dots is None:
+        cmap_dots = 'gray'
+    data_obj = save_obj_pred['data_obj']
+    if points is not None:
+        plt.scatter(points[:, 0], points[:, 1], s=10, c='red')  # s=10
+    if data_testing_points is not None:
+        # idx_testing = np.where((data_obj.data_all.times >= data_obj.domain.T_borders_testing[0]))
+        if dt_points is None:
+            dt_points = 10.
+        T1 = t_slice + tau1
+        T2 = t_slice + tau1 + dt_points
+        if T1 > data_obj.domain.T_borders_all[1]:
+            T1 = data_obj.domain.T_borders_all[1]
+            T2 = data_obj.domain.T_borders_all[1]
+            print('Warning: no data for forecast period!')
+        if T2 > data_obj.domain.T_borders_all[1]:
+            T2 = data_obj.domain.T_borders_all[1]
+            print('Warning: forecast period is shortend to %f days instead of %f days.' % (
+            T2 - (t_slice + tau1), dt_points))
+        idx_testing = np.logical_and(np.logical_and(data_obj.data_all.times >= T1,
+                                                    data_obj.data_all.times <= T2),
+                                     data_obj.data_all.magnitudes >= m0_plot)
+        points = data_obj.data_all.positions[idx_testing]
+        points_time = data_obj.data_all.times[idx_testing]
+        if len(cmap_dots) == 1:
+            im = plt.scatter(points[:, 0], points[:, 1], s=15, c=cmap_dots, vmin=0,
+                             vmax=data_obj.domain.T_borders_all[1])
+        else:
+            im = plt.scatter(points[:, 0], points[:, 1], s=15, c=points_time, cmap=cmap_dots, vmin=0,
+                             vmax=data_obj.domain.T_borders_all[1])
+    if data_training_points is not None:
+        idx_training = np.where((data_obj.data_all.times >= data_obj.domain.T_borders_training[0]) & (
+                data_obj.data_all.times <= data_obj.domain.T_borders_training[1]))
+        points = data_obj.data_all.positions[idx_training]
+        points_time = data_obj.data_all.times[idx_training]
+        if len(cmap_dots) == 1:
+            im = plt.scatter(points[:, 0], points[:, 1], s=15, c=cmap_dots, vmin=0,
+                             vmax=data_obj.domain.T_borders_training[1])
+        else:
+            im = plt.scatter(points[:, 0], points[:, 1], s=15, c=points_time, cmap=cmap_dots, vmin=0,
+                             vmax=data_obj.domain.T_borders_training[1])
+
+    clim_out = h.get_clim()
+    plt.xlabel('$x_1$,  (Lon.)')
+    plt.ylabel('$x_2$,  (Lat.)')
+    print(np.sum(z) * (tau2 - tau1) * (dx1 * dx2))
+
+    return hf, x, y, z, clim_out
+
+
 ### summary of plots and tables
 def pred_summary(save_obj_pred=None, save_obj_pred_mle=None, save_obj_pred_mle_silverman=None, m0_plot=None):
     init_outdir()
