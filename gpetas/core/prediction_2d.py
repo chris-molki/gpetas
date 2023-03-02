@@ -1486,7 +1486,7 @@ def plot_pred_quantile(t, save_obj_pred=None, save_obj_pred_mle=None, save_obj_p
         if scale == 'log10':
             plt.axhline(y=Nobs_t, color='m', linestyle='--', label='$\\log10 N_{obs}$=%.2f' % Nobs_t)
         else:
-            plt.axhline(y=Nobs_t, color='m', linestyle='--', label='$N_{obs}$=%i' %Nobs_t)
+            plt.axhline(y=Nobs_t, color='m', linestyle='--', label='$N_{obs}$=%i' % Nobs_t)
 
     if N_t is not None and N_t_mle is None and N_t_mle_silverman is None:
         plt.plot(1, np.median(N_t), 'ko', markersize=ms)
@@ -1569,7 +1569,7 @@ def plot_pred_histkernel_Nt_at_t(t, save_obj_pred=None,
         if t_slice > tau2 - tau1:
             t_slice = tau2 - tau1
         N_t_mle, Nobs_t = get_marginal_Nt_pred(t=t_slice, save_obj_pred=save_obj_pred_mle,
-                                                                    m0_plot=m0_plot)
+                                               m0_plot=m0_plot)
         Ksim = save_obj_pred_mle['cumsum']['Ksim']
         if scale == 'log10':
             N_t_mle = np.log10(N_t_mle)
@@ -1585,8 +1585,8 @@ def plot_pred_histkernel_Nt_at_t(t, save_obj_pred=None,
         tau0Htm, tau1, tau2 = save_obj_pred_mle_silverman['tau_vec'][0]
         if t_slice > tau2 - tau1: t_slice = tau2 - tau1
         N_t_mle_silverman, Nobs_t = get_marginal_Nt_pred(t=t_slice,
-                                                                              save_obj_pred=save_obj_pred_mle_silverman,
-                                                                              m0_plot=m0_plot)
+                                                         save_obj_pred=save_obj_pred_mle_silverman,
+                                                         m0_plot=m0_plot)
         Ksim = save_obj_pred_mle_silverman['cumsum']['Ksim']
         if scale == 'log10':
             N_t_mle_silverman = np.log10(N_t_mle_silverman)
@@ -1691,7 +1691,6 @@ def plot_pred_prediction2d(t, pred_data, save_obj_pred, scale=None, quantile=Non
                                            np.array(data_k[idx, 3]), bins=nbins,
                                            range=range_hist)
         h2d_arr[k, :, :] = H.T
-    X_grid = gpetas.some_fun.make_X_grid(X_borders=save_obj_pred['data_obj'].domain.X_borders, nbins=nbins)
 
     X_borders = save_obj_pred['data_obj'].domain.X_borders
     midpoints = np.zeros([2, nbins])
@@ -1763,7 +1762,7 @@ def plot_pred_prediction2d(t, pred_data, save_obj_pred, scale=None, quantile=Non
         if T2 > data_obj.domain.T_borders_all[1]:
             T2 = data_obj.domain.T_borders_all[1]
             print('Warning: forecast period is shortend to %f days instead of %f days.' % (
-            T2 - (t_slice + tau1), dt_points))
+                T2 - (t_slice + tau1), dt_points))
         idx_testing = np.logical_and(np.logical_and(data_obj.data_all.times >= T1,
                                                     data_obj.data_all.times <= T2),
                                      data_obj.data_all.magnitudes >= m0_plot)
@@ -1835,14 +1834,14 @@ def pred_summary(save_obj_pred=None, save_obj_pred_mle=None, save_obj_pred_mle_s
             hf.savefig(output_dir_figures + '/F002_pred_%s_%0i_%0i_%s_m%i.pdf' % (
                 case_name, i, j, scales[i], int(m0_plot * 10)), bbox_inches='tight')
             hf = plot_pred_histkernel_Nt_at_t(t, save_obj_pred=save_obj_pred,
-                                         save_obj_pred_mle=save_obj_pred_mle,
-                                         save_obj_pred_mle_silverman=save_obj_pred_mle_silverman,
-                                         m0_plot=m0_plot,
-                                         scale=scale,
-                                         xlim=None,
-                                         bw_method='silverman',
-                                         nbins=None,
-                                         hist='yes')
+                                              save_obj_pred_mle=save_obj_pred_mle,
+                                              save_obj_pred_mle_silverman=save_obj_pred_mle_silverman,
+                                              m0_plot=m0_plot,
+                                              scale=scale,
+                                              xlim=None,
+                                              bw_method='silverman',
+                                              nbins=None,
+                                              hist='yes')
             hf.savefig(output_dir_figures + '/F003_pred_kernel_%s_%0i_%0i_%s_m%i.pdf' % (
                 case_name, i, j, scales[i], int(m0_plot * 10)), bbox_inches='tight')
 
@@ -1857,8 +1856,38 @@ def pred_summary(save_obj_pred=None, save_obj_pred_mle=None, save_obj_pred_mle_s
             hf = plot_pred_boxplot(t, save_obj_pred=save_obj_pred,
                                    save_obj_pred_mle=save_obj_pred_mle,
                                    save_obj_pred_mle_silverman=save_obj_pred_mle_silverman,
-                              m0_plot=m0_plot, scale=scale, xlim=None)
+                                   m0_plot=m0_plot, scale=scale, xlim=None)
             hf.savefig(output_dir_figures + '/F005_pred_boxplot_%s_%0i_%0i_%s_m%i.pdf' % (
                 case_name, i, j, scales[i], int(m0_plot * 10)), bbox_inches='tight')
+
+    scale = 'log10'
+    t = tau2
+    pred_data = save_obj_pred['pred_bgnew_and_offspring_with_Ht_offspring']
+    save_obj_pred = save_obj_pred
+    hf, x, y, z, clim_out = plot_pred_prediction2d(t, pred_data, save_obj_pred, scale=scale, quantile=None,
+                                                   m0_plot=None, nbins=None,
+                                                   contour_lines=1, cl_color=None,
+                                                   points=None, data_testing_points=None, data_training_points=None,
+                                                   cmap_dots=None, dt_points=10, clim=None)
+    hf.savefig(output_dir_figures + '/F006_pred_2D_%s_%s_m%i.pdf' % (
+        case_name, scale, int(m0_plot * 10)), bbox_inches='tight')
+    # mle
+    pred_data = save_obj_pred_mle['pred_bgnew_and_offspring_with_Ht_offspring']
+    hf, x, y, z, clim_out = plot_pred_prediction2d(t, pred_data, save_obj_pred, scale=scale, quantile=None,
+                                                   m0_plot=None, nbins=None,
+                                                   contour_lines=1, cl_color=None,
+                                                   points=None, data_testing_points=None, data_training_points=None,
+                                                   cmap_dots=None, dt_points=10, clim=clim_out)
+    hf.savefig(output_dir_figures + '/F006_pred_2D_mle_%s_%s_m%i.pdf' % (
+        case_name, scale, int(m0_plot * 10)), bbox_inches='tight')
+    # mle_silverman
+    pred_data = save_obj_pred_mle_silverman['pred_bgnew_and_offspring_with_Ht_offspring']
+    hf, x, y, z, clim_out = plot_pred_prediction2d(t, pred_data, save_obj_pred, scale=scale, quantile=None,
+                                                   m0_plot=None, nbins=None,
+                                                   contour_lines=1, cl_color=None,
+                                                   points=None, data_testing_points=None, data_training_points=None,
+                                                   cmap_dots=None, dt_points=10, clim=clim_out)
+    hf.savefig(output_dir_figures + '/F006_pred_2D_mle_silverman_%s_%s_m%i.pdf' % (
+        case_name, scale, int(m0_plot * 10)), bbox_inches='tight')
 
     return
