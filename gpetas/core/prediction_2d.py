@@ -3,6 +3,7 @@ from scipy.linalg import solve_triangular
 import scipy as sc
 import time
 from gpetas.utils.some_fun import get_grid_data_for_a_point
+import gpetas
 import os
 import pickle
 import datetime
@@ -1212,20 +1213,41 @@ def plot_pred_hist_cumsum_Nt_at_t(t, save_obj_pred=None, save_obj_pred_mle=None,
     # histograms
     bins = None
     if N_t is None and N_t_mle is not None and N_t_mle_silverman is not None:
-        bins = np.histogram(np.hstack((N_t_mle, N_t_mle_silverman)), bins=int(np.sqrt(Ksim)))[1]  # get the bin edges
+        z = np.hstack((N_t_mle, N_t_mle_silverman))
+        if scale == 'log10':
+            z = z[z != -np.inf]
+        bins = np.histogram(z, bins=int(np.sqrt(Ksim)))[1]  # get the bin edges
     if N_t is None and N_t_mle is not None and N_t_mle_silverman is None:
-        bins = np.histogram(N_t_mle, bins=int(np.sqrt(Ksim)))[1]  # get the bin edges
+        z = N_t_mle
+        if scale == 'log10':
+            z = z[z != -np.inf]
+        bins = np.histogram(z, bins=int(np.sqrt(Ksim)))[1]  # get the bin edges
     if N_t is None and N_t_mle is None and N_t_mle_silverman is not None:
-        bins = np.histogram(N_t_mle_silverman, bins=int(np.sqrt(Ksim)))[1]  # get the bin edges
+        z = N_t_mle_silverman
+        if scale == 'log10':
+            z = z[z != -np.inf]
+        bins = np.histogram(z, bins=int(np.sqrt(Ksim)))[1]  # get the bin edges
     if N_t is not None and N_t_mle is not None and N_t_mle_silverman is None:
-        bins = np.histogram(np.hstack((N_t, N_t_mle)), bins=int(np.sqrt(Ksim)))[1]  # get the bin edges
+        z = np.hstack((N_t, N_t_mle))
+        if scale == 'log10':
+            z = z[z != -np.inf]
+        bins = np.histogram(z, bins=int(np.sqrt(Ksim)))[1]  # get the bin edges
     if N_t is not None and N_t_mle is None and N_t_mle_silverman is not None:
-        bins = np.histogram(np.hstack((N_t, N_t_mle_silverman)), bins=int(np.sqrt(Ksim)))[1]  # get the bin edges
+        z = np.hstack((N_t, N_t_mle_silverman))
+        if scale == 'log10':
+            z = z[z != -np.inf]
+        bins = np.histogram(z, bins=int(np.sqrt(Ksim)))[1]  # get the bin edges
     if N_t is not None and N_t_mle is not None and N_t_mle_silverman is not None:
-        bins = np.histogram(np.hstack((N_t, N_t_mle, N_t_mle_silverman)), bins=int(np.sqrt(Ksim)))[
+        z = np.hstack((N_t, N_t_mle, N_t_mle_silverman))
+        if scale == 'log10':
+            z = z[z != -np.inf]
+        bins = np.histogram(z, bins=int(np.sqrt(Ksim)))[
             1]  # get the bin edges
     if N_t is not None and N_t_mle is None and N_t_mle_silverman is None:
-        bins = np.histogram(N_t, bins=int(np.sqrt(Ksim)))[1]  # get the bin edges
+        z = N_t
+        if scale == 'log10':
+            z = z[z != -np.inf]
+        bins = np.histogram(z, bins=int(np.sqrt(Ksim)))[1]  # get the bin edges
 
     hf = plt.figure()
     if save_obj_pred is not None:
@@ -1821,7 +1843,7 @@ def pred_summary(save_obj_pred=None, save_obj_pred_mle=None, save_obj_pred_mle_s
         hf = plot_pred_cumsum_Nt_path(save_obj_pred=save_obj_pred, m0_plot=m0_plot, save_obj_pred_mle=save_obj_pred_mle,
                                       save_obj_pred_mle_silverman=save_obj_pred_mle_silverman, scale=scale,
                                       which_events=None)
-        hf.savefig(output_dir_figures + '/F001_pred_%s_%0i_%s.pdf' % (case_name, i, scales[i]), bbox_inches='tight')
+        hf.savefig(output_dir_figures + '/F001_pred_%s_%0i_%s.png' % (case_name, i, scales[i]), bbox_inches='tight')
 
     # FIG 02: Nt histograms at t
     # FIG 03: Nt histogram and kernel
@@ -1908,6 +1930,260 @@ def pred_summary(save_obj_pred=None, save_obj_pred_mle=None, save_obj_pred_mle_s
                                                        cmap_dots=None, dt_points=10, clim=clim_out)
         hf.savefig(output_dir_figures + '/F006_pred_2D_%s_%s_m%i_mle_silverman.pdf' % (
             case_name, scale, int(m0_plot * 10)), bbox_inches='tight')
+
+    return
+
+# write report
+def write_table_prediction_report(save_obj_pred, save_obj_pred_mle=None, m0_plot=None):
+    # output dir
+    init_outdir()
+    # vars
+    case_name = save_obj_pred['data_obj'].case_name
+    time_origin = save_obj_pred['data_obj'].domain.time_origin
+    t0 = 0.
+    t1, t2 = save_obj_pred['data_obj'].domain.T_borders_training
+    t1, t3 = save_obj_pred['data_obj'].domain.T_borders_all
+    time_end_training = time_origin + datetime.timedelta(milliseconds=(t2) * 24. * 60. * 60. * 1000)
+    time_end_data = time_origin + datetime.timedelta(milliseconds=(t3) * 24. * 60. * 60. * 1000)
+    X_borders = save_obj_pred['data_obj'].domain.X_borders
+    tau0Htm, tau1, tau2 = save_obj_pred['tau_vec'][0]
+    Ksim = len(save_obj_pred['pred_bgnew_and_offspring'])
+    if m0_plot is None:
+        m0_plot = save_obj_pred['data_obj'].domain.m0
+
+    fid = open(output_dir_tables + '/report.tex', 'w')
+    fid.write("\\documentclass[]{scrartcl}\n")
+    fid.write("\\usepackage{amsmath}\n")
+    fid.write("\\usepackage{graphicx}\n")
+    fid.write("\n")
+    fid.write("\n")
+    fid.write("\n")
+
+    fid.write("%opening\n")
+    fid.write("\\title{GP-ETAS forecast report of case: \\texttt{%s}}\n" % case_name)
+    fid.write("\\author{gpetas package}\n")
+
+    fid.write("\\begin{document}\n")
+    fid.write("\\maketitle\n")
+
+    fid.write("\\section{General info}\n")
+    fid.write("Forecast period: $\\tau_1=%.1f$, $\\tau_2=%.1f$ with $\\tau_{H_t}$=-%.1f days.\n" % (
+    tau1, tau2, tau0Htm - tau1))
+    fid.write("\n\\noindent\n")
+    fid.write("Forecast period: $|\mathcal{T^\\ast}|$=%.1f days.\n" % (tau2 - tau1))
+    fid.write("\n\\noindent\n")
+    fid.write("Training in    : $t_1=%.1f$, $t_2=%.1f$ with $t_{H_t}=%.1f$ days.\n" % (t1, t2, t0))
+    fid.write("\n\\noindent\n")
+    fid.write("Time origin is: %s\n" % (time_origin).strftime(format=time_format))
+    fid.write("\n\\noindent\n")
+    fid.write("Time end of training: %s\n" % (time_end_training).strftime(format=time_format))
+    fid.write("\n\\noindent\n")
+    fid.write("Time end of data: %s\n" % (time_end_data).strftime(format=time_format))
+    fid.write("\n\\noindent\n")
+    fid.write("Spatial domain in $x_1$: %.2f %.2f\n" % (X_borders[0, 0], X_borders[0, 1]))
+    fid.write("\n\\noindent\n")
+    fid.write("Spatial domain in $x_2$: %.2f %.2f\n" % (X_borders[1, 0], X_borders[1, 1]))
+    fid.write("\n\\noindent\n")
+    fid.write("Spatial domain extent: $|\\mathcal{X}|$=%.1f\n" % (np.prod(np.diff(X_borders))))
+
+    fid.write("\\section{Setup}\n")
+    save_obj_GS = save_obj_pred['save_obj_GS']
+    hf = gpetas.plotting.plot_setting(save_obj_GS['data_obj'])
+    hf[0].savefig(output_dir_figures + '/F_setup00.pdf', bbox_inches='tight')
+    hf[1].savefig(output_dir_figures + '/F_setup01.pdf', bbox_inches='tight')
+    hf[3].savefig(output_dir_figures + '/F_setup03.pdf', bbox_inches='tight')
+    hf[4].savefig(output_dir_figures + '/F_setup04.pdf', bbox_inches='tight')
+    fid.write("\\begin{figure}[h!]\n")
+    fid.write("\\centering\n")
+    fid.write("\\includegraphics[width=0.45\\textwidth]{../figures/F_setup00}\n")
+    fid.write("\\includegraphics[width=0.36\\textwidth]{../figures/F_setup01}\n")
+    fid.write("\\caption{All data.}\n")
+    fid.write("\\end{figure}\n")
+    fid.write("\\begin{figure}[h!]\n")
+    fid.write("\\centering\n")
+    fid.write("\\includegraphics[width=0.45\\textwidth]{../figures/F_setup03}\n")
+    fid.write("\\includegraphics[width=0.45\\textwidth]{../figures/F_setup04}\n")
+    fid.write("\\caption{Spatial distribution of training (left) and testing data (right).}\n")
+    fid.write("\\end{figure}\n")
+
+    fid.write("\\newpage\n")
+    fid.write("\\section{Tables}\n")
+    fid.write("\\begin{table}[h!]\n")
+    fid.write("\centering\n")
+    fid.write("\small\n")
+    fid.write(
+        "\caption{Forecasted number of events $N^\\ast$ for the entire region based on $K_{\\text{sim}}$=%i.}" % Ksim)
+    fid.write("\n")
+    fid.write("\\begin{tabular}{lccccccccc}")
+    fid.write("\n")
+    fid.write("\hline")
+    fid.write("\n")
+    fid.write("model &  $\\tau_2-\\tau_1$ & $N_{\\text{obs}}$ & mean & variance & 0.01 & 0.05 & 0.5 & 0.95 & 0.99 \\\ ")
+    fid.write("\hline\n")
+
+    t_vec = np.linspace(0., tau2 - tau1, 5)
+    if (tau2 - tau1) >= 180:
+        if sum(t_vec == 1.) == 0:
+            t_vec = np.sort(np.append(t_vec, 1.))
+        if sum(t_vec == 10.) == 0:
+            t_vec = np.sort(np.append(t_vec, 10.))
+        if sum(t_vec == 30.) == 0:
+            t_vec = np.sort(np.append(t_vec, 30.))
+        if sum(t_vec == 60.) == 0:
+            t_vec = np.sort(np.append(t_vec, 60.))
+        if sum(t_vec == 180.) == 0:
+            t_vec = np.sort(np.append(t_vec, 180.))
+        print(t_vec)
+
+    for j in np.arange(1, len(t_vec)):
+        t = t_vec[j]
+        # gpetas
+        N_t, Nobs = gpetas.prediction_2d.get_marginal_Nt_pred(t, save_obj_pred, m0_plot=None, which_events=None)
+        m, v, q01, q05, q5, q95, q99 = [np.mean(N_t), np.var(N_t), np.quantile(N_t, q=0.01),
+                                        np.quantile(N_t, q=0.05), np.quantile(N_t, q=0.5),
+                                        np.quantile(N_t, q=0.95), np.quantile(N_t, q=0.99)]
+        Line = "GP-E & %.1f & %.i & %.1f & %.1f & %.1f & %.1f & %.1f & %.1f  & %.1f \\\ \n" % (
+        t, Nobs, m, v, q01, q05, q5, q95, q99)
+        fid.write(Line)
+        # mle
+        N_t_mle, Nobs = gpetas.prediction_2d.get_marginal_Nt_pred(t, save_obj_pred_mle, m0_plot=None, which_events=None)
+        m, v, q01, q05, q5, q95, q99 = [np.mean(N_t_mle), np.var(N_t_mle), np.quantile(N_t_mle, q=0.01),
+                                        np.quantile(N_t_mle, q=0.05), np.quantile(N_t_mle, q=0.5),
+                                        np.quantile(N_t_mle, q=0.95), np.quantile(N_t_mle, q=0.99)]
+        Line = "E &  &  & %.1f & %.1f & %.1f & %.1f & %.1f & %.1f  & %.1f \\\ \n" % (m, v, q01, q05, q5, q95, q99)
+        # Line = "E &  &  & %.0f & %.0f & %.0f & %.0f & %.0f & %.0f  & %.0f \\\ \n" %(m,v,q01,q05,q5,q95,q99)
+        fid.write(Line)
+        fid.write("\n")
+        fid.write("\hline")
+        fid.write("\n")
+
+    # fid.write("\hline\n")
+    fid.write("\end{tabular}\n")
+    fid.write("\end{table}\n")
+
+    # log10 table
+    fid.write("\\begin{table}[h!]\n")
+    fid.write("\centering\n")
+    fid.write("\small\n")
+    fid.write(
+        "\caption{Forecasted logarithmic number of events $\\log_{10}N^\\ast$ for the entire region based on $K_{\\text{sim}}$=%i.}" % Ksim)
+    fid.write("\n")
+    fid.write("\\begin{tabular}{lccccccccc}")
+    fid.write("\n")
+    fid.write("\hline")
+    fid.write("\n")
+    fid.write("model &  $\\tau_2-\\tau_1$ & $N_{\\text{obs}}$ & mean & variance & 0.01 & 0.05 & 0.5 & 0.95 & 0.99 \\\ ")
+    fid.write("\hline\n")
+
+    t_vec = np.linspace(0., tau2 - tau1, 5)
+    if (tau2 - tau1) >= 180:
+        if sum(t_vec == 1.) == 0:
+            t_vec = np.sort(np.append(t_vec, 1.))
+        if sum(t_vec == 10.) == 0:
+            t_vec = np.sort(np.append(t_vec, 10.))
+        if sum(t_vec == 30.) == 0:
+            t_vec = np.sort(np.append(t_vec, 30.))
+        if sum(t_vec == 60.) == 0:
+            t_vec = np.sort(np.append(t_vec, 60.))
+        if sum(t_vec == 180.) == 0:
+            t_vec = np.sort(np.append(t_vec, 180.))
+        print(t_vec)
+
+    for j in np.arange(1, len(t_vec)):
+        t = t_vec[j]
+        # gpetas
+        N_t, Nobs = get_marginal_Nt_pred(t, save_obj_pred, m0_plot=None, which_events=None)
+        z = np.log10(N_t)
+        Nobs = np.log10(Nobs)
+        # np.nanmin(z[z != -np.inf])
+        m, v, q01, q05, q5, q95, q99 = [np.nanmean(z[z != -np.inf]),
+                                        np.nanvar(z[z != -np.inf]),
+                                        np.nanquantile(z[z != -np.inf], q=0.01),
+                                        np.nanquantile(z[z != -np.inf], q=0.05),
+                                        np.nanquantile(z[z != -np.inf], q=0.5),
+                                        np.nanquantile(z[z != -np.inf], q=0.95),
+                                        np.nanquantile(z[z != -np.inf], q=0.99)]
+        Line = "GP-E & %.1f & %.2f & %.2f & %.4f & %.2f & %.2f & %.2f & %.2f  & %.2f \\\ \n" % (
+        t, Nobs, m, v, q01, q05, q5, q95, q99)
+        fid.write(Line)
+        # mle
+        N_t_mle, Nobs = get_marginal_Nt_pred(t, save_obj_pred_mle, m0_plot=None, which_events=None)
+        z = np.log10(N_t_mle)
+        Nobs = np.log10(Nobs)
+        # np.nanmin(z[z != -np.inf])
+        m, v, q01, q05, q5, q95, q99 = [np.nanmean(z[z != -np.inf]),
+                                        np.nanvar(z[z != -np.inf]),
+                                        np.nanquantile(z[z != -np.inf], q=0.01),
+                                        np.nanquantile(z[z != -np.inf], q=0.05),
+                                        np.nanquantile(z[z != -np.inf], q=0.5),
+                                        np.nanquantile(z[z != -np.inf], q=0.95),
+                                        np.nanquantile(z[z != -np.inf], q=0.99)]
+        Line = "E &  &  & %.2f & %.4f & %.2f & %.2f & %.2f & %.2f  & %.2f \\\ \n" % (m, v, q01, q05, q5, q95, q99)
+        # Line = "E &  &  & %.0f & %.0f & %.0f & %.0f & %.0f & %.0f  & %.0f \\\ \n" %(m,v,q01,q05,q5,q95,q99)
+        fid.write(Line)
+        fid.write("\n")
+        fid.write("\hline")
+        fid.write("\n")
+
+    # fid.write("\hline\n")
+    fid.write("\end{tabular}\n")
+    fid.write("\end{table}\n")
+
+    fid.write("\\newpage\n")
+    fid.write("\\section{Figures}\n")
+
+    fid.write("\\begin{figure}[h!]\n")
+    fid.write("\\centering\n")
+    for j in np.arange(1, len(t_vec)):
+        fname = 'F003_pred_kernel_%s_%0i_%0i_%s_m%i' % (
+            case_name, 0, j, 'linear', int(m0_plot * 10))
+        fid.write("\\includegraphics[width=0.33\\textwidth]{../figures/%s}\n" % fname)
+    fid.write("\\caption{Forecasted number of events $N^\\ast$ for different $\\tau$ in days.}\n")
+    fid.write("\\end{figure}\n")
+
+    fid.write("\\begin{figure}[h!]\n")
+    fid.write("\\centering\n")
+    for j in np.arange(1, len(t_vec)):
+        fname = 'F003_pred_kernel_%s_%0i_%0i_%s_m%i' % (
+            case_name, 1, j, 'log10', int(m0_plot * 10))
+        fid.write("\\includegraphics[width=0.33\\textwidth]{../figures/%s}\n" % fname)
+    fid.write("\\caption{Forecasted logarithmic number of events $\\log_{10}N^\\ast$ for different $\\tau$ in days.}\n")
+    fid.write("\\end{figure}\n")
+
+    # quantiles
+    fid.write("\\begin{figure}[h!]\n")
+    fid.write("\\centering\n")
+    for j in np.arange(1, len(t_vec)):
+        fname = 'F004_pred_quantiles_%s_%0i_%0i_%s_m%i.pdf' % (
+            case_name, 0, j, 'linear', int(m0_plot * 10))
+        fid.write("\\includegraphics[width=0.33\\textwidth]{../figures/%s}\n" % fname)
+    fid.write(
+        "\\caption{Quantile plot of forecasted logarithmic number of events $\\log_{10}N^\\ast$ for different $\\tau$ in days.}\n")
+    fid.write("\\end{figure}\n")
+
+    fid.write("\\begin{figure}[h!]\n")
+    fid.write("\\centering\n")
+    fname = 'F006_pred_2D_%s_%s_m%i_gpetas' % (
+        case_name, 'log10', int(m0_plot * 10))
+    fid.write("\\includegraphics[width=0.75\\textwidth]{../figures/%s}\n" % fname)
+    fname = 'F006_pred_2D_%s_%s_m%i_mle' % (
+        case_name, 'log10', int(m0_plot * 10))
+    fid.write("\\includegraphics[width=0.75\\textwidth]{../figures/%s}\n" % fname)
+    fid.write("\\caption{Spatial forecast, GP-ETAS (left) and ETAS (right).}\n")
+    fid.write("\\end{figure}\n")
+
+    scales = ['linear', 'logy', 'logx', 'loglog']
+    fid.write("\\begin{figure}[h!]\n")
+    fid.write("\\centering\n")
+    for i in range(len(scales)):
+        scale = scales[i]
+        fname = '/F001_pred_%s_%0i_%s' % (case_name, i, scales[i])
+        fid.write("\\includegraphics[width=0.75\\textwidth]{../figures/%s}\n" % fname)
+    fid.write("\\caption{Forecasts, GP-ETAS and ETAS over time with $K_{sim}$=%i.}\n" % Ksim)
+    fid.write("\\end{figure}\n")
+
+    fid.write("\\end{document}")
+    fid.close()
 
     return
 
