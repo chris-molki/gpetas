@@ -1582,6 +1582,7 @@ def plot_pred_histkernel_Nt_at_t(t, save_obj_pred=None,
         Ksim = save_obj_pred['cumsum']['Ksim']
         if scale == 'log10':
             N_t = np.log10(N_t)
+            N_t = N_t[N_t != -np.inf]
             Nobs_t = np.log10(Nobs_t)
 
     N_t_mle = None
@@ -1599,6 +1600,7 @@ def plot_pred_histkernel_Nt_at_t(t, save_obj_pred=None,
         Ksim = save_obj_pred_mle['cumsum']['Ksim']
         if scale == 'log10':
             N_t_mle = np.log10(N_t_mle)
+            N_t_mle = N_t_mle[N_t_mle != -np.inf]
             Nobs_t = np.log10(Nobs_t)
 
     N_t_mle_silverman = None
@@ -1616,6 +1618,7 @@ def plot_pred_histkernel_Nt_at_t(t, save_obj_pred=None,
         Ksim = save_obj_pred_mle_silverman['cumsum']['Ksim']
         if scale == 'log10':
             N_t_mle_silverman = np.log10(N_t_mle_silverman)
+            N_t_mle_silverman = N_t_mle_silverman[N_t_mle_silverman != -np.inf]
             Nobs_t = np.log10(Nobs_t)
 
     if N_t is not None:
