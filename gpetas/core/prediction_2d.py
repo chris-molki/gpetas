@@ -1894,3 +1894,5 @@ def pred_summary(save_obj_pred=None, save_obj_pred_mle=None, save_obj_pred_mle_s
             case_name, scale, int(m0_plot * 10)), bbox_inches='tight')
 
     return
+
+
