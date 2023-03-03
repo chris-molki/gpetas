@@ -1857,7 +1857,7 @@ def pred_summary(save_obj_pred=None, save_obj_pred_mle=None, save_obj_pred_mle_s
                                               xlim=None,
                                               bw_method='silverman',
                                               nbins=None,
-                                              hist='yes')
+                                              hist=None)
             hf.savefig(output_dir_figures + '/F003_pred_kernel_%s_%0i_%0i_%s_m%i.pdf' % (
                 case_name, i, j, scales[i], int(m0_plot * 10)), bbox_inches='tight')
 
