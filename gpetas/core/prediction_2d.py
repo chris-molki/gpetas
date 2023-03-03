@@ -1540,7 +1540,7 @@ def plot_pred_histkernel_Nt_at_t(t, save_obj_pred=None,
                                  xlim=None,
                                  bw_method='silverman',
                                  nbins=None,
-                                 hist='yes'):
+                                 hist=None):
     if scale is None:
         scale = 'linear'
     t_slice = t
@@ -1874,7 +1874,7 @@ def pred_summary(save_obj_pred=None, save_obj_pred_mle=None, save_obj_pred_mle_s
                                                        contour_lines=None, cl_color=None,
                                                        points=None, data_testing_points=None, data_training_points=None,
                                                        cmap_dots=None, dt_points=10, clim=None)
-        hf.savefig(output_dir_figures + '/F006_pred_2D_%s_%s_m%i.pdf' % (
+        hf.savefig(output_dir_figures + '/F006_pred_2D_%s_%s_m%i_gpetas.pdf' % (
             case_name, scale, int(m0_plot * 10)), bbox_inches='tight')
     # mle
     if save_obj_pred_mle is not None:
