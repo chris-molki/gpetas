@@ -455,6 +455,7 @@ class predictions_mle():
         self.tau2 = tau2
         self.tau_vec = np.array([tau0_Ht, tau1, tau2])
         self.data_obj = mle_obj.data_obj
+        self.mle_obj = mle_obj
         self.save_pred = None
         self.N495_true = np.sum(self.data_obj.data_all.magnitudes[
                                     np.logical_and(self.data_obj.data_all.times >= tau1,
@@ -636,6 +637,7 @@ class predictions_gpetas():
         self.tau2 = tau2
         self.tau_vec = np.array([tau0_Ht, tau1, tau2])
         self.data_obj = save_obj_GS['data_obj']
+        self.save_obj_GS = save_obj_GS # new ... maybe delete all individual sub attributes
         self.Ksamples = len(save_obj_GS['lambda_bar'])
         self.save_pred = None
         self.N495_true = np.sum(self.data_obj.data_all.magnitudes[
