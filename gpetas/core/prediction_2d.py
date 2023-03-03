@@ -492,6 +492,7 @@ class predictions_mle():
         self.save_pred['seed_orig'] = np.copy(seed)
         self.save_pred['seed'] = np.copy(self.seed)
         self.save_pred['data_obj'] = data_obj
+        self.save_pred['mle_obj'] = self.mle_obj
         self.save_pred['m0'] = np.copy(self.data_obj.domain.m0)
 
         # some params
@@ -696,6 +697,7 @@ class predictions_gpetas():
         self.save_pred['data_obj'] = save_obj_GS['data_obj']
         self.save_pred['m0'] = np.copy(self.data_obj.domain.m0)
         self.save_pred['data_obj'] = self.data_obj
+        self.save_pred['save_obj_GS'] = self.save_obj_GS
         self.tic = time.perf_counter()
 
         if Ksim is not None:
