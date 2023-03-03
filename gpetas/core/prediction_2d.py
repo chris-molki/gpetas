@@ -1884,7 +1884,7 @@ def pred_summary(save_obj_pred=None, save_obj_pred_mle=None, save_obj_pred_mle_s
                                                        contour_lines=None, cl_color=None,
                                                        points=None, data_testing_points=None, data_training_points=None,
                                                        cmap_dots=None, dt_points=10, clim=clim_out)
-        hf.savefig(output_dir_figures + '/F006_pred_2D_mle_%s_%s_m%i.pdf' % (
+        hf.savefig(output_dir_figures + '/F006_pred_2D_%s_%s_m%i_mle.pdf' % (
             case_name, scale, int(m0_plot * 10)), bbox_inches='tight')
     # mle_silverman
     if save_obj_pred_mle_silverman is not None:
@@ -1894,7 +1894,7 @@ def pred_summary(save_obj_pred=None, save_obj_pred_mle=None, save_obj_pred_mle_s
                                                        contour_lines=None, cl_color=None,
                                                        points=None, data_testing_points=None, data_training_points=None,
                                                        cmap_dots=None, dt_points=10, clim=clim_out)
-        hf.savefig(output_dir_figures + '/F006_pred_2D_mle_silverman_%s_%s_m%i.pdf' % (
+        hf.savefig(output_dir_figures + '/F006_pred_2D_%s_%s_m%i_mle_silverman.pdf' % (
             case_name, scale, int(m0_plot * 10)), bbox_inches='tight')
 
     return
