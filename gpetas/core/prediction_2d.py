@@ -1665,7 +1665,7 @@ def plot_pred_histkernel_Nt_at_t(t, save_obj_pred=None,
             plt.xlim(np.log10(xlim))
     if scale == 'linear':
         plt.xlabel('number of events')
-        plt.axvline(x=Nobs_t, color='m', linestyle='--', label='$N_{\\rm obs}')
+        plt.axvline(x=Nobs_t, color='m', linestyle='--', label='$N_{\\rm obs}$')
     plt.title('$\\tau_2$=%.1f days. $m\\geq%.2f$' % (t_slice, m0_plot))
     plt.legend(fontsize=12)
 
@@ -1975,7 +1975,9 @@ def write_table_prediction_report(save_obj_pred, save_obj_pred_mle=None, m0_plot
     fid.write("\n\\noindent\n")
     fid.write("Forecast period: $|\mathcal{T^\\ast}|$=%.1f days.\n" % (tau2 - tau1))
     fid.write("\n\\noindent\n")
-    fid.write("Training in    : $t_1=%.1f$, $t_2=%.1f$ with $t_{H_t}=%.1f$ days.\n" % (t1, t2, t0))
+    fid.write("Training period: $t_1=%.1f$, $t_2=%.1f$ with $t_{H_t}=%.1f$ days.\n" % (t1, t2, t0))
+    fid.write("\n\\noindent\n")
+    fid.write("Total time window with data: $t_1=%.1f$, $t_3=%.1f$ with $t_{H_t}=%.1f$ and $t_3-t_2$=%.1f days.\n" % (t1, t3, t0,t3-t2))
     fid.write("\n\\noindent\n")
     fid.write("Time origin is: %s\n" % (time_origin).strftime(format=time_format))
     fid.write("\n\\noindent\n")
@@ -1999,7 +2001,7 @@ def write_table_prediction_report(save_obj_pred, save_obj_pred_mle=None, m0_plot
     fid.write("\\begin{figure}[h!]\n")
     fid.write("\\centering\n")
     fid.write("\\includegraphics[width=0.45\\textwidth]{../figures/F_setup00}\n")
-    fid.write("\\includegraphics[width=0.36\\textwidth]{../figures/F_setup01}\n")
+    fid.write("\\includegraphics[width=0.425\\textwidth]{../figures/F_setup01}\n")
     fid.write("\\caption{All data.}\n")
     fid.write("\\end{figure}\n")
     fid.write("\\begin{figure}[h!]\n")
@@ -2096,6 +2098,7 @@ def write_table_prediction_report(save_obj_pred, save_obj_pred_mle=None, m0_plot
         t = t_vec[j]
         # gpetas
         N_t, Nobs = get_marginal_Nt_pred(t, save_obj_pred, m0_plot=None, which_events=None)
+        z = []
         z = np.log10(N_t)
         Nobs = np.log10(Nobs)
         # np.nanmin(z[z != -np.inf])
@@ -2111,6 +2114,7 @@ def write_table_prediction_report(save_obj_pred, save_obj_pred_mle=None, m0_plot
         fid.write(Line)
         # mle
         N_t_mle, Nobs = get_marginal_Nt_pred(t, save_obj_pred_mle, m0_plot=None, which_events=None)
+        z = []
         z = np.log10(N_t_mle)
         Nobs = np.log10(Nobs)
         # np.nanmin(z[z != -np.inf])
