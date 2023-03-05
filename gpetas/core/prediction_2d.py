@@ -1982,7 +1982,7 @@ def write_table_prediction_report(save_obj_pred, save_obj_pred_mle=None, m0_plot
     fid.write("Total time window with data: $t_1=%.1f$, $t_3=%.1f$ with $t_{H_t}=%.1f$ and $t_3-t_2$=%.1f days.\n" % (
     t1, t3, t0, t3 - t2))
     fid.write("\n\\noindent\n")
-    fid.write("Time origin is: %s\n" % (time_origin).strftime(format=time_format))
+    fid.write("Time origin is: %s\n" % (time_origin_obj).strftime(format=time_format))
     fid.write("\n\\noindent\n")
     fid.write("Time end of training: %s\n" % (time_end_training).strftime(format=time_format))
     fid.write("\n\\noindent\n")
