@@ -639,7 +639,7 @@ class predictions_gpetas():
         self.tau2 = tau2
         self.tau_vec = np.array([tau0_Ht, tau1, tau2])
         self.data_obj = save_obj_GS['data_obj']
-        self.save_obj_GS = save_obj_GS # new ... maybe delete all individual sub attributes
+        self.save_obj_GS = save_obj_GS  # new ... maybe delete all individual sub attributes
         self.Ksamples = len(save_obj_GS['lambda_bar'])
         self.save_pred = None
         self.N495_true = np.sum(self.data_obj.data_all.magnitudes[
@@ -1936,6 +1936,7 @@ def pred_summary(save_obj_pred=None, save_obj_pred_mle=None, save_obj_pred_mle_s
 
     return
 
+
 # write report
 def write_table_prediction_report(save_obj_pred, save_obj_pred_mle=None, m0_plot=None):
     # output dir
@@ -1946,8 +1947,9 @@ def write_table_prediction_report(save_obj_pred, save_obj_pred_mle=None, m0_plot
     t0 = 0.
     t1, t2 = save_obj_pred['data_obj'].domain.T_borders_training
     t1, t3 = save_obj_pred['data_obj'].domain.T_borders_all
-    time_end_training = time_origin + datetime.timedelta(milliseconds=(t2) * 24. * 60. * 60. * 1000)
-    time_end_data = time_origin + datetime.timedelta(milliseconds=(t3) * 24. * 60. * 60. * 1000)
+    time_origin_obj = datetime.datetime.strptime(time_origin, time_format)
+    time_end_training = time_origin_obj + datetime.timedelta(milliseconds=(t2) * 24. * 60. * 60. * 1000)
+    time_end_data = time_origin_obj + datetime.timedelta(milliseconds=(t3) * 24. * 60. * 60. * 1000)
     X_borders = save_obj_pred['data_obj'].domain.X_borders
     tau0Htm, tau1, tau2 = save_obj_pred['tau_vec'][0]
     Ksim = len(save_obj_pred['pred_bgnew_and_offspring'])
@@ -1971,13 +1973,14 @@ def write_table_prediction_report(save_obj_pred, save_obj_pred_mle=None, m0_plot
 
     fid.write("\\section{General info}\n")
     fid.write("Forecast period: $\\tau_1=%.1f$, $\\tau_2=%.1f$ with $\\tau_{H_t}$=-%.1f days.\n" % (
-    tau1, tau2, tau0Htm - tau1))
+        tau1, tau2, tau0Htm - tau1))
     fid.write("\n\\noindent\n")
     fid.write("Forecast period: $|\mathcal{T^\\ast}|$=%.1f days.\n" % (tau2 - tau1))
     fid.write("\n\\noindent\n")
     fid.write("Training period: $t_1=%.1f$, $t_2=%.1f$ with $t_{H_t}=%.1f$ days.\n" % (t1, t2, t0))
     fid.write("\n\\noindent\n")
-    fid.write("Total time window with data: $t_1=%.1f$, $t_3=%.1f$ with $t_{H_t}=%.1f$ and $t_3-t_2$=%.1f days.\n" % (t1, t3, t0,t3-t2))
+    fid.write("Total time window with data: $t_1=%.1f$, $t_3=%.1f$ with $t_{H_t}=%.1f$ and $t_3-t_2$=%.1f days.\n" % (
+    t1, t3, t0, t3 - t2))
     fid.write("\n\\noindent\n")
     fid.write("Time origin is: %s\n" % (time_origin).strftime(format=time_format))
     fid.write("\n\\noindent\n")
@@ -2048,7 +2051,7 @@ def write_table_prediction_report(save_obj_pred, save_obj_pred_mle=None, m0_plot
                                         np.quantile(N_t, q=0.05), np.quantile(N_t, q=0.5),
                                         np.quantile(N_t, q=0.95), np.quantile(N_t, q=0.99)]
         Line = "GP-E & %.1f & %.i & %.1f & %.1f & %.1f & %.1f & %.1f & %.1f  & %.1f \\\ \n" % (
-        t, Nobs, m, v, q01, q05, q5, q95, q99)
+            t, Nobs, m, v, q01, q05, q5, q95, q99)
         fid.write(Line)
         # mle
         N_t_mle, Nobs = gpetas.prediction_2d.get_marginal_Nt_pred(t, save_obj_pred_mle, m0_plot=None, which_events=None)
@@ -2110,7 +2113,7 @@ def write_table_prediction_report(save_obj_pred, save_obj_pred_mle=None, m0_plot
                                         np.nanquantile(z[z != -np.inf], q=0.95),
                                         np.nanquantile(z[z != -np.inf], q=0.99)]
         Line = "GP-E & %.1f & %.2f & %.2f & %.4f & %.2f & %.2f & %.2f & %.2f  & %.2f \\\ \n" % (
-        t, Nobs, m, v, q01, q05, q5, q95, q99)
+            t, Nobs, m, v, q01, q05, q5, q95, q99)
         fid.write(Line)
         # mle
         N_t_mle, Nobs = get_marginal_Nt_pred(t, save_obj_pred_mle, m0_plot=None, which_events=None)
@@ -2193,5 +2196,3 @@ def write_table_prediction_report(save_obj_pred, save_obj_pred_mle=None, m0_plot
     fid.close()
 
     return
-
-
