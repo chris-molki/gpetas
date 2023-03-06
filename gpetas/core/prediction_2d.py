@@ -1823,6 +1823,129 @@ def plot_pred_prediction2d(t, pred_data, save_obj_pred, scale=None, quantile=Non
     return hf, x, y, z, clim_out
 
 
+# uncertainty in time
+def plot_pred_uncertainty_in_time(save_obj_pred, save_obj_pred_mle=None,
+                                  m0_plot=None, scale=None, res=5, q01_plot=None):
+    if scale is None:
+        scale = 'linear'
+    tau0Htm, tau1, tau2 = save_obj_pred['tau_vec'][0]
+    t_vec = np.linspace(0., tau2 - tau1, res)
+    if (tau2 - tau1) >= 180:
+        if sum(t_vec == 1.) == 0:
+            t_vec = np.sort(np.append(t_vec, 1.))
+        if sum(t_vec == 10.) == 0:
+            t_vec = np.sort(np.append(t_vec, 10.))
+        if sum(t_vec == 30.) == 0:
+            t_vec = np.sort(np.append(t_vec, 30.))
+        if sum(t_vec == 60.) == 0:
+            t_vec = np.sort(np.append(t_vec, 60.))
+        if sum(t_vec == 180.) == 0:
+            t_vec = np.sort(np.append(t_vec, 180.))
+        print(t_vec)
+    out_stats = np.zeros([len(t_vec) - 1, 9])
+    out_stats_mle = np.zeros([len(t_vec) - 1, 9])
+
+    for j in np.arange(1, len(t_vec)):
+        t = t_vec[j]
+        # gpetas
+        N_t, Nobs = get_marginal_Nt_pred(t, save_obj_pred, m0_plot=None, which_events=None)
+
+        if scale == 'log10':
+            z = []
+            z = np.log10(N_t)
+            Nobs = np.log10(Nobs)
+        if scale == 'linear':
+            z = N_t
+
+        # np.nanmin(z[z != -np.inf])
+        m, v, q01, q05, q5, q95, q99 = [np.nanmean(z[z != -np.inf]),
+                                        np.nanvar(z[z != -np.inf]),
+                                        np.nanquantile(z[z != -np.inf], q=0.01),
+                                        np.nanquantile(z[z != -np.inf], q=0.05),
+                                        np.nanquantile(z[z != -np.inf], q=0.5),
+                                        np.nanquantile(z[z != -np.inf], q=0.95),
+                                        np.nanquantile(z[z != -np.inf], q=0.99)]
+        out_stats[j - 1, :] = [t, Nobs, m, v, q01, q05, q5, q95, q99]
+
+        if save_obj_pred_mle is not None:
+            N_t_mle, Nobs_mle = get_marginal_Nt_pred(t, save_obj_pred_mle, m0_plot=None,
+                                                                          which_events=None)
+
+            if scale == 'log10':
+                z = []
+                z = np.log10(N_t_mle)
+                # Nobs = np.log10(Nobs)
+            if scale == 'linear':
+                z = N_t_mle
+
+            # np.nanmin(z[z != -np.inf])
+            m, v, q01, q05, q5, q95, q99 = [np.nanmean(z[z != -np.inf]),
+                                            np.nanvar(z[z != -np.inf]),
+                                            np.nanquantile(z[z != -np.inf], q=0.01),
+                                            np.nanquantile(z[z != -np.inf], q=0.05),
+                                            np.nanquantile(z[z != -np.inf], q=0.5),
+                                            np.nanquantile(z[z != -np.inf], q=0.95),
+                                            np.nanquantile(z[z != -np.inf], q=0.99)]
+            out_stats_mle[j - 1, :] = [t, Nobs, m, v, q01, q05, q5, q95, q99]
+
+    # plot definitions
+    pSIZE = 20
+    plt.rc('font', size=pSIZE)
+    plt.rc('axes', titlesize=pSIZE)
+    xlim = 1e-04
+
+    hf = plt.figure()
+    # plt.step(out_stats[:,0],out_stats[:,1], 'm', linewidth=3, where='post', label='Obs.')
+    x = out_stats[:, 0]
+    y = out_stats[:, 1]
+    plt.plot(x, y, '-m',
+             linewidth=3, label='Obs.')
+    plt.plot(out_stats[:, 0], out_stats[:, 2], 'k',
+             linewidth=3, label='GP-E')
+
+    if q01_plot is not None:
+        quantile = 0.01
+        plt.fill_between(out_stats[:, 0],
+                         y1=out_stats[:, 4],
+                         y2=out_stats[:, 8],
+                         color='whitesmoke',
+                         label='$q_{%.2f,%.2f}$' % (quantile, 1 - quantile))
+
+    quantile = 0.05
+    plt.fill_between(out_stats[:, 0],
+                     y1=out_stats[:, 5],
+                     y2=out_stats[:, 7],
+                     color='lightgrey',
+                     label='$q_{%.2f,%.2f}$' % (quantile, 1 - quantile))
+
+    plt.plot(out_stats_mle[:, 0], out_stats_mle[:, 2], '--b',
+             linewidth=3, label='E')
+    if q01_plot is not None:
+        quantile = 0.01
+        plt.plot(out_stats_mle[:, 0], out_stats_mle[:, 4], ':b',
+                 linewidth=1, label='$q_{%.2f,%.2f}$' % (quantile, 1 - quantile))
+        plt.plot(out_stats_mle[:, 0], out_stats_mle[:, 8], ':b',
+                 linewidth=1)
+    quantile = 0.05
+    plt.plot(out_stats_mle[:, 0], out_stats_mle[:, 5], '--b',
+             linewidth=1, label='$q_{%.2f,%.2f}$' % (quantile, 1 - quantile))
+    plt.plot(out_stats_mle[:, 0], out_stats_mle[:, 7], '--b',
+             linewidth=1)
+
+    xticks = plt.gca().get_xticks()
+    xticks = plt.gca().set_xticks(np.append(np.min(out_stats[:, 0]), xticks[xticks > 0]))
+    plt.legend(bbox_to_anchor=(1.04, 1.), loc='upper left')
+    plt.xlabel('time, days')
+    if scale == 'log10':
+        plt.ylabel('$\\log_{10}$ cumulative $N^\\ast$')
+    if scale == 'linear':
+        plt.ylabel('cumulative $N^\\ast$')
+
+    return out_stats, out_stats_mle, hf
+
+
+
+
 ### summary of plots and tables
 def pred_summary(save_obj_pred=None, save_obj_pred_mle=None, save_obj_pred_mle_silverman=None, m0_plot=None):
     init_outdir()
