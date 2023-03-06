@@ -1842,13 +1842,14 @@ def plot_pred_uncertainty_in_time(save_obj_pred, save_obj_pred_mle=None,
         if sum(t_vec == 180.) == 0:
             t_vec = np.sort(np.append(t_vec, 180.))
         print(t_vec)
+    Ksim = len(save_obj_pred['pred_bgnew_and_offspring'])
     out_stats = np.zeros([len(t_vec) - 1, 9])
     out_stats_mle = np.zeros([len(t_vec) - 1, 9])
 
     for j in np.arange(1, len(t_vec)):
         t = t_vec[j]
         # gpetas
-        N_t, Nobs = get_marginal_Nt_pred(t, save_obj_pred, m0_plot=None, which_events=None)
+        N_t, Nobs = get_marginal_Nt_pred(t, save_obj_pred, m0_plot=m0_plot, which_events=None)
 
         if scale == 'log10':
             z = []
@@ -1868,7 +1869,7 @@ def plot_pred_uncertainty_in_time(save_obj_pred, save_obj_pred_mle=None,
         out_stats[j - 1, :] = [t, Nobs, m, v, q01, q05, q5, q95, q99]
 
         if save_obj_pred_mle is not None:
-            N_t_mle, Nobs_mle = get_marginal_Nt_pred(t, save_obj_pred_mle, m0_plot=None,
+            N_t_mle, Nobs_mle = get_marginal_Nt_pred(t, save_obj_pred_mle, m0_plot=m0_plot,
                                                                           which_events=None)
 
             if scale == 'log10':
@@ -1935,6 +1936,7 @@ def plot_pred_uncertainty_in_time(save_obj_pred, save_obj_pred_mle=None,
     xticks = plt.gca().get_xticks()
     xticks = plt.gca().set_xticks(np.append(np.min(out_stats[:, 0]), xticks[xticks > 0]))
     plt.legend(bbox_to_anchor=(1.04, 1.), loc='upper left')
+    plt.text(0.05, 0.9, '$K_{sim}$=%i'%Ksim, horizontalalignment='left',verticalalignment = 'center', transform = plt.gca().transAxes)
     plt.xlabel('time, days')
     if scale == 'log10':
         plt.ylabel('$\\log_{10}$ cumulative $N^\\ast$')
@@ -2076,6 +2078,12 @@ def write_table_prediction_report(save_obj_pred, save_obj_pred_mle=None, m0_plot
     X_borders = save_obj_pred['data_obj'].domain.X_borders
     tau0Htm, tau1, tau2 = save_obj_pred['tau_vec'][0]
     Ksim = len(save_obj_pred['pred_bgnew_and_offspring'])
+    save_obj_GS = save_obj_pred['save_obj_GS']
+    K, c, p, m_alpha, d, gamma, q, m_beta, m0 = save_obj_GS['setup_obj'].theta_start_Kcpadgqbm0
+    n_start = gpetas.some_fun.n(m_alpha, m_beta, K, c, p, t_start=0.0, t_end=np.inf)
+    stable_sampling = save_obj_GS['setup_obj'].stable_theta_sampling
+    prior_dist_theta = save_obj_GS['setup_obj'].prior_theta_dist
+    prior_params_theta = save_obj_GS['setup_obj'].prior_theta_params
     if m0_plot is None:
         m0_plot = save_obj_pred['data_obj'].domain.m0
 
@@ -2105,18 +2113,26 @@ def write_table_prediction_report(save_obj_pred, save_obj_pred_mle=None, m0_plot
     fid.write("Total time window with data: $t_1=%.1f$, $t_3=%.1f$ with $t_{H_t}=%.1f$ and $t_3-t_2$=%.1f days.\n" % (
     t1, t3, t0, t3 - t2))
     fid.write("\n\\noindent\n")
-    fid.write("Time origin is: %s\n" % (time_origin_obj).strftime(format=time_format))
+    fid.write("Time origin is: %s\n" % (time_origin_obj).strftime(time_format))
     fid.write("\n\\noindent\n")
-    fid.write("Time end of training: %s\n" % (time_end_training).strftime(format=time_format))
+    fid.write("Time end of training: %s\n" % (time_end_training).strftime(time_format))
     fid.write("\n\\noindent\n")
-    fid.write("Time end of data: %s\n" % (time_end_data).strftime(format=time_format))
+    fid.write("Time end of data: %s\n" % (time_end_data).strftime(time_format))
     fid.write("\n\\noindent\n")
     fid.write("Spatial domain in $x_1$: %.2f %.2f\n" % (X_borders[0, 0], X_borders[0, 1]))
     fid.write("\n\\noindent\n")
     fid.write("Spatial domain in $x_2$: %.2f %.2f\n" % (X_borders[1, 0], X_borders[1, 1]))
     fid.write("\n\\noindent\n")
     fid.write("Spatial domain extent: $|\\mathcal{X}|$=%.1f\n" % (np.prod(np.diff(X_borders))))
+    fid.write("\n\\noindent\n")
+    fid.write("Offspring sampling stable: %s\n" %(stable_sampling))
+    fid.write("\n\\noindent\n")
+    fid.write("Offspring start parameters $\\boldsymbol{\\theta_{{\\textrm{start}}}}$:\n")
+    fid.write("[$K$,$c$,$p$,$\\alpha_{m}$,$d$,$\gamma$,$q$]=[%.4f,%.4f,%.2f,%.2f,%.4f,%.2f,%.2f] with $\\beta_m$=%.3f and $m_0$=%.2f.\n" % (K, c, p, m_alpha,d,gamma,q,m_beta,m0))
+    fid.write("\n\\noindent\n")
+    fid.write("Prior distribution offspring: %s\n" % (prior_dist_theta))
 
+    fid.write("\\newpage\n")
     fid.write("\\section{Setup}\n")
     save_obj_GS = save_obj_pred['save_obj_GS']
     hf = gpetas.plotting.plot_setting(save_obj_GS['data_obj'])
