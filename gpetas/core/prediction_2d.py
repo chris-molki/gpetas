@@ -1872,7 +1872,7 @@ def plot_pred_uncertainty_in_time(save_obj_pred, save_obj_pred_mle=None,
 
         if save_obj_pred_mle is not None:
             N_t_mle, Nobs_mle = get_marginal_Nt_pred(t, save_obj_pred_mle, m0_plot=m0_plot,
-                                                                          which_events=None)
+                                                     which_events=None)
 
             if scale == 'log10':
                 z = []
@@ -1938,7 +1938,8 @@ def plot_pred_uncertainty_in_time(save_obj_pred, save_obj_pred_mle=None,
     xticks = plt.gca().get_xticks()
     xticks = plt.gca().set_xticks(np.append(np.min(out_stats[:, 0]), xticks[xticks > 0]))
     plt.legend(bbox_to_anchor=(1.04, 1.), loc='upper left')
-    plt.text(0.05, 0.9, '$K_{sim}$=%i\n $m\\geq$%.2f'%(Ksim,m0_plot), horizontalalignment='left',verticalalignment = 'center', transform = plt.gca().transAxes)
+    plt.text(0.05, 0.9, '$K_{sim}$=%i\n $m\\geq$%.2f' % (Ksim, m0_plot), horizontalalignment='left',
+             verticalalignment='center', transform=plt.gca().transAxes)
     plt.xlabel('time, days')
     if scale == 'log10':
         plt.ylabel('$\\log_{10}$ cumulative $N^\\ast$')
@@ -1948,10 +1949,8 @@ def plot_pred_uncertainty_in_time(save_obj_pred, save_obj_pred_mle=None,
     return out_stats, out_stats_mle, hf
 
 
-
-
 ### summary of plots and tables
-def pred_summary(save_obj_pred=None, save_obj_pred_mle=None, save_obj_pred_mle_silverman=None, m0_plot=None):
+def pred_summary(save_obj_pred=None, save_obj_pred_mle=None, save_obj_pred_mle_silverman=None, m0_plot=None, res=None):
     init_outdir()
     if save_obj_pred is not None:
         case_name = save_obj_pred['data_obj'].case_name
@@ -1965,6 +1964,8 @@ def pred_summary(save_obj_pred=None, save_obj_pred_mle=None, save_obj_pred_mle_s
         case_name = save_obj_pred_mle_silverman['data_obj'].case_name
         t0Ht, tau1, tau2 = save_obj_pred_mle_silverman['tau_vec'][0]
         if m0_plot is None: m0_plot = save_obj_pred_mle_silverman['m0']
+    if res is None:
+        res = 5
 
     # FIG 01: sample path
     scales = ['linear', 'logy', 'logx', 'loglog']
@@ -2028,6 +2029,26 @@ def pred_summary(save_obj_pred=None, save_obj_pred_mle=None, save_obj_pred_mle_s
             hf.savefig(output_dir_figures + '/F005_pred_boxplot_%s_%0i_%0i_%s_m%i.pdf' % (
                 case_name, i, j, scales[i], int(m0_plot * 10)), bbox_inches='tight')
 
+    # summary uncertainty in time
+    scales = ['linear', 'log10']
+    for i in range(len(scales)):
+        scale = scales[i]
+        out, out_mle, hf = gpetas.prediction_2d.plot_pred_uncertainty_in_time(save_obj_pred=save_obj_pred,
+                                                                          save_obj_pred_mle=save_obj_pred_mle,
+                                                                          m0_plot=m0_plot, scale=scale,
+                                                                          res=res, q01_plot=None)
+        hf.savefig(output_dir_figures + '/F007_summary_unc_t_%s_%0i_%s_m%i.pdf' % (
+            case_name, i, scales[i], int(m0_plot * 10)), bbox_inches='tight')
+        out, out_mle, hf = gpetas.prediction_2d.plot_pred_uncertainty_in_time(save_obj_pred=save_obj_pred,
+                                                                              save_obj_pred_mle=save_obj_pred_mle,
+                                                                              m0_plot=m0_plot, scale=scale,
+                                                                              res=res, q01_plot=1)
+        hf.savefig(output_dir_figures + '/F007_summary_unc_t_q01_%s_%0i_%s_m%i.pdf' % (
+            case_name, i, scales[i], int(m0_plot * 10)), bbox_inches='tight')
+
+
+
+    # 2D prediction
     scale = 'log10'
     t = tau2
     if save_obj_pred is not None:
@@ -2112,8 +2133,8 @@ def write_table_prediction_report(save_obj_pred, save_obj_pred_mle=None, m0_plot
     fid.write("\n\\noindent\n")
     fid.write("Training period: $t_1=%.1f$, $t_2=%.1f$ with $t_{H_t}=%.1f$ days.\n" % (t1, t2, t0))
     fid.write("\n\\noindent\n")
-    fid.write("Total time window with data: $t_1=%.1f$, $t_3=%.1f$ with $t_{H_t}=%.1f$ and $t_3-t_2$=%.1f days.\n" % (
-    t1, t3, t0, t3 - t2))
+    fid.write("Total time window of data: $t_1=%.1f$, $t_3=%.1f$ with $t_{H_t}=%.1f$ and $t_3-t_2$=%.1f days.\n" % (
+        t1, t3, t0, t3 - t2))
     fid.write("\n\\noindent\n")
     fid.write("Time origin is: %s\n" % (time_origin_obj).strftime(time_format))
     fid.write("\n\\noindent\n")
@@ -2127,14 +2148,15 @@ def write_table_prediction_report(save_obj_pred, save_obj_pred_mle=None, m0_plot
     fid.write("\n\\noindent\n")
     fid.write("Spatial domain extent: $|\\mathcal{X}|$=%.1f\n" % (np.prod(np.diff(X_borders))))
     fid.write("\n\\noindent\n")
-    fid.write("Offspring sampling stable: %s\n" %(stable_sampling))
+    fid.write("Magnitude distribution parameters: $\\beta_m$=%.3f and $m_0$=%.2f\n" % (m_beta, m0))
     fid.write("\n\\noindent\n")
-    fid.write("Offspring start parameters $\\boldsymbol{\\theta_{{\\mathrm{start}}}}$:\n")
-    fid.write("[$K$,$c$,$p$,$\\alpha_{m}$,$d$,$\gamma$,$q$]=[%.4f,%.4f,%.2f,%.2f,%.4f,%.2f,%.2f].\n" % (K, c, p, m_alpha,d,gamma,q))
+    fid.write("Offspring sampling stable: %s\n" % (stable_sampling))
     fid.write("\n\\noindent\n")
-    fid.write("Magnitude distribution parameters: $\\beta_m$=%.3f and $m_0$=%.2f\n"%(m_beta,m0))
+    fid.write("Offspring, start values: $\\boldsymbol{\\theta_{{\\mathrm{start}}}}$=\n")
+    fid.write("[$K$,$c$,$p$,$\\alpha_{m}$,$d$,$\gamma$,$q$]=[%.4f,%.4f,%.2f,%.2f,%.4f,%.2f,%.2f].\n" % (
+    K, c, p, m_alpha, d, gamma, q))
     fid.write("\n\\noindent\n")
-    fid.write("Offspring start branching ratio $n_{\\mathrm{start}$:%.2f\n" % n_start)
+    fid.write("Inital branching ratio: $n_0$=%.2f.\n" % n_start)
     fid.write("\n\\noindent\n")
     fid.write("Prior distribution offspring: %s\n" % (prior_dist_theta))
 
@@ -2310,7 +2332,8 @@ def write_table_prediction_report(save_obj_pred, save_obj_pred_mle=None, m0_plot
     for j in np.arange(1, len(t_vec)):
         fname = 'F002_pred_%s_%0i_%0i_%s_m%i' % (case_name, 1, j, 'log10', int(m0_plot * 10))
         fid.write("\\includegraphics[width=0.33\\textwidth]{../figures/%s}\n" % fname)
-    fid.write("\\caption{Histograms of forecasted logarithmic number of events $\\log_{10}N^\\ast$ for different $\\tau$ in days.}\n")
+    fid.write(
+        "\\caption{Histograms of forecasted logarithmic number of events $\\log_{10}N^\\ast$ for different $\\tau$ in days.}\n")
     fid.write("\\end{figure}\n")
 
     # quantiles
@@ -2324,6 +2347,9 @@ def write_table_prediction_report(save_obj_pred, save_obj_pred_mle=None, m0_plot
         "\\caption{Quantile plot of forecasted logarithmic number of events $\\log_{10}N^\\ast$ for different $\\tau$ in days.}\n")
     fid.write("\\end{figure}\n")
 
+    # summary forecast uncertainty in time
+
+    # prediction 2D
     fid.write("\\begin{figure}[h!]\n")
     fid.write("\\centering\n")
     fname = 'F006_pred_2D_%s_%s_m%i_gpetas' % (
