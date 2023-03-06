@@ -1979,7 +1979,7 @@ def pred_summary(save_obj_pred=None, save_obj_pred_mle=None, save_obj_pred_mle_s
     # FIG 02: Nt histograms at t
     # FIG 03: Nt histogram and kernel
     t_vec = np.linspace(0., tau2 - tau1, 5)
-    if (tau2 - tau1) >= 180:
+    if (tau2 - tau1) >= 60:
         if sum(t_vec == 1.) == 0:
             t_vec = np.sort(np.append(t_vec, 1.))
         if sum(t_vec == 10.) == 0:
@@ -1988,6 +1988,7 @@ def pred_summary(save_obj_pred=None, save_obj_pred_mle=None, save_obj_pred_mle_s
             t_vec = np.sort(np.append(t_vec, 30.))
         if sum(t_vec == 60.) == 0:
             t_vec = np.sort(np.append(t_vec, 60.))
+    if (tau2 - tau1) >= 180:
         if sum(t_vec == 180.) == 0:
             t_vec = np.sort(np.append(t_vec, 180.))
         print(t_vec)
@@ -2092,10 +2093,13 @@ def write_table_prediction_report(save_obj_pred, save_obj_pred_mle=None, m0_plot
     # vars
     case_name = save_obj_pred['data_obj'].case_name
     time_origin = save_obj_pred['data_obj'].domain.time_origin
+    if isinstance(time_origin, datetime.datetime):
+        time_origin_obj = time_origin
+    if isinstance(time_origin, str):
+        time_origin_obj = datetime.datetime.strptime(time_origin, time_format)
     t0 = 0.
     t1, t2 = save_obj_pred['data_obj'].domain.T_borders_training
     t1, t3 = save_obj_pred['data_obj'].domain.T_borders_all
-    time_origin_obj = datetime.datetime.strptime(time_origin, time_format)
     time_end_training = time_origin_obj + datetime.timedelta(milliseconds=(t2) * 24. * 60. * 60. * 1000)
     time_end_data = time_origin_obj + datetime.timedelta(milliseconds=(t3) * 24. * 60. * 60. * 1000)
     X_borders = save_obj_pred['data_obj'].domain.X_borders
