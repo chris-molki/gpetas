@@ -1842,6 +1842,8 @@ def plot_pred_uncertainty_in_time(save_obj_pred, save_obj_pred_mle=None,
         if sum(t_vec == 180.) == 0:
             t_vec = np.sort(np.append(t_vec, 180.))
         print(t_vec)
+    if m0_plot is None:
+        m0_plot = save_obj_pred['save_obj_GS']['data_obj'].domain.m0
     Ksim = len(save_obj_pred['pred_bgnew_and_offspring'])
     out_stats = np.zeros([len(t_vec) - 1, 9])
     out_stats_mle = np.zeros([len(t_vec) - 1, 9])
@@ -1936,7 +1938,7 @@ def plot_pred_uncertainty_in_time(save_obj_pred, save_obj_pred_mle=None,
     xticks = plt.gca().get_xticks()
     xticks = plt.gca().set_xticks(np.append(np.min(out_stats[:, 0]), xticks[xticks > 0]))
     plt.legend(bbox_to_anchor=(1.04, 1.), loc='upper left')
-    plt.text(0.05, 0.9, '$K_{sim}$=%i'%Ksim, horizontalalignment='left',verticalalignment = 'center', transform = plt.gca().transAxes)
+    plt.text(0.05, 0.9, '$K_{sim}$=%i\n $m\\geq$%.2f'%(Ksim,m0_plot), horizontalalignment='left',verticalalignment = 'center', transform = plt.gca().transAxes)
     plt.xlabel('time, days')
     if scale == 'log10':
         plt.ylabel('$\\log_{10}$ cumulative $N^\\ast$')
@@ -2119,16 +2121,20 @@ def write_table_prediction_report(save_obj_pred, save_obj_pred_mle=None, m0_plot
     fid.write("\n\\noindent\n")
     fid.write("Time end of data: %s\n" % (time_end_data).strftime(time_format))
     fid.write("\n\\noindent\n")
-    fid.write("Spatial domain in $x_1$: %.2f %.2f\n" % (X_borders[0, 0], X_borders[0, 1]))
+    fid.write("Spatial domain in $x_1$: [%.2f, %.2f]\n" % (X_borders[0, 0], X_borders[0, 1]))
     fid.write("\n\\noindent\n")
-    fid.write("Spatial domain in $x_2$: %.2f %.2f\n" % (X_borders[1, 0], X_borders[1, 1]))
+    fid.write("Spatial domain in $x_2$: [%.2f, %.2f]\n" % (X_borders[1, 0], X_borders[1, 1]))
     fid.write("\n\\noindent\n")
     fid.write("Spatial domain extent: $|\\mathcal{X}|$=%.1f\n" % (np.prod(np.diff(X_borders))))
     fid.write("\n\\noindent\n")
     fid.write("Offspring sampling stable: %s\n" %(stable_sampling))
     fid.write("\n\\noindent\n")
-    fid.write("Offspring start parameters $\\boldsymbol{\\theta_{{\\textrm{start}}}}$:\n")
-    fid.write("[$K$,$c$,$p$,$\\alpha_{m}$,$d$,$\gamma$,$q$]=[%.4f,%.4f,%.2f,%.2f,%.4f,%.2f,%.2f] with $\\beta_m$=%.3f and $m_0$=%.2f.\n" % (K, c, p, m_alpha,d,gamma,q,m_beta,m0))
+    fid.write("Offspring start parameters $\\boldsymbol{\\theta_{{\\mathrm{start}}}}$:\n")
+    fid.write("[$K$,$c$,$p$,$\\alpha_{m}$,$d$,$\gamma$,$q$]=[%.4f,%.4f,%.2f,%.2f,%.4f,%.2f,%.2f].\n" % (K, c, p, m_alpha,d,gamma,q))
+    fid.write("\n\\noindent\n")
+    fid.write("Magnitude distribution parameters: $\\beta_m$=%.3f and $m_0$=%.2f\n"%(m_beta,m0))
+    fid.write("\n\\noindent\n")
+    fid.write("Offspring start branching ratio $n_{\\mathrm{start}$:%.2f\n" % n_start)
     fid.write("\n\\noindent\n")
     fid.write("Prior distribution offspring: %s\n" % (prior_dist_theta))
 
