@@ -2160,6 +2160,14 @@ def write_table_prediction_report(save_obj_pred, save_obj_pred_mle=None, m0_plot
     fid.write("\\caption{Forecasted logarithmic number of events $\\log_{10}N^\\ast$ for different $\\tau$ in days.}\n")
     fid.write("\\end{figure}\n")
 
+    fid.write("\\begin{figure}[h!]\n")
+    fid.write("\\centering\n")
+    for j in np.arange(1, len(t_vec)):
+        fname = 'F002_pred_%s_%0i_%0i_%s_m%i' % (case_name, 1, j, 'log10', int(m0_plot * 10))
+        fid.write("\\includegraphics[width=0.33\\textwidth]{../figures/%s}\n" % fname)
+    fid.write("\\caption{Histograms of forecasted logarithmic number of events $\\log_{10}N^\\ast$ for different $\\tau$ in days.}\n")
+    fid.write("\\end{figure}\n")
+
     # quantiles
     fid.write("\\begin{figure}[h!]\n")
     fid.write("\\centering\n")
