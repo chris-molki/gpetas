@@ -1978,7 +1978,7 @@ def pred_summary(save_obj_pred=None, save_obj_pred_mle=None, save_obj_pred_mle_s
 
     # FIG 02: Nt histograms at t
     # FIG 03: Nt histogram and kernel
-    t_vec = np.linspace(0., tau2 - tau1, 5)
+    t_vec = np.linspace(0., tau2 - tau1, 10)
     if (tau2 - tau1) >= 60:
         if sum(t_vec == 1.) == 0:
             t_vec = np.sort(np.append(t_vec, 1.))
@@ -1991,7 +1991,7 @@ def pred_summary(save_obj_pred=None, save_obj_pred_mle=None, save_obj_pred_mle_s
     if (tau2 - tau1) >= 180:
         if sum(t_vec == 180.) == 0:
             t_vec = np.sort(np.append(t_vec, 180.))
-        print(t_vec)
+    print(t_vec)
     scales = ['linear', 'log10']
     for j in np.arange(1, len(t_vec)):
         t = t_vec[j]
@@ -2202,7 +2202,7 @@ def write_table_prediction_report(save_obj_pred, save_obj_pred_mle=None, m0_plot
     fid.write("\hline\n")
 
     t_vec = np.linspace(0., tau2 - tau1, 5)
-    if (tau2 - tau1) >= 180:
+    if (tau2 - tau1) >= 60:
         if sum(t_vec == 1.) == 0:
             t_vec = np.sort(np.append(t_vec, 1.))
         if sum(t_vec == 10.) == 0:
@@ -2211,9 +2211,10 @@ def write_table_prediction_report(save_obj_pred, save_obj_pred_mle=None, m0_plot
             t_vec = np.sort(np.append(t_vec, 30.))
         if sum(t_vec == 60.) == 0:
             t_vec = np.sort(np.append(t_vec, 60.))
+    if (tau2 - tau1) >= 180:
         if sum(t_vec == 180.) == 0:
             t_vec = np.sort(np.append(t_vec, 180.))
-        print(t_vec)
+    print(t_vec)
 
     for j in np.arange(1, len(t_vec)):
         t = t_vec[j]
@@ -2254,20 +2255,6 @@ def write_table_prediction_report(save_obj_pred, save_obj_pred_mle=None, m0_plot
     fid.write("\n")
     fid.write("model &  $\\tau_2-\\tau_1$ & $N_{\\text{obs}}$ & mean & variance & 0.01 & 0.05 & 0.5 & 0.95 & 0.99 \\\ ")
     fid.write("\hline\n")
-
-    t_vec = np.linspace(0., tau2 - tau1, 5)
-    if (tau2 - tau1) >= 180:
-        if sum(t_vec == 1.) == 0:
-            t_vec = np.sort(np.append(t_vec, 1.))
-        if sum(t_vec == 10.) == 0:
-            t_vec = np.sort(np.append(t_vec, 10.))
-        if sum(t_vec == 30.) == 0:
-            t_vec = np.sort(np.append(t_vec, 30.))
-        if sum(t_vec == 60.) == 0:
-            t_vec = np.sort(np.append(t_vec, 60.))
-        if sum(t_vec == 180.) == 0:
-            t_vec = np.sort(np.append(t_vec, 180.))
-        print(t_vec)
 
     for j in np.arange(1, len(t_vec)):
         t = t_vec[j]
