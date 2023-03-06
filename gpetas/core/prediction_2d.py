@@ -2125,6 +2125,7 @@ def write_table_prediction_report(save_obj_pred, save_obj_pred_mle=None, m0_plot
     fid.write("\\begin{document}\n")
     fid.write("\\maketitle\n")
 
+    fid.write("\\newpage\n")
     fid.write("\\section{General info}\n")
     fid.write("Forecast period: $\\tau_1=%.1f$, $\\tau_2=%.1f$ with $\\tau_{H_t}$=-%.1f days.\n" % (
         tau1, tau2, tau0Htm - tau1))
@@ -2348,6 +2349,18 @@ def write_table_prediction_report(save_obj_pred, save_obj_pred_mle=None, m0_plot
     fid.write("\\end{figure}\n")
 
     # summary forecast uncertainty in time
+    #'/F007_summary_unc_t_%s_%0i_%s_m%i.pdf' % (case_name, i, scales[i], int(m0_plot * 10)
+    fid.write("\\begin{figure}[h!]\n")
+    fid.write("\\centering\n")
+    scales = ['linear','log10']
+    for i in range(len(scales)):
+        fname = '/F007_summary_unc_t_%s_%0i_%s_m%i.pdf' % (case_name, i, scales[i], int(m0_plot * 10))
+        fid.write("\\includegraphics[width=0.45\\textwidth]{../figures/%s}\n" % fname)
+    for i in range(len(scales)):
+        fname = '/F007_summary_unc_t_q01_%s_%0i_%s_m%i.pdf' % (case_name, i, scales[i], int(m0_plot * 10))
+        fid.write("\\includegraphics[width=0.45\\textwidth]{../figures/%s}\n" % fname)
+    fid.write("\\caption{Forecaset in time, GP-ETAS (GP-E) and ETAS (E).}\n")
+    fid.write("\\end{figure}\n")
 
     # prediction 2D
     fid.write("\\begin{figure}[h!]\n")
