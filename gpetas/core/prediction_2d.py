@@ -1830,7 +1830,7 @@ def plot_pred_uncertainty_in_time(save_obj_pred, save_obj_pred_mle=None,
         scale = 'linear'
     tau0Htm, tau1, tau2 = save_obj_pred['tau_vec'][0]
     t_vec = np.linspace(0., tau2 - tau1, res)
-    if (tau2 - tau1) >= 180:
+    if (tau2 - tau1) >= 60:
         if sum(t_vec == 1.) == 0:
             t_vec = np.sort(np.append(t_vec, 1.))
         if sum(t_vec == 10.) == 0:
@@ -1839,9 +1839,10 @@ def plot_pred_uncertainty_in_time(save_obj_pred, save_obj_pred_mle=None,
             t_vec = np.sort(np.append(t_vec, 30.))
         if sum(t_vec == 60.) == 0:
             t_vec = np.sort(np.append(t_vec, 60.))
+    if (tau2 - tau1) >= 180:
         if sum(t_vec == 180.) == 0:
             t_vec = np.sort(np.append(t_vec, 180.))
-        print(t_vec)
+    print(t_vec)
     if m0_plot is None:
         m0_plot = save_obj_pred['save_obj_GS']['data_obj'].domain.m0
     Ksim = len(save_obj_pred['pred_bgnew_and_offspring'])
