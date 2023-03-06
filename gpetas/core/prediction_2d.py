@@ -2202,7 +2202,7 @@ def write_table_prediction_report(save_obj_pred, save_obj_pred_mle=None, m0_plot
     fid.write("model &  $\\tau_2-\\tau_1$ & $N_{\\text{obs}}$ & mean & variance & 0.01 & 0.05 & 0.5 & 0.95 & 0.99 \\\ ")
     fid.write("\hline\n")
 
-    t_vec = np.linspace(0., tau2 - tau1, 5)
+    t_vec = np.linspace(0., tau2 - tau1, 10)
     if (tau2 - tau1) >= 60:
         if sum(t_vec == 1.) == 0:
             t_vec = np.sort(np.append(t_vec, 1.))
@@ -2220,7 +2220,7 @@ def write_table_prediction_report(save_obj_pred, save_obj_pred_mle=None, m0_plot
     for j in np.arange(1, len(t_vec)):
         t = t_vec[j]
         # gpetas
-        N_t, Nobs = gpetas.prediction_2d.get_marginal_Nt_pred(t, save_obj_pred, m0_plot=None, which_events=None)
+        N_t, Nobs = gpetas.prediction_2d.get_marginal_Nt_pred(t, save_obj_pred, m0_plot=m0_plot, which_events=None)
         m, v, q01, q05, q5, q95, q99 = [np.mean(N_t), np.var(N_t), np.quantile(N_t, q=0.01),
                                         np.quantile(N_t, q=0.05), np.quantile(N_t, q=0.5),
                                         np.quantile(N_t, q=0.95), np.quantile(N_t, q=0.99)]
@@ -2228,7 +2228,7 @@ def write_table_prediction_report(save_obj_pred, save_obj_pred_mle=None, m0_plot
             t, Nobs, m, v, q01, q05, q5, q95, q99)
         fid.write(Line)
         # mle
-        N_t_mle, Nobs = gpetas.prediction_2d.get_marginal_Nt_pred(t, save_obj_pred_mle, m0_plot=None, which_events=None)
+        N_t_mle, Nobs = gpetas.prediction_2d.get_marginal_Nt_pred(t, save_obj_pred_mle, m0_plot=m0_plot, which_events=None)
         m, v, q01, q05, q5, q95, q99 = [np.mean(N_t_mle), np.var(N_t_mle), np.quantile(N_t_mle, q=0.01),
                                         np.quantile(N_t_mle, q=0.05), np.quantile(N_t_mle, q=0.5),
                                         np.quantile(N_t_mle, q=0.95), np.quantile(N_t_mle, q=0.99)]
@@ -2260,7 +2260,7 @@ def write_table_prediction_report(save_obj_pred, save_obj_pred_mle=None, m0_plot
     for j in np.arange(1, len(t_vec)):
         t = t_vec[j]
         # gpetas
-        N_t, Nobs = get_marginal_Nt_pred(t, save_obj_pred, m0_plot=None, which_events=None)
+        N_t, Nobs = get_marginal_Nt_pred(t, save_obj_pred, m0_plot=m0_plot, which_events=None)
         z = []
         z = np.log10(N_t)
         Nobs = np.log10(Nobs)
@@ -2276,7 +2276,7 @@ def write_table_prediction_report(save_obj_pred, save_obj_pred_mle=None, m0_plot
             t, Nobs, m, v, q01, q05, q5, q95, q99)
         fid.write(Line)
         # mle
-        N_t_mle, Nobs = get_marginal_Nt_pred(t, save_obj_pred_mle, m0_plot=None, which_events=None)
+        N_t_mle, Nobs = get_marginal_Nt_pred(t, save_obj_pred_mle, m0_plot=m0_plot, which_events=None)
         z = []
         z = np.log10(N_t_mle)
         Nobs = np.log10(Nobs)
