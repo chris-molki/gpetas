@@ -1128,7 +1128,7 @@ def get_marginal_Nt_pred(t=None, save_obj_pred=None, m0_plot=None, which_events=
                 N_t[i] = cumsum['y'][i][cumsum['x'][i] <= t][-1]
             else:
                 N_t[i] = cumsum['y_' + which_events][i][cumsum['x_' + which_events][i] <= t][-1]
-    Nobs_t = cumsum['y_obs'][cumsum['x_obs'] +tau1 <= t][-1]
+    Nobs_t = cumsum['y_obs'][cumsum['x_obs'] <= t][-1]
     return N_t, Nobs_t
 
 
