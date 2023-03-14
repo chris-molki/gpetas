@@ -519,8 +519,9 @@ class predictions_mle():
             else:
                 mu_unthinned = mle_obj.eval_kde_xprime(X_unthinned)
 
-            if np.max(mu_unthinned) > mu_max_bg_mle:
-                raise ValueError("Upper bound mu_max is too low.")
+            if Nc > 0:
+                if np.max(mu_unthinned) > mu_max_bg_mle:
+                    raise ValueError("Upper bound mu_max is too low.")
             # thinning
             thinned_idx = np.where(mu_max_bg_mle * np.random.rand(len(X_unthinned)) <= mu_unthinned)[0]
             X_thinned = X_unthinned[thinned_idx]
