@@ -734,7 +734,7 @@ class predictions_gpetas():
             self.cov_params = [save_obj_GS['cov_params_theta'][k],
                                np.array([save_obj_GS['cov_params_nu1'][k], save_obj_GS['cov_params_nu2'][k]])]
             self.X = save_obj_GS['X_grid_NN']
-            Nc = np.random.poisson(lmbda_bar * X_abs * T_abs)
+            Nc = np.random.poisson(2.*lmbda_bar * X_abs * T_abs)
             X_unthinned = np.random.rand(Nc, dim) * np.diff(self.data_obj.domain.X_borders).T
             if approx is None:
                 # f_unthinned = self.sample_from_cond_GP(xprime=X_unthinned)
