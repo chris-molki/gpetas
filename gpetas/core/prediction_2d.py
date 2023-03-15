@@ -497,7 +497,7 @@ class predictions_mle():
         self.save_pred['m0'] = np.copy(self.data_obj.domain.m0)
 
         # some params
-        mu_max_bg_mle = 10. * np.max(mle_obj.mu_grid)
+        mu_max_bg_mle = 2. * np.max(mle_obj.mu_grid)
         abs_T = tau2 - tau1
         abs_X = np.prod(np.diff(data_obj.domain.X_borders))
         self.tic = time.perf_counter()
