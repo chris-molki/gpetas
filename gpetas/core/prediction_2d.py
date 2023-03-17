@@ -5,6 +5,7 @@ import time
 from gpetas.utils.some_fun import get_grid_data_for_a_point
 import gpetas
 import os
+import sys
 import pickle
 import datetime
 import matplotlib.pyplot as plt
@@ -15,6 +16,14 @@ output_dir = "output_pred"
 output_dir_tables = "output_pred/tables"
 output_dir_figures = "output_pred/figures"
 output_dir_data = "output_pred/data"
+
+# bock/enable print()
+# Disable
+def blockPrint():
+    sys.stdout = open(os.devnull, 'w')
+# Restore
+def enablePrint():
+    sys.stdout = sys.__stdout__
 
 
 class setup_pred():
@@ -67,6 +76,59 @@ class setup_pred():
 
         # write to file
         fname_setup_obj = output_dir + "/setup_obj_pred_%s.all" % (self.case_name)
+        file = open(fname_setup_obj, "wb")  # remember to open the file in binary mode
+        pickle.dump(self, file)
+        file.close()
+        print('setup_obj has been created and saved:', fname_setup_obj)
+
+
+class setup_sequential_pred():
+    def __init__(self, save_obj_GS,
+                 tau1_forecast, tau2_forecast,
+                 dt_update=None,
+                 tau0_Ht=None,
+                 Ksim=None,
+                 sample_idx_vec=None,
+                 mle_obj=None, m0_plot=None,
+                 epsilon_after_mainshock=1e-4):
+
+        init_outdir()
+        self.output_dir = output_dir
+        self.m0_plot = m0_plot
+        self.save_obj_GS = save_obj_GS
+        if 'case_name' in save_obj_GS:
+            self.case_name = str(save_obj_GS['case_name'])
+        else:
+            self.case_name = 'R0xx'
+        self.mle_obj = mle_obj
+        if Ksim is None:
+            Ksim = 100
+        self.Ksim = Ksim
+        if sample_idx_vec is None:
+            sample_idx_vec = np.arange(0, len(save_obj_GS['lambda_bar']), 1)  # all samples
+        self.sample_idx_vec = sample_idx_vec
+        dt = dt_update
+        if dt is None:
+            dt = int((tau2_forecast - tau1_forecast) / 10)  # in days
+            if dt == 0:
+                dt = (tau2_forecast - tau1_forecast) / 10.
+        if tau1_forecast + dt > tau2_forecast:
+            dt = tau2_forecast - tau1_forecast
+            print('Warning: dt is too large, dt is set to:', dt, ' days.')
+        self.dt_update = dt
+        self.tau1_forecast = tau1_forecast
+        self.tau2_forecast = tau2_forecast
+
+        # history
+        if tau0_Ht is None:
+            tau0_Ht = tau1_forecast - 100
+        self.tau0_Ht = tau0_Ht
+
+        print('info: dt_update = ', self.dt_update)
+        print('info: tau2_vec  = ', self.tau0_Ht)
+
+        # write to file
+        fname_setup_obj = output_dir + "/setup_obj_sequential_pred_%s.all" % (self.case_name)
         file = open(fname_setup_obj, "wb")  # remember to open the file in binary mode
         pickle.dump(self, file)
         file.close()
@@ -497,7 +559,7 @@ class predictions_mle():
         self.save_pred['m0'] = np.copy(self.data_obj.domain.m0)
 
         # some params
-        mu_max_bg_mle = 2. * np.max(mle_obj.mu_grid)
+        mu_max_bg_mle = np.max(mle_obj.mu_grid)
         abs_T = tau2 - tau1
         abs_X = np.prod(np.diff(data_obj.domain.X_borders))
         self.tic = time.perf_counter()
@@ -734,7 +796,7 @@ class predictions_gpetas():
             self.cov_params = [save_obj_GS['cov_params_theta'][k],
                                np.array([save_obj_GS['cov_params_nu1'][k], save_obj_GS['cov_params_nu2'][k]])]
             self.X = save_obj_GS['X_grid_NN']
-            Nc = np.random.poisson(2.*lmbda_bar * X_abs * T_abs)
+            Nc = np.random.poisson(lmbda_bar * X_abs * T_abs)
             X_unthinned = np.random.rand(Nc, dim) * np.diff(self.data_obj.domain.X_borders).T
             if approx is None:
                 # f_unthinned = self.sample_from_cond_GP(xprime=X_unthinned)
@@ -778,7 +840,7 @@ class predictions_gpetas():
             bgnew_and_offspring[:, 0] += tau1
 
             # offspring from Ht
-            Ht_pred, Ht_pred_aug = sim_offspring_from_Ht(self, theta_Kcpadgq=theta,
+            Ht_pred, Ht_pred_aug = sim_offspring_from_Ht(self, theta_Kcpadgq=self.theta_Kcpadgq,
                                                          spatial_offspring=self.spatial_offspring)
             # adding together: offspring from Ht + new background + offspring of background
             added = np.vstack([Ht_pred_aug, bgnew_and_offspring])
@@ -1951,6 +2013,95 @@ def plot_pred_uncertainty_in_time(save_obj_pred, save_obj_pred_mle=None,
     return out_stats, out_stats_mle, hf
 
 
+class forecast_sequential():
+    def __init__(self, save_obj_GS, tau1_forecast, tau2_forecast, dt_update=None, tau0_Ht=None,
+                 Ksim=None, sample_idx_vec=None, mle_obj=None, m0_plot=None):
+        self.save_obj_GS = save_obj_GS
+        self.mle_obj = mle_obj
+        if Ksim is None:
+            Ksim = 100
+        self.Ksim = Ksim
+        if sample_idx_vec is None:
+            sample_idx_vec = np.arange(0, len(save_obj_GS['lambda_bar']), 1)  # all samples
+        self.sample_idx_vec = sample_idx_vec
+        dt = dt_update
+        if dt is None:
+            dt = int((tau2_forecast - tau1_forecast) / 10)  # in days
+            if dt == 0:
+                dt = (tau2_forecast - tau1_forecast) / 10.
+        if tau1_forecast + dt > tau2_forecast:
+            dt = tau2_forecast - tau1_forecast
+            print('Warning: dt is too large, dt is set to:', dt, ' days.')
+        self.dt_update = dt
+
+        self.tau1_forecast = tau1_forecast
+        self.tau2_forecast = tau2_forecast
+        print(self.tau1_forecast, self.tau2_forecast, self.dt_update)
+        if dt == tau2_forecast - tau1_forecast:
+            tau1_vec = np.append(tau1_forecast, [])
+            tau2_vec = np.append(tau2_forecast, [])
+        else:
+            tau1_vec = np.append(tau1_forecast, np.arange(tau1_forecast, tau2_forecast, dt)[1:-1])
+            tau2_vec = np.arange(tau1_forecast, tau2_forecast, dt)[1:]
+        print(tau1_vec, tau2_vec)
+
+        # history
+        if tau0_Ht is None:
+            tau0_Ht = tau1_forecast - 100
+        self.tau0_Ht = tau0_Ht
+
+        N_t_array = []
+        N_t_array_mle = []
+        Nobs_array = []
+
+        for i in range(len(tau2_vec)):
+            tau1 = tau1_vec[i]
+            tau2 = tau2_vec[i]
+
+            blockPrint()
+            # gpetas
+            pred_obj = predictions_gpetas(save_obj_GS=save_obj_GS,
+                                                               tau1=tau1,
+                                                               tau2=tau2,
+                                                               tau0_Ht=tau0_Ht,
+                                                               sample_idx_vec=sample_idx_vec,
+                                                               Ksim=Ksim,
+                                                               seed=None,
+                                                               approx=None,
+                                                               randomized_samples=None,
+                                                               Bayesian_m_beta=None)
+
+            N_t, Nobs = get_marginal_Nt_pred(tau2 - tau1,
+                                                                  save_obj_pred=pred_obj.save_pred,
+                                                                  m0_plot=m0_plot, which_events=None)
+            print(tau2, Nobs)
+            N_t_array.append(N_t)
+            Nobs_array.append(Nobs)
+
+            # mle
+            if mle_obj is not None:
+                pred_obj_mle = predictions_mle(mle_obj=mle_obj,
+                                                                    tau1=tau1,
+                                                                    tau2=tau2,
+                                                                    tau0_Ht=tau0_Ht,
+                                                                    Ksim=Ksim,
+                                                                    seed=None,
+                                                                    Bayesian_m_beta=None)
+                N_t_mle, Nobs = get_marginal_Nt_pred(tau2 - tau1,
+                                                                          save_obj_pred=pred_obj_mle.save_pred,
+                                                                          m0_plot=m0_plot, which_events=None)
+                N_t_array_mle.append(N_t_mle)
+            enablePrint()
+            print(i,' of ',range(len(tau2_vec)))
+
+        self.N_t_array = N_t_array
+        if mle_obj is not None:
+            self.N_t_array_mle = N_t_array_mle
+        self.Nobs_array = Nobs_array
+        self.tau1_vec = tau1_vec
+        self.tau2_vec = tau2_vec
+
+
 ### summary of plots and tables
 def pred_summary(save_obj_pred=None, save_obj_pred_mle=None, save_obj_pred_mle_silverman=None, m0_plot=None, res=None):
     init_outdir()
@@ -2037,9 +2188,9 @@ def pred_summary(save_obj_pred=None, save_obj_pred_mle=None, save_obj_pred_mle_s
     for i in range(len(scales)):
         scale = scales[i]
         out, out_mle, hf = gpetas.prediction_2d.plot_pred_uncertainty_in_time(save_obj_pred=save_obj_pred,
-                                                                          save_obj_pred_mle=save_obj_pred_mle,
-                                                                          m0_plot=m0_plot, scale=scale,
-                                                                          res=res, q01_plot=None)
+                                                                              save_obj_pred_mle=save_obj_pred_mle,
+                                                                              m0_plot=m0_plot, scale=scale,
+                                                                              res=res, q01_plot=None)
         hf.savefig(output_dir_figures + '/F007_summary_unc_t_%s_%0i_%s_m%i.pdf' % (
             case_name, i, scales[i], int(m0_plot * 10)), bbox_inches='tight')
         out, out_mle, hf = gpetas.prediction_2d.plot_pred_uncertainty_in_time(save_obj_pred=save_obj_pred,
@@ -2048,8 +2199,6 @@ def pred_summary(save_obj_pred=None, save_obj_pred_mle=None, save_obj_pred_mle_s
                                                                               res=res, q01_plot=1)
         hf.savefig(output_dir_figures + '/F007_summary_unc_t_q01_%s_%0i_%s_m%i.pdf' % (
             case_name, i, scales[i], int(m0_plot * 10)), bbox_inches='tight')
-
-
 
     # 2D prediction
     scale = 'log10'
@@ -2161,7 +2310,7 @@ def write_table_prediction_report(save_obj_pred, save_obj_pred_mle=None, m0_plot
     fid.write("\n\\noindent\n")
     fid.write("Offspring, start values: $\\boldsymbol{\\theta_{{\\mathrm{start}}}}$=\n")
     fid.write("[$K$,$c$,$p$,$\\alpha_{m}$,$d$,$\gamma$,$q$]=[%.4f,%.4f,%.2f,%.2f,%.4f,%.2f,%.2f].\n" % (
-    K, c, p, m_alpha, d, gamma, q))
+        K, c, p, m_alpha, d, gamma, q))
     fid.write("\n\\noindent\n")
     fid.write("Inital branching ratio: $n_0$=%.2f.\n" % n_start)
     fid.write("\n\\noindent\n")
@@ -2229,7 +2378,8 @@ def write_table_prediction_report(save_obj_pred, save_obj_pred_mle=None, m0_plot
             t, Nobs, m, v, q01, q05, q5, q95, q99)
         fid.write(Line)
         # mle
-        N_t_mle, Nobs = gpetas.prediction_2d.get_marginal_Nt_pred(t, save_obj_pred_mle, m0_plot=m0_plot, which_events=None)
+        N_t_mle, Nobs = gpetas.prediction_2d.get_marginal_Nt_pred(t, save_obj_pred_mle, m0_plot=m0_plot,
+                                                                  which_events=None)
         m, v, q01, q05, q5, q95, q99 = [np.mean(N_t_mle), np.var(N_t_mle), np.quantile(N_t_mle, q=0.01),
                                         np.quantile(N_t_mle, q=0.05), np.quantile(N_t_mle, q=0.5),
                                         np.quantile(N_t_mle, q=0.95), np.quantile(N_t_mle, q=0.99)]
@@ -2342,10 +2492,10 @@ def write_table_prediction_report(save_obj_pred, save_obj_pred_mle=None, m0_plot
     fid.write("\\end{figure}\n")
 
     # summary forecast uncertainty in time
-    #'/F007_summary_unc_t_%s_%0i_%s_m%i.pdf' % (case_name, i, scales[i], int(m0_plot * 10)
+    # '/F007_summary_unc_t_%s_%0i_%s_m%i.pdf' % (case_name, i, scales[i], int(m0_plot * 10)
     fid.write("\\begin{figure}[h!]\n")
     fid.write("\\centering\n")
-    scales = ['linear','log10']
+    scales = ['linear', 'log10']
     for i in range(len(scales)):
         fname = '/F007_summary_unc_t_%s_%0i_%s_m%i.pdf' % (case_name, i, scales[i], int(m0_plot * 10))
         fid.write("\\includegraphics[width=0.45\\textwidth]{../figures/%s}\n" % fname)
