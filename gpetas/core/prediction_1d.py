@@ -12,6 +12,190 @@ output_dir_tables = "output_pred/tables"
 output_dir_figures = "output_pred/figures"
 output_dir_data = "output_pred/data"
 
+class predictions_1d_gpetas:
+    def __init__(self,save_obj_GS, tau1, tau2, tau0_Ht=0., sample_idx_vec=None, seed=None, approx=None, Ksim=None,
+                 randomized_samples='yes', Bayesian_m_beta=None):
+        self.tau0_Ht = tau0_Ht
+        self.tau1 = tau1
+        self.tau2 = tau2
+        self.tau_vec = np.array([tau0_Ht, tau1, tau2])
+        self.data_obj = save_obj_GS['data_obj']
+        self.save_obj_GS = save_obj_GS  # new ... maybe delete all individual sub attributes
+        self.Ksamples = len(save_obj_GS['lambda_bar'])
+        self.save_pred = None
+        self.N495_true = np.sum(self.data_obj.data_all.magnitudes[
+                                    np.logical_and(self.data_obj.data_all.times >= tau1,
+                                                   self.data_obj.data_all.times <= tau2)] >= 4.95)
+        self.Nm0_true = np.sum(self.data_obj.data_all.magnitudes[
+                                   np.logical_and(self.data_obj.data_all.times >= tau1,
+                                                  self.data_obj.data_all.times <= tau2)] >= self.data_obj.domain.m0)
+
+        # simple m_beta Bayesian
+        self.Bayesian_m_beta = Bayesian_m_beta
+        if Bayesian_m_beta is not None:
+            mu_prior__m_beta = np.log(10)
+            c_prior__m_beta = 0.1
+            alpha_prior_mb = 1. / c_prior__m_beta ** 2.
+            beta_prior_mb = 1. / (c_prior__m_beta ** 2 * mu_prior__m_beta)
+            alpha_posterior_mb = alpha_prior_mb + save_obj_GS['setup_obj'].N_training
+            sum_mi_minus_m0 = save_obj_GS['setup_obj'].N_training / save_obj_GS['setup_obj'].m_beta
+            beta_posterior_mb = beta_prior_mb + sum_mi_minus_m0
+            self.alpha_posterior_mb = np.copy(alpha_posterior_mb)
+            self.beta_posterior_mb = np.copy(beta_posterior_mb)
+            print('Uses default prior on m_beta with mu=', mu_prior__m_beta, ' c=', c_prior__m_beta)
+            print('m beta posterior: alpha,beta posterior=', alpha_posterior_mb, beta_posterior_mb)
+
+        if sample_idx_vec is None:
+            sample_idx_vec = [0]
+        self.seed = seed
+        if seed is not None:
+            np.random.seed(seed)
+            self.seed = seed
+        self.noise = 1e-4
+        if approx is None:
+            self.approx = 'sampling_from_cond_sparse_GP'
+        else:
+            self.approx = 'using_sparse_GP_mean'
+
+        # domain
+        T_abs = tau2 - tau1
+        X_abs = np.prod(np.diff(self.data_obj.domain.X_borders))
+        self.X_borders = np.copy(self.data_obj.domain.X_borders)
+        dim = self.data_obj.domain.X_borders.shape[0]
+        self.spatial_offspring = save_obj_GS['setup_obj'].spatial_offspring
+
+        # offspring params
+        self.theta_Kcpadgq = None
+
+        # fixed params
+        self.m0 = self.data_obj.domain.m0
+        self.m_beta = save_obj_GS['setup_obj'].m_beta
+
+        init_save_dictionary(self)
+        self.save_pred['N495_true'] = np.copy(self.N495_true)
+        self.save_pred['Nm0_true'] = np.copy(self.Nm0_true)
+        self.save_pred['seed_orig'] = np.copy(seed)
+        self.save_pred['seed'] = np.copy(self.seed)
+        self.save_pred['data_obj'] = save_obj_GS['data_obj']
+        self.save_pred['m0'] = np.copy(self.data_obj.domain.m0)
+        self.save_pred['data_obj'] = self.data_obj
+        self.save_pred['save_obj_GS'] = self.save_obj_GS
+        self.tic = time.perf_counter()
+
+        if Ksim is not None:
+            print('1', len(sample_idx_vec))
+            # if len(sample_idx_vec)==1:
+            #    sample_idx_vec = np.arange(0,self.Ksamples,1)
+            if randomized_samples is not None:
+                randomized_samples = np.random.choice(sample_idx_vec, Ksim)
+                sample_idx_vec = np.copy(randomized_samples)
+            if randomized_samples is None:
+                if len(sample_idx_vec) < Ksim:
+                    sample_idx_vec = np.repeat(sample_idx_vec, int(Ksim / len(sample_idx_vec)))
+                if len(sample_idx_vec) > Ksim:
+                    sample_idx_vec = np.ceil(np.linspace(0, len(sample_idx_vec) - 1, Ksim)).astype(int)
+                print('Fixed samples:randomized_samples is None.')
+            print(Ksim, len(sample_idx_vec))
+            print(sample_idx_vec)
+        self.save_pred['sample_idx_vec'] = sample_idx_vec
+
+        for i in range(len(sample_idx_vec)):
+            if np.mod(i, 1) == 0:  # info every 10th event
+                Ksim = len(sample_idx_vec)
+                tictoc = time.perf_counter() - self.tic
+                print('current simulation is k =', i + 1, 'of K =', Ksim,
+                      '%.2f sec. elapsed time.' % tictoc,
+                      ' approx. done %.1f percent.' % (100. * (i / float(Ksim))))
+            k = sample_idx_vec[i]
+
+            # bg
+            mu = np.sum(save_obj_GS['mu_grid'][k]) * np.prod(np.diff(self.data_obj.domain.X_borders)) / len(
+                save_obj_GS['X_grid'])
+            N_0 = np.random.poisson(lam=mu * (tau2 - tau1), size=1).item()
+
+            # offspring params
+            self.theta_Kcpadgq = None
+            self.theta_Kcpadgq = np.copy(save_obj_GS['theta_tilde'][k])
+
+            if N_0 == 0:
+                self.bgnew = np.zeros([int(len([])), 5])
+                self.bgnew_and_offspring = np.zeros([int(len([])), 5])
+            else:
+                # writing to a matrix
+                bg_events = np.zeros([N_0, 5])
+                bg_events[:, 0] = np.random.rand(N_0) * (tau2 - tau1)
+                bg_events[:, 1] = np.random.exponential(1. / self.m_beta,
+                                                        N_0) + self.m0  # m_i: marks
+                bg_events[:, 2] = None  # x_coord
+                bg_events[:, 3] = None  # y_coord
+                bg_events[:, 4] = np.zeros(N_0)  # branching z=0
+                sort_idx = np.argsort(bg_events[:, 0])
+                bg_events = bg_events[sort_idx, :]
+
+                # offspring (aftershocks) using: mle theta_phi
+                pred, pred_aug = sim_add_offspring(self, bg_events)
+                bgnew_and_offspring = np.copy(pred_aug)
+
+                # info 1: bg+off
+                self.bgnew = np.copy(bg_events)
+                self.bgnew[:, 0] += tau1
+                self.bgnew_and_offspring = np.copy(bgnew_and_offspring)
+                self.bgnew_and_offspring[:, 0] += tau1
+
+            # offspring from Ht
+            Ht_pred, Ht_pred_aug = sim_offspring_from_Ht(self)
+
+            # adding together: offspring from Ht + new background + offspring of background
+            if N_0 == 0:
+                added = np.copy(Ht_pred_aug)
+            else:
+                added = np.vstack([Ht_pred_aug, self.bgnew_and_offspring])
+            events_all_with_Ht_offspring = added[np.argsort(added[:, 0])]
+
+            # info 2: off_from_Ht
+            self.Ht_offspring = np.copy(Ht_pred_aug)
+            self.events_all_with_Ht_offspring = np.copy(events_all_with_Ht_offspring)
+
+            # save results
+            self.save_pred['pred_offspring_Ht'].append(self.Ht_offspring)
+            self.save_pred['pred_bgnew_and_offspring'].append(self.bgnew_and_offspring)
+            self.save_pred['pred_bgnew_and_offspring_with_Ht_offspring'].append(
+                self.events_all_with_Ht_offspring)
+            if len(self.events_all_with_Ht_offspring[:, 1]) > 0:
+                self.save_pred['M_max_all'].append(np.max(self.events_all_with_Ht_offspring[:, 1]))
+            self.save_pred['k_sample'].append(k)
+            self.save_pred['theta_Kcpadgq_k'].append(self.theta_Kcpadgq)
+            self.save_pred['N495_offspring_Ht'].append(np.sum(self.Ht_offspring[:, 1] >= 4.95))
+            self.save_pred['N495_all_with_Ht'].append(np.sum(self.events_all_with_Ht_offspring[:, 1] >= 4.95))
+            self.save_pred['N495_all_without_Ht'].append(np.sum(self.bgnew_and_offspring[:, 1] >= 4.95))
+            self.save_pred['N495_bgnew'].append(np.sum(self.bgnew[:, 1] >= 4.95))
+            self.save_pred['Nm0_offspring_Ht'].append(np.sum(self.Ht_offspring[:, 1] >= self.m0))
+            self.save_pred['Nm0_all_with_Ht'].append(np.sum(self.events_all_with_Ht_offspring[:, 1] >= self.m0))
+            self.save_pred['Nm0_all_without_Ht'].append(np.sum(self.bgnew_and_offspring[:, 1] >= self.m0))
+            self.save_pred['Nm0_bgnew'].append(np.sum(self.bgnew[:, 1] >= self.m0))
+            K, c, p, m_alpha = self.theta_Kcpadgq[:4]
+            m_beta = np.copy(self.m_beta)
+            self.n_stability = gpetas.utils.some_fun.n(m_alpha, m_beta, K, c, p, t_start=tau1, t_end=tau2)
+            self.n_stability_inf = gpetas.utils.some_fun.n(m_alpha, m_beta, K, c, p, t_start=0., t_end=np.inf)
+            self.save_pred['n_tau1_tau2'].append(self.n_stability)
+            self.save_pred['n_inf'].append(self.n_stability_inf)
+
+            if np.mod(k, 1) == 0:  # info every 10th event
+                tictoc = time.perf_counter() - self.tic
+                print('current simulation is k =', k + 1, 'of K =', Ksim,
+                      '%.2f sec. elapsed time.' % tictoc,
+                      ' approx. done %.1f percent.' % (100. * (k / float(Ksim))))
+
+            # some postprocessing
+            self.save_pred['cumsum'] = gpetas.prediction_2d.cumsum_events_pred(save_obj_pred=self.save_pred,
+                                                                               tau1=self.tau1, tau2=self.tau2,
+                                                                               m0=self.m0,
+                                                                               which_events='all')
+
+
+
+
+
 
 class predictions_1d_mle:
     def __init__(self, mle_obj, tau1, tau2, tau0_Ht=0., Ksim=None, data_obj=None, seed=None, Bayesian_m_beta=None):
