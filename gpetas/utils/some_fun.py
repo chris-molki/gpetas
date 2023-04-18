@@ -202,7 +202,7 @@ def Lambda_t_1D(t_end, tau1=0., save_obj_GS=None, sample_idx_vec=None, mle_obj=N
 ### new
 
 # stability issues
-def PHI_t_omori(c, p, t_start=0., t_end=np.inf):
+def PHI_t_omori(K, c, p, t_start=0., t_end=np.inf):
     PHI_t = np.nan
     if (p > 1. and t_end == np.inf):
         PHI_t = 1. / (p - 1) * (c + t_start) ** (1. - p)
@@ -210,13 +210,13 @@ def PHI_t_omori(c, p, t_start=0., t_end=np.inf):
         PHI_t = 1. / (-p + 1) * ((c + t_end) ** (1. - p) - (c + t_start) ** (1. - p))
     if (p == 1 and t_end != np.inf):
         PHI_t = np.log(c + t_end) - np.log(c + t_start)
-    return (PHI_t)
+    return K * PHI_t
 
 
 def n(m_alpha, m_beta, K, c, p, t_start=0., t_end=np.inf):
-    n_t = PHI_t_omori(c, p, t_start, t_end)
-    n = n_t * K / (1. - m_alpha / m_beta)
-    return (n)
+    n_t = PHI_t_omori(K, c, p, t_start, t_end)
+    n = n_t/(1. - m_alpha / m_beta)
+    return n
 
 
 # grid interpolation
