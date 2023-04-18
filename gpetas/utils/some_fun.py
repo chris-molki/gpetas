@@ -163,6 +163,23 @@ def integral_offspring(save_obj_GS, T1, T2, sample_idx_vec=None, H_T1=None, mle_
 
 
 def Lambda_t_1D(t_end, tau1=0., save_obj_GS=None, sample_idx_vec=None, mle_obj=None, resolution=None):
+    '''
+    Computes time integral of ETAS intensity function for an entire region for several times: np.linspace(tau1, t_end, resolution)
+    :param t_end: upper bound of the time integration
+    :type t_end: float
+    :param tau1: lower bound of the integration
+    :type tau1: float
+    :param save_obj_GS: obj containing Gibbs sampling inference results
+    :type save_obj_GS: python object
+    :param sample_idx_vec: vector integers giving the index of employed posterior samples
+    :type sample_idx_vec: numpy vector of integers
+    :param mle_obj: obj containing mle inference results
+    :type mle_obj: python object
+    :param resolution: length of the time vector where the integral is evaluated
+    :type resolution: integer
+    :return: (LAM, t_eval_vec):=(array,vector) where LAM is the integral at all times in t_eval_vec
+    :rtype: float
+    '''
     if resolution is None:
         resolution = 100
 
