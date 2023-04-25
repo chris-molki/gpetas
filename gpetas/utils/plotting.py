@@ -226,7 +226,7 @@ def plot_1D_estimation(save_obj_GS=None, sample_idx_vec=None, mle_obj=None, mle_
     if mle_obj is not None:
         data_obj = mle_obj.data_obj
         if xlim is None:
-            t_end = data_obj.domain.T_borders_testing[1]
+            t_end = data_obj.domain.T_borders_all[1]
         else:
             t_end = xlim[1]
         Lambda_t_mle, t_eval_vec_mle = gpetas.some_fun.Lambda_t_1D(t_end=t_end, mle_obj=mle_obj, resolution=resolution)
@@ -242,7 +242,7 @@ def plot_1D_estimation(save_obj_GS=None, sample_idx_vec=None, mle_obj=None, mle_
     if save_obj_GS is not None:
         data_obj = save_obj_GS['data_obj']
         if xlim is None:
-            t_end = data_obj.domain.T_borders_testing[1]
+            t_end = data_obj.domain.T_borders_all[1]
         else:
             t_end = xlim[1]
         Lambda_t_gpe, t_eval_vec_gpe = gpetas.some_fun.Lambda_t_1D(t_end=t_end, save_obj_GS=save_obj_GS,
