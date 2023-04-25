@@ -271,7 +271,7 @@ def plot_1D_estimation(save_obj_GS=None, sample_idx_vec=None, mle_obj=None, mle_
         plt.plot(t_eval_vec_gpe, np.quantile(a=Lambda_t_gpe, q=0.5, axis=1), '-k', label='GP-E', linewidth=3)
         plt.fill_between(t_eval_vec_gpe, y1=np.quantile(a=Lambda_t_gpe, q=quantile, axis=1),
                          y2=np.quantile(a=Lambda_t_gpe, q=1 - quantile, axis=1), color='lightgrey',
-                         label='$q_{%.2f,%.2f}$' % (quantile, 1 - quantile))
+                         label='$q_{%.3f,%.3f}$' % (quantile, 1 - quantile))
         # mle: Lambda
         if mle_obj is not None:
             plt.plot(t_eval_vec_mle, Lambda_t_mle, 'b--', label='E', linewidth=3)
