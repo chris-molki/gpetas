@@ -64,9 +64,9 @@ def plot_priors_offspring(save_obj_GS):
 
 def plot_l_ltest(save_obj_GS, mle_obj=None, mle_obj_silverman=None, t1=None, t2=None, idx_samples=None):
     if t1 is None:
-        t1 = save_obj_GS['data_obj'].domain.T_borders_testing[0]
+        t1 = save_obj_GS['data_obj'].domain.T_borders_all[0]
     if t2 is None:
-        t2 = save_obj_GS['data_obj'].domain.T_borders_testing[1]
+        t2 = save_obj_GS['data_obj'].domain.T_borders_all[1]
 
     # eval l
     testing_periods = np.zeros([2, 2]) * np.nan
