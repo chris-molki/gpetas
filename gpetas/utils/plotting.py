@@ -194,7 +194,7 @@ def plot_l_ltest(save_obj_GS, mle_obj=None, mle_obj_silverman=None, t1=None, t2=
 
 def plot_1D_estimation(save_obj_GS=None, sample_idx_vec=None, mle_obj=None, mle_obj_silverman=None,
                        quantile=0.05, resolution=None, xlim=None, figsize=(10, 5),
-                       pos_textND=None, pos_textNDstar=None):
+                       pos_textND=None, pos_textNDstar=None, label=None):
     '''
     Computes and plots 1D estimation of ETAS, in time, given history H_t until t
     :param save_obj_GS:
@@ -222,6 +222,8 @@ def plot_1D_estimation(save_obj_GS=None, sample_idx_vec=None, mle_obj=None, mle_
     '''
     if resolution is None:
         resolution = 1000
+    if label = None:
+        label ='GP-E'
     hf1 = None
     if mle_obj is not None:
         data_obj = mle_obj.data_obj
@@ -268,7 +270,7 @@ def plot_1D_estimation(save_obj_GS=None, sample_idx_vec=None, mle_obj=None, mle_
         if xlim is not None:
             plt.locator_params(nbins=3)
         # Lambda(1)
-        plt.plot(t_eval_vec_gpe, np.quantile(a=Lambda_t_gpe, q=0.5, axis=1), '-k', label='GP-E', linewidth=3)
+        plt.plot(t_eval_vec_gpe, np.quantile(a=Lambda_t_gpe, q=0.5, axis=1), '-k', label=label, linewidth=3)
         plt.fill_between(t_eval_vec_gpe, y1=np.quantile(a=Lambda_t_gpe, q=quantile, axis=1),
                          y2=np.quantile(a=Lambda_t_gpe, q=1 - quantile, axis=1), color='lightgrey',
                          label='$q_{%.3f,%.3f}$' % (quantile, 1 - quantile))
