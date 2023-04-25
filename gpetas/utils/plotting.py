@@ -222,7 +222,7 @@ def plot_1D_estimation(save_obj_GS=None, sample_idx_vec=None, mle_obj=None, mle_
     '''
     if resolution is None:
         resolution = 1000
-    if label = None:
+    if label is None:
         label ='GP-E'
     hf1 = None
     if mle_obj is not None:
