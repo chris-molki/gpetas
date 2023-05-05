@@ -232,7 +232,7 @@ def n_mol(K, c, p, t_start=0., t_end=np.inf):
 
 def n(m_alpha, m_beta, K, c, p, t_start=0., t_end=np.inf):
     n_t = n_mol(K, c, p, t_start, t_end)
-    n = n_t/(1. - m_alpha / m_beta)
+    n = n_t / (1. - m_alpha / m_beta)
     return n
 
 
@@ -488,7 +488,7 @@ class create_data_obj_from_cat_file():
         self.data_all.times = aux[:, 4]  # time
         self.data_all.magnitudes = aux[:, 3]  # magnitude
         self.data_all.positions = aux[:, 1:3]  # [x_lon,y_lat]
-        np.savetxt(output_dir_data+'/cat_%s.dat'%self.case_name,aux)
+        np.savetxt(output_dir_data + '/cat_%s.dat' % self.case_name, aux)
 
         # set domain
         if X_borders is not None:
