@@ -7,7 +7,7 @@ import pickle
 class setup_sampler():
     def __init__(self, data_obj, utm_yes=None, spatial_offspring='R', theta_start_Kcpadgq=None,
                  sigma_proposal_offspring_params=None, ngrid_per_dim=50, cov_params=None, sigma_proposal_hypers=None,
-                 mu_nu0=None, X_grid=None, outdir=None, stat_background=None, prior_static_bg_params=None,
+                 mu_nu0=None, X_grid=None, outdir=None, stat_background=False, prior_static_bg_params=None,
                  prior_theta_dist=None, prior_theta_params=None, stable_theta_sampling=None,
                  time_origin=None, case_name='case_01', burnin=None, Ksamples=None,
                  num_iterations=None, thinning=None, MH_proposals_offspring=None, MH_cov_empirical_yes=None,
