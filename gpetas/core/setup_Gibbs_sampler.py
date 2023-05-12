@@ -133,8 +133,6 @@ class setup_sampler():
         self.sigma_proposal_offspring_params = sigma_proposal_offspring_params
 
         # background sampler
-        if stat_background is None:
-            stat_background = False
         self.stat_background = stat_background
         if prior_static_bg_params is None:
             prior_static_bg_params = np.array([1., 1./np.sqrt(0.1)]) # corresponds to alpha_0=1,beta_0=0.1
