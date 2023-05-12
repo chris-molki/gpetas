@@ -201,6 +201,7 @@ class GS_ETAS():
     def sample_background_intensity(self):
         """ Samples the background intensity.
         """
+        print(self.stat_background)
         if self.stat_background:  # True
             # Gamma prior of static background
             # params for gamma dist are here prior_mean,prior_coefficient_of_variation
