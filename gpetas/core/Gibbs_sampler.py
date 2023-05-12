@@ -202,6 +202,11 @@ class GS_ETAS():
         """ Samples the background intensity.
         """
         if self.stat_background:  # True
+            # Gamma prior of static background
+            # params for gamma dist are here prior_mean,prior_coefficient_of_variation
+            # i.e., for each param a pair [m,c], if c=1 prior becomes an exp.distribution
+            # alpha_0 = 1/c**2, beta_0 = alpha_0/prior_mean
+            # often used: only in time: prior(mu) \sim Gamma(alpha=0.1,beta=0.1) --> m=1,c=1/np.sqrt(0.1)
             # samples stationary background
             shape = self.N - len(np.nonzero(self.branching))
             scale = 1. / (self.R * self.T)
@@ -719,7 +724,7 @@ class GS_ETAS():
         if self.dim == 2:
             fid.write('cov_params_init nu_1                 = %f\n' % (self.setup_obj.cov_params_start[1][0]))
             fid.write('cov_params_init nu_2                 = %f\n' % (self.setup_obj.cov_params_start[1][1]))
-        if self.dim == 1 :
+        if self.dim == 1:
             fid.write('cov_params_init nu_1                 = %f\n' % (self.setup_obj.cov_params_start[1]))
         fid.write('initial values for nu_1, nu_2 from Silverman rule using all the data\n')
         fid.write('-----------------------------------------------------\n')
@@ -729,13 +734,13 @@ class GS_ETAS():
         fid.write('beta nu_0                            = %f\n' % (1. / self.save_data['hyper_prior_mu_nu0']))
         if self.dim == 2:
             fid.write(
-            'mean nu_1                            = %f\n' % (self.save_data['hyper_prior_mu_nu12_length_scale'][0]))
+                'mean nu_1                            = %f\n' % (self.save_data['hyper_prior_mu_nu12_length_scale'][0]))
             fid.write(
-            'mean nu_2                            = %f\n' % (self.save_data['hyper_prior_mu_nu12_length_scale'][1]))
+                'mean nu_2                            = %f\n' % (self.save_data['hyper_prior_mu_nu12_length_scale'][1]))
             fid.write('beta nu_1                            = %f\n' % (
-                1. / self.save_data['hyper_prior_mu_nu12_length_scale'][0]))
+                    1. / self.save_data['hyper_prior_mu_nu12_length_scale'][0]))
             fid.write('beta nu_2                            = %f\n' % (
-                1. / self.save_data['hyper_prior_mu_nu12_length_scale'][1]))
+                    1. / self.save_data['hyper_prior_mu_nu12_length_scale'][1]))
         fid.write('hyper_prior_length_scale_factor      = %f\n' % (self.bg_sampler.hyper_prior_length_scale_factor))
         fid.write('prior_mu_length_scale: mean nu_1 = mean nu_2 = default 0.1*dx\n')
         fid.write('default value for mu_nu12 (length scale) 0.1*dx would be in this case: %f\n' % (
