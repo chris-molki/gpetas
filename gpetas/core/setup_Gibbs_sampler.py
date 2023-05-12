@@ -35,8 +35,8 @@ class setup_sampler():
         :type X_grid:
         :param outdir:
         :type outdir:
-        :param stat_background: 
-        :type stat_background:
+        :param stat_background: bool
+            If true, the model assumes a stationary background intensity.
         :param prior_static_bg_params:
         :type prior_static_bg_params:
         :param prior_theta_dist:

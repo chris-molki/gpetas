@@ -12,7 +12,7 @@ class GS_ETAS():
     """ Gibbs sampler for the Epidemic Type Aftershock Sequence (ETAS) model.
     """
 
-    def __init__(self, data_obj, setup_obj=None, burnin=None, num_samples=None, stat_background=False, thinning=None,
+    def __init__(self, data_obj, setup_obj=None, burnin=None, num_samples=None, thinning=None,
                  kth_sample_obj=None, case_name=None, MH_proposals_offspring=None, MH_cov_empirical_yes=None):
         """
         :param MH_cov_empirical_yes:
