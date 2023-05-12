@@ -7,8 +7,9 @@ import pickle
 class setup_sampler():
     def __init__(self, data_obj, utm_yes=None, spatial_offspring='R', theta_start_Kcpadgq=None,
                  sigma_proposal_offspring_params=None, ngrid_per_dim=50, cov_params=None, sigma_proposal_hypers=None,
-                 mu_nu0=None, X_grid=None, outdir=None, prior_theta_dist=None, prior_static_bg_params=None, prior_theta_params=None,
-                 stable_theta_sampling=None, time_origin=None, case_name='case_01', burnin=None, Ksamples=None,
+                 mu_nu0=None, X_grid=None, outdir=None, stat_background=None, prior_static_bg_params=None,
+                 prior_theta_dist=None, prior_theta_params=None, stable_theta_sampling=None,
+                 time_origin=None, case_name='case_01', burnin=None, Ksamples=None,
                  num_iterations=None, thinning=None, MH_proposals_offspring=None, MH_cov_empirical_yes=None,
                  kth_sample_obj=None, corresponding_mle=None, dim=None):
         """
@@ -34,6 +35,8 @@ class setup_sampler():
         :type X_grid:
         :param outdir:
         :type outdir:
+        :param stat_background: 
+        :type stat_background:
         :param prior_static_bg_params:
         :type prior_static_bg_params:
         :param prior_theta_dist:
@@ -130,6 +133,9 @@ class setup_sampler():
         self.sigma_proposal_offspring_params = sigma_proposal_offspring_params
 
         # background sampler
+        self.stat_background = stat_background
+        if prior_static_bg_params is None:
+            prior_static_bg_params = np.array([1., 1./np.sqrt(0.1)]) # corresponds to alpha_0=1,beta_0=0.1
         self.prior_static_bg_params = prior_static_bg_params
         self.cov_params = cov_params
         if self.cov_params is None:
