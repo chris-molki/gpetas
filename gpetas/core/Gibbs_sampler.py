@@ -202,7 +202,6 @@ class GS_ETAS():
     def sample_background_intensity(self):
         """ Samples the background intensity.
         """
-        print(self.stat_background)
         if self.stat_background:  # True
             # Gamma prior of static background
             # params for gamma dist are here prior_mean,prior_coefficient_of_variation
@@ -370,24 +369,26 @@ class GS_ETAS():
             mj_i = mvec[0:len(delta_t_ij)]
 
             # s(x):
-            # (1) GAUSS (short range)
-            if len(self.theta) == 7:
-                s_x_epart = (-1. / 2. * ((delta_x_ij) ** 2 + (delta_y_ij) ** 2)) / (
-                        D ** 2 * np.exp(
-                    m_alpha * (mj_i - m0)))
-                s_x = 1. / (2 * np.pi * D ** 2 * np.exp(
-                    m_alpha * (mj_i - m0))) * np.exp(
-                    s_x_epart)
-                # (2a) Power Law decay (long  range)
-            if len(self.theta) == 9 and self.spatial_kernel[0] == 'P':
-                s_x = (q - 1) / (np.pi * D ** 2 * np.exp(gamma * (mj_i - m0))) * (
-                        1. + ((delta_x_ij) ** 2 + (delta_y_ij) ** 2) / (D ** 2 * np.exp(gamma * (mj_i - m0)))) ** (
-                          -q)
-                # (2b) Rupture Length Power Law decay (long  range)
-            if len(self.theta) == 9 and self.spatial_kernel[0] == 'R':
-                s_x = (q - 1) / (np.pi * D ** 2 * 10. ** (2 * gamma * (mj_i))) * (
-                        1. + ((delta_x_ij) ** 2 + (delta_y_ij) ** 2) / (D ** 2 * 10. ** (2 * gamma * (mj_i)))) ** (
-                          -q)
+            s_x = 1.
+            if self.stat_background is False:
+                # (1) GAUSS (short range)
+                if len(self.theta) == 7:
+                    s_x_epart = (-1. / 2. * ((delta_x_ij) ** 2 + (delta_y_ij) ** 2)) / (
+                            D ** 2 * np.exp(
+                        m_alpha * (mj_i - m0)))
+                    s_x = 1. / (2 * np.pi * D ** 2 * np.exp(
+                        m_alpha * (mj_i - m0))) * np.exp(
+                        s_x_epart)
+                    # (2a) Power Law decay (long  range)
+                if len(self.theta) == 9 and self.spatial_kernel[0] == 'P':
+                    s_x = (q - 1) / (np.pi * D ** 2 * np.exp(gamma * (mj_i - m0))) * (
+                            1. + ((delta_x_ij) ** 2 + (delta_y_ij) ** 2) / (D ** 2 * np.exp(gamma * (mj_i - m0)))) ** (
+                              -q)
+                    # (2b) Rupture Length Power Law decay (long  range)
+                if len(self.theta) == 9 and self.spatial_kernel[0] == 'R':
+                    s_x = (q - 1) / (np.pi * D ** 2 * 10. ** (2 * gamma * (mj_i))) * (
+                            1. + ((delta_x_ij) ** 2 + (delta_y_ij) ** 2) / (D ** 2 * 10. ** (2 * gamma * (mj_i)))) ** (
+                              -q)
 
             # eq. (11)
             p_ijvec = K * np.exp(
@@ -607,16 +608,20 @@ class GS_ETAS():
 
             # spatial kernel
             K, c, p, m_alpha, D, gamma, q = np.empty(7) * np.nan
+            s_xij = 1.
             if len(self.theta) == 7:  # (1) GAUSS (short range)
                 K, c, p, m_alpha, D = np.copy(np.squeeze(theta_k))
-                s_xij = s_delta_x_ij_gauss(delta_x_ij, delta_y_ij, m_j, D, m_alpha, m0)
+                if self.stat_background is False:
+                    s_xij = s_delta_x_ij_gauss(delta_x_ij, delta_y_ij, m_j, D, m_alpha, m0)
             if len(self.theta) == 9 and self.spatial_kernel[0] == 'P':  # (2a) Power Law decay (long range)
                 K, c, p, m_alpha, D, gamma, q = np.copy(np.squeeze(theta_k))
-                s_xij = s_delta_x_ij_pwl(delta_x_ij, delta_y_ij, m_j, D, gamma, q, m0)
+                if self.stat_background is False:
+                    s_xij = s_delta_x_ij_pwl(delta_x_ij, delta_y_ij, m_j, D, gamma, q, m0)
             if len(self.theta) == 9 and self.spatial_kernel[
                 0] == 'R':  # (2b) Rupture Length Power Law decay (long  range)
                 K, c, p, m_alpha, D, gamma, q = np.copy(np.squeeze(theta_k))
-                s_xij = s_delta_x_ij_RL_pwl(delta_x_ij, delta_y_ij, m_j, D, gamma, q, m0)
+                if self.stat_background is False:
+                    s_xij = s_delta_x_ij_RL_pwl(delta_x_ij, delta_y_ij, m_j, D, gamma, q, m0)
 
             l_i = np.log(
                 kappa_m_j(m_j, K, m_alpha, m0) * g_delta_t_ij(delta_t_ij, c,
@@ -820,12 +825,14 @@ class GS_ETAS():
         if self.iteration == self.burnin + 1:
             self._write_info_file()
         if self.iteration == 1:
-            self.save_data['hyper_prior_mu_nu0'] = self.bg_sampler.hyper_prior_mu_nu0
-            self.save_data['hyper_prior_mu_nu12_length_scale'] = self.bg_sampler.hyper_prior_mu_length_scale
+            if self.stat_background is False:
+                self.save_data['hyper_prior_mu_nu0'] = self.bg_sampler.hyper_prior_mu_nu0
+                self.save_data['hyper_prior_mu_nu12_length_scale'] = self.bg_sampler.hyper_prior_mu_length_scale
         if self.iteration > self.burnin:
             self.track_vars_per_iter()
         self.iteration = self.iteration + 1
-        print('iter= ', self.iteration, 'Current lambda_star', self.bg_sampler.lmbda_star, 'M=', self.bg_sampler.M,
+        if self.stat_background is False:
+            print('iter= ', self.iteration, 'Current lambda_star', self.bg_sampler.lmbda_star, 'M=', self.bg_sampler.M,
               'N0=', self.bg_sampler.N)
 
     def track_vars_per_iter(self):
