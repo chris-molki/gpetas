@@ -208,10 +208,15 @@ class GS_ETAS():
             # alpha_0 = 1/c**2, beta_0 = alpha_0/prior_mean
             # often used: only in time: prior(mu) \sim Gamma(alpha=0.1,beta=0.1) --> m=1,c=1/np.sqrt(0.1)
             # samples stationary background
+            # shape = self.N - len(np.nonzero(self.branching))
+            # scale = 1. / (self.R * self.T)
+            m, c = self.setup_obj.prior_static_bg_params
+            alpha_0 = 1. / c ** 2.
+            beta_0 = alpha_0 / m
             shape = self.N - len(np.nonzero(self.branching))
-            scale = 1. / (self.R * self.T)
+            scale = 1. / (self.Tabs_training + beta_0)
             mu0_new = np.random.gamma(shape, scale)
-            self.mu0[:] = mu0_new
+            self.mu0[:] = mu0_new/self.Xabs
         else:
             # samples the (spatially) inhomogeneous background intensity.
             self.bg_sampler.sample(self.branching)
