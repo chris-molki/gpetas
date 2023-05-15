@@ -214,11 +214,11 @@ class GS_ETAS():
             m, c = self.setup_obj.prior_static_bg_params
             alpha_0 = 1. / c ** 2.
             beta_0 = alpha_0 / m
-            shape = self.N - np.sum(self.branching>0)
-            print(shape)
+            shape = self.N - np.sum(self.branching > 0) + alpha_0
             scale = 1. / (self.Tabs_training + beta_0)
             mu0_new = np.random.gamma(shape, scale)
-            self.mu0[:] = mu0_new/self.Xabs
+            self.mu0[:] = mu0_new
+            self.mu0_grid[:] = mu0_new / self.Xabs
         else:
             # samples the (spatially) inhomogeneous background intensity.
             self.bg_sampler.sample(self.branching)
@@ -748,9 +748,11 @@ class GS_ETAS():
             fid.write('beta nu_0                            = %f\n' % (1. / self.save_data['hyper_prior_mu_nu0']))
             if self.dim == 2:
                 fid.write(
-                    'mean nu_1                            = %f\n' % (self.save_data['hyper_prior_mu_nu12_length_scale'][0]))
+                    'mean nu_1                            = %f\n' % (
+                        self.save_data['hyper_prior_mu_nu12_length_scale'][0]))
                 fid.write(
-                    'mean nu_2                            = %f\n' % (self.save_data['hyper_prior_mu_nu12_length_scale'][1]))
+                    'mean nu_2                            = %f\n' % (
+                        self.save_data['hyper_prior_mu_nu12_length_scale'][1]))
                 fid.write('beta nu_1                            = %f\n' % (
                         1. / self.save_data['hyper_prior_mu_nu12_length_scale'][0]))
                 fid.write('beta nu_2                            = %f\n' % (
@@ -767,7 +769,8 @@ class GS_ETAS():
             fid.write('hyper prior Gamma(mu,c):\n')
             fid.write('mu lambda_bar                        = %e\n' % (self.save_data['lambda_bar_hyper_prior_mu']))
             fid.write(
-                'c =coeffi. of var                    = %e\n' % (self.save_data['lambda_bar_hyper_prior_c_coeffi_of_var']))
+                'c =coeffi. of var                    = %e\n' % (
+                    self.save_data['lambda_bar_hyper_prior_c_coeffi_of_var']))
             fid.write('The choice of mu and c determines Gamma(alpha_0,beta_0) parameterization\n')
             fid.write('alpha_0                              =%f\n' % (self.bg_sampler.alpha0))
             fid.write('beta_0                               =%f\n' % (self.bg_sampler.beta0))
@@ -836,10 +839,11 @@ class GS_ETAS():
         self.iteration = self.iteration + 1
         if self.stat_background is False:
             print('iter= ', self.iteration, 'Current lambda_star', self.bg_sampler.lmbda_star, 'M=', self.bg_sampler.M,
-              'N0=', self.bg_sampler.N)
+                  'N0=', self.bg_sampler.N)
         else:
-            print('iter= ', self.iteration, 'Current mu_new', self.mu0[0]*self.Xabs,'-->N0=',self.mu0[0]*self.Xabs*self.Tabs_training)
-
+            print('iter= ', self.iteration,
+                  'Current mu_new', self.mu0[0],
+                  '-->N0=', self.mu0[0] * self.Tabs_training)
 
     def track_vars_per_iter(self):
         self.track_data_per_iter['theta_tilde'].append(np.copy(self.theta[:-2]))
