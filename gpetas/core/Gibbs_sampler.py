@@ -214,7 +214,8 @@ class GS_ETAS():
             m, c = self.setup_obj.prior_static_bg_params
             alpha_0 = 1. / c ** 2.
             beta_0 = alpha_0 / m
-            shape = self.N - len(np.nonzero(self.branching))
+            shape = self.N - np.sum(self.branching>0)
+            print(shape)
             scale = 1. / (self.Tabs_training + beta_0)
             mu0_new = np.random.gamma(shape, scale)
             self.mu0[:] = mu0_new/self.Xabs
@@ -729,51 +730,52 @@ class GS_ETAS():
         fid.write('h_silverman in degrees               = %f\n' % (h_silverman))
         fid.write('h_silverman in km                    = %f\n' % (h_silverman * 111))
         fid.write('m0                                   = %f\n' % (self.setup_obj.m0))
-        fid.write('-----------------------------------------------------\n')
-        fid.write(' (0) GP COV function: hyperparameters initialization:\n')
-        fid.write('-----------------------------------------------------\n')
-        fid.write('cov_params_init nu_0                 = %f\n' % (self.setup_obj.cov_params_start[0]))
-        if self.dim == 2:
-            fid.write('cov_params_init nu_1                 = %f\n' % (self.setup_obj.cov_params_start[1][0]))
-            fid.write('cov_params_init nu_2                 = %f\n' % (self.setup_obj.cov_params_start[1][1]))
-        if self.dim == 1:
-            fid.write('cov_params_init nu_1                 = %f\n' % (self.setup_obj.cov_params_start[1]))
-        fid.write('initial values for nu_1, nu_2 from Silverman rule using all the data\n')
-        fid.write('-----------------------------------------------------\n')
-        fid.write(' (1) GP COV function: hyper prior initialization:\n')
-        fid.write('-----------------------------------------------------\n')
-        fid.write('mean nu_0                            = %f\n' % (self.save_data['hyper_prior_mu_nu0']))
-        fid.write('beta nu_0                            = %f\n' % (1. / self.save_data['hyper_prior_mu_nu0']))
-        if self.dim == 2:
+        if self.stat_background is False:
+            fid.write('-----------------------------------------------------\n')
+            fid.write(' (0) GP COV function: hyperparameters initialization:\n')
+            fid.write('-----------------------------------------------------\n')
+            fid.write('cov_params_init nu_0                 = %f\n' % (self.setup_obj.cov_params_start[0]))
+            if self.dim == 2:
+                fid.write('cov_params_init nu_1                 = %f\n' % (self.setup_obj.cov_params_start[1][0]))
+                fid.write('cov_params_init nu_2                 = %f\n' % (self.setup_obj.cov_params_start[1][1]))
+            if self.dim == 1:
+                fid.write('cov_params_init nu_1                 = %f\n' % (self.setup_obj.cov_params_start[1]))
+            fid.write('initial values for nu_1, nu_2 from Silverman rule using all the data\n')
+            fid.write('-----------------------------------------------------\n')
+            fid.write(' (1) GP COV function: hyper prior initialization:\n')
+            fid.write('-----------------------------------------------------\n')
+            fid.write('mean nu_0                            = %f\n' % (self.save_data['hyper_prior_mu_nu0']))
+            fid.write('beta nu_0                            = %f\n' % (1. / self.save_data['hyper_prior_mu_nu0']))
+            if self.dim == 2:
+                fid.write(
+                    'mean nu_1                            = %f\n' % (self.save_data['hyper_prior_mu_nu12_length_scale'][0]))
+                fid.write(
+                    'mean nu_2                            = %f\n' % (self.save_data['hyper_prior_mu_nu12_length_scale'][1]))
+                fid.write('beta nu_1                            = %f\n' % (
+                        1. / self.save_data['hyper_prior_mu_nu12_length_scale'][0]))
+                fid.write('beta nu_2                            = %f\n' % (
+                        1. / self.save_data['hyper_prior_mu_nu12_length_scale'][1]))
+            fid.write('hyper_prior_length_scale_factor      = %f\n' % (self.bg_sampler.hyper_prior_length_scale_factor))
+            fid.write('prior_mu_length_scale: mean nu_1 = mean nu_2 = default 0.1*dx\n')
+            fid.write('default value for mu_nu12 (length scale) 0.1*dx would be in this case: %f\n' % (
+                    0.1 * np.diff(self.data_obj.domain.X_borders[0, :])))
+            fid.write('sigma_proposal_hypers in log units   = %f\n' % (self.bg_sampler.sigma_proposal_hypers))
+            fid.write('-----------------------------------------------------\n')
+            fid.write(' (2) SGCP upper bound:\n')
+            fid.write('-----------------------------------------------------\n')
+            fid.write('lambda_bar start                     = %e\n' % (self.save_data['lambda_bar_start']))
+            fid.write('hyper prior Gamma(mu,c):\n')
+            fid.write('mu lambda_bar                        = %e\n' % (self.save_data['lambda_bar_hyper_prior_mu']))
             fid.write(
-                'mean nu_1                            = %f\n' % (self.save_data['hyper_prior_mu_nu12_length_scale'][0]))
-            fid.write(
-                'mean nu_2                            = %f\n' % (self.save_data['hyper_prior_mu_nu12_length_scale'][1]))
-            fid.write('beta nu_1                            = %f\n' % (
-                    1. / self.save_data['hyper_prior_mu_nu12_length_scale'][0]))
-            fid.write('beta nu_2                            = %f\n' % (
-                    1. / self.save_data['hyper_prior_mu_nu12_length_scale'][1]))
-        fid.write('hyper_prior_length_scale_factor      = %f\n' % (self.bg_sampler.hyper_prior_length_scale_factor))
-        fid.write('prior_mu_length_scale: mean nu_1 = mean nu_2 = default 0.1*dx\n')
-        fid.write('default value for mu_nu12 (length scale) 0.1*dx would be in this case: %f\n' % (
-                0.1 * np.diff(self.data_obj.domain.X_borders[0, :])))
-        fid.write('sigma_proposal_hypers in log units   = %f\n' % (self.bg_sampler.sigma_proposal_hypers))
-        fid.write('-----------------------------------------------------\n')
-        fid.write(' (2) SGCP upper bound:\n')
-        fid.write('-----------------------------------------------------\n')
-        fid.write('lambda_bar start                     = %e\n' % (self.save_data['lambda_bar_start']))
-        fid.write('hyper prior Gamma(mu,c):\n')
-        fid.write('mu lambda_bar                        = %e\n' % (self.save_data['lambda_bar_hyper_prior_mu']))
-        fid.write(
-            'c =coeffi. of var                    = %e\n' % (self.save_data['lambda_bar_hyper_prior_c_coeffi_of_var']))
-        fid.write('The choice of mu and c determines Gamma(alpha_0,beta_0) parameterization\n')
-        fid.write('alpha_0                              =%f\n' % (self.bg_sampler.alpha0))
-        fid.write('beta_0                               =%f\n' % (self.bg_sampler.beta0))
-        fid.write('-----------------------------------------------------\n')
-        fid.write(' (3) offspring:\n')
-        fid.write('-----------------------------------------------------\n')
-        fid.write('GS.setup_obj.spatial_offspring       =%s\n' % (self.setup_obj.spatial_offspring))
-        fid.write('GS.spatial_kernel                    =%s\n' % (self.spatial_kernel))
+                'c =coeffi. of var                    = %e\n' % (self.save_data['lambda_bar_hyper_prior_c_coeffi_of_var']))
+            fid.write('The choice of mu and c determines Gamma(alpha_0,beta_0) parameterization\n')
+            fid.write('alpha_0                              =%f\n' % (self.bg_sampler.alpha0))
+            fid.write('beta_0                               =%f\n' % (self.bg_sampler.beta0))
+            fid.write('-----------------------------------------------------\n')
+            fid.write(' (3) offspring:\n')
+            fid.write('-----------------------------------------------------\n')
+            fid.write('GS.setup_obj.spatial_offspring       =%s\n' % (self.setup_obj.spatial_offspring))
+            fid.write('GS.spatial_kernel                    =%s\n' % (self.spatial_kernel))
         # if self.setup_obj.spatial_offspring == 'R':
         K, c, p, m_alpha, D, gamma, q, m_beta, m0 = self.theta_start
         fid.write('K_start                           =%f\n' % (K))
@@ -794,8 +796,9 @@ class GS_ETAS():
         fid.write(' (4) branching:\n')
         fid.write('-----------------------------------------------------\n')
         fid.write('N                                 =%i\n' % (self.N))
-        fid.write('N0_start                          =%i\n' % (self.bg_sampler.N))
-        fid.write('M_start                           =%i\n' % (self.bg_sampler.M))
+        if self.stat_background is False:
+            fid.write('N0_start                          =%i\n' % (self.bg_sampler.N))
+            fid.write('M_start                           =%i\n' % (self.bg_sampler.M))
         fid.close()
         return
 
@@ -834,6 +837,9 @@ class GS_ETAS():
         if self.stat_background is False:
             print('iter= ', self.iteration, 'Current lambda_star', self.bg_sampler.lmbda_star, 'M=', self.bg_sampler.M,
               'N0=', self.bg_sampler.N)
+        else:
+            print('iter= ', self.iteration, 'Current mu_new', self.mu0[0]*self.Xabs,'-->N0=',self.mu0[0]*self.Xabs*self.Tabs_training)
+
 
     def track_vars_per_iter(self):
         self.track_data_per_iter['theta_tilde'].append(np.copy(self.theta[:-2]))
