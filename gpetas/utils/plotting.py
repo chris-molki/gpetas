@@ -750,21 +750,29 @@ def plot_number_of_bg_events(save_obj_GS, mle_obj=None, mle_obj_silverman=None, 
                              quantile=None):
     plt.rcParams.update({'font.size': 40})
     data_obj = save_obj_GS['data_obj']
-    N0_gpetas = np.mean(save_obj_GS['N_S0'])
     Nall = len(data_obj.data_all.times[data_obj.idx_training])
     Ksamples = len(save_obj_GS['lambda_bar'])
     bins = 20
+    data_obj = save_obj_GS['data_obj']
+    abs_T_training = np.diff(data_obj.domain.T_borders_training)
+    abs_X = np.prod(np.diff(data_obj.domain.X_borders))
+    L = len(save_obj_GS['mu_grid'][0])
+
+    N0_gpetas_mu = np.sum(save_obj_GS['mu_grid'], axis=1) * abs_X / L * abs_T_training
+    N0_gpetas = np.array(save_obj_GS['N_S0']).squeeze()
+    mean_N0 = np.mean(N0_gpetas_mu)
+
 
     h1 = plt.figure()
     # GP-E
-    plt.hist(np.array(save_obj_GS['N_S0']).T, density=True, color='k', label='GP-E histogram', bins=bins)
-    plt.axvline(x=N0_gpetas, color='r', label='GP-E:   %i $\\pm$%i \n (%.2f$\\pm$%.3f)'
-                                              % (N0_gpetas, np.std(save_obj_GS['N_S0']), N0_gpetas / Nall,
-                                                 np.std(save_obj_GS['N_S0']) / Nall))
+    plt.hist(N0_gpetas_mu, density=True, color='k', label='GP-E histogram', bins=bins)
+    plt.axvline(x=mean_N0, color='r', label='GP-E:   %i $\\pm$%i \n (%.2f$\\pm$%.3f)'
+                                              % (mean_N0, np.std(N0_gpetas_mu), mean_N0 / Nall,
+                                                 np.std(N0_gpetas_mu) / Nall))
     if quantile is not None:
-        plt.axvline(x=np.quantile(np.array(save_obj_GS['N_S0']), 1. - quantile), color='r', linestyle=':',
+        plt.axvline(x=np.quantile(np.array(N0_gpetas_mu), 1. - quantile), color='r', linestyle=':',
                     label='%.3f,%.3f quantiles' % (1 - quantile, quantile))
-        plt.axvline(x=np.quantile(np.array(save_obj_GS['N_S0']), quantile), color='r', linestyle=':')
+        plt.axvline(x=np.quantile(np.array(N0_gpetas_mu), quantile), color='r', linestyle=':')
     # other
     if mle_obj is not None:
         N0_mle_kde = np.sum(mle_obj.p_i_vec)
@@ -795,7 +803,7 @@ def plot_number_of_bg_events(save_obj_GS, mle_obj=None, mle_obj_silverman=None, 
         Ndraws = 1
         N0_distribution = np.empty([Ksamples, Ndraws])
         for k in range(Ksamples):
-            N0_distribution[k] = np.random.poisson(lam=save_obj_GS['N_S0'][k], size=Ndraws)
+            N0_distribution[k] = np.random.poisson(lam=N0_gpetas_mu[k], size=Ndraws)
         plt.hist(N0_distribution.reshape(-1), density=True, color='k',
                  label='GP-E: HPP sampled \n %.1f $\\pm$%.1f' % (
                      np.mean(N0_distribution.reshape(-1)), np.std(N0_distribution.reshape(-1))),
