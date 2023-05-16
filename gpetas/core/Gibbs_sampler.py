@@ -488,6 +488,12 @@ class GS_ETAS():
                     diag[idx] = sigma_proposal
                     np.fill_diagonal(ln_cov, diag)
 
+            # individual variance for the proposal distribution
+            #var_indiv = None
+            #var_indiv = [0.15, 0.15, 0.05 ** 2, 0.05 ** 2, 0.01 ** 2, 0.01 ** 2, 0.01 ** 2]
+            #if var_indiv is not None:
+            #    ln_cov = np.eye(dim_theta) * var_indiv
+
             theta_k_star = np.exp(
                 np.random.multivariate_normal(ln_mean, ln_cov, 1))
 
