@@ -776,7 +776,10 @@ class predictions_gpetas():
                     sample_idx_vec = np.repeat(sample_idx_vec, int(Ksim / len(sample_idx_vec)))
                 if len(sample_idx_vec) > Ksim:
                     sample_idx_vec = np.ceil(np.linspace(0, len(sample_idx_vec) - 1, Ksim)).astype(int)
+                if len(sample_idx_vec) < Ksim:
+                    sample_idx_vec = np.append(sample_idx_vec, sample_idx_vec[:(Ksim - len(sample_idx_vec))])
                 print('Fixed samples:randomized_samples is None.')
+                print('len(sample_idx_vec)=',len(sample_idx_vec),'Ksim=',Ksim)
             print(Ksim, len(sample_idx_vec))
             print(sample_idx_vec)
         self.save_pred['sample_idx_vec'] = sample_idx_vec
