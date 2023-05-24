@@ -440,7 +440,7 @@ class GS_ETAS():
             else:
                 Nsamples = 10
         '''
-        if self.iteration <= 50:  # 100:
+        if self.iteration <= 100:  # 100:
             Nsamples = 100
         else:
             if self.MH_proposals_offspring is None:
