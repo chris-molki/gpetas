@@ -62,7 +62,8 @@ def plot_priors_offspring(save_obj_GS):
     return h1
 
 
-def plot_l_ltest(save_obj_GS, mle_obj=None, mle_obj_silverman=None, t1=None, t2=None, idx_samples=None):
+def plot_l_ltest(save_obj_GS, mle_obj=None, mle_obj_silverman=None, t1=None, t2=None, idx_samples=None,
+                 method_posterior_GP=None):
     if t1 is None:
         t1 = save_obj_GS['data_obj'].domain.T_borders_testing[0]
     if t2 is None:
@@ -75,7 +76,6 @@ def plot_l_ltest(save_obj_GS, mle_obj=None, mle_obj_silverman=None, t1=None, t2=
 
     # gpetas
     # method_posterior_GP = 'sparse'
-    method_posterior_GP = 'None'
     if idx_samples is None:
         idx_samples = np.arange(0, len(save_obj_GS['lambda_bar']))
     l_values = gpetas.loglike.test_likelihood_GS(save_obj_GS=save_obj_GS,
