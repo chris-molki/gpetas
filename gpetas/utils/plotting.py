@@ -74,7 +74,8 @@ def plot_l_ltest(save_obj_GS, mle_obj=None, mle_obj_silverman=None, t1=None, t2=
     testing_periods[1, :] = np.array([t1, t2])
 
     # gpetas
-    method_posterior_GP = 'sparse'
+    # method_posterior_GP = 'sparse'
+    method_posterior_GP = 'None'
     if idx_samples is None:
         idx_samples = np.arange(0, len(save_obj_GS['lambda_bar']))
     l_values = gpetas.loglike.test_likelihood_GS(save_obj_GS=save_obj_GS,
