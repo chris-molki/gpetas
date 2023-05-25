@@ -599,9 +599,6 @@ def silverman_scott_rule_d(X_data, individual_yes=None):
 
 
 def mu_xprime_gpetas(xprime, mu_grid, X_grid, X_borders, method=None, lambda_bar=None, cov_params=None):
-    # basic functions
-    inv_sigmoid = lambda sigma: np.log(sigma / (1. - sigma))
-    sigmoid = lambda x: 1. / (1 + np.exp(-x))
 
     # evaluation depending on the method
     mu_xprime = None
@@ -610,6 +607,53 @@ def mu_xprime_gpetas(xprime, mu_grid, X_grid, X_borders, method=None, lambda_bar
     # methods
     if method is None:
         method = 'nearest'
+
+    # interpolation methods
+    if method == 'nearest':
+        mu_xprime = griddata(points=X_grid, values=mu_grid.reshape(-1),
+                             xi=xprime, method='nearest', fill_value=np.nan, rescale=False)
+
+    if method == 'grid_approx':
+        mu_xprime = get_grid_data_for_a_point(mu_grid.flatten(), xprime, X_borders=X_borders)
+
+    if method == 'interpol_linear':
+        mu_xprime = griddata(points=X_grid, values=mu_grid.reshape(-1),
+                             xi=xprime, method='linear', fill_value=np.nan, rescale=False)
+    if method == 'interpol_cubic':
+        mu_xprime = griddata(points=X_grid, values=mu_grid.reshape(-1),
+                             xi=xprime, method='cubic', fill_value=np.nan, rescale=False)
+    if method == 'interpol_nearest':
+        mu_xprime = griddata(points=X_grid, values=mu_grid.reshape(-1),
+                             xi=xprime, method='nearest', fill_value=np.nan, rescale=False)
+
+    # GP as interpolation
+    # basic functions
+    inv_sigmoid = lambda sigma: np.log(sigma / (1. - sigma))
+    sigmoid = lambda x: 1. / (1 + np.exp(-x))
+
+    if method == 'sparse':
+        f = inv_sigmoid(mu_grid / lambda_bar)
+        fprime = sample_from_cond_gp(xprime, f, X_grid, cov_params=cov_params)
+        mu_xprime = lambda_bar * sigmoid(fprime)
+    if method == 'sparse_mean':
+        f = inv_sigmoid(mu_grid / lambda_bar)
+        x = np.copy(X_grid)
+        k = cov_func(x, xprime, cov_params=cov_params)  # K_ffprime
+        K_ff = cov_func(x, x, cov_params=cov_params)
+        K_ff_inv = inverse(K_ff)
+        fprime_given_f_mean_approx = np.dot(k.T, K_ff_inv.dot(f))
+        mu_xprime = lambda_bar * sigmoid(fprime_given_f_mean_approx)
+    if method == 'sparse_mean_noise':
+        f = inv_sigmoid(mu_grid / lambda_bar)
+        x = np.copy(X_grid)
+        k = cov_func(x, xprime, cov_params=cov_params)  # K_ffprime
+        K_ff = cov_func(x, x, cov_params=cov_params)
+        K_ff_inv = inverse(K_ff)
+        fprime_given_f_mean_approx = np.dot(k.T, K_ff_inv.dot(f)) + \
+                                     np.random.normal(loc=0, scale=cov_params[0], size=len(xprime))
+        mu_xprime = lambda_bar * sigmoid(fprime_given_f_mean_approx)
+
+    '''
     if method == 'sparse':
         f = inv_sigmoid(mu_grid / lambda_bar)
         fprime = sample_from_cond_gp(xprime, f, X_grid, cov_params=cov_params)
@@ -638,8 +682,10 @@ def mu_xprime_gpetas(xprime, mu_grid, X_grid, X_borders, method=None, lambda_bar
 
     '''
 
+    '''
 
-    # methods
+
+    #  methods
     if method == 'grid_approx':
         mu_xprime = get_grid_data_for_a_point(mu_grid.flatten(), xprime, X_borders=X_borders)
     if method == 'interpol_linear':
