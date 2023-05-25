@@ -203,7 +203,8 @@ class summary_gpetas():
         # (9) gpetas_intensity(X_grid,t)
 
         # (10) ltest plot
-        h1, h2 = gpetas.plotting.plot_l_ltest(save_obj_GS=save_obj_GS,mle_obj=mle_obj,mle_obj_silverman=mle_obj_silverman)
+        h1, h2 = gpetas.plotting.plot_l_ltest(save_obj_GS=save_obj_GS,mle_obj=mle_obj,mle_obj_silverman=mle_obj_silverman,
+                                              method_posterior_GP='nearest')
         h1.savefig(out_dir + '/%s_F10_l_ltest01.pdf' % data_obj.case_name, bbox_inches='tight')
         h2.savefig(out_dir + '/%s_F10b_l_ltest02.pdf' % data_obj.case_name, bbox_inches='tight')
 
