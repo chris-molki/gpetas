@@ -1269,8 +1269,8 @@ def plot_setting(data_obj=None, save_obj_GS=None, test_data_blue=None, gm_obj=No
         plt.axvline(data_obj.domain.X_borders[0, 1], color=color_string)
         plt.axhline(data_obj.domain.X_borders[1, 0], color=color_string)
         plt.axhline(data_obj.domain.X_borders[1, 1], color=color_string)
-    xticks = np.linspace(data_obj.domain.X_borders[0, 0], data_obj.domain.X_borders[0, 1], 3)
-    yticks = np.linspace(data_obj.domain.X_borders[1, 0], data_obj.domain.X_borders[1, 1], 3)
+    xticks = np.round(np.linspace(data_obj.domain.X_borders[0, 0], data_obj.domain.X_borders[0, 1], 3),3)
+    yticks = np.round(np.linspace(data_obj.domain.X_borders[1, 0], data_obj.domain.X_borders[1, 1], 3),3)
     plt.xticks(xticks)
     plt.yticks(yticks)
     ax.set_yticklabels(('', yticks[1], yticks[2]))
@@ -1333,7 +1333,7 @@ def plot_setting(data_obj=None, save_obj_GS=None, test_data_blue=None, gm_obj=No
     else:
         plt.xlabel('time, days')
     #plt.text(np.min(x[:, 0]), x.shape[0],
-    plt.text(0.05, 0.95,
+    plt.text(0.05, 0.975,
              '$N_{\mathcal{D}}=$ %s\n$m_{\mathcal{D}}\in[%.2f,%.2f]$'
              % (x[data_obj.idx_training].shape[0], np.min(x[data_obj.idx_training, 1]),
                 np.max(x[data_obj.idx_training, 1])),
@@ -1374,8 +1374,8 @@ def plot_setting(data_obj=None, save_obj_GS=None, test_data_blue=None, gm_obj=No
             plt.axvline(data_obj.domain.X_borders[0, 1], color=color_string)
             plt.axhline(data_obj.domain.X_borders[1, 0], color=color_string)
             plt.axhline(data_obj.domain.X_borders[1, 1], color=color_string)
-        xticks = np.linspace(data_obj.domain.X_borders[0, 0], data_obj.domain.X_borders[0, 1], 3)
-        yticks = np.linspace(data_obj.domain.X_borders[1, 0], data_obj.domain.X_borders[1, 1], 3)
+        xticks = np.round(np.linspace(data_obj.domain.X_borders[0, 0], data_obj.domain.X_borders[0, 1], 3), 3)
+        yticks = np.round(np.linspace(data_obj.domain.X_borders[1, 0], data_obj.domain.X_borders[1, 1], 3), 3)
         plt.xticks(xticks)
         plt.yticks(yticks)
         ax.set_yticklabels(('', yticks[1], yticks[2]))
@@ -1399,8 +1399,8 @@ def plot_setting(data_obj=None, save_obj_GS=None, test_data_blue=None, gm_obj=No
             plt.axvline(data_obj.domain.X_borders[0, 1], color=color_string)
             plt.axhline(data_obj.domain.X_borders[1, 0], color=color_string)
             plt.axhline(data_obj.domain.X_borders[1, 1], color=color_string)
-        xticks = np.linspace(data_obj.domain.X_borders[0, 0], data_obj.domain.X_borders[0, 1], 3)
-        yticks = np.linspace(data_obj.domain.X_borders[1, 0], data_obj.domain.X_borders[1, 1], 3)
+        xticks = np.round(np.linspace(data_obj.domain.X_borders[0, 0], data_obj.domain.X_borders[0, 1], 3), 3)
+        yticks = np.round(np.linspace(data_obj.domain.X_borders[1, 0], data_obj.domain.X_borders[1, 1], 3), 3)
         plt.xticks(xticks)
         plt.yticks(yticks)
         ax.set_yticklabels(('', yticks[1], yticks[2]))
