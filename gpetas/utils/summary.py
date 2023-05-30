@@ -29,11 +29,12 @@ class summary_gpetas():
             hf1.savefig(out_dir + '/%s_data_01.pdf' % gm_obj.case_name, bbox_inches='tight')
             hf2.savefig(out_dir + '/%s_data_02.pdf' % gm_obj.case_name, bbox_inches='tight')
         if gm_obj is None:
-            h1, h2, hf1a, h4a, h4b = gpetas.utils.plotting.plot_setting(data_obj=data_obj,show_datasets='yes')
-            h1.savefig(out_dir + '/%s_data_01_rd.pdf' % data_obj.case_name, bbox_inches='tight')
+            h1, h2, hf1a, h4a, h4b, h5 = gpetas.utils.plotting.plot_setting(data_obj=data_obj,show_datasets='yes',show_training_data_only='yes')
+            h1.savefig(out_dir + '/%s_data_01.pdf' % data_obj.case_name, bbox_inches='tight')
             h2.savefig(out_dir + '/%s_data_02.pdf' % data_obj.case_name, bbox_inches='tight')
             h4a.savefig(out_dir + '/%s_data_03.pdf' % data_obj.case_name, bbox_inches='tight')
             h4b.savefig(out_dir + '/%s_data_04.pdf' % data_obj.case_name, bbox_inches='tight')
+            h5.savefig(out_dir + '/%s_data_05.pdf' % data_obj.case_name, bbox_inches='tight')
 
         # (2) background
         h1 = gpetas.plotting.plot_intensity_2d(np.median(save_obj_GS['mu_grid'], axis=0),
