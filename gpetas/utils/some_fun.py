@@ -853,37 +853,74 @@ def write_table_l_test_real_data(testing_periods, N_test, l_test_GP, l_test_kde_
             "\caption{Test likelihood $\\ell_{\\rm test}$ of unseen test data sets using $K=%i$ posterior samples.}" % len(
                 idx_samples))
     fid.write("\n")
-    fid.write("\\begin{tabular}{lcccc}")
+    if l_test_kde_silverman is None:
+        fid.write("\\begin{tabular}{lccc}")
+    else:
+        fid.write("\\begin{tabular}{lcccc}")
     fid.write("\n")
     fid.write("\hline")
     fid.write("\n")
-    fid.write("testing period & $N_{\\rm test}$ & ETAS-classical & ETAS–Silverman & GP-ETAS \\\ ")
+    if l_test_kde_silverman is not None:
+        fid.write("testing period & $N_{\\rm test}$ & ETAS-classical & ETAS–Silverman & GP-ETAS \\\ ")
+    else:
+        fid.write("testing period & $N_{\\rm test}$ & ETAS-classical & GP-ETAS \\\ ")
     fid.write("\hline\n")
     for i in range(len(testing_periods[:, 0])):
         if i == 0:
-            Line = "%.0f days & %i & %.1f & %.1f & \\textbf{%.1f} \\\ \n" % (
-                np.diff(testing_periods[i, :]) / 1., N_test[i], l_test_kde_default[i], l_test_kde_silverman[i],
-                l_test_GP[i])
-        elif i == 1:
-            if np.diff(testing_periods[i, :]) / 365.25 >= 0.5:
-                Line = "%.0f years & %i & %.1f & %.1f & \\textbf{%.1f} \\\ \n" % (
-                    np.diff(testing_periods[i, :]) / 365.25, N_test[i], l_test_kde_default[i], l_test_kde_silverman[i],
+            if l_test_kde_silverman is None:
+                Line = "%.0f days & %i & %.1f & \\textbf{%.1f} \\\ \n" % (
+                    np.diff(testing_periods[i, :]) / 1., N_test[i], l_test_kde_default[i],
                     l_test_GP[i])
             else:
                 Line = "%.0f days & %i & %.1f & %.1f & \\textbf{%.1f} \\\ \n" % (
+                np.diff(testing_periods[i, :]) / 1., N_test[i], l_test_kde_default[i], l_test_kde_silverman[i],
+                l_test_GP[i])
+        elif i == 1:
+            if np.diff(testing_periods[i, :]) / 365.25 >= 1.:
+                if l_test_kde_silverman is None:
+                    Line = "%.0f years & %i & %.1f & \\textbf{%.1f} \\\ \n" % (
+                        np.diff(testing_periods[i, :]) / 365.25, N_test[i], l_test_kde_default[i],
+                        l_test_GP[i])
+                else:
+                    Line = "%.2f years & %i & %.1f & %.1f & \\textbf{%.1f} \\\ \n" % (
+                    np.diff(testing_periods[i, :]) / 365.25, N_test[i], l_test_kde_default[i], l_test_kde_silverman[i],
+                    l_test_GP[i])
+            else:
+                if l_test_kde_silverman is None:
+                    Line = "%.0f days & %i & %.1f & \\textbf{%.1f} \\\ \n" % (
+                        np.diff(testing_periods[i, :]) / 1., N_test[i], l_test_kde_default[i],
+                        l_test_GP[i])
+                else:
+                    Line = "%.0f days & %i & %.1f & %.1f & \\textbf{%.1f} \\\ \n" % (
                     np.diff(testing_periods[i, :]) / 1., N_test[i], l_test_kde_default[i], l_test_kde_silverman[i],
                     l_test_GP[i])
         elif i == len(testing_periods[:, 0]) - 1:
-            Line = "total test period ($\\approx %.1f$ years) & %i & %.1f & %.1f & \\textbf{%.1f} \\\ \n" % (
+            if l_test_kde_silverman is None:
+                Line = "total test period ($\\approx %.1f$ years) & %i & %.1f & \\textbf{%.1f} \\\ \n" % (
+                    np.diff(testing_periods[i, :]) / 365.25, N_test[i], l_test_kde_default[i],
+                    l_test_GP[i])
+            else:
+                Line = "total test period ($\\approx %.1f$ years) & %i & %.1f & %.1f & \\textbf{%.1f} \\\ \n" % (
                 np.diff(testing_periods[i, :]) / 365.25, N_test[i], l_test_kde_default[i], l_test_kde_silverman[i],
                 l_test_GP[i])
         else:
             if np.diff(testing_periods[i, :]) / 365.25 >= 0.5:
-                Line = "%.0f years & %i & %.1f & %.1f & \\textbf{%.1f} \\\ \n" % (
+                if l_test_kde_silverman is None:
+                    Line = "%.0f years & %i & %.1f & \\textbf{%.1f} \\\ \n" % (
+                        np.diff(testing_periods[i, :]) / 365.25, N_test[i],
+                        l_test_kde_silverman[i],
+                        l_test_GP[i])
+                else:
+                    Line = "%.0f years & %i & %.1f & %.1f & \\textbf{%.1f} \\\ \n" % (
                     np.diff(testing_periods[i, :]) / 365.25, N_test[i], l_test_kde_default[i], l_test_kde_silverman[i],
                     l_test_GP[i])
             else:
-                Line = "%.0f days & %i & %.1f & %.1f & \\textbf{%.1f} \\\ \n" % (
+                if l_test_kde_silverman is None:
+                    Line = "%.0f days & %i & %.1f & \\textbf{%.1f} \\\ \n" % (
+                        np.diff(testing_periods[i, :]) / 1., N_test[i], l_test_kde_default[i],
+                        l_test_GP[i])
+                else:
+                    Line = "%.0f days & %i & %.1f & %.1f & \\textbf{%.1f} \\\ \n" % (
                     np.diff(testing_periods[i, :]) / 1., N_test[i], l_test_kde_default[i], l_test_kde_silverman[i],
                     l_test_GP[i])
         fid.write(Line)

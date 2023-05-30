@@ -63,7 +63,28 @@ def plot_priors_offspring(save_obj_GS):
 
 
 def plot_l_ltest(save_obj_GS, mle_obj=None, mle_obj_silverman=None, t1=None, t2=None, idx_samples=None,
-                 method_posterior_GP=None):
+                 method_posterior_GP=None,table_yes=None):
+    '''
+    Plots test likelihood for test data.
+    :param save_obj_GS:
+    :type save_obj_GS:
+    :param mle_obj:
+    :type mle_obj:
+    :param mle_obj_silverman:
+    :type mle_obj_silverman:
+    :param t1:
+    :type t1:
+    :param t2:
+    :type t2:
+    :param idx_samples:
+    :type idx_samples:
+    :param method_posterior_GP:
+    :type method_posterior_GP:
+    :param table_yes:
+    :type table_yes:
+    :return:
+    :rtype:
+    '''
     if t1 is None:
         t1 = save_obj_GS['data_obj'].domain.T_borders_testing[0]
     if t2 is None:
@@ -189,6 +210,13 @@ def plot_l_ltest(save_obj_GS, mle_obj=None, mle_obj_silverman=None, t1=None, t2=
     plt.ylabel('density')
     plt.legend(bbox_to_anchor=(1.5, 1), loc=2, borderaxespad=0.)
     #plt.show()
+
+    if table_yes is not None:
+        gpetas.some_fun.write_table_l_test_real_data(testing_periods, l_values.Ntest_arr,
+                                                     l_test_GP=l_values.l_test_GPetas_log_E_L,
+                                                     l_test_kde_default=np.array([l_mle_training.lnl_value, l_mle_testing.lnl_value]),
+                                                     l_test_kde_silverman=None,
+                                                     fout_dir=None, idx_samples=idx_samples)
 
     return h1, h2
 
