@@ -1240,7 +1240,7 @@ def plot_intensity_2d(intensity_grid, X_grid=None,
 
 
 def plot_setting(data_obj=None, save_obj_GS=None, test_data_blue=None, gm_obj=None, show_datasets='Yes',
-                 show_domain=None,pos_xy_text_star=None):
+                 show_domain=None,pos_xy_text_star=None,show_training_data_only=None):
     """
     :param data_obj: type data from get_data in data_utils
     :param show_domain: shows X domain borders, default = None
@@ -1413,4 +1413,51 @@ def plot_setting(data_obj=None, save_obj_GS=None, test_data_blue=None, gm_obj=No
         plt.xlim(data_obj.domain.X_borders[0, :])
         plt.ylim(data_obj.domain.X_borders[1, :])
 
-    return hf1, hf2, hf1a, hf3, hf4
+    hf5 = None
+    if show_training_data_only is not None:
+        x = np.empty([len(data_obj.data_all.times), 2])
+        x[:, 0] = data_obj.data_all.times
+        x[:, 1] = data_obj.data_all.magnitudes
+        x_label = None
+        training_start = data_obj.domain.T_borders_training[0]
+        training_end = data_obj.domain.T_borders_training[1]
+
+        hf5 = plt.figure(figsize=(10, 10))
+        plt.locator_params(nbins=4)
+        plt.subplots_adjust(hspace=0.1)
+        ax = plt.subplot(2, 1, 1)
+        plt.plot(x[:, 0], x[:, 1], '.k', markersize=5)
+        plt.ylim((np.min(x[:, 1]) - 0.5, np.max(x[:, 1]) + 0.5))
+        plt.xlim(data_obj.domain.T_borders_training)
+        plt.ylabel('magnitude')
+        if training_end is not None:
+            plt.axvline(x=training_end, color='r')
+        ax.tick_params(direction='out', left=True, right=True, top=True, bottom=True, labelright=True, labelleft=False)
+        ax.set_xticklabels([])
+        ax.yaxis.set_label_position("right")
+
+        ax = plt.subplot(2, 1, 2)
+        plt.locator_params(nbins=5)
+        plt.step(np.concatenate([[0.], x[:, 0]]), np.arange(0, x[:, 0].shape[0] + 1, 1), 'k', linewidth=3)
+        plt.xlim(data_obj.domain.T_borders_training)
+        plt.ylim([0, np.max(data_obj.idx_training) * 1.1])
+        plt.ylabel('counts')
+        if x_label is not None:
+            plt.xlabel(x_label)
+        else:
+            plt.xlabel('time, days')
+        # plt.text(np.min(x[:, 0]), x.shape[0],
+        plt.text(0.05, 0.975,
+                 '$N_{\mathcal{D}}=$ %s\n$m_{\mathcal{D}}\in[%.2f,%.2f]$'
+                 % (x[data_obj.idx_training].shape[0], np.min(x[data_obj.idx_training, 1]),
+                    np.max(x[data_obj.idx_training, 1])),
+                 horizontalalignment='left',
+                 verticalalignment='top', fontsize=20, transform=ax.transAxes)
+
+        if training_end is not None:
+            plt.axvline(x=training_end, color='r')
+        ax.tick_params(direction='out', left=True, right=True, top=True, bottom=True, labelright=True, labelleft=False)
+        ax.yaxis.set_label_position("right")
+
+
+    return hf1, hf2, hf1a, hf3, hf4, hf5
