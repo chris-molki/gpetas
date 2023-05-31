@@ -27,6 +27,139 @@ def init_outdir():
         os.mkdir(output_dir_data)
 
 
+def etas_intensity(t0, save_obj_GS, bins=None, sample_idx_vec=None):
+    data_obj = save_obj_GS['data_obj']
+    m0 = data_obj.domain.m0
+    if sample_idx_vec is None:
+        Ksamples = len(save_obj_GS['lambda_bar'])
+        sample_idx_vec = np.arange(0, Ksamples)
+    Ksamples = len(sample_idx_vec)
+    if bins is None:
+        bins=50
+
+    # mu part
+    mu_xprime_grid, X_grid_prime = gpetas.some_fun.mu_posterior_grid(save_obj_GS, bins=bins,
+                                                                     sample_idx_vec=sample_idx_vec, method=None)
+
+    # triggering part
+    spatial_kernel = save_obj_GS['setup_obj'].spatial_offspring
+    idx_causal = data_obj.data_all.times < t0
+    # idx_causal = data_obj.data_all.times <= t0
+    t_vec = data_obj.data_all.times[idx_causal]
+    x_vec = data_obj.data_all.positions[idx_causal, :]
+    m_vec = data_obj.data_all.magnitudes[idx_causal]
+    Delta_tij = (t0 - t_vec.T)  # take only causal part
+    dx = x_vec[:, 0, np.newaxis] - X_grid_prime[:, 0, np.newaxis].T
+    dy = x_vec[:, 1, np.newaxis] - X_grid_prime[:, 1, np.newaxis].T
+    Delta_rsq_ij = dx ** 2 + dy ** 2
+    L = len(X_grid_prime)
+    I = np.sum(idx_causal)
+
+    # functions of the kernels
+    kappa_mj = lambda m_vec, K, m_alpha, m0: K * np.exp(m_alpha * (m_vec - m0))
+    g_delta_tij = lambda Delta_tij, c, p: 1. / (Delta_tij + c) ** p
+    # spatial kernels
+    s_delta_xij_gauss = lambda Delta_rsq_ij, D_gauss, m_vec, m_alpha, m0: \
+        1. / (2 * np.pi * D_gauss ** 2 * np.exp(m_alpha * (m_vec.squeeze() - m0))) \
+        * np.exp(-1. / (2 * D_gauss ** 2 * np.exp(m_alpha * (m_vec.squeeze() - m0))) * Delta_rsq_ij)
+    s_delta_xij_pwl = lambda Delta_rsq_ij, D, gamma, q, m_vec, m0: \
+        (q - 1) / (np.pi * D ** 2 * np.exp(gamma * (m_vec.squeeze() - m0))) \
+        * (1. + 1. / (D ** 2 * np.exp(gamma * (m_vec.squeeze() - m0))) * Delta_rsq_ij) ** (-q)
+    s_delta_xij_RL_pwl = lambda Delta_rsq_ij, D, gamma, q, m_vec, m0: \
+        (q - 1) / (np.pi * D ** 2 * 10 ** (2 * gamma * (m_vec.squeeze()))) \
+        * (1. + 1. / (D ** 2 * 10 ** (2 * gamma * (m_vec.squeeze()))) * Delta_rsq_ij) ** (-q)
+
+    # computation using s_delta_xij_RL_pwl spatial kernel
+    K, c, p, m_alpha, D, gamma, q = np.empty(7) * np.nan
+    s_xij = None
+    m_vec_IxL = np.array([m_vec, ] * L).T
+    Delta_tij_IxL = np.array([Delta_tij, ] * L).T
+    intensity_offspring = np.empty([Ksamples, L])
+    for k in range(len(sample_idx_vec)):
+        idx_k = sample_idx_vec[k]
+        theta_phi__Kcpadgq = np.array(save_obj_GS['theta_tilde'][idx_k])
+        if spatial_kernel == 'R':
+            K, c, p, m_alpha, D, gamma, q = theta_phi__Kcpadgq
+            s_xij = s_delta_xij_RL_pwl(Delta_rsq_ij, D, gamma, q, m_vec_IxL, m0)
+        if spatial_kernel == 'P':
+            K, c, p, m_alpha, D, gamma, q = theta_phi__Kcpadgq
+            s_xij = s_delta_xij_pwl(Delta_rsq_ij, D, gamma, q, m_vec_IxL, m0)
+        if spatial_kernel == 'G':
+            K, c, p, m_alpha, D = theta_phi__Kcpadgq[0:5]
+            s_xij = s_delta_xij_gauss(Delta_rsq_ij, D, m_vec_IxL, m_alpha, m0)
+        intensity_offspring[k, :] = np.sum(
+            kappa_mj(m_vec_IxL, K, m_alpha, m0) * g_delta_tij(Delta_tij_IxL, c, p) * s_xij, axis=0)
+
+    mu_part = np.copy(mu_xprime_grid).T
+    intensity_grid = mu_part + intensity_offspring
+    return intensity_grid, X_grid_prime, mu_part, intensity_offspring
+
+
+def etas_intensity_mle(t0, mle_obj, bins=None, m0=3.0):
+    data_obj = mle_obj.data_obj
+    X_grid = mle_obj.X_grid
+
+    # mu part
+    mu_xprime_grid = None
+    X_grid_prime = None
+    if bins is None:
+        bins = int(np.sqrt(X_grid.shape[0]))
+        X_grid_prime = np.copy(X_grid)
+        mu_xprime_grid = np.copy(mle_obj.mu_grid)
+    elif bins is not None:
+        X_grid_prime = gpetas.some_fun.make_X_grid(X_borders=data_obj.domain.X_borders, nbins=bins)
+        mu_xprime_grid = mle_obj.eval_kde_xprime(x_prime=X_grid_prime)
+
+    # triggering part
+    spatial_kernel = np.copy(mle_obj.setup_obj.spatial_offspring)
+    idx_causal = data_obj.data_all.times < t0
+    # idx_causal = data_obj.data_all.times <= t0
+    t_vec = data_obj.data_all.times[idx_causal]
+    x_vec = data_obj.data_all.positions[idx_causal, :]
+    m_vec = data_obj.data_all.magnitudes[idx_causal]
+    Delta_tij = (t0 - t_vec.T)  # take only causal part
+    dx = x_vec[:, 0, np.newaxis] - X_grid_prime[:, 0, np.newaxis].T
+    dy = x_vec[:, 1, np.newaxis] - X_grid_prime[:, 1, np.newaxis].T
+    Delta_rsq_ij = dx ** 2 + dy ** 2
+    L = len(X_grid_prime)
+    I = np.sum(idx_causal)
+
+    # functions of the kernels
+    kappa_mj = lambda m_vec, K, m_alpha, m0: K * np.exp(m_alpha * (m_vec - m0))
+    g_delta_tij = lambda Delta_tij, c, p: 1. / (Delta_tij + c) ** p
+    # spatial kernels
+    s_delta_xij_gauss = lambda Delta_rsq_ij, D_gauss, m_vec, m_alpha, m0: \
+        1. / (2 * np.pi * D_gauss ** 2 * np.exp(m_alpha * (m_vec.squeeze() - m0))) \
+        * np.exp(-1. / (2 * D_gauss ** 2 * np.exp(m_alpha * (m_vec.squeeze() - m0))) * Delta_rsq_ij)
+    s_delta_xij_pwl = lambda Delta_rsq_ij, D, gamma, q, m_vec, m0: \
+        (q - 1) / (np.pi * D ** 2 * np.exp(gamma * (m_vec.squeeze() - m0))) \
+        * (1. + 1. / (D ** 2 * np.exp(gamma * (m_vec.squeeze() - m0))) * Delta_rsq_ij) ** (-q)
+    s_delta_xij_RL_pwl = lambda Delta_rsq_ij, D, gamma, q, m_vec, m0: \
+        (q - 1) / (np.pi * D ** 2 * 10 ** (2 * gamma * (m_vec.squeeze()))) \
+        * (1. + 1. / (D ** 2 * 10 ** (2 * gamma * (m_vec.squeeze()))) * Delta_rsq_ij) ** (-q)
+
+    # computation using s_delta_xij_RL_pwl spatial kernel
+    K, c, p, m_alpha, D, gamma, q = np.empty(7) * np.nan
+    s_xij = None
+    m_vec_IxL = np.array([m_vec, ] * L).T
+    Delta_tij_IxL = np.array([Delta_tij, ] * L).T
+
+    theta_phi__Kcpadgq = np.copy(mle_obj.theta_mle_Kcpadgq)
+    if spatial_kernel == 'R':
+        K, c, p, m_alpha, D, gamma, q = theta_phi__Kcpadgq
+        s_xij = s_delta_xij_RL_pwl(Delta_rsq_ij, D, gamma, q, m_vec_IxL, m0)
+    if spatial_kernel == 'P':
+        K, c, p, m_alpha, D, gamma, q = theta_phi__Kcpadgq
+        s_xij = s_delta_xij_pwl(Delta_rsq_ij, D, gamma, q, m_vec_IxL, m0)
+    if spatial_kernel == 'G':
+        K, c, p, m_alpha, D = theta_phi__Kcpadgq[0:5]
+        s_xij = s_delta_xij_gauss(Delta_rsq_ij, D, m_vec_IxL, m_alpha, m0)
+    intensity_offspring = np.sum(kappa_mj(m_vec_IxL, K, m_alpha, m0) * g_delta_tij(Delta_tij_IxL, c, p) * s_xij, axis=0)
+
+    mu_part = np.copy(mu_xprime_grid).T
+    intensity_grid = mu_part + intensity_offspring
+    return intensity_grid, X_grid_prime, mu_part, intensity_offspring
+
 def eval_n(save_obj_GS=None, mle_obj=None, t_start=0.0, t_end=np.inf):
     """
     :param save_obj_GS:
