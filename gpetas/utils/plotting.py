@@ -48,10 +48,12 @@ def plot_priors_offspring(save_obj_GS):
                     plt.legend()
                     ylim = plt.gca().get_ylim()
                     xlim = plt.gca().get_xlim()
-                    if not(i == 2 or i == 6):
-                        plt.text(xlim[1], 0.5 * ylim[1], '%s $\\sim \\Gamma(%.1f,%.1f)$\n $m_{\\Gamma}=%.1f,c_{\\Gamma}=%.1f$' % (
-                        params[i], alpha_prior, beta_prior, mean_prior, c_prior), horizontalalignment='right',
-                             fontsize=16)
+                    if not (i == 2 or i == 6):
+                        plt.text(xlim[1], 0.5 * ylim[1],
+                                 '%s $\\sim \\Gamma(%.1f,%.1f)$\n $m_{\\Gamma}=%.1f,c_{\\Gamma}=%.1f$' % (
+                                     params[i], alpha_prior, beta_prior, mean_prior, c_prior),
+                                 horizontalalignment='right',
+                                 fontsize=16)
                     if i == 2 or i == 6:
                         plt.text(xlim[1], 0.5 * ylim[1],
                                  '%s-1 $\\sim \\Gamma(%.1f,%.1f)$\n $m_{\\Gamma}=%.1f,c_{\\Gamma}=%.1f$' % (
@@ -63,7 +65,7 @@ def plot_priors_offspring(save_obj_GS):
 
 
 def plot_l_ltest(save_obj_GS, mle_obj=None, mle_obj_silverman=None, t1=None, t2=None, idx_samples=None,
-                 method_posterior_GP=None,table_yes=None):
+                 method_posterior_GP=None, table_yes=None):
     '''
     Plots test likelihood for test data.
     :param save_obj_GS:
@@ -106,7 +108,7 @@ def plot_l_ltest(save_obj_GS, mle_obj=None, mle_obj_silverman=None, t1=None, t2=
                                                  method_posterior_GP=method_posterior_GP,
                                                  method_integral=None)
     print('===============Numbers==============================================')
-    print('gpetas:', l_values.l_test_GPetas_log_E_L,'Events:',l_values.Ntest_arr)
+    print('gpetas:', l_values.l_test_GPetas_log_E_L, 'Events:', l_values.Ntest_arr)
 
     # mle
     if mle_obj is not None:
@@ -131,8 +133,8 @@ def plot_l_ltest(save_obj_GS, mle_obj=None, mle_obj_silverman=None, t1=None, t2=
                                                 X_borders_eval_l=mle_obj.data_obj.domain.X_borders,
                                                 T_borders_eval_l=testing_periods[1, :],
                                                 spatial_kernel='R')
-        print('MLE:', l_mle_training.lnl_value, l_mle_testing.lnl_value,'Events:',
-              l_mle_training.N_lnl_eval,l_mle_testing.N_lnl_eval)
+        print('MLE:', l_mle_training.lnl_value, l_mle_testing.lnl_value, 'Events:',
+              l_mle_training.N_lnl_eval, l_mle_testing.N_lnl_eval)
 
     if mle_obj_silverman is not None:
         data_obj = save_obj_GS['data_obj']  # mle_obj.data_obj
@@ -158,8 +160,8 @@ def plot_l_ltest(save_obj_GS, mle_obj=None, mle_obj_silverman=None, t1=None, t2=
                                                           X_borders_eval_l=mle_obj_silverman.data_obj.domain.X_borders,
                                                           T_borders_eval_l=testing_periods[1, :],
                                                           spatial_kernel='R')
-        print('MLE:', l_mle_training_silverman.lnl_value, l_mle_testing_silverman.lnl_value,'Events:',
-              l_mle_training_silverman.N_lnl_eval,l_mle_testing_silverman.N_lnl_eval)
+        print('MLE:', l_mle_training_silverman.lnl_value, l_mle_testing_silverman.lnl_value, 'Events:',
+              l_mle_training_silverman.N_lnl_eval, l_mle_testing_silverman.N_lnl_eval)
 
     h1 = plt.figure(figsize=(10, 7.5))
     plt.subplot(211)
@@ -184,7 +186,7 @@ def plot_l_ltest(save_obj_GS, mle_obj=None, mle_obj_silverman=None, t1=None, t2=
     plt.xlabel('index samples')
     plt.ylabel('$\\ell_{\\rm test}$')
     plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
-    #plt.show()
+    # plt.show()
 
     h2 = plt.figure(figsize=(10, 4))
     plt.subplot(1, 2, 1)
@@ -209,12 +211,13 @@ def plot_l_ltest(save_obj_GS, mle_obj=None, mle_obj_silverman=None, t1=None, t2=
     ax.yaxis.tick_right()
     plt.ylabel('density')
     plt.legend(bbox_to_anchor=(1.5, 1), loc=2, borderaxespad=0.)
-    #plt.show()
+    # plt.show()
 
     if table_yes is not None:
         gpetas.some_fun.write_table_l_test_real_data(testing_periods, l_values.Ntest_arr,
                                                      l_test_GP=l_values.l_test_GPetas_log_E_L,
-                                                     l_test_kde_default=np.array([l_mle_training.lnl_value, l_mle_testing.lnl_value]),
+                                                     l_test_kde_default=np.array(
+                                                         [l_mle_training.lnl_value, l_mle_testing.lnl_value]),
                                                      l_test_kde_silverman=None,
                                                      fout_dir=None, idx_samples=idx_samples)
 
@@ -254,7 +257,7 @@ def plot_1D_estimation(save_obj_GS=None, sample_idx_vec=None, mle_obj=None, mle_
     if resolution is None:
         resolution = 1000
     if label is None:
-        label ='GP-E'
+        label = 'GP-E'
     hf1 = None
     if mle_obj is not None:
         data_obj = mle_obj.data_obj
@@ -270,7 +273,9 @@ def plot_1D_estimation(save_obj_GS=None, sample_idx_vec=None, mle_obj=None, mle_
             t_end = data_obj.domain.T_borders_testing[1]
         else:
             t_end = xlim[1]
-        Lambda_t_mle_silverman, t_eval_vec_mle_silverman = gpetas.some_fun.Lambda_t_1D(t_end=t_end, mle_obj=mle_obj_silverman, resolution=resolution)
+        Lambda_t_mle_silverman, t_eval_vec_mle_silverman = gpetas.some_fun.Lambda_t_1D(t_end=t_end,
+                                                                                       mle_obj=mle_obj_silverman,
+                                                                                       resolution=resolution)
 
     if save_obj_GS is not None:
         data_obj = save_obj_GS['data_obj']
@@ -791,13 +796,12 @@ def plot_number_of_bg_events(save_obj_GS, mle_obj=None, mle_obj_silverman=None, 
     N0_gpetas = np.array(save_obj_GS['N_S0']).squeeze()
     mean_N0 = np.mean(N0_gpetas_mu)
 
-
     h1 = plt.figure()
     # GP-E
     plt.hist(N0_gpetas_mu, density=True, color='k', label='GP-E histogram', bins=bins)
     plt.axvline(x=mean_N0, color='r', label='GP-E:   %i $\\pm$%i \n (%.2f$\\pm$%.3f)'
-                                              % (mean_N0, np.std(N0_gpetas_mu), mean_N0 / Nall,
-                                                 np.std(N0_gpetas_mu) / Nall))
+                                            % (mean_N0, np.std(N0_gpetas_mu), mean_N0 / Nall,
+                                               np.std(N0_gpetas_mu) / Nall))
     if quantile is not None:
         plt.axvline(x=np.quantile(np.array(N0_gpetas_mu), 1. - quantile), color='r', linestyle=':',
                     label='%.3f,%.3f quantiles' % (1 - quantile, quantile))
@@ -1240,7 +1244,7 @@ def plot_intensity_2d(intensity_grid, X_grid=None,
 
 
 def plot_setting(data_obj=None, save_obj_GS=None, test_data_blue=None, gm_obj=None, show_datasets='Yes',
-                 show_domain=None,pos_xy_text_star=None,show_training_data_only=None):
+                 show_domain=None, pos_xy_text_star=None, show_training_data_only=None):
     """
     :param data_obj: type data from get_data in data_utils
     :param show_domain: shows X domain borders, default = None
@@ -1269,13 +1273,13 @@ def plot_setting(data_obj=None, save_obj_GS=None, test_data_blue=None, gm_obj=No
         plt.axvline(data_obj.domain.X_borders[0, 1], color=color_string)
         plt.axhline(data_obj.domain.X_borders[1, 0], color=color_string)
         plt.axhline(data_obj.domain.X_borders[1, 1], color=color_string)
-    xticks = np.round(np.linspace(data_obj.domain.X_borders[0, 0], data_obj.domain.X_borders[0, 1], 3),3)
-    yticks = np.round(np.linspace(data_obj.domain.X_borders[1, 0], data_obj.domain.X_borders[1, 1], 3),3)
+    xticks = np.round(np.linspace(data_obj.domain.X_borders[0, 0], data_obj.domain.X_borders[0, 1], 3), 3)
+    yticks = np.round(np.linspace(data_obj.domain.X_borders[1, 0], data_obj.domain.X_borders[1, 1], 3), 3)
     plt.xticks(xticks)
     plt.yticks(yticks)
     ax.set_yticklabels(('', yticks[1], yticks[2]))
     ax.set_xticklabels(('', xticks[1], xticks[2]))
-    plt.xlabel('$x_1$,  (Lon.)')
+    plt.xlabel('$x_1$,  (Lon.) $N_{\mathcal{D} \cup \mathcal{D}^\\ast=%i}$' % (len(data_obj.data_all.positions[:, 0])))
     plt.ylabel('$x_2$,  (Lat.)')
     ax = plt.gca()
     ax.tick_params(direction='out', left=True, right=True, top=True, bottom=True)
@@ -1332,27 +1336,27 @@ def plot_setting(data_obj=None, save_obj_GS=None, test_data_blue=None, gm_obj=No
         plt.xlabel(x_label)
     else:
         plt.xlabel('time, days')
-    #plt.text(np.min(x[:, 0]), x.shape[0],
+    # plt.text(np.min(x[:, 0]), x.shape[0],
     plt.text(0.05, 0.975,
              '$N_{\mathcal{D}}=$ %s\n$m_{\mathcal{D}}\in[%.2f,%.2f]$'
              % (x[data_obj.idx_training].shape[0], np.min(x[data_obj.idx_training, 1]),
                 np.max(x[data_obj.idx_training, 1])),
              horizontalalignment='left',
-             verticalalignment='top', fontsize=20,transform=ax.transAxes)
+             verticalalignment='top', fontsize=20, transform=ax.transAxes)
     if np.sum(idx_test) > 0:
         # plt.text(training_end, 0,
         if pos_xy_text_star is None:
-            plt.text(0.95 * training_end, 0.65*x.shape[0],
-                 '$N_{\mathcal{D}^{\\ast}} =$ %s\n$m_{\mathcal{D}^{\\ast}}\in$[%.2f,%.2f]'
-                 % (x[idx_test].shape[0], np.min(x[idx_test, 1]), np.max(x[idx_test, 1])),
-                 horizontalalignment='right',
-                 verticalalignment='top', fontsize=20)
+            plt.text(0.95 * training_end, 0.65 * x.shape[0],
+                     '$N_{\mathcal{D}^{\\ast}} =$ %s\n$m_{\mathcal{D}^{\\ast}}\in$[%.2f,%.2f]'
+                     % (x[idx_test].shape[0], np.min(x[idx_test, 1]), np.max(x[idx_test, 1])),
+                     horizontalalignment='right',
+                     verticalalignment='top', fontsize=20)
         else:
             plt.text(pos_xy_text_star[0], pos_xy_text_star[1],
                      '$N_{\mathcal{D}^{\\ast}} =$ %s\n$m_{\mathcal{D}^{\\ast}}\in$[%.2f,%.2f]'
                      % (x[idx_test].shape[0], np.min(x[idx_test, 1]), np.max(x[idx_test, 1])),
                      horizontalalignment='right',
-                     verticalalignment='top', fontsize=20,transform=ax.transAxes)
+                     verticalalignment='top', fontsize=20, transform=ax.transAxes)
 
     if training_end is not None:
         plt.axvline(x=training_end, color='r')
@@ -1458,6 +1462,5 @@ def plot_setting(data_obj=None, save_obj_GS=None, test_data_blue=None, gm_obj=No
             plt.axvline(x=training_end, color='r')
         ax.tick_params(direction='out', left=True, right=True, top=True, bottom=True, labelright=True, labelleft=False)
         ax.yaxis.set_label_position("right")
-
 
     return hf1, hf2, hf1a, hf3, hf4, hf5
