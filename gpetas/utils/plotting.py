@@ -7,7 +7,7 @@ import gpetas
 
 def plot_slice_x(intensity_ensemble, X_grid=None, intensity_1_grid=None, intensity_2_grid=None,
                  xidx=None, quantile=0.05, log10scale='yes', X_borders=None, label_pos='yes',
-                 points=None):
+                 points=None,size_points=None):
     Ksamples, L = intensity_ensemble.shape
     xbins = int(np.sqrt(L))
     ybins = xbins
@@ -98,7 +98,7 @@ def plot_slice_x(intensity_ensemble, X_grid=None, intensity_1_grid=None, intensi
 
         # where are the slices
         h3_where = gpetas.plotting.plot_intensity_2d(intensity_grid=
-                                                     np.log10(np.median(intensity_ensemble, axis=0)),
+                                                     np.log10(np.mean(intensity_ensemble, axis=0)),
                                                      cb_label='$\\log_{10} \ {\\rm E}[\\lambda(x,t^\\ast)]$',
                                                      X_grid=X_grid)
         # if intensity_1_grid is not None:
@@ -108,7 +108,7 @@ def plot_slice_x(intensity_ensemble, X_grid=None, intensity_1_grid=None, intensi
         ax.axvline(x=(xidx[0]) * dx + X_borders[0, 0], color='w', linestyle='--')
 
         if points is not None:
-            plt.scatter(points[:, 0], points[:, 1], s=10, c='red')  # s=10
+            plt.scatter(points[:, 0], points[:, 1], s=size_points, c='red')  # s=10
 
         return h1_xslice, h1a_xslicezoommax, h3_where
 
@@ -1205,7 +1205,7 @@ def plot_intensity_2d(intensity_grid, X_grid=None,
                       data_obj=None, points=None, data_testing_points=None, data_training_points=None, cmap_dots=None,
                       cmap=None, clim=None, cb_label=None, cb_ticks=None, cb_format=None,
                       contour_lines=None, cl_color=None,
-                      fig_label=None):
+                      fig_label=None,size_points=None):
     '''
 
     :param intensity_grid:
@@ -1306,7 +1306,9 @@ def plot_intensity_2d(intensity_grid, X_grid=None,
 
     # points
     if points is not None:
-        plt.scatter(points[:, 0], points[:, 1], s=10, c='red')  # s=10
+        if size_points is None:
+            size_points = 10
+        plt.scatter(points[:, 0], points[:, 1], s=size_points, c='red')  # s=10
     if data_testing_points is not None:
         idx_testing = np.where((data_obj.data_all.times >= data_obj.domain.T_borders_testing[0]))
         points = data_obj.data_all.positions[idx_testing]
