@@ -5,6 +5,113 @@ import scipy as sc
 import gpetas
 
 
+def plot_slice_x(intensity_ensemble, X_grid=None, intensity_1_grid=None, intensity_2_grid=None,
+                 xidx=None, quantile=0.05, log10scale='yes', X_borders=None, label_pos='yes',
+                 points=None):
+    Ksamples, L = intensity_ensemble.shape
+    xbins = int(np.sqrt(L))
+    ybins = xbins
+    x = np.arange(0, xbins, 1)
+    y = np.arange(0, ybins, 1)
+    dx = 1
+    dy = 1
+    if X_grid is not None:
+        x = np.unique(X_grid[:, 0].reshape(xbins, -1))
+        y = np.unique(X_grid[:, 1].reshape(ybins, -1))
+        if X_borders is None:
+            X_borders = np.array([[np.min(X_grid[:, 0]), np.max(X_grid[:, 0])],
+                                  [np.min(X_grid[:, 1]), np.max(X_grid[:, 1])]])
+        dx = np.diff(X_borders[0, :]) / xbins
+        dy = np.diff(X_borders[1, :]) / ybins
+
+    # interpolated artifacts
+    replace_value = np.min(intensity_ensemble[intensity_ensemble > 0]) / 2.
+    intensity_ensemble[intensity_ensemble < 0] = replace_value
+
+    if log10scale is not None:
+        z_array = np.log10(intensity_ensemble.reshape(-1, xbins, ybins))
+    else:
+        z_array = intensity_ensemble.reshape(-1, xbins, ybins)
+
+    if xidx is not None:
+        z_slice = np.median(z_array[:, :, xidx], axis=0).squeeze()
+        h1_xslice = plt.figure()
+        plt.plot(y, z_slice, 'k', linewidth=3,
+                 label='GP-E (this study)')
+        # print(np.median(z_array[:, :, xidx], axis=0).squeeze().shape)
+        plt.fill_between(x=y, y1=z_slice,
+                         y2=np.quantile(z_array[:, :, xidx], 1. - quantile, axis=0).squeeze(),
+                         facecolor='gray', alpha=0.5)
+        plt.fill_between(x=y, y1=z_slice,
+                         y2=np.quantile(z_array[:, :, xidx], quantile, axis=0).squeeze(),
+                         facecolor='gray', alpha=0.5)
+
+        if intensity_1_grid is not None:
+            if log10scale is not None:
+                z_grid = np.log10(intensity_1_grid.reshape(xbins, -1).T)
+            else:
+                z_grid = intensity_1_grid.reshape(xbins, -1).T
+            plt.plot(y, z_grid[xidx, :].squeeze(), '--r', linewidth=1.5, label='E')
+            # zlimits = [0, np.max(mle_obj.mu_grid)]
+        if log10scale is not None:
+            plt.ylabel('$\\log_{10} \ \\lambda(x,t_0)$')
+        else:
+            plt.ylabel('$\\lambda(x,t_0)$')
+        plt.xlabel('$x_2$, (Lat.)')
+        hl = plt.legend(fontsize=16)
+        if label_pos is not None:
+            print((xidx[0] + 1) * dy + X_borders[0, 0])
+            plt.annotate('$x_1=$%.3f' % ((xidx[0] + 1) * dy + X_borders[0, 0]), xy=(1, 0.025),
+                         xycoords='axes fraction',
+                         horizontalalignment='right',
+                         fontsize=16)
+        plt.show()
+
+        # zoom into max
+        if log10scale is not None:
+            z_array = intensity_ensemble.reshape(-1, xbins, ybins)
+            z_slice = np.median(z_array[:, :, xidx], axis=0).squeeze()
+        h1a_xslicezoommax = plt.figure()
+        yidx_max = np.argmax(z_slice)
+        n = 3
+        plt.plot(y[yidx_max - n:yidx_max + n], z_slice[yidx_max - n:yidx_max + n], 'k', linewidth=3,
+                 label='GP-ETAS (this study)')
+        y2 = np.quantile(z_array[:, :, xidx], 1. - quantile, axis=0).squeeze()
+        plt.fill_between(x=y[yidx_max - n:yidx_max + n], y1=z_slice[yidx_max - n:yidx_max + n],
+                         y2=y2[yidx_max - n:yidx_max + n],
+                         facecolor='gray', alpha=0.5)
+        y2 = np.quantile(z_array[:, :, xidx], quantile, axis=0).squeeze()
+        plt.fill_between(x=y[yidx_max - n:yidx_max + n], y1=z_slice[yidx_max - n:yidx_max + n],
+                         y2=y2[yidx_max - n:yidx_max + n],
+                         facecolor='gray', alpha=0.5)
+
+        if intensity_1_grid is not None:
+            if log10scale is not None:
+                z_grid = intensity_1_grid.reshape(xbins, -1).T
+                z_slice_2 = z_grid[xidx, :].squeeze()
+            plt.plot(y[yidx_max - n:yidx_max + n],
+                     z_slice_2[yidx_max - n:yidx_max + n], '--r', linewidth=1.5, label='ETAS classical')
+
+        plt.ylabel('$\\lambda(x,t_0)$')
+        plt.xlabel('$x_2$, (Lat.)')
+        plt.show()
+
+        # where are the slices
+        h3_where = gpetas.plotting.plot_intensity_2d(intensity_grid=
+                                                     np.log10(np.median(intensity_ensemble, axis=0)),
+                                                     X_grid=X_grid)
+        # if intensity_1_grid is not None:
+        #    h3_where = gpetas.plotting.plot_intensity_2d(intensity_grid=np.log10(intensity_1_grid),
+        #                                             X_grid=X_grid)
+        ax = h3_where.gca()
+        ax.axvline(x=(xidx[0]) * dx + X_borders[0, 0], color='w', linestyle='--')
+
+        if points is not None:
+            plt.scatter(points[:, 0], points[:, 1], s=10, c='red')  # s=10
+
+        return h1_xslice, h1a_xslicezoommax, h3_where
+
+
 def plot_priors_offspring(save_obj_GS):
     h1 = None
     if hasattr(save_obj_GS['setup_obj'], 'prior_theta_dist'):
