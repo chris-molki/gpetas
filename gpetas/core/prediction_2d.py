@@ -145,7 +145,6 @@ def init_outdir():
     if not os.path.isdir(output_dir_data):
         os.mkdir(output_dir_data)
 
-
 # stability issues
 def PHI_t_omori(c, p, t_start=0., t_end=np.inf):
     PHI_t = np.nan
