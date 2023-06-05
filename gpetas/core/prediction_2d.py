@@ -90,6 +90,7 @@ class setup_sequential_pred():
                  Ksim=None,
                  sample_idx_vec=None,
                  mle_obj=None, m0_plot=None,
+                 m_star=None,
                  epsilon_after_mainshock=1e-4):
 
         init_outdir()
@@ -126,6 +127,9 @@ class setup_sequential_pred():
 
         print('info: dt_update = ', self.dt_update)
         print('info: tau2_vec  = ', self.tau0_Ht)
+
+        # update forecast window after a big shock with m_star
+        self.m_star = m_star
 
         # write to file
         fname_setup_obj = output_dir + "/setup_obj_sequential_pred_%s.all" % (self.case_name)
@@ -2015,9 +2019,77 @@ def plot_pred_uncertainty_in_time(save_obj_pred, save_obj_pred_mle=None,
     return out_stats, out_stats_mle, hf
 
 
+def generate_tau1_tau2_vec_seq_forecast(tau1_forecast, tau2_forecast, save_obj_GS, dt=1, m_star=None, eps=None):
+    """
+    Generates two vectors for sequential predictions in intervals
+    :param tau1_forecast:
+    :type tau1_forecast:
+    :param tau2_forecast:
+    :type tau2_forecast:
+    :param save_obj_GS:
+    :type save_obj_GS:
+    :param dt:
+    :type dt:
+    :param m_star:
+    :type m_star:
+    :param eps:
+    :type eps:
+    :return:
+    :rtype:
+    """
+    if m_star is None:
+        m_star = 10.
+    if eps is None:
+        eps = 1e-6
+
+    data_obj = save_obj_GS['data_obj']
+
+    # big shocks with m_star
+    time_big_events = data_obj.data_all.times[data_obj.data_all.magnitudes > m_star]
+    mag_big_events = data_obj.data_all.magnitudes[data_obj.data_all.magnitudes > m_star]
+    print(time_big_events)
+    print(mag_big_events)
+
+    if len(time_big_events) != 0:
+        # genereation of sequence of t_i,t_i+dt values
+        tau1_vec = [tau1_forecast]
+        tau2_vec = None
+        for i in range(len(time_big_events)):
+            t1 = time_big_events[i]
+            if tau1_vec[-1] < t1:
+                tau1_vec = np.append(tau1_vec[:-1], np.arange(tau1_vec[-1], t1, dt))
+                tau1_vec = np.append(tau1_vec, t1 + eps)
+                if tau2_vec is None:
+                    tau2_vec = np.append(tau1_vec[1:-1], t1)
+                else:
+                    tau2_vec = np.append(tau2_vec, t1)
+            if tau1_vec[-1] < tau2_forecast:
+                tau1_vec = np.append(tau1_vec[:-1], np.arange(tau1_vec[-1], tau2_forecast, dt))
+                tau2_vec = np.append(tau2_vec[:-1], np.arange(tau2_vec[-1], tau2_forecast, dt))
+
+        tau2_vec = np.append(tau2_vec, tau2_vec[-1] + dt)
+
+        # check
+        for i in range(len(time_big_events)):
+            t1 = time_big_events[i]
+            print(np.where(tau2_vec == t1))
+        for i in range(len(time_big_events)):
+            t1 = time_big_events[i]
+            print(np.where(tau1_vec == t1))
+
+    else:
+        if dt == tau2_forecast - tau1_forecast:
+            tau1_vec = np.append(tau1_forecast, [])
+            tau2_vec = np.append(tau2_forecast, [])
+        else:
+            tau1_vec = np.append(tau1_forecast, np.arange(tau1_forecast, tau2_forecast, dt)[1:-1])
+            tau2_vec = np.arange(tau1_forecast, tau2_forecast, dt)[1:]
+
+    return tau1_vec, tau2_vec
+
 class forecast_sequential():
     def __init__(self, save_obj_GS, tau1_forecast, tau2_forecast, dt_update=None, tau0_Ht=None,
-                 Ksim=None, sample_idx_vec=None, mle_obj=None, m0_plot=None):
+                 Ksim=None, sample_idx_vec=None, mle_obj=None, m0_plot=None, m_star=None):
         self.save_obj_GS = save_obj_GS
         self.mle_obj = mle_obj
         if Ksim is None:
@@ -2039,12 +2111,14 @@ class forecast_sequential():
         self.tau1_forecast = tau1_forecast
         self.tau2_forecast = tau2_forecast
         print(self.tau1_forecast, self.tau2_forecast, self.dt_update)
-        if dt == tau2_forecast - tau1_forecast:
-            tau1_vec = np.append(tau1_forecast, [])
-            tau2_vec = np.append(tau2_forecast, [])
-        else:
-            tau1_vec = np.append(tau1_forecast, np.arange(tau1_forecast, tau2_forecast, dt)[1:-1])
-            tau2_vec = np.arange(tau1_forecast, tau2_forecast, dt)[1:]
+        #if dt == tau2_forecast - tau1_forecast:
+        #    tau1_vec = np.append(tau1_forecast, [])
+        #    tau2_vec = np.append(tau2_forecast, [])
+        #else:
+        #    tau1_vec = np.append(tau1_forecast, np.arange(tau1_forecast, tau2_forecast, dt)[1:-1])
+        #    tau2_vec = np.arange(tau1_forecast, tau2_forecast, dt)[1:]
+
+        tau1_vec, tau2_vec = generate_tau1_tau2_vec_seq_forecast(tau1_forecast, tau2_forecast, save_obj_GS, dt=1, m_star=m_star, eps=None)
         print(tau1_vec, tau2_vec)
 
         # history
