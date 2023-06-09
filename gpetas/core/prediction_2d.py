@@ -2313,6 +2313,72 @@ def pred_summary(save_obj_pred=None, save_obj_pred_mle=None, save_obj_pred_mle_s
     return
 
 
+def plot_pred_seq_forecast_updated(pred_seq, mle_only=None, gpetas_only=None, quantile=None):
+    if quantile is None:
+        quantile = 0.05
+
+    t = pred_seq.tau2_vec
+    t0 = np.hstack([pred_seq.tau1_forecast, t])
+    N_t_array = pred_seq.N_t_array
+    Nobs_array = pred_seq.Nobs_array
+    Ksim = pred_seq.Ksim
+    tau1_forecast = pred_seq.tau1_forecast
+    tau2_forecast = pred_seq.tau2_forecast
+
+    h1 = plt.figure(figsize=[15, 5])
+
+    if mle_only is None or gpetas_only is not None:
+        plt.plot(t, np.median(N_t_array, axis=1), 'k')
+        plt.fill_between(t, y1=np.quantile(N_t_array, q=quantile, axis=1),
+                         y2=np.quantile(N_t_array, q=1. - quantile, axis=1),
+                         color='lightgrey',
+                         label='$q_{%.2f,%.2f}$' % (quantile, 1 - quantile))
+        # plt.plot(t,np.quantile(N_t_array,q=quantile,axis=1),':k')
+        # plt.plot(t,np.quantile(N_t_array,q=1.-quantile,axis=1),':k')
+    if pred_seq.mle_obj is not None and gpetas_only is None:
+        plt.plot(t, np.median(pred_seq.N_t_array_mle, axis=1), '--b', linewidth=1)
+        plt.plot(t, np.quantile(pred_seq.N_t_array_mle, q=quantile, axis=1), ':b', linewidth=1)
+        plt.plot(t, np.quantile(pred_seq.N_t_array_mle, q=1. - quantile, axis=1), ':b', linewidth=1)
+        if mle_only is not None:
+            plt.fill_between(t, y1=np.quantile(pred_seq.N_t_array_mle, q=quantile, axis=1),
+                             y2=np.quantile(pred_seq.N_t_array_mle, q=1. - quantile, axis=1),
+                             color='lightblue',
+                             label='$q_{%.2f,%.2f}$' % (quantile, 1 - quantile))
+    # obs
+    plt.plot(t, Nobs_array, '.m', markersize=15)
+    plt.yscale('log')
+
+    N_t_array_updated = np.zeros(np.shape(N_t_array))
+    for i in range(np.array(N_t_array).shape[0]):
+        if i == 0:
+            N_t_array_updated[i, :] = np.array(N_t_array)[i, :]
+        if i > 0:
+            N_t_array_updated[i, :] = np.array(N_t_array)[i, :] + Nobs_array[i]
+
+    Nobs_array_cumsum = np.cumsum(Nobs_array)
+    N_t_array_cumsum = np.cumsum(N_t_array)
+    N_t_array_cumsum_updated = np.zeros(np.shape(N_t_array))
+    for i in range(np.array(N_t_array).shape[0]):
+        if i == 0:
+            N_t_array_cumsum_updated[i, :] = np.array(N_t_array)[i, :] + 0.
+        if i > 0:
+            N_t_array_cumsum_updated[i, :] = np.array(N_t_array)[i, :] + Nobs_array_cumsum[i - 1]
+    if pred_seq.mle_obj is not None:
+        N_t_array_mle = pred_seq.N_t_array_mle
+        N_t_array_cumsum_updated_mle = np.zeros(np.shape(N_t_array_mle))
+        for i in range(np.array(N_t_array_mle).shape[0]):
+            if i == 0:
+                N_t_array_cumsum_updated_mle[i, :] = np.array(N_t_array_mle)[i, :] + 0.
+            if i > 0:
+                N_t_array_cumsum_updated_mle[i, :] = np.array(N_t_array_mle)[i, :] + Nobs_array_cumsum[i - 1]
+    # plt.xlabel('time since %s in days'%data_obj.domain.time_origin)
+    plt.xlabel('time in days')
+    plt.ylabel('N')
+
+    print(Ksim)
+
+    return h1
+
 # write report
 def write_table_prediction_report(save_obj_pred, save_obj_pred_mle=None, m0_plot=None):
     # output dir
