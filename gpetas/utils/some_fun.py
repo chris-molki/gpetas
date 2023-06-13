@@ -26,6 +26,47 @@ def init_outdir():
     if not os.path.isdir(output_dir_data):
         os.mkdir(output_dir_data)
 
+
+def lonlat2xy_flatmap(data_obj):
+    """
+    Converts longitude latitude (spherical coordinates) onto flat map with planar x,y coordinates: Rectangular projection
+
+    Parameters:
+        data_obj: gpetas object of input data and input domain
+
+    Returns:
+        tuple: x, y, X_borders_proj
+
+    """
+    x = None
+    y = None
+    X_borders_proj = None
+    if data_obj.map_units == 'degree':
+        # Get lon, lat coordinates
+        lon = data_obj.data_all.positions[:, 0]
+        lat = data_obj.data_all.positions[:, 1]
+
+        # Get reference lon, lat
+        ref_lon = data_obj.domain.X_borders[0, 0] + np.diff(data_obj.domain.X_borders[0, :]) / 2.
+        ref_lat = data_obj.domain.X_borders[1, 0] + np.diff(data_obj.domain.X_borders[1, :]) / 2.
+
+        # Transformation
+        x = (lon - ref_lon) * np.cos(np.radians(ref_lat))
+        y = lat - ref_lat
+
+        # Transformation of the bounds of the X domain
+        lon = data_obj.domain.X_borders[0, :]
+        lat = data_obj.domain.X_borders[1, :]
+        x_X_borders = (lon - ref_lon) * np.cos(np.radians(ref_lat))
+        y_X_borders = lat - ref_lat
+        X_borders_proj = np.array([[x_X_borders[0], x_X_borders[1]], [y_X_borders[0], y_X_borders[1]]])
+
+    if data_obj.map_units == 'km':
+        pass
+
+    return x, y, X_borders_proj
+
+
 def etas_intensity(t0, save_obj_GS, bins=None, sample_idx_vec=None):
     data_obj = save_obj_GS['data_obj']
     m0 = data_obj.domain.m0
@@ -34,7 +75,7 @@ def etas_intensity(t0, save_obj_GS, bins=None, sample_idx_vec=None):
         sample_idx_vec = np.arange(0, Ksamples)
     Ksamples = len(sample_idx_vec)
     if bins is None:
-        bins=50
+        bins = 50
 
     # mu part
     mu_xprime_grid, X_grid_prime = gpetas.some_fun.mu_posterior_grid(save_obj_GS, bins=bins,
@@ -158,6 +199,7 @@ def etas_intensity_mle(t0, mle_obj, bins=None, m0=3.0):
     mu_part = np.copy(mu_xprime_grid).T
     intensity_grid = mu_part + intensity_offspring
     return intensity_grid, X_grid_prime, mu_part, intensity_offspring
+
 
 def eval_n(save_obj_GS=None, mle_obj=None, t_start=0.0, t_end=np.inf):
     """
@@ -570,7 +612,7 @@ class create_data_obj_from_cat_file():
 
     def __init__(self, fname, X_borders=None, T_borders_all=None, T_borders_training=None, utm_yes=None,
                  T_borders_test=None, m0=None, outdir=None, case_name='case_01', time_origin=None,
-                 domain_obj=None):
+                 domain_obj=None, flatmap_proj='yes', map_units='degree'):
         """
         :param fname:
         :type fname:
@@ -669,6 +711,25 @@ class create_data_obj_from_cat_file():
             outdir = './inference_results'
         if not os.path.isdir(outdir):
             os.mkdir(outdir)
+
+        # xy coordinate issues
+        self.flatmap_proj = flatmap_proj
+        self.map_units = map_units
+        if flatmap_proj is None:
+            map_units = None
+        if flatmap_proj is not None:
+            self.domain.X_borders_lon_lat = np.copy(self.domain.X_borders)
+            self.data_all.positions_lon_lat = np.copy(self.data_all.positions)
+            if self.map_units is None:
+                self.map_units = 'degree'
+            x, y, X_borders_proj = lonlat2xy_flatmap(self)
+            self.domain.X_borders = np.copy(X_borders_proj)
+            self.data_all.positions[:, 0] = x
+            self.data_all.positions[:, 1] = y
+            print('lon lat coordinates has been projected to flat map x, y coordinates. '
+                  'Original lon lat coordinates and X_borders are saved to the data_obj.')
+
+
         # write to file
         fname_data_obj = outdir + "/data_obj_%s.all" % (case_name)
         file = open(fname_data_obj, "wb")  # remember to open the file in binary mode
@@ -731,7 +792,6 @@ def silverman_scott_rule_d(X_data, individual_yes=None):
 
 
 def mu_xprime_gpetas(xprime, mu_grid, X_grid, X_borders, method=None, lambda_bar=None, cov_params=None):
-
     # evaluation depending on the method
     mu_xprime = None
     mu_grid = mu_grid.reshape(-1)
@@ -1005,8 +1065,8 @@ def write_table_l_test_real_data(testing_periods, N_test, l_test_GP, l_test_kde_
                     l_test_GP[i])
             else:
                 Line = "%.0f days & %i & %.1f & %.1f & \\textbf{%.1f} \\\ \n" % (
-                np.diff(testing_periods[i, :]) / 1., N_test[i], l_test_kde_default[i], l_test_kde_silverman[i],
-                l_test_GP[i])
+                    np.diff(testing_periods[i, :]) / 1., N_test[i], l_test_kde_default[i], l_test_kde_silverman[i],
+                    l_test_GP[i])
         elif i == 1:
             if np.diff(testing_periods[i, :]) / 365.25 >= 1.:
                 if l_test_kde_silverman is None:
@@ -1015,8 +1075,9 @@ def write_table_l_test_real_data(testing_periods, N_test, l_test_GP, l_test_kde_
                         l_test_GP[i])
                 else:
                     Line = "%.2f years & %i & %.1f & %.1f & \\textbf{%.1f} \\\ \n" % (
-                    np.diff(testing_periods[i, :]) / 365.25, N_test[i], l_test_kde_default[i], l_test_kde_silverman[i],
-                    l_test_GP[i])
+                        np.diff(testing_periods[i, :]) / 365.25, N_test[i], l_test_kde_default[i],
+                        l_test_kde_silverman[i],
+                        l_test_GP[i])
             else:
                 if l_test_kde_silverman is None:
                     Line = "%.0f days & %i & %.1f & \\textbf{%.1f} \\\ \n" % (
@@ -1024,8 +1085,8 @@ def write_table_l_test_real_data(testing_periods, N_test, l_test_GP, l_test_kde_
                         l_test_GP[i])
                 else:
                     Line = "%.0f days & %i & %.1f & %.1f & \\textbf{%.1f} \\\ \n" % (
-                    np.diff(testing_periods[i, :]) / 1., N_test[i], l_test_kde_default[i], l_test_kde_silverman[i],
-                    l_test_GP[i])
+                        np.diff(testing_periods[i, :]) / 1., N_test[i], l_test_kde_default[i], l_test_kde_silverman[i],
+                        l_test_GP[i])
         elif i == len(testing_periods[:, 0]) - 1:
             if l_test_kde_silverman is None:
                 Line = "total test period ($\\approx %.1f$ years) & %i & %.1f & \\textbf{%.1f} \\\ \n" % (
@@ -1033,8 +1094,8 @@ def write_table_l_test_real_data(testing_periods, N_test, l_test_GP, l_test_kde_
                     l_test_GP[i])
             else:
                 Line = "total test period ($\\approx %.1f$ years) & %i & %.1f & %.1f & \\textbf{%.1f} \\\ \n" % (
-                np.diff(testing_periods[i, :]) / 365.25, N_test[i], l_test_kde_default[i], l_test_kde_silverman[i],
-                l_test_GP[i])
+                    np.diff(testing_periods[i, :]) / 365.25, N_test[i], l_test_kde_default[i], l_test_kde_silverman[i],
+                    l_test_GP[i])
         else:
             if np.diff(testing_periods[i, :]) / 365.25 >= 0.5:
                 if l_test_kde_silverman is None:
@@ -1044,8 +1105,9 @@ def write_table_l_test_real_data(testing_periods, N_test, l_test_GP, l_test_kde_
                         l_test_GP[i])
                 else:
                     Line = "%.0f years & %i & %.1f & %.1f & \\textbf{%.1f} \\\ \n" % (
-                    np.diff(testing_periods[i, :]) / 365.25, N_test[i], l_test_kde_default[i], l_test_kde_silverman[i],
-                    l_test_GP[i])
+                        np.diff(testing_periods[i, :]) / 365.25, N_test[i], l_test_kde_default[i],
+                        l_test_kde_silverman[i],
+                        l_test_GP[i])
             else:
                 if l_test_kde_silverman is None:
                     Line = "%.0f days & %i & %.1f & \\textbf{%.1f} \\\ \n" % (
@@ -1053,8 +1115,8 @@ def write_table_l_test_real_data(testing_periods, N_test, l_test_GP, l_test_kde_
                         l_test_GP[i])
                 else:
                     Line = "%.0f days & %i & %.1f & %.1f & \\textbf{%.1f} \\\ \n" % (
-                    np.diff(testing_periods[i, :]) / 1., N_test[i], l_test_kde_default[i], l_test_kde_silverman[i],
-                    l_test_GP[i])
+                        np.diff(testing_periods[i, :]) / 1., N_test[i], l_test_kde_default[i], l_test_kde_silverman[i],
+                        l_test_GP[i])
         fid.write(Line)
     fid.write("\hline\n")
     fid.write("\end{tabular}\n")
