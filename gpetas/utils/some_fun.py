@@ -681,8 +681,6 @@ class create_data_obj_from_cat_file():
         else:
             self.domain.T_borders_training = T_borders_training
         self.domain.T_borders_testing = T_borders_test
-        if utm_yes == 1:
-            self.utm_conversion()
 
         # mark domain: cut off magnitude
         if m0 is None:
@@ -728,6 +726,8 @@ class create_data_obj_from_cat_file():
             self.data_all.positions[:, 1] = y
             print('Lon Lat coordinates has been projected to flat map x, y coordinates. '
                   'Original lon lat coordinates and X_borders are saved to the data_obj.')
+        if utm_yes == 1:
+            self.utm_conversion()
 
 
         # write to file
