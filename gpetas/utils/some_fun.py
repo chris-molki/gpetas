@@ -726,7 +726,7 @@ class create_data_obj_from_cat_file():
             self.domain.X_borders = np.copy(X_borders_proj)
             self.data_all.positions[:, 0] = x
             self.data_all.positions[:, 1] = y
-            print('lon lat coordinates has been projected to flat map x, y coordinates. '
+            print('Lon Lat coordinates has been projected to flat map x, y coordinates. '
                   'Original lon lat coordinates and X_borders are saved to the data_obj.')
 
 
