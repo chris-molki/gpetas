@@ -722,6 +722,7 @@ class create_data_obj_from_cat_file():
                 self.map_units = 'degree'
             x, y, X_borders_proj = lonlat2xy_flatmap(self)
             self.domain.X_borders = np.copy(X_borders_proj)
+            self.domain.X_borders_original = np.copy(self.domain.X_borders)
             self.data_all.positions[:, 0] = x
             self.data_all.positions[:, 1] = y
             print('Lon Lat coordinates has been projected to flat map x, y coordinates. '
