@@ -2059,15 +2059,11 @@ def generate_tau1_tau2_vec_seq_forecast(tau1_forecast, tau2_forecast, save_obj_G
             if tau1_vec[-1] < t1:
                 tau1_vec = np.append(tau1_vec[:-1], np.arange(tau1_vec[-1], t1, dt))
                 tau1_vec = np.append(tau1_vec, t1 + eps)
-                if tau2_vec is None:
-                    tau2_vec = np.append(tau1_vec[1:-1], t1)
-                else:
-                    tau2_vec = np.append(tau2_vec, t1)
         if tau1_vec[-1] < tau2_forecast:
             tau1_vec = np.append(tau1_vec[:-1], np.arange(tau1_vec[-1], tau2_forecast, dt))
-            tau2_vec = np.append(tau2_vec[:-1], np.arange(tau2_vec[-1], tau2_forecast, dt))
 
-        tau2_vec = np.append(tau2_vec, tau2_vec[-1] + dt)
+        # tau2_vec (ending times of forecasts)
+        tau2_vec = np.append(tau1_vec[1:],tau1_vec[-1]+dt)
 
         # check
         for i in range(len(time_big_events)):
