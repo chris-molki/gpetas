@@ -2129,7 +2129,6 @@ class forecast_sequential():
         for i in range(len(tau2_vec)):
             tau1 = tau1_vec[i]
             tau2 = tau2_vec[i]
-            print(tau2-tau1)
             blockPrint()
             # gpetas
             pred_obj = predictions_gpetas(save_obj_GS=save_obj_GS,
