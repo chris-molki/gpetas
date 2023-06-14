@@ -9,7 +9,7 @@ class BG_Intensity_Sampler():
 
     def __init__(self, S_borders, X, T, cov_params, lmbda_star=None, X_grid=None, noise=1e-4,
                  mu_upper_bound=None, std_factor=1., mu_nu0=None, mu_length_scale=None, sigma_proposal_hypers=None,
-                 kth_sample_obj=None):
+                 kth_sample_obj=None,ard=None):
         """
 
         :param sigma_proposal_hypers:
@@ -31,6 +31,7 @@ class BG_Intensity_Sampler():
         self.S_0 = None
         self.N = 0
         self.M = 0
+        self.ard = ard
         self._set_prior_upper_bound(mu_upper_bound=mu_upper_bound, std_factor=std_factor)
         if lmbda_star is None:
             self.lmbda_star = self.alpha0 / self.beta0
@@ -247,6 +248,8 @@ class BG_Intensity_Sampler():
         theta1 = np.exp(np.log(self.cov_params[0]) + self.sigma_proposal_hypers * np.random.randn(1))
         theta2 = np.exp(np.log(self.cov_params[1]) + self.sigma_proposal_hypers * np.random.randn(
             self.D))
+        if self.ard is None:
+            theta2[1]=theta2[0]
         K = self.cov_func(self.X_all, self.X_all, cov_params=[theta1, theta2])
         K += self.noise * np.eye(K.shape[0])
         L = np.linalg.cholesky(K)
