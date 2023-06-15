@@ -119,6 +119,8 @@ class setup_sequential_pred():
         self.dt_update = dt
         self.tau1_forecast = tau1_forecast
         self.tau2_forecast = tau2_forecast
+        self.tau1_vec, self.tau2_vec = generate_tau1_tau2_vec_seq_forecast(tau1_forecast, tau2_forecast, save_obj_GS, dt=dt,
+                                                                 m_star=m_star, eps=None)
 
         # history
         if tau0_Ht is None:
@@ -2047,8 +2049,6 @@ def generate_tau1_tau2_vec_seq_forecast(tau1_forecast, tau2_forecast, save_obj_G
     # big shocks with m_star
     time_big_events = data_obj.data_all.times[data_obj.data_all.magnitudes > m_star]
     mag_big_events = data_obj.data_all.magnitudes[data_obj.data_all.magnitudes > m_star]
-    print(time_big_events)
-    print(mag_big_events)
 
     if len(time_big_events) != 0:
         # genereation of sequence of t_i,t_i+dt values
@@ -2068,10 +2068,10 @@ def generate_tau1_tau2_vec_seq_forecast(tau1_forecast, tau2_forecast, save_obj_G
         # check
         for i in range(len(time_big_events)):
             t1 = time_big_events[i]
-            print(np.where(tau2_vec == t1))
+            #print(np.where(tau2_vec == t1))
         for i in range(len(time_big_events)):
             t1 = time_big_events[i]
-            print(np.where(tau1_vec == t1))
+            #print(np.where(tau1_vec == t1))
 
     else:
         if dt == tau2_forecast - tau1_forecast:
