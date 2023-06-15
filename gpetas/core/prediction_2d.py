@@ -2081,7 +2081,9 @@ def generate_tau1_tau2_vec_seq_forecast(tau1_forecast, tau2_forecast, save_obj_G
             tau1_vec = np.append(tau1_forecast, np.arange(tau1_forecast, tau2_forecast, dt)[1:-1])
             tau2_vec = np.arange(tau1_forecast, tau2_forecast, dt)[1:]
 
-    return tau1_vec, tau2_vec
+    idx_in = tau1_vec <= tau2_forecast
+
+    return tau1_vec[idx_in], tau2_vec[idx_in]
 
 class forecast_sequential():
     def __init__(self, save_obj_GS, tau1_forecast, tau2_forecast, dt_update=None, tau0_Ht=None,
