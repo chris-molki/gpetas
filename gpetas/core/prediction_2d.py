@@ -2127,8 +2127,6 @@ class forecast_sequential():
         N_t_array = []
         N_t_array_mle = []
         Nobs_array = []
-        rates_array_mean = []
-        rates_array_var = []
 
         for i in range(len(tau2_vec)):
             tau1 = tau1_vec[i]
