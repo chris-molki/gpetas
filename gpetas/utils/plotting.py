@@ -34,15 +34,12 @@ def plot_slice_x(intensity_ensemble, X_grid=None, intensity_1_grid=None, intensi
         z_array = intensity_ensemble.reshape(-1, xbins, ybins)
 
     if xidx is not None:
-        z_slice = np.median(z_array[:, :, xidx], axis=0).squeeze()
+        z_slice = np.mean(z_array[:, :, xidx], axis=0).squeeze() # or better median?
         h1_xslice = plt.figure()
         plt.plot(y, z_slice, 'k', linewidth=3,
                  label='GP-E (this study)')
         # print(np.median(z_array[:, :, xidx], axis=0).squeeze().shape)
-        plt.fill_between(x=y, y1=z_slice,
-                         y2=np.quantile(z_array[:, :, xidx], 1. - quantile, axis=0).squeeze(),
-                         facecolor='gray', alpha=0.5)
-        plt.fill_between(x=y, y1=z_slice,
+        plt.fill_between(x=y, y1=np.quantile(z_array[:, :, xidx], 1. - quantile, axis=0).squeeze(),
                          y2=np.quantile(z_array[:, :, xidx], quantile, axis=0).squeeze(),
                          facecolor='gray', alpha=0.5)
 
@@ -70,20 +67,19 @@ def plot_slice_x(intensity_ensemble, X_grid=None, intensity_1_grid=None, intensi
         # zoom into max
         if log10scale is not None:
             z_array = intensity_ensemble.reshape(-1, xbins, ybins)
-            z_slice = np.median(z_array[:, :, xidx], axis=0).squeeze()
+            z_slice = np.mean(z_array[:, :, xidx], axis=0).squeeze()
         h1a_xslicezoommax = plt.figure()
         yidx_max = np.argmax(z_slice)
         n = 3
         plt.plot(y[yidx_max - n:yidx_max + n], z_slice[yidx_max - n:yidx_max + n], 'k', linewidth=3,
                  label='GP-ETAS (this study)')
-        y2 = np.quantile(z_array[:, :, xidx], 1. - quantile, axis=0).squeeze()
-        plt.fill_between(x=y[yidx_max - n:yidx_max + n], y1=z_slice[yidx_max - n:yidx_max + n],
-                         y2=y2[yidx_max - n:yidx_max + n],
-                         facecolor='gray', alpha=0.5)
+        y1 = np.quantile(z_array[:, :, xidx], 1. - quantile, axis=0).squeeze()
         y2 = np.quantile(z_array[:, :, xidx], quantile, axis=0).squeeze()
-        plt.fill_between(x=y[yidx_max - n:yidx_max + n], y1=z_slice[yidx_max - n:yidx_max + n],
+        plt.fill_between(x=y[yidx_max - n:yidx_max + n], y1=y1[yidx_max - n:yidx_max + n],
                          y2=y2[yidx_max - n:yidx_max + n],
                          facecolor='gray', alpha=0.5)
+
+
 
         if intensity_1_grid is not None:
             if log10scale is not None:
