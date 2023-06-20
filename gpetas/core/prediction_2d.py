@@ -2311,7 +2311,7 @@ def pred_summary(save_obj_pred=None, save_obj_pred_mle=None, save_obj_pred_mle_s
     return
 
 
-def plot_pred_seq_forecast_updated(pred_seq, mle_only=None, gpetas_only=None, quantile=None):
+def plot_pred_seq_forecast_updated(pred_seq, mle_only=None, gpetas_only=None, quantile=None,ylim=None):
     if quantile is None:
         quantile = 0.05
 
@@ -2372,6 +2372,8 @@ def plot_pred_seq_forecast_updated(pred_seq, mle_only=None, gpetas_only=None, qu
     # plt.xlabel('time since %s in days'%data_obj.domain.time_origin)
     plt.xlabel('time in days')
     plt.ylabel('N')
+    if ylim is not None:
+        plt.ylim(ylim)
 
     print(Ksim)
 
