@@ -2391,6 +2391,8 @@ def plot_pred_seq_forecast_updated(pred_seq, mle_only=None, gpetas_only=None,
 
         # estimate NB(n,p) params
         n_vec, p_vec = gpetas.some_fun.NB_n_p_methods_of_moments(np.array(pred_seq.N_t_array))
+        n_vec_mle = None
+        p_vec_mle = None
         if pred_seq.mle_obj is not None:
             n_vec_mle, p_vec_mle = gpetas.some_fun.NB_n_p_methods_of_moments(np.array(pred_seq.N_t_array_mle))
 
@@ -2425,10 +2427,15 @@ def plot_pred_seq_forecast_updated(pred_seq, mle_only=None, gpetas_only=None,
             plt.plot(t, np.mean(pred_seq.N_t_array_mle, axis=1), '--b', linewidth=1)
             plt.plot(t, np.quantile(pred_seq.N_t_array_mle, q=quantile, axis=1), ':b', linewidth=1)
             plt.plot(t, np.quantile(pred_seq.N_t_array_mle, q=1. - quantile, axis=1), ':b', linewidth=1)
+            if mle_only is not None:
+                plt.fill_between(t, y1=np.quantile(pred_seq.N_t_array_mle, q=quantile, axis=1),
+                                 y2=np.quantile(pred_seq.N_t_array_mle, q=1. - quantile, axis=1),
+                                 color='lightblue',
+                                 label='$q_{%.2f,%.2f}$' % (quantile, 1 - quantile))
             # NB
-            plt.plot(t, mean_mle, '--',color='lightblue',linewidth=1)
-            plt.plot(t, q_up_mle, ':',color='lightblue',linewidth=1)
-            plt.plot(t, q_down_mle, ':',color='lightblue',linewidth=1)
+            plt.plot(t, mean_mle, '--',color='r',linewidth=1)
+            plt.plot(t, q_up_mle, ':',color='r',linewidth=1)
+            plt.plot(t, q_down_mle, ':',color='r',linewidth=1)
 
 
 
@@ -2442,9 +2449,7 @@ def plot_pred_seq_forecast_updated(pred_seq, mle_only=None, gpetas_only=None,
         if ylim is not None:
             plt.ylim(ylim)
 
-
-
-        return h1, n_vec, p_vec
+        return h1, n_vec, p_vec, n_vec_mle, p_vec_mle
 
 
 # write report
