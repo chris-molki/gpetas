@@ -2,6 +2,7 @@ import numpy as np
 from scipy.linalg import solve_triangular
 import scipy as sc
 from scipy.stats import nbinom
+from scipy import stats
 import time
 from gpetas.utils.some_fun import get_grid_data_for_a_point
 import gpetas
@@ -18,19 +19,32 @@ output_dir_tables = "output_pred/tables"
 output_dir_figures = "output_pred/figures"
 output_dir_data = "output_pred/data"
 
+
 # bock/enable print()
 # Disable
 def blockPrint():
     sys.stdout = open(os.devnull, 'w')
+
+
 # Restore
 def enablePrint():
     sys.stdout = sys.__stdout__
 
 
+def sample_from_truncated_exponential_rv(beta, a, b=None, sample_size=1, seed=None):
+    if seed is not None:
+        np.random.seed(seed)
+    if b is None:
+        b = np.inf
+    X = stats.truncexpon(b=beta * (b - a), loc=a, scale=1. / beta)
+    return X.rvs(sample_size)
+
+
 class setup_pred():
     def __init__(self, save_obj_GS=None, tau1=None, tau2=None, tau0_Ht=None,
                  Ksim=None, sample_idx_vec=None,
-                 mle_obj=None, mle_obj_silverman=None, epsilon_after_mainshock=1e-4):
+                 mle_obj=None, mle_obj_silverman=None, epsilon_after_mainshock=1e-6,
+                 m_max=None):
         """
         Generates setup_obj_pred for T*=[tau1,tau2] based on inference results saved in corresponding objects
         :param save_obj_GS:
@@ -92,7 +106,8 @@ class setup_sequential_pred():
                  sample_idx_vec=None,
                  mle_obj=None, m0_plot=None,
                  m_star=None,
-                 epsilon_after_mainshock=1e-4):
+                 epsilon_after_mainshock=1e-6,
+                 m_max=None):
 
         init_outdir()
         self.output_dir = output_dir
@@ -120,8 +135,9 @@ class setup_sequential_pred():
         self.dt_update = dt
         self.tau1_forecast = tau1_forecast
         self.tau2_forecast = tau2_forecast
-        self.tau1_vec, self.tau2_vec = generate_tau1_tau2_vec_seq_forecast(tau1_forecast, tau2_forecast, save_obj_GS, dt=dt,
-                                                                 m_star=m_star, eps=None)
+        self.tau1_vec, self.tau2_vec = generate_tau1_tau2_vec_seq_forecast(tau1_forecast, tau2_forecast, save_obj_GS,
+                                                                           dt=dt,
+                                                                           m_star=m_star, eps=None)
 
         # history
         if tau0_Ht is None:
@@ -151,6 +167,7 @@ def init_outdir():
         os.mkdir(output_dir_figures)
     if not os.path.isdir(output_dir_data):
         os.mkdir(output_dir_data)
+
 
 # stability issues
 def PHI_t_omori(c, p, t_start=0., t_end=np.inf):
@@ -257,6 +274,8 @@ def sim_add_offspring(obj, X0_events):
                                                scale=obj.beta_posterior_mb)
                 xnew = np.vstack((xnew, m_samples)).transpose()
             else:
+                #xnew = np.vstack((xnew, np.random.exponential(1. / m_beta, np.size(xnew)) + m0)).transpose()
+                #sample_from_truncated_exponential_rv(m_beta, m0, b=m_max, sample_size=np.size(xnew)).transpose()
                 xnew = np.vstack((xnew, np.random.exponential(1. / m_beta, np.size(xnew)) + m0)).transpose()
 
             # s(x-x_i)
@@ -498,7 +517,8 @@ def sim_offspring_from_Ht(obj, theta_Kcpadgq, spatial_offspring, Ht=None, all_pt
 
 
 class predictions_mle():
-    def __init__(self, mle_obj, tau1, tau2, tau0_Ht=0., Ksim=None, data_obj=None, seed=None, Bayesian_m_beta=None):
+    def __init__(self, mle_obj, tau1, tau2, tau0_Ht=0., Ksim=None, data_obj=None, seed=None,
+                 Bayesian_m_beta=None, m_max=None):
         """
 
         :param mle_obj:
@@ -679,7 +699,7 @@ class predictions_mle():
 
 class predictions_gpetas():
     def __init__(self, save_obj_GS, tau1, tau2, tau0_Ht=0., sample_idx_vec=None, seed=None, approx=None, Ksim=None,
-                 randomized_samples='yes', Bayesian_m_beta=None):
+                 randomized_samples='yes', Bayesian_m_beta=None, m_max=None):
         '''
         Simulates data from the predictive distribution (using posterior samples)
         :param Bayesian_m_beta:
@@ -785,7 +805,7 @@ class predictions_gpetas():
                 if len(sample_idx_vec) < Ksim:
                     sample_idx_vec = np.append(sample_idx_vec, sample_idx_vec[:(Ksim - len(sample_idx_vec))])
                 print('Fixed samples:randomized_samples is None.')
-                print('len(sample_idx_vec)=',len(sample_idx_vec),'Ksim=',Ksim)
+                print('len(sample_idx_vec)=', len(sample_idx_vec), 'Ksim=', Ksim)
             print(Ksim, len(sample_idx_vec))
             print(sample_idx_vec)
         self.save_pred['sample_idx_vec'] = sample_idx_vec
@@ -2064,15 +2084,15 @@ def generate_tau1_tau2_vec_seq_forecast(tau1_forecast, tau2_forecast, save_obj_G
             tau1_vec = np.append(tau1_vec[:-1], np.arange(tau1_vec[-1], tau2_forecast, dt))
 
         # tau2_vec (ending times of forecasts)
-        tau2_vec = np.append(tau1_vec[1:],tau1_vec[-1]+dt)
+        tau2_vec = np.append(tau1_vec[1:], tau1_vec[-1] + dt)
 
         # check
         for i in range(len(time_big_events)):
             t1 = time_big_events[i]
-            #print(np.where(tau2_vec == t1))
+            # print(np.where(tau2_vec == t1))
         for i in range(len(time_big_events)):
             t1 = time_big_events[i]
-            #print(np.where(tau1_vec == t1))
+            # print(np.where(tau1_vec == t1))
 
     else:
         if dt == tau2_forecast - tau1_forecast:
@@ -2085,6 +2105,7 @@ def generate_tau1_tau2_vec_seq_forecast(tau1_forecast, tau2_forecast, save_obj_G
     idx_in = tau1_vec <= tau2_forecast
 
     return tau1_vec[idx_in], tau2_vec[idx_in]
+
 
 class forecast_sequential():
     def __init__(self, save_obj_GS, tau1_forecast, tau2_forecast, dt_update=None, tau0_Ht=None,
@@ -2110,14 +2131,15 @@ class forecast_sequential():
         self.tau1_forecast = tau1_forecast
         self.tau2_forecast = tau2_forecast
         print(self.tau1_forecast, self.tau2_forecast, self.dt_update)
-        #if dt == tau2_forecast - tau1_forecast:
+        # if dt == tau2_forecast - tau1_forecast:
         #    tau1_vec = np.append(tau1_forecast, [])
         #    tau2_vec = np.append(tau2_forecast, [])
-        #else:
+        # else:
         #    tau1_vec = np.append(tau1_forecast, np.arange(tau1_forecast, tau2_forecast, dt)[1:-1])
         #    tau2_vec = np.arange(tau1_forecast, tau2_forecast, dt)[1:]
 
-        tau1_vec, tau2_vec = generate_tau1_tau2_vec_seq_forecast(tau1_forecast, tau2_forecast, save_obj_GS, dt=dt, m_star=m_star, eps=None)
+        tau1_vec, tau2_vec = generate_tau1_tau2_vec_seq_forecast(tau1_forecast, tau2_forecast, save_obj_GS, dt=dt,
+                                                                 m_star=m_star, eps=None)
         print(tau1_vec, tau2_vec)
 
         # history
@@ -2135,19 +2157,19 @@ class forecast_sequential():
             blockPrint()
             # gpetas
             pred_obj = predictions_gpetas(save_obj_GS=save_obj_GS,
-                                                               tau1=tau1,
-                                                               tau2=tau2,
-                                                               tau0_Ht=tau0_Ht,
-                                                               sample_idx_vec=sample_idx_vec,
-                                                               Ksim=Ksim,
-                                                               seed=None,
-                                                               approx=None,
-                                                               randomized_samples=None,
-                                                               Bayesian_m_beta=None)
+                                          tau1=tau1,
+                                          tau2=tau2,
+                                          tau0_Ht=tau0_Ht,
+                                          sample_idx_vec=sample_idx_vec,
+                                          Ksim=Ksim,
+                                          seed=None,
+                                          approx=None,
+                                          randomized_samples=None,
+                                          Bayesian_m_beta=None)
 
             N_t, Nobs = get_marginal_Nt_pred(tau2 - tau1,
-                                                                  save_obj_pred=pred_obj.save_pred,
-                                                                  m0_plot=m0_plot, which_events=None)
+                                             save_obj_pred=pred_obj.save_pred,
+                                             m0_plot=m0_plot, which_events=None)
             print(tau2, Nobs)
             N_t_array.append(N_t)
             Nobs_array.append(Nobs)
@@ -2155,18 +2177,18 @@ class forecast_sequential():
             # mle
             if mle_obj is not None:
                 pred_obj_mle = predictions_mle(mle_obj=mle_obj,
-                                                                    tau1=tau1,
-                                                                    tau2=tau2,
-                                                                    tau0_Ht=tau0_Ht,
-                                                                    Ksim=Ksim,
-                                                                    seed=None,
-                                                                    Bayesian_m_beta=None)
+                                               tau1=tau1,
+                                               tau2=tau2,
+                                               tau0_Ht=tau0_Ht,
+                                               Ksim=Ksim,
+                                               seed=None,
+                                               Bayesian_m_beta=None)
                 N_t_mle, Nobs = get_marginal_Nt_pred(tau2 - tau1,
-                                                                          save_obj_pred=pred_obj_mle.save_pred,
-                                                                          m0_plot=m0_plot, which_events=None)
+                                                     save_obj_pred=pred_obj_mle.save_pred,
+                                                     m0_plot=m0_plot, which_events=None)
                 N_t_array_mle.append(N_t_mle)
             enablePrint()
-            print(i,' of ',range(len(tau2_vec)))
+            print(i, ' of ', range(len(tau2_vec)))
 
         self.N_t_array = N_t_array
         if mle_obj is not None:
@@ -2313,14 +2335,14 @@ def pred_summary(save_obj_pred=None, save_obj_pred_mle=None, save_obj_pred_mle_s
 
 
 def plot_pred_seq_forecast_updated(pred_seq, mle_only=None, gpetas_only=None,
-                                   quantile=None,ylim=None,NB_fit=None,yscale=None,
+                                   quantile=None, ylim=None, NB_fit=None, yscale=None,
                                    markersize=None):
     if quantile is None:
         quantile = 0.05
     if yscale is None:
         yscale = 'log'
     if markersize is None:
-        markersize=15
+        markersize = 15
 
     t = pred_seq.tau2_vec
     t0 = np.hstack([pred_seq.tau1_forecast, t])
@@ -2422,7 +2444,6 @@ def plot_pred_seq_forecast_updated(pred_seq, mle_only=None, gpetas_only=None,
             plt.plot(t, q_up, ':k', linewidth=1)
             plt.plot(t, q_down, ':k', linewidth=1)
 
-
         if pred_seq.mle_obj is not None and gpetas_only is None:
             plt.plot(t, np.mean(pred_seq.N_t_array_mle, axis=1), '--b', linewidth=1)
             plt.plot(t, np.quantile(pred_seq.N_t_array_mle, q=quantile, axis=1), ':b', linewidth=1)
@@ -2433,12 +2454,9 @@ def plot_pred_seq_forecast_updated(pred_seq, mle_only=None, gpetas_only=None,
                                  color='lightblue',
                                  label='$q_{%.2f,%.2f}$' % (quantile, 1 - quantile))
             # NB
-            plt.plot(t, mean_mle, '--',color='r',linewidth=1)
-            plt.plot(t, q_up_mle, ':',color='r',linewidth=1)
-            plt.plot(t, q_down_mle, ':',color='r',linewidth=1)
-
-
-
+            plt.plot(t, mean_mle, '--', color='r', linewidth=1)
+            plt.plot(t, q_up_mle, ':', color='r', linewidth=1)
+            plt.plot(t, q_down_mle, ':', color='r', linewidth=1)
 
         # obs
         plt.plot(t, Nobs_array, '.m', markersize=markersize)
