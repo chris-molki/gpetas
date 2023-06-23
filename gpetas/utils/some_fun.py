@@ -5,6 +5,7 @@ import scipy as sc
 from scipy.interpolate import griddata
 from scipy.linalg import solve_triangular
 from scipy.stats import norm
+from scipy.stats import nbinom
 
 import gpetas
 
@@ -26,6 +27,19 @@ def init_outdir():
     if not os.path.isdir(output_dir_data):
         os.mkdir(output_dir_data)
 
+
+def NB_n_p_methods_of_moments(data):
+    if data.ndim == 1:
+        sample_mean = np.mean(data)
+        sample_variance = np.var(data)
+    if data.ndim == 2:
+        sample_mean = np.mean(data, axis=1)
+        sample_variance = np.var(data, axis=1)
+
+    p_hat = sample_mean / sample_variance  # 1/dispersion
+    n_hat = sample_mean ** 2. / (sample_variance - sample_mean)
+
+    return n_hat, p_hat
 
 def lonlat2xy_flatmap(data_obj):
     """

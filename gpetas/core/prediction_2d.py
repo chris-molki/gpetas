@@ -1,6 +1,7 @@
 import numpy as np
 from scipy.linalg import solve_triangular
 import scipy as sc
+from scipy.stats import nbinom
 import time
 from gpetas.utils.some_fun import get_grid_data_for_a_point
 import gpetas
@@ -2311,9 +2312,15 @@ def pred_summary(save_obj_pred=None, save_obj_pred_mle=None, save_obj_pred_mle_s
     return
 
 
-def plot_pred_seq_forecast_updated(pred_seq, mle_only=None, gpetas_only=None, quantile=None,ylim=None):
+def plot_pred_seq_forecast_updated(pred_seq, mle_only=None, gpetas_only=None,
+                                   quantile=None,ylim=None,NB_fit=None,yscale=None,
+                                   markersize=None):
     if quantile is None:
         quantile = 0.05
+    if yscale is None:
+        yscale = 'log'
+    if markersize is None:
+        markersize=15
 
     t = pred_seq.tau2_vec
     t0 = np.hstack([pred_seq.tau1_forecast, t])
@@ -2326,7 +2333,7 @@ def plot_pred_seq_forecast_updated(pred_seq, mle_only=None, gpetas_only=None, qu
     h1 = plt.figure(figsize=[15, 5])
 
     if mle_only is None or gpetas_only is not None:
-        plt.plot(t, np.median(N_t_array, axis=1), 'k')
+        plt.plot(t, np.mean(N_t_array, axis=1), 'k')
         plt.fill_between(t, y1=np.quantile(N_t_array, q=quantile, axis=1),
                          y2=np.quantile(N_t_array, q=1. - quantile, axis=1),
                          color='lightgrey',
@@ -2334,7 +2341,7 @@ def plot_pred_seq_forecast_updated(pred_seq, mle_only=None, gpetas_only=None, qu
         # plt.plot(t,np.quantile(N_t_array,q=quantile,axis=1),':k')
         # plt.plot(t,np.quantile(N_t_array,q=1.-quantile,axis=1),':k')
     if pred_seq.mle_obj is not None and gpetas_only is None:
-        plt.plot(t, np.median(pred_seq.N_t_array_mle, axis=1), '--b', linewidth=1)
+        plt.plot(t, np.mean(pred_seq.N_t_array_mle, axis=1), '--b', linewidth=1)
         plt.plot(t, np.quantile(pred_seq.N_t_array_mle, q=quantile, axis=1), ':b', linewidth=1)
         plt.plot(t, np.quantile(pred_seq.N_t_array_mle, q=1. - quantile, axis=1), ':b', linewidth=1)
         if mle_only is not None:
@@ -2343,8 +2350,8 @@ def plot_pred_seq_forecast_updated(pred_seq, mle_only=None, gpetas_only=None, qu
                              color='lightblue',
                              label='$q_{%.2f,%.2f}$' % (quantile, 1 - quantile))
     # obs
-    plt.plot(t, Nobs_array, '.m', markersize=15)
-    plt.yscale('log')
+    plt.plot(t, Nobs_array, '.m', markersize=markersize)
+    plt.yscale(yscale)
 
     N_t_array_updated = np.zeros(np.shape(N_t_array))
     for i in range(np.array(N_t_array).shape[0]):
@@ -2377,7 +2384,68 @@ def plot_pred_seq_forecast_updated(pred_seq, mle_only=None, gpetas_only=None, qu
 
     print(Ksim)
 
-    return h1
+    if NB_fit is None:
+        return h1
+    if NB_fit is not None:
+        plt.clf()
+
+        # estimate NB(n,p) params
+        n_vec, p_vec = gpetas.some_fun.NB_n_p_methods_of_moments(np.array(pred_seq.N_t_array))
+        if pred_seq.mle_obj is not None:
+            n_vec_mle, p_vec_mle = gpetas.some_fun.NB_n_p_methods_of_moments(np.array(pred_seq.N_t_array_mle))
+
+        # moments
+        mean, var, skew, kurt = nbinom.stats(n=n_vec, p=p_vec, moments='mvsk')
+        if pred_seq.mle_obj is not None:
+            mean_mle, var_mle, skew_mle, kurt_mle = nbinom.stats(n=n_vec_mle, p=p_vec_mle, moments='mvsk')
+
+        # quantiles
+        q_up = nbinom.ppf(1. - quantile, n=n_vec, p=p_vec)
+        q_down = nbinom.ppf(quantile, n=n_vec, p=p_vec)
+        median = nbinom.ppf(0.5, n=n_vec, p=p_vec)
+        if pred_seq.mle_obj is not None:
+            q_up_mle = nbinom.ppf(1. - quantile, n=n_vec_mle, p=p_vec_mle)
+            q_down_mle = nbinom.ppf(quantile, n=n_vec_mle, p=p_vec_mle)
+            median_mle = nbinom.ppf(0.5, n=n_vec_mle, p=p_vec_mle)
+
+        # plots
+        if mle_only is None or gpetas_only is not None:
+            plt.plot(t, np.mean(N_t_array, axis=1), 'k')
+            plt.fill_between(t, y1=np.quantile(N_t_array, q=quantile, axis=1),
+                             y2=np.quantile(N_t_array, q=1. - quantile, axis=1),
+                             color='lightgrey',
+                             label='$q_{%.2f,%.2f}$' % (quantile, 1 - quantile))
+
+            plt.plot(t, mean, '--k', linewidth=1)
+            plt.plot(t, q_up, ':k', linewidth=1)
+            plt.plot(t, q_down, ':k', linewidth=1)
+
+
+        if pred_seq.mle_obj is not None and gpetas_only is None:
+            plt.plot(t, np.mean(pred_seq.N_t_array_mle, axis=1), '--b', linewidth=1)
+            plt.plot(t, np.quantile(pred_seq.N_t_array_mle, q=quantile, axis=1), ':b', linewidth=1)
+            plt.plot(t, np.quantile(pred_seq.N_t_array_mle, q=1. - quantile, axis=1), ':b', linewidth=1)
+            # NB
+            plt.plot(t, mean_mle, '--',color='lightblue',linewidth=1)
+            plt.plot(t, q_up_mle, ':',color='lightblue',linewidth=1)
+            plt.plot(t, q_down_mle, ':',color='lightblue',linewidth=1)
+
+
+
+
+        # obs
+        plt.plot(t, Nobs_array, '.m', markersize=markersize)
+        plt.yscale(yscale)
+
+        plt.xlabel('time in days')
+        plt.ylabel('N')
+        if ylim is not None:
+            plt.ylim(ylim)
+
+
+
+        return h1, n_vec, p_vec
+
 
 # write report
 def write_table_prediction_report(save_obj_pred, save_obj_pred_mle=None, m0_plot=None):
