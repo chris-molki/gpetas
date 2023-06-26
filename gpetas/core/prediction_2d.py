@@ -37,6 +37,7 @@ def sample_from_truncated_exponential_rv(beta, a, b=None, sample_size=1, seed=No
     if b is None:
         b = np.inf
     X = stats.truncexpon(b=beta * (b - a), loc=a, scale=1. / beta)
+
     return X.rvs(sample_size)
 
 
@@ -785,6 +786,7 @@ class predictions_gpetas():
 
         # fixed params
         self.m0 = self.data_obj.domain.m0
+        self.m_max = m_max
         self.m_beta = save_obj_GS['setup_obj'].m_beta
 
         self.init_save_dictionary()
@@ -2118,9 +2120,11 @@ def generate_tau1_tau2_vec_seq_forecast(tau1_forecast, tau2_forecast, save_obj_G
 
 class forecast_sequential():
     def __init__(self, save_obj_GS, tau1_forecast, tau2_forecast, dt_update=None, tau0_Ht=None,
-                 Ksim=None, sample_idx_vec=None, mle_obj=None, m0_plot=None, m_star=None):
+                 Ksim=None, sample_idx_vec=None, mle_obj=None, m0_plot=None, m_star=None, m_max=None):
         self.save_obj_GS = save_obj_GS
         self.mle_obj = mle_obj
+        self.m_star = m_star
+        self.m_max = m_max
         if Ksim is None:
             Ksim = 100
         self.Ksim = Ksim
@@ -2174,7 +2178,8 @@ class forecast_sequential():
                                           seed=None,
                                           approx=None,
                                           randomized_samples=None,
-                                          Bayesian_m_beta=None)
+                                          Bayesian_m_beta=None,
+                                          m_max=m_max)
 
             N_t, Nobs = get_marginal_Nt_pred(tau2 - tau1,
                                              save_obj_pred=pred_obj.save_pred,
@@ -2191,7 +2196,8 @@ class forecast_sequential():
                                                tau0_Ht=tau0_Ht,
                                                Ksim=Ksim,
                                                seed=None,
-                                               Bayesian_m_beta=None)
+                                               Bayesian_m_beta=None,
+                                               m_max=m_max)
                 N_t_mle, Nobs = get_marginal_Nt_pred(tau2 - tau1,
                                                      save_obj_pred=pred_obj_mle.save_pred,
                                                      m0_plot=m0_plot, which_events=None)
