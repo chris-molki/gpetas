@@ -150,6 +150,9 @@ class setup_sequential_pred():
         # update forecast window after a big shock with m_star
         self.m_star = m_star
 
+        # maximum magnitude used in simulations if None m_max=np.inf
+        self.m_max = m_max
+
         # write to file
         fname_setup_obj = output_dir + "/setup_obj_sequential_pred_%s.all" % (self.case_name)
         file = open(fname_setup_obj, "wb")  # remember to open the file in binary mode
