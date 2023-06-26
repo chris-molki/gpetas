@@ -231,6 +231,7 @@ def sim_add_offspring(obj, X0_events):
     T = tau2 - tau1
     m_beta = obj.m_beta
     m0 = obj.m0
+    m_max = obj.m_max
     K, c, p, m_alpha, D, gamma, q = np.zeros(7) * np.nan
 
     # params and SPATIAL OFFSPRING
@@ -274,9 +275,9 @@ def sim_add_offspring(obj, X0_events):
                                                scale=obj.beta_posterior_mb)
                 xnew = np.vstack((xnew, m_samples)).transpose()
             else:
-                xnew = np.vstack((xnew, np.random.exponential(1. / m_beta, np.size(xnew)) + m0)).transpose()
-                #m_sample = gpetas.prediction_2d.sample_from_truncated_exponential_rv(m_beta, m0, b=m_max,sample_size=np.size(xnew))
-                #xnew = np.vstack((xnew, m_sample)).transpose()
+                #xnew = np.vstack((xnew, np.random.exponential(1. / m_beta, np.size(xnew)) + m0)).transpose()
+                m_sample = sample_from_truncated_exponential_rv(m_beta, m0, b=m_max,sample_size=np.size(xnew))
+                xnew = np.vstack((xnew, m_sample)).transpose()
 
             # s(x-x_i)
             # (1) GAUSS (short range)
@@ -371,6 +372,7 @@ def sim_offspring_from_Ht(obj, theta_Kcpadgq, spatial_offspring, Ht=None, all_pt
     obj.Ht = np.copy(Ht)
     m_beta = np.copy(obj.m_beta)
     m0 = np.copy(obj.m0)
+    m_max = np.copy(obj.m_max)
     K, c, p, m_alpha, D, gamma, q = np.zeros(7) * np.nan
     obj.theta_true_Kcpadgq = np.copy(theta_Kcpadgq)
     obj.spatial_offspring = spatial_offspring
@@ -436,7 +438,9 @@ def sim_offspring_from_Ht(obj, theta_Kcpadgq, spatial_offspring, Ht=None, all_pt
                                                scale=obj.beta_posterior_mb)
                 xnew = np.vstack((xnew, m_samples)).transpose()
             else:
-                xnew = np.vstack((xnew, np.random.exponential(1. / m_beta, np.size(xnew)) + m0)).transpose()
+                #xnew = np.vstack((xnew, np.random.exponential(1. / m_beta, np.size(xnew)) + m0)).transpose()
+                m_sample = sample_from_truncated_exponential_rv(m_beta, m0, b=m_max,sample_size=np.size(xnew))
+                xnew = np.vstack((xnew, m_sample)).transpose()
 
             # s(x-x_i)
             # (1) GAUSS (short range)
@@ -571,6 +575,7 @@ class predictions_mle():
 
         # fixed params
         self.m0 = self.data_obj.domain.m0
+        self.m_max = m_max
         self.m_beta = mle_obj.m_beta_lower_T2
         if data_obj is None:
             data_obj = mle_obj.data_obj
@@ -617,8 +622,8 @@ class predictions_mle():
             # writing to a matrix
             bg_events = np.zeros([int(len(X_thinned[:, 0])), 5])
             bg_events[:, 0] = np.random.rand(len(X_thinned[:, 0])) * (tau2 - tau1)
-            bg_events[:, 1] = np.random.exponential(1. / self.m_beta,
-                                                    len(X_thinned[:, 0])) + self.m0  # m_i: marks
+            #bg_events[:, 1] = np.random.exponential(1. / self.m_beta,len(X_thinned[:, 0])) + self.m0  # m_i: marks
+            bg_events[:, 1] = sample_from_truncated_exponential_rv(self.m_beta, self.m0, b=self.m_max,sample_size=len(X_thinned[:, 0]))
             bg_events[:, 2] = X_thinned[:, 0]  # x_coord
             bg_events[:, 3] = X_thinned[:, 1]  # y_coord
             bg_events[:, 4] = np.zeros(len(X_thinned[:, 0]))  # branching z=0
@@ -850,7 +855,8 @@ class predictions_gpetas():
                 bg_events[:, 1] = sc.stats.lomax.rvs(size=len(X_thinned[:, 0]), c=alpha_posterior_mb, loc=self.m0,
                                                      scale=beta_posterior_mb)
             else:
-                bg_events[:, 1] = np.random.exponential(1. / self.m_beta, len(X_thinned[:, 0])) + self.m0  # m_i: marks
+                #bg_events[:, 1] = np.random.exponential(1. / self.m_beta, len(X_thinned[:, 0])) + self.m0  # m_i: marks
+                bg_events[:, 1] = sample_from_truncated_exponential_rv(self.m_beta, self.m0, b=self.m_max, sample_size=len(X_thinned[:, 0]))
             bg_events[:, 2] = X_thinned[:, 0]  # x_coord
             bg_events[:, 3] = X_thinned[:, 1]  # y_coord
             bg_events[:, 4] = np.zeros(len(X_thinned[:, 0]))  # branching z=0
