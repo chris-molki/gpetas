@@ -418,9 +418,12 @@ def n_mol(K, c, p, t_start=0., t_end=np.inf):
     return K * PHI_t
 
 
-def n(m_alpha, m_beta, K, c, p, t_start=0., t_end=np.inf):
+def n(m_alpha, m_beta, K, c, p, t_start=0., t_end=np.inf, m_min = None, m_max = None):
     n_t = n_mol(K, c, p, t_start, t_end)
-    n = n_t / (1. - m_alpha / m_beta)
+    if m_max is None: # implies m_max = np.inf
+        n = n_t / (1. - m_alpha / m_beta)
+    else:
+        n = n_t * m_beta/(m_alpha-m_beta)*(np.exp((m_alpha-m_beta)*(m_max-m_min))-1.)
     return n
 
 
