@@ -274,9 +274,9 @@ def sim_add_offspring(obj, X0_events):
                                                scale=obj.beta_posterior_mb)
                 xnew = np.vstack((xnew, m_samples)).transpose()
             else:
-                #xnew = np.vstack((xnew, np.random.exponential(1. / m_beta, np.size(xnew)) + m0)).transpose()
-                #sample_from_truncated_exponential_rv(m_beta, m0, b=m_max, sample_size=np.size(xnew)).transpose()
                 xnew = np.vstack((xnew, np.random.exponential(1. / m_beta, np.size(xnew)) + m0)).transpose()
+                #m_sample = gpetas.prediction_2d.sample_from_truncated_exponential_rv(m_beta, m0, b=m_max,sample_size=np.size(xnew))
+                #xnew = np.vstack((xnew, m_sample)).transpose()
 
             # s(x-x_i)
             # (1) GAUSS (short range)
