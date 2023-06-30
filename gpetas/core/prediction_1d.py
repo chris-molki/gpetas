@@ -1,9 +1,11 @@
 import numpy as np
 from scipy.linalg import solve_triangular
 import scipy as sc
+from scipy import stats
 import time
 import gpetas
 from gpetas.utils.some_fun import get_grid_data_for_a_point
+import sys
 
 # some globals
 time_format = "%Y-%m-%d %H:%M:%S.%f"
@@ -11,6 +13,373 @@ output_dir = "output_pred"
 output_dir_tables = "output_pred/tables"
 output_dir_figures = "output_pred/figures"
 output_dir_data = "output_pred/data"
+
+
+# new 1D implementation
+def simulation(obj, mu, theta_off):
+    # Ht and b and Xdomain
+    tt, mm, la, lo, T, Lat, Lon, Mmin, Mmax, b = obj.general_params_Ht
+
+    # theta offspring
+    K, c, p, m_alpha, d, gamma, q = theta_off
+    alpha = m_alpha / np.log(10)
+    D = np.copy(d)
+
+    # some coord conversion ?
+    # km2lat = 1.0 / dist(np.mean(Lat)-0.5, np.mean(Lon), np.mean(Lat)+0.5, np.mean(Lon))
+    # km2lon = 1.0 / dist(np.mean(Lat), np.mean(Lon)-0.5, np.mean(Lat), np.mean(Lon)+0.5)
+
+    # new background events:
+    # N = np.random.poisson(mu*(T[1]-T[0]))
+    # tt = np.append(tt, np.random.uniform(T[0], T[1], N))
+    # la = np.append(la, np.random.uniform(Lat[0], Lat[1], N))
+    # lo = np.append(lo, np.random.uniform(Lon[0], Lon[1], N))
+    # mm = np.append(mm, GRsampling(b, Mmin, Mmax, N))
+
+    # bg_events in mu
+    bg_events = mu
+    if len(bg_events) > 0:
+        tt = np.append(tt, bg_events[:, 0])
+        mm = np.append(mm, bg_events[:, 1])
+        lo = np.append(lo, bg_events[:, 2])
+        la = np.append(la, bg_events[:, 3])
+    idx = np.argsort(tt)
+    tt = tt[idx]
+    mm = mm[idx]
+    lo = lo[idx]
+    la = la[idx]
+
+    # aftershocks with t<T[1]:
+    k = 0
+    while k < len(tt):
+        m0 = mm[k]
+        la0 = la[k]
+        lo0 = lo[k]
+        if tt[k] > T[0]:
+            timeaft = 0.0
+        else:
+            timeaft = T[0] - tt[k]
+        timerem = T[1] - tt[k]
+        rho = K * np.power(10.0, alpha * (m0 - Mmin))
+        while timeaft < timerem:
+            dum = np.random.uniform(0, 1, 1)
+            if p == 1.0:
+                TT = np.exp(np.log(c + timeaft) - (1 / rho) * dum) - c - timeaft;
+                timeaft = timeaft + TT
+            else:
+                n3 = np.exp((rho / (1.0 - p)) * (timeaft + c) ** (1.0 - p))
+                if p > 1.0 and dum < n3:
+                    timeaft = timerem + 1.0
+                else:
+                    n1 = (timeaft + c) ** (1.0 - p)
+                    n2 = (1.0 - p) * np.log(dum) / rho
+                    TT = (n1 - n2) ** (1.0 / (1.0 - p)) - c - timeaft
+                    timeaft = timeaft + TT
+            if timeaft < timerem:
+                # lata, lona = probr(la0, lo0, m0, d, gamma, q, km2lat, km2lon)
+                xy_array = sample_long_range_decay_RL_pwl(N=1, x_center=lo0, y_center=la0, m_center=m0, q=q, D=D,
+                                                          gamma_m=gamma)
+                lona = xy_array[:, 0]
+                lata = xy_array[:, 1]
+                tt = np.append(tt, tt[k] + timeaft)
+                mm = np.append(mm, GRsampling(b, Mmin, Mmax, 1))
+                la = np.append(la, lata)
+                lo = np.append(lo, lona)
+        k += 1
+    # N_star
+    N_star = len(tt)
+
+    # N_star_T events only in the forecast time window no matter where
+    idx = ((tt >= T[0]) & (tt <= T[1]))
+    N_star_in_Tstar = len(tt[idx])
+
+    # select only events within the forecast period and the defined region:
+    ind = ((tt >= T[0]) & (la >= Lat[0]) & (la <= Lat[1]) & (lo >= Lon[0]) & (lo <= Lon[1]))
+    tt = tt[ind]
+    mm = mm[ind]
+    la = la[ind]
+    lo = lo[ind]
+    # ordering in time
+    ind = np.argsort(tt)
+    # return tt[ind], mm[ind], la[ind], lo[ind]
+    N_star_in_Tstar_X = len(tt[ind])
+    return N_star, N_star_in_Tstar, N_star_in_Tstar_X
+
+
+class predictions_1d:
+    def __init__(self, save_obj_GS, tau1, tau2, tau0_Ht=None,
+                 Ksim_per_sample=None,
+                 m_max=None,
+                 sample_idx_vec=None,
+                 seed=None, approx=None,
+                 randomized_samples='yes',
+                 Bayesian_m_beta=None, mle_obj=None):
+
+        # mle
+        self.mle_obj = mle_obj
+
+        # data
+        if save_obj_GS is None:
+            self.data_obj = mle_obj.data_obj
+        else:
+            self.data_obj = save_obj_GS['data_obj']
+
+        # inference results
+        self.save_obj_GS = save_obj_GS  # new ... maybe delete all individual sub attributes
+        self.save_pred = None
+        if sample_idx_vec is None:
+            sample_idx_vec = [0]
+        self.sample_idx_vec = sample_idx_vec
+
+        # simulation params
+        if Ksim_per_sample is None:
+            Ksim_per_sample = 1
+        self.Ksim_per_sample = Ksim_per_sample
+        if save_obj_GS is not None:
+            self.Ksamples_total = len(save_obj_GS['lambda_bar'])
+            self.Ksamples_used = len(self.sample_idx_vec)
+            self.Ksim_total = self.Ksamples_used * self.Ksim_per_sample
+            print('Ksamples_total =', self.Ksamples_total)
+            print('Ksamples_used  =', self.Ksamples_used)
+            print('Ksim_per_sample=', self.Ksim_per_sample)
+            print('Ksim_total     =', self.Ksim_total)
+        else:
+            self.Ksamples_total = 1
+            self.Ksamples_used = 1
+            self.Ksim_total = self.Ksamples_used * self.Ksim_per_sample
+            print('MLE mode: equivalent to 1 sample case')
+            print('Ksamples_total =', self.Ksamples_total)
+            print('Ksamples_used  =', self.Ksamples_used)
+            print('Ksim_per_sample=', self.Ksim_per_sample)
+            print('Ksim_total     =', self.Ksim_total)
+
+        # parameters marks
+        self.m0 = self.data_obj.domain.m0
+        if m_max is None:
+            m_max = 7.0
+            print('m_max of simulations is not specified, thus set to m=%.2f' % m_max)
+        self.m_max = m_max
+        if save_obj_GS is not None:
+            self.m_beta = save_obj_GS['setup_obj'].m_beta
+        else:
+            self.m_beta = mle_obj.m_beta_lower_T2
+
+        # forecast time window
+        self.tau1 = tau1
+        self.tau2 = tau2
+
+        # considered history H_tau1
+        if tau0_Ht is None:
+            tau0_Ht = 0.
+        self.tau0_Ht = tau0_Ht
+        self.tau_vec = np.array([tau0_Ht, tau1, tau2])
+
+        # get Ht
+        self.Ht = self.get_Ht()
+
+        # get inputs
+        self.init_general_fixed_params()
+
+
+        # init save_dict
+        init_save_dictionary(self)
+
+        # simulate background
+        for i in range(self.Ksim_per_sample):
+            if save_obj_GS is not None:
+                self.save_pred['pred_bgnew'].append(self.sim_background_gpetas(static_background='yes'))
+            else:
+                self.save_pred['pred_bgnew'].append(self.sim_background_mle(static_background='yes'))
+
+        # simulate offspring
+        N_star_array = np.zeros([self.Ksim_per_sample, self.Ksamples_used, 6])
+        for k_sim in range(self.Ksim_per_sample):
+            for k_sample in range(self.Ksamples_used):
+                bg_events = self.save_pred['pred_bgnew'][k_sim][k_sample]
+                if save_obj_GS is not None:
+                    k = self.sample_idx_vec[k_sample]
+                    theta_off = self.save_obj_GS['theta_tilde'][k]
+                else:
+                    k = 1
+                    theta_off = self.mle_obj.theta_mle_Kcpadgq
+                mu = np.copy(bg_events)
+                N_0_Tstar = len(mu)
+                N_star_array[k_sim, k_sample, :3] = simulation(self, mu, theta_off)
+                N_star_array[k_sim, k_sample, 3] = k
+                N_star_array[k_sim, k_sample, 4] = k_sim
+                N_star_array[k_sim, k_sample, 5] = N_0_Tstar
+            sys.stdout.write('\r' + str('\t simulation %3d/%d: N=%d. N0=%d\r.' % (k_sim + 1, self.Ksim_per_sample, N_star_array[k_sim, k_sample, 1], N_0_Tstar)))
+            sys.stdout.flush()
+
+        self.N_star_array = N_star_array
+
+    def init_general_fixed_params(self):
+        Ht = np.copy(self.Ht)
+        tt = Ht[:, 0]
+        mm = Ht[:, 1]
+        lo = Ht[:, 2]
+        la = Ht[:, 3]
+        T = [self.tau1, self.tau2]  # [0.0, 100.0]
+        Lon = self.data_obj.domain.X_borders[0, :]
+        Lat = self.data_obj.domain.X_borders[1, :]
+        Mmin = self.m0
+        Mmax = self.m_max
+        b = self.m_beta / np.log(10)
+        self.general_params_Ht = [tt, mm, la, lo, T, Lat, Lon, Mmin, Mmax, b]
+
+    def get_Ht(self):
+        tau0, tau1, tau2 = np.copy(self.tau_vec)
+        idx = np.where((self.data_obj.data_all.times >= tau0) & (self.data_obj.data_all.times <= tau1))
+        Ht = np.empty([len(self.data_obj.data_all.times[idx]), 4])
+        Ht[:, 0] = np.copy(self.data_obj.data_all.times[idx])
+        Ht[:, 1] = np.copy(self.data_obj.data_all.magnitudes[idx])
+        Ht[:, 2] = np.copy(self.data_obj.data_all.positions[idx, 0])
+        Ht[:, 3] = np.copy(self.data_obj.data_all.positions[idx, 1])
+        return Ht
+
+    def sim_background_gpetas(self, static_background=None):
+        tt, mm, la, lo, T, Lat, Lon, Mmin, Mmax, b = self.general_params_Ht
+        if static_background is not None:
+            idx_samples = self.sample_idx_vec.astype(int)
+            mu_vec = np.sum(np.array(self.save_obj_GS['mu_grid'])[idx_samples], axis=1) * np.prod(
+                np.diff(self.data_obj.domain.X_borders)) / len(
+                self.save_obj_GS['X_grid'])
+            N_0 = np.random.poisson(lam=mu_vec * (self.tau2 - self.tau1))
+            bg_events = []
+            for size in N_0:
+                if size > 0:
+                    bg_events_k = np.zeros([size, 5])
+                    bg_events_k[:, 0] = np.random.rand(size) * (self.tau2 - self.tau1) + self.tau1
+                    bg_events_k[:, 1] = GRsampling(b, Mmin, Mmax, size)
+                    bg_events_k[:, 2] = np.random.rand(size) * np.diff(self.data_obj.domain.X_borders[0, :]) + \
+                                        self.data_obj.domain.X_borders[0, 0]
+                    bg_events_k[:, 3] = np.random.rand(size) * np.diff(self.data_obj.domain.X_borders[1, :]) + \
+                                        self.data_obj.domain.X_borders[1, 0]
+                    sort_idx = np.argsort(bg_events_k[:, 0])
+                    bg_events.append(bg_events_k[sort_idx, :])
+                else:
+                    bg_events.append(np.array([]))
+        else:
+            bg_events = -1
+
+        return bg_events
+
+    def sim_background_mle(self, static_background=None):
+        tt, mm, la, lo, T, Lat, Lon, Mmin, Mmax, b = self.general_params_Ht
+        if static_background is not None:
+            mu_vec = np.sum(self.mle_obj.mu_grid) * np.prod(np.diff(self.mle_obj.data_obj.domain.X_borders)) / len(
+                self.mle_obj.X_grid)
+            N_0 = np.random.poisson(lam=mu_vec * (self.tau2 - self.tau1))
+            bg_events = []
+            if N_0 > 0:
+                size = N_0
+                bg_events_k = np.zeros([size, 5])
+                bg_events_k[:, 0] = np.random.rand(size) * (self.tau2 - self.tau1) + self.tau1
+                bg_events_k[:, 1] = GRsampling(b, Mmin, Mmax, size)
+                bg_events_k[:, 2] = np.random.rand(size) * np.diff(self.data_obj.domain.X_borders[0, :]) + \
+                                    self.data_obj.domain.X_borders[0, 0]
+                bg_events_k[:, 3] = np.random.rand(size) * np.diff(self.data_obj.domain.X_borders[1, :]) + \
+                                    self.data_obj.domain.X_borders[1, 0]
+                sort_idx = np.argsort(bg_events_k[:, 0])
+                bg_events.append(bg_events_k[sort_idx, :])
+            else:
+                bg_events.append(np.array([]))
+        else:
+            bg_events = -1
+
+        return bg_events
+
+
+def init_save_dictionary(obj):
+    obj.save_pred = {'pred_bgnew': [],
+                     'pred_offspring_Ht': [],
+                     'pred_bgnew_and_offspring': [],
+                     'pred_bgnew_and_offspring_with_Ht_offspring': [],
+                     'M_max_all': [],
+                     'k_sample': [],
+                     'theta_Kcpadgq_k': [],
+                     'N495_offspring_Ht': [],
+                     'N495_all_with_Ht': [],
+                     'N495_all_without_Ht': [],
+                     'N495_bgnew': [],
+                     'H_N495_all_with_Ht': [],
+                     'Nm0_offspring_Ht': [],
+                     'Nm0_all_with_Ht': [],
+                     'Nm0_all_without_Ht': [],
+                     'Nm0_bgnew': [],
+                     'H_N_all_with_Ht': [],
+                     'n_tau1_tau2': [],
+                     'n_inf': [],
+                     'N495_true': [],
+                     'seed_orig': [],
+                     'seed': [],
+                     'tau_vec': []}
+    obj.save_pred['tau_vec'].append(obj.tau_vec)
+
+
+def GRsampling(b, Mmin, Mmax, N):
+    # beta = np.log(10.0) * b
+    # dum = np.random.uniform(0, 1, N)
+    # M = Mmin - np.log(1.0 - dum * (1 - np.exp(-beta*(Mmax-Mmin)))) / beta
+    M = sample_from_truncated_exponential_rv(beta=np.log(10.) * b, a=Mmin, b=Mmax, sample_size=N, seed=None)
+    return M
+
+
+def dist(lat1, lon1, lat2, lon2):
+    """
+    Distance (in [km]) between points given as [lat,lon]
+    """
+    R0 = 6367.3
+    D = R0 * np.arccos(
+        np.sin(np.radians(lat1)) * np.sin(np.radians(lat2)) +
+        np.cos(np.radians(lat1)) * np.cos(np.radians(lat2)) * np.cos(np.radians(lon1 - lon2)))
+    return D
+
+
+def probr(lat0, lon0, m0, d, gamma, q, km2lat, km2lon):
+    D = d * np.power(10.0, gamma * m0)
+    dum1 = np.random.uniform(0, 1)
+    dum2 = np.random.uniform(0, 1)
+    rr = D * np.sqrt((1.0 - dum1) ** (-1.0 / (q - 1.0)) - 1.0)
+    lata = lat0 + km2lat * rr * np.cos(2.0 * np.pi * dum2)
+    lona = lon0 + km2lon * rr * np.sin(2.0 * np.pi * dum2)
+    return lata, lona
+
+
+def sample_from_truncated_exponential_rv(beta, a, b=None, sample_size=1, seed=None):
+    if seed is not None:
+        np.random.seed(seed)
+    if b is None:
+        b = np.inf
+    X = stats.truncexpon(b=beta * (b - a), loc=a, scale=1. / beta)
+
+    return X.rvs(sample_size)
+
+
+def sample_long_range_decay_RL_pwl(N, x_center, y_center, m_center, q, D, gamma_m):
+    sigma_mi = D ** 2 * 10 ** (2 * gamma_m * m_center)
+    # sample theta: angle
+    theta_j = np.random.uniform(0, 2. * np.pi, N)
+    # sample r: radius from center
+    u_j = np.random.uniform(0, 1, N)
+    r = np.sqrt(((1. - u_j) ** (1. / (1. - q)) - 1.)) * np.sqrt(sigma_mi)  # returns non-negative sqrt
+    x_vec = x_center + r * np.cos(theta_j)
+    y_vec = y_center + r * np.sin(theta_j)
+    xy_array = np.vstack((x_vec, y_vec)).T
+    return xy_array
+
+
+
+
+
+
+
+
+
+
+####################################
+# old stuff to be deleted in future
+####################################
 
 class predictions_1d_gpetas:
     def __init__(self,save_obj_GS, tau1, tau2, tau0_Ht=0., sample_idx_vec=None, seed=None, approx=None, Ksim=None,
@@ -429,7 +798,7 @@ def NHPPsim(tau1, tau2, lambda_fun, fargs, max_lambda, dim=1):
     idx = (np.random.uniform(0., max_lambda, size=Nc) <= lambda_fun(X_unthinned, *fargs))
     return np.sort(X_unthinned[idx])
 
-
+'''
 def init_save_dictionary(obj):
     obj.save_pred = {'pred_offspring_Ht': [],
                      'pred_bgnew_and_offspring': [],
@@ -454,6 +823,7 @@ def init_save_dictionary(obj):
                      'seed': [],
                      'tau_vec': []}
     obj.save_pred['tau_vec'].append(obj.tau_vec)
+    '''
 
 
 def sim_offspring_from_Ht(obj, Ht=None, all_pts_yes=None, print_info=None):
