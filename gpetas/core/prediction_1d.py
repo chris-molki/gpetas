@@ -147,7 +147,7 @@ class predictions_1d:
             self.Ksamples_total = 1
             self.Ksamples_used = 1
             self.Ksim_total = self.Ksamples_used * self.Ksim_per_sample
-            print('MLE mode: equivalent to 1 sample case')
+            print('\n MLE mode: equivalent to 1 sample case')
             print('Ksamples_total =', self.Ksamples_total)
             print('Ksamples_used  =', self.Ksamples_used)
             print('Ksim_per_sample=', self.Ksim_per_sample)
