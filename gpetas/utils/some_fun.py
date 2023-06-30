@@ -808,6 +808,32 @@ def silverman_scott_rule_d(X_data, individual_yes=None):
         silverman_hstar = sigma_vec * N ** (-1. / (d + 4))
     return silverman_hstar
 
+def mu_xprime_interpol(xprime, mu_grid, X_grid, X_borders, method=None):
+    if method is None:
+        method = 'nearest'
+
+
+    # interpolation methods
+    if method == 'nearest':
+        mu_xprime = griddata(points=X_grid, values=mu_grid.reshape(-1),
+                             xi=xprime, method='nearest', fill_value=np.nan, rescale=False)
+
+    if method == 'grid_approx':
+        mu_xprime = get_grid_data_for_a_point(mu_grid.flatten(), xprime, X_borders=X_borders)
+
+    if method == 'interpol_linear':
+        mu_xprime = griddata(points=X_grid, values=mu_grid.reshape(-1),
+                             xi=xprime, method='linear', fill_value=np.nan, rescale=False)
+    if method == 'interpol_cubic':
+        mu_xprime = griddata(points=X_grid, values=mu_grid.reshape(-1),
+                             xi=xprime, method='cubic', fill_value=np.nan, rescale=False)
+    if method == 'interpol_nearest':
+        mu_xprime = griddata(points=X_grid, values=mu_grid.reshape(-1),
+                             xi=xprime, method='nearest', fill_value=np.nan, rescale=False)
+    print('method: ', method)
+    return mu_xprime
+
+
 
 def mu_xprime_gpetas(xprime, mu_grid, X_grid, X_borders, method=None, lambda_bar=None, cov_params=None):
     # evaluation depending on the method
