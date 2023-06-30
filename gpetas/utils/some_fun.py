@@ -934,7 +934,7 @@ def mu_xprime_gpetas(xprime, mu_grid, X_grid, X_borders, method=None, lambda_bar
         mu_xprime = griddata(points=X_grid, values=mu_grid.reshape(-1),
                              xi=xprime, method='nearest', fill_value=np.nan, rescale=False)
     '''
-
+    print('method interpolation gpetas:',method)
     return mu_xprime
 
 
