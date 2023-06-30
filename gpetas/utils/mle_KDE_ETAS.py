@@ -381,24 +381,6 @@ class mle_units():
             kde_x[ii] = 1. / T * np.sum(p_vec * 1. / Z * np.exp(-1. / 2 * 1. / h_vec ** 2 * r_squared))
         return kde_x
 
-        ## save results of mle in old style output file
-        # outname = './output/estimated-parameters-%s.out' % (optmethod)
-        # f = open(outname, 'w')
-        # f.write('# Input catalog: %s' % (catname))
-        # f.write('# fit of Z=%d M>=%.2f events within [%.1f  %.1f] days\n' % (len(ti), Mcut, T1, T2))
-        # f.write(
-        #    '# mu_[#/day]     c_[days]           p               K            alpha             q              d0            gamma            LL\n')
-        # f.write('%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\n' % (mutot / (T2 - T1), c, p, K, alpha, q, d, gamma, LL))
-        # f.close()
-        # print('\n OUTPUT-File: %s\n' % (outname))
-
-        ## save results of mle
-        # head, tail = os.path.split(catname)
-        # outname2 = "./output/save_data_mle_%s_%s.bin" %(self.setup_obj.spatial_offspring, tail[0:7])
-        # file = open(outname2, "wb")  # remember to open the file in binary mode
-        # pickle.dump(self.save_data, file)
-        # file.close()
-        # print('\n OUTPUT-File: %s\n' % outname2)
 
     def _read_training_data(self):
         idx = self.idx_training
