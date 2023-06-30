@@ -27,7 +27,6 @@ def init_outdir():
     if not os.path.isdir(output_dir_data):
         os.mkdir(output_dir_data)
 
-
 def NB_n_p_methods_of_moments(data):
     if data.ndim == 1:
         sample_mean = np.mean(data)
