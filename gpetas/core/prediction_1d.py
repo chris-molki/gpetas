@@ -16,6 +16,37 @@ output_dir_figures = "output_pred/figures"
 output_dir_data = "output_pred/data"
 
 
+class resolution_mu_mle:
+    def __init__(self, mle_obj, X_grid_prime=None):
+        X_grid = mle_obj.X_grid
+        X_borders = mle_obj.data_obj.domain.X_borders
+        self.X_grid = X_grid
+        self.x = X_grid
+        self.X_borders = X_borders
+        self.mle_obj = mle_obj
+        self.X_grid_prime = X_grid_prime
+        if X_grid_prime is None:
+            xprime = X_borders
+            mu_xprime = np.copy(mle_obj.mu_grid)
+            print('No new resolution: same output mu as input mu')
+        else:
+            xprime = X_grid_prime
+            mu_x = mle_obj.mu_grid
+            mu_xprime = gpetas.some_fun.mu_xprime_interpol(xprime, mu_x, X_grid, X_borders, method=None)
+            # mu_xprime=mle_obj.eval_kde_xprime(X_grid_HE07_xy)
+        self.mu_xprime = mu_xprime
+        self.xprime = xprime
+
+        # normalization
+        self.Lprime = len(self.xprime)
+        self.abs_X = np.prod(np.diff(self.X_borders))
+        self.Zprime = self.abs_X / self.Lprime * np.sum(self.mu_xprime)
+        self.mu_xprime_norm = (self.mu_xprime.T / self.Zprime).T
+        self.L = len(self.X_grid)
+        self.Z = self.abs_X / self.L * np.sum(mle_obj.mu_grid)
+        self.mu_x = mle_obj.mu_grid
+        self.mu_x_norm = (self.mu_x.T / self.Z).T
+
 class resolution_mu_gpetas:
     def __init__(self, save_obj_GS, X_grid_prime=None, sample_idx_vec=None, summary=None):
         X_grid = save_obj_GS['X_grid']
