@@ -101,8 +101,8 @@ class performance_LTF_HE07():
             data_star[:, 1] = np.copy(data_obj.data_all.magnitudes[idx])
             data_star[:, 2] = np.copy(data_obj.data_all.positions[idx, 0])
             data_star[:, 3] = np.copy(data_obj.data_all.positions[idx, 1])
-            self.N_obs = len(data_star)
-            print(self.N_obs)
+        self.N_obs = len(data_star)
+        print(self.N_obs)
         self.data_star = data_star
 
         # Poisson likelihood for NHPP
