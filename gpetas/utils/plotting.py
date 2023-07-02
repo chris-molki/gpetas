@@ -5,50 +5,6 @@ import scipy as sc
 import gpetas
 
 
-def new_extract_forecast_original_units(forecast, region, plot_yes=None):
-    '''
-    Uses midpoints saved in the region object
-
-    '''
-    x_bool = np.logical_and(forecast.region.midpoints()[:, 0] > np.min(region[:, 0]),
-                            forecast.region.midpoints()[:, 0] < np.max(region[:, 0]))
-    y_bool = np.logical_and(forecast.region.midpoints()[:, 1] > np.min(region[:, 1]),
-                            forecast.region.midpoints()[:, 1] < np.max(region[:, 1]))
-    midpoints = forecast.region.midpoints()[x_bool * y_bool]
-
-    idx_forecast_data = forecast.get_index_of(lons=midpoints[:, 0], lats=midpoints[:, 1])
-    mu_forecast_mag_gt495 = np.sum(forecast.data[idx_forecast_data], axis=1)
-    x = midpoints[:, 0]
-    y = midpoints[:, 1]
-
-    x_sorted = np.sort(midpoints[:, 0])
-    y_sorted = np.sort(midpoints[:, 1])
-    xx, yy = np.meshgrid(x_sorted, y_sorted)
-    try:
-        idx_forecast_data_long = forecast.get_index_of(lons=xx, lats=yy)
-        mu_forecast_mag_gt495_long = np.sum(forecast.data[idx_forecast_data_long], axis=2)
-        if plot_yes is not None:
-            real_x = np.unique(x)
-            real_y = np.unique(y)
-            dx = (real_x[1] - real_x[0]) / 2.
-            dy = (real_y[1] - real_y[0]) / 2.
-            extent = [real_x[0] - dx, real_x[-1] + dx, real_y[0] - dy, real_y[-1] + dy]
-            hf1 = plt.figure(figsize=(20, 20))
-            plt.plot(forecast.region.midpoints()[:, 0], forecast.region.midpoints()[:, 1], 'k.', zorder=-2)
-            plt.imshow(np.log10(mu_forecast_mag_gt495_long), origin='lower', extent=extent)
-            plt.plot(region[:, 0], region[:, 1], 'r', linewidth=3)
-            plt.show()
-    except ValueError:
-        print('Region has grid cells outside CSEP California test site region.')
-        if plot_yes is not None:
-            hf1 = plt.figure()
-            plt.scatter(x, y, c=np.log10(np.sum(forecast.data[x_bool * y_bool], axis=1)))
-            plt.axis('square')
-            plt.plot(region[:, 0], region[:, 1], '--k', linewidth=1)
-            plt.show()
-
-    return x, y, mu_forecast_mag_gt495, xx, yy, idx_forecast_data
-
 
 def plot_slice_x(intensity_ensemble, X_grid=None, intensity_1_grid=None, intensity_2_grid=None,
                  xidx=None, quantile=0.05, log10scale='yes', X_borders=None, label_pos='yes',

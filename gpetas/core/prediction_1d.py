@@ -6,6 +6,7 @@ import time
 import gpetas
 from gpetas.utils.some_fun import get_grid_data_for_a_point
 import sys
+import matplotlib.pyplot as plt
 
 # some globals
 time_format = "%Y-%m-%d %H:%M:%S.%f"
@@ -67,12 +68,54 @@ class resolution_mu_gpetas:
         self.abs_X = np.prod(np.diff(self.X_borders))
         self.Zprime = self.abs_X / self.Lprime * np.sum(self.mu_xprime, axis=1)
         self.mu_xprime_norm = (self.mu_xprime.T / self.Zprime).T
-        self.L = len(mu_res_obj.X_grid)
-        self.Z = abs_X / L * np.sum(save_obj_GS['mu_grid'], axis=1)
+        self.L = len(self.X_grid)
+        self.Z = self.abs_X / self.L * np.sum(save_obj_GS['mu_grid'], axis=1)
         self.mu_x = np.array(save_obj_GS['mu_grid'])
         self.mu_x_norm = (self.mu_x.T / self.Z).T
 
+def new_extract_forecast_original_units(forecast, region, plot_yes=None):
+    '''
+    Uses midpoints saved in the region object
 
+    '''
+    x_bool = np.logical_and(forecast.region.midpoints()[:, 0] > np.min(region[:, 0]),
+                            forecast.region.midpoints()[:, 0] < np.max(region[:, 0]))
+    y_bool = np.logical_and(forecast.region.midpoints()[:, 1] > np.min(region[:, 1]),
+                            forecast.region.midpoints()[:, 1] < np.max(region[:, 1]))
+    midpoints = forecast.region.midpoints()[x_bool * y_bool]
+
+    idx_forecast_data = forecast.get_index_of(lons=midpoints[:, 0], lats=midpoints[:, 1])
+    mu_forecast_mag_gt495 = np.sum(forecast.data[idx_forecast_data], axis=1)
+    x = midpoints[:, 0]
+    y = midpoints[:, 1]
+
+    x_sorted = np.sort(midpoints[:, 0])
+    y_sorted = np.sort(midpoints[:, 1])
+    xx, yy = np.meshgrid(x_sorted, y_sorted)
+    try:
+        idx_forecast_data_long = forecast.get_index_of(lons=xx, lats=yy)
+        mu_forecast_mag_gt495_long = np.sum(forecast.data[idx_forecast_data_long], axis=2)
+        if plot_yes is not None:
+            real_x = np.unique(x)
+            real_y = np.unique(y)
+            dx = (real_x[1] - real_x[0]) / 2.
+            dy = (real_y[1] - real_y[0]) / 2.
+            extent = [real_x[0] - dx, real_x[-1] + dx, real_y[0] - dy, real_y[-1] + dy]
+            hf1 = plt.figure(figsize=(20, 20))
+            plt.plot(forecast.region.midpoints()[:, 0], forecast.region.midpoints()[:, 1], 'k.', zorder=-2)
+            plt.imshow(np.log10(mu_forecast_mag_gt495_long), origin='lower', extent=extent)
+            plt.plot(region[:, 0], region[:, 1], 'r', linewidth=3)
+            plt.show()
+    except ValueError:
+        print('Region has grid cells outside CSEP California test site region.')
+        if plot_yes is not None:
+            hf1 = plt.figure()
+            plt.scatter(x, y, c=np.log10(np.sum(forecast.data[x_bool * y_bool], axis=1)))
+            plt.axis('square')
+            plt.plot(region[:, 0], region[:, 1], '--k', linewidth=1)
+            plt.show()
+
+    return x, y, mu_forecast_mag_gt495, xx, yy, idx_forecast_data
 
 # new 1D implementation
 def simulation(obj, mu, theta_off):
