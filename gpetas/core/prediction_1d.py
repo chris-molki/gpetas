@@ -2,6 +2,7 @@ import numpy as np
 from scipy.linalg import solve_triangular
 import scipy as sc
 from scipy import stats
+from scipy.special import logsumexp
 import time
 import gpetas
 from gpetas.utils.some_fun import get_grid_data_for_a_point
@@ -14,6 +15,141 @@ output_dir = "output_pred"
 output_dir_tables = "output_pred/tables"
 output_dir_figures = "output_pred/figures"
 output_dir_data = "output_pred/data"
+
+
+class performance_LTF_HE07():
+    def __init__(self, save_obj_GS, pred_obj_1D,
+                 forecast_5yrs_495_HE07,
+                 sample_idx_vec=None,
+                 mle_obj=None, pred_obj_1D_mle=None,
+                 data_star=None,
+                 abs_T=None):
+        # gpetas
+        self.save_obj_GS = save_obj_GS
+        self.pred_obj_1D = pred_obj_1D
+        self.case_name = str(save_obj_GS['case_name'])
+        self.X_borders = self.save_obj_GS['data_obj'].domain.X_borders
+
+        # mle if given
+        self.mle_obj = save_obj_GS
+        self.pred_obj_1D_mle = pred_obj_1D_mle
+
+        # Extract HE07 for region X
+        self.forecast_5yrs_495_HE07 = forecast_5yrs_495_HE07
+        regions = gpetas.R00x_setup.R00x_california_set_domain()
+        region = eval('regions.polygon_%s' % (self.case_name))
+        x, y, z, xx, yy, idx = gpetas.prediction_1d.new_extract_forecast_original_units(forecast=forecast_5yrs_495_HE07,
+                                                                                        region=region, plot_yes=None)
+        X_grid_HE07_xy = np.zeros([len(x), 2])
+        X_grid_HE07_xy[:, 0] = x
+        X_grid_HE07_xy[:, 1] = y
+        self.HE07_X_grid = X_grid_HE07_xy
+        self.HE07_mu_x = np.copy(z)
+        self.m_beta = save_obj_GS['setup_obj'].m_beta
+        self.m0 = self.save_obj_GS['data_obj'].domain.m0
+        self.m0_factor = np.exp(self.m_beta * (4.95 - self.m0))
+        self.HE07_mean_Nstar_m0 = np.sum(self.HE07_mu_x) * self.m0_factor
+
+        # mu resolution
+        # gpetas
+        K_samples_total = len(save_obj_GS['lambda_bar'])
+        if sample_idx_vec is None:
+            sample_idx_vec = np.arange(0, K_samples_total, 1)
+        self.sample_idx_vec = sample_idx_vec
+        self.mu_res_obj = gpetas.prediction_1d.resolution_mu_gpetas(save_obj_GS,
+                                                                    X_grid_prime=self.HE07_X_grid,
+                                                                    sample_idx_vec=self.sample_idx_vec,
+                                                                    summary=None)
+        # mle
+        if mle_obj is not None:
+            self.mu_res_obj_mle = gpetas.prediction_1d.resolution_mu_mle(mle_obj, X_grid_prime=self.HE07_X_grid)
+
+        # Nstar forecasts for abs_T in X
+        if abs_T is None:
+            abs_T = 5 * 365.25  # CSEP forecast window 5yrs
+        self.abs_T = abs_T
+        self.Nstar = self.pred_obj_1D.N_star_array[:, :, 2].flatten()  # N in T and X
+        self.Nstar_mle = self.pred_obj_1D_mle.N_star_array[:, :, 2].flatten()
+        self.HE07_Nstar_m0_sim = np.random.poisson(lam=self.HE07_mean_Nstar_m0, size=len(self.Nstar))
+        self.N0_star = self.pred_obj_1D.N_star_array[:, :, -1].flatten()  # N0star in T and X
+        self.N0_star_mle = self.pred_obj_1D_mle.N_star_array[:, :, -1].flatten()  # N0star in T and X
+
+        # mu with m>=m0 forecast
+        self.mu_HE07_m0_gpetas = (self.mu_res_obj.mu_xprime_norm.T * self.Nstar).T
+        self.mu_HE07_m0_mle = (np.reshape(self.mu_res_obj_mle.mu_xprime_norm, [-1, 1]) * self.Nstar_mle).T
+        self.mu_HE07_m0_sim_ref = ((np.reshape(self.HE07_mu_x, [-1, 1])) * self.HE07_Nstar_m0_sim).T
+
+        # kde for marginals of Nstar
+        bw_method = 'silverman'
+        self.bw_method = bw_method
+        self.kde_Nstar = sc.stats.gaussian_kde(dataset=self.Nstar, bw_method=bw_method, weights=None)
+        self.kde_Nstar_HE07 = sc.stats.gaussian_kde(dataset=self.HE07_Nstar_m0_sim, bw_method=bw_method, weights=None)
+        if mle_obj is not None:
+            self.kde_Nstar_mle = sc.stats.gaussian_kde(dataset=self.Nstar_mle, bw_method=bw_method, weights=None)
+        # N0 kde
+        self.kde_N0_star = sc.stats.gaussian_kde(dataset=self.N0_star, bw_method=bw_method, weights=None)
+        self.kde_N0_star_mle = sc.stats.gaussian_kde(dataset=self.N0_star_mle, bw_method=bw_method, weights=None)
+
+        # test data
+        if data_star is None:
+            tau1 = pred_obj_1D.tau1
+            tau2 = pred_obj_1D.tau2
+            data_obj = self.save_obj_GS['data_obj']
+            idx = np.where((data_obj.data_all.times >= tau1) & (data_obj.data_all.times <= tau2))
+            data_star = np.empty([len(data_obj.data_all.times[idx]), 4])
+            data_star[:, 0] = np.copy(data_obj.data_all.times[idx])
+            data_star[:, 1] = np.copy(data_obj.data_all.magnitudes[idx])
+            data_star[:, 2] = np.copy(data_obj.data_all.positions[idx, 0])
+            data_star[:, 3] = np.copy(data_obj.data_all.positions[idx, 1])
+            self.N_obs = len(data_star)
+            print(self.N_obs)
+        self.data_star = data_star
+
+        # Poisson likelihood for NHPP
+        Ksim = len(self.mu_HE07_m0_gpetas)
+        loglike_gpetas = []
+        loglike_HE07_ref = []
+        loglike_mle = []
+        X_grid = self.HE07_X_grid
+        data_star = self.data_star
+        for i in range(Ksim):
+            # gpetas
+            mu_grid = self.mu_HE07_m0_gpetas[i]
+            Nstar_in_absT = self.Nstar[i]
+            loglike = self.poisson_likelihood(mu_grid, X_grid, Nstar_in_absT, data_star, X_borders=self.X_borders)
+            loglike_gpetas.append(loglike)
+
+            # HE07 reference
+            mu_grid = self.mu_HE07_m0_sim_ref[i]
+            Nstar_in_absT = self.HE07_Nstar_m0_sim[i]
+            loglike = self.poisson_likelihood(mu_grid, X_grid, Nstar_in_absT, data_star, X_borders=self.X_borders)
+            loglike_HE07_ref.append(loglike)
+
+            # mle-obj
+            if mle_obj is not None:
+                mu_grid = self.mu_HE07_m0_mle[i]
+                Nstar_in_absT = self.Nstar_mle[i]
+                loglike = self.poisson_likelihood(mu_grid, X_grid, Nstar_in_absT, data_star, X_borders=self.X_borders)
+                loglike_mle.append(loglike)
+
+        self.loglike_gpetas = loglike_gpetas
+        self.loglike_HE07_ref = loglike_HE07_ref
+        self.loglike_mle = loglike_mle
+
+        # log(E[L])
+        self.log_E_L_gpetas = logsumexp(self.loglike_gpetas) - np.log(len(self.loglike_gpetas))
+        self.log_E_L_HE07_ref = logsumexp(self.loglike_HE07_ref) - np.log(len(self.loglike_HE07_ref))
+        self.log_E_L_mle = logsumexp(self.loglike_mle) - np.log(len(self.loglike_mle))
+
+    def poisson_likelihood(self, mu_grid, X_grid, Nstar_in_absT, data_star, X_borders=None):
+        mu_xi = gpetas.some_fun.mu_xprime_interpol(xprime=data_star[:, 2:4], mu_grid=mu_grid,
+                                                   X_grid=X_grid,
+                                                   X_borders=X_borders,
+                                                   method=None, print_method=None)
+        integral_part = Nstar_in_absT
+        log_like = np.sum(np.log(mu_xi)) - integral_part
+
+        return log_like
 
 
 class resolution_mu_mle:
