@@ -15,6 +15,65 @@ output_dir_figures = "output_pred/figures"
 output_dir_data = "output_pred/data"
 
 
+class resolution_mu_gpetas:
+    def __init__(self, save_obj_GS, X_grid_prime=None, sample_idx_vec=None, summary=None):
+        X_grid = save_obj_GS['X_grid']
+        X_borders = save_obj_GS['data_obj'].domain.X_borders
+        K_samples_total = len(save_obj_GS['lambda_bar'])
+        self.X_grid = X_grid
+        self.x = X_grid
+        self.X_borders = X_borders
+        self.K_samples_total = K_samples_total
+        self.save_obj_GS = save_obj_GS
+        self.X_grid_prime = X_grid_prime
+        self.sample_idx_vec = sample_idx_vec
+        self.summary = summary
+        if sample_idx_vec is None:
+            sample_idx_vec = np.array([K_samples_total - 1])
+            if summary is None:
+                print('No sample_idx_vec is given. Posterior sample k=%i is taken.' % sample_idx_vec)
+        self.sample_idx_vec = sample_idx_vec
+        if X_grid_prime is None:
+            xprime = X_borders
+            mu_xprime = np.copy(save_obj_GS['mu_grid'])
+            print('No new resolution: same output mu as input mu')
+        else:
+            xprime = X_grid_prime
+            if summary == 'mean':
+                mu_gpetas_k = np.mean(save_obj_GS['mu_grid'], axis=0)
+                mu_xprime = gpetas.some_fun.mu_xprime_gpetas(xprime, mu_gpetas_k, X_grid, X_borders, method=None,
+                                                             lambda_bar=None, cov_params=None)
+                self.sample_idx_vec = None
+                self.summary = 'mean'
+            if summary == 'median':
+                mu_gpetas_k = np.median(save_obj_GS['mu_grid'], axis=0)
+                mu_xprime = gpetas.some_fun.mu_xprime_gpetas(xprime, mu_gpetas_k, X_grid, X_borders, method=None,
+                                                             lambda_bar=None, cov_params=None)
+                self.sample_idx_vec = None
+                self.summary = 'median'
+            else:
+                mu_xprime = np.empty([len(sample_idx_vec), len(xprime)]) * np.nan
+                for i in range(len(sample_idx_vec)):
+                    k = sample_idx_vec[i]
+                    mu_gpetas_k = np.copy(save_obj_GS['mu_grid'][int(k)])
+                    mu = gpetas.some_fun.mu_xprime_gpetas(xprime, mu_gpetas_k, X_grid, X_borders, method=None,
+                                                          lambda_bar=None, cov_params=None)
+                    mu_xprime[i, :] = mu
+        self.mu_xprime = mu_xprime
+        self.xprime = xprime
+
+        # normalization
+        self.Lprime = len(self.xprime)
+        self.abs_X = np.prod(np.diff(self.X_borders))
+        self.Zprime = self.abs_X / self.Lprime * np.sum(self.mu_xprime, axis=1)
+        self.mu_xprime_norm = (self.mu_xprime.T / self.Zprime).T
+        self.L = len(mu_res_obj.X_grid)
+        self.Z = abs_X / L * np.sum(save_obj_GS['mu_grid'], axis=1)
+        self.mu_x = np.array(save_obj_GS['mu_grid'])
+        self.mu_x_norm = (self.mu_x.T / self.Z).T
+
+
+
 # new 1D implementation
 def simulation(obj, mu, theta_off):
     # Ht and b and Xdomain
