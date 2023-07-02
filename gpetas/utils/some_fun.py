@@ -807,7 +807,7 @@ def silverman_scott_rule_d(X_data, individual_yes=None):
         silverman_hstar = sigma_vec * N ** (-1. / (d + 4))
     return silverman_hstar
 
-def mu_xprime_interpol(xprime, mu_grid, X_grid, X_borders, method=None):
+def mu_xprime_interpol(xprime, mu_grid, X_grid, X_borders, method=None, print_method=None):
     if method is None:
         method = 'nearest'
 
@@ -829,12 +829,13 @@ def mu_xprime_interpol(xprime, mu_grid, X_grid, X_borders, method=None):
     if method == 'interpol_nearest':
         mu_xprime = griddata(points=X_grid, values=mu_grid.reshape(-1),
                              xi=xprime, method='nearest', fill_value=np.nan, rescale=False)
-    print('method: ', method)
+    if print_method is not None:
+        print('method: ', method)
     return mu_xprime
 
 
 
-def mu_xprime_gpetas(xprime, mu_grid, X_grid, X_borders, method=None, lambda_bar=None, cov_params=None):
+def mu_xprime_gpetas(xprime, mu_grid, X_grid, X_borders, method=None, lambda_bar=None, cov_params=None, print_method=None):
     # evaluation depending on the method
     mu_xprime = None
     mu_grid = mu_grid.reshape(-1)
@@ -933,7 +934,8 @@ def mu_xprime_gpetas(xprime, mu_grid, X_grid, X_borders, method=None, lambda_bar
         mu_xprime = griddata(points=X_grid, values=mu_grid.reshape(-1),
                              xi=xprime, method='nearest', fill_value=np.nan, rescale=False)
     '''
-    print('method interpolation gpetas:',method)
+    if print_method is not None:
+        print('method interpolation gpetas:',method)
     return mu_xprime
 
 
