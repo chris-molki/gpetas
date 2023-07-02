@@ -808,6 +808,7 @@ def silverman_scott_rule_d(X_data, individual_yes=None):
     return silverman_hstar
 
 def mu_xprime_interpol(xprime, mu_grid, X_grid, X_borders, method=None, print_method=None):
+    mu_xprime = []
     if method is None:
         method = 'nearest'
 
