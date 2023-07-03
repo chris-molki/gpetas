@@ -483,17 +483,6 @@ def simulation(obj, mu, theta_off):
     alpha = m_alpha / np.log(10)
     D = np.copy(d)
 
-    # some coord conversion ?
-    # km2lat = 1.0 / dist(np.mean(Lat)-0.5, np.mean(Lon), np.mean(Lat)+0.5, np.mean(Lon))
-    # km2lon = 1.0 / dist(np.mean(Lat), np.mean(Lon)-0.5, np.mean(Lat), np.mean(Lon)+0.5)
-
-    # new background events:
-    # N = np.random.poisson(mu*(T[1]-T[0]))
-    # tt = np.append(tt, np.random.uniform(T[0], T[1], N))
-    # la = np.append(la, np.random.uniform(Lat[0], Lat[1], N))
-    # lo = np.append(lo, np.random.uniform(Lon[0], Lon[1], N))
-    # mm = np.append(mm, GRsampling(b, Mmin, Mmax, N))
-
     # bg_events in mu
     bg_events = mu
     if len(bg_events) > 0:
