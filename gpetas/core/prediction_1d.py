@@ -392,7 +392,11 @@ class performance_LTF_HE07_m0():
         # gpetas
         K_samples_total = len(save_obj_GS['lambda_bar'])
         if sample_idx_vec is None:
-            sample_idx_vec = np.arange(0, K_samples_total, 1)
+            n = int(self.pred_obj_1D.Ksim_total/self.pred_obj_1D.Ksamples_total)
+            vector = np.arange(0, self.pred_obj_1D.Ksamples_total, 1)
+            # Repeat the vector n times
+            sample_idx_vec = np.tile(vector, n)
+            #sample_idx_vec = np.arange(0, K_samples_total, 1)
         self.sample_idx_vec = sample_idx_vec
         self.mu_res_obj = gpetas.prediction_1d.resolution_mu_gpetas(save_obj_GS,
                                                                     X_grid_prime=self.HE07_X_grid,
