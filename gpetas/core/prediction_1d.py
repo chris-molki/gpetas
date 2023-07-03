@@ -109,9 +109,9 @@ def plot_LTF(perfLTF_obj, clim=None):
     plt.gca().yaxis.set_major_locator(plt.MaxNLocator(3))
     plt.xlabel('$\\ln \\mathcal{L}$')
     plt.ylabel('density')
-    print('GP-E   :%.1f' % perfLTF_obj.log_E_L_gpetas)
-    print('E mle  :%.1f' % perfLTF_obj.log_E_L_mle)
-    print('HE07   :%.1f' % perfLTF_obj.log_E_L_HE07_ref)
+    print('GP-E   :%.2f' % perfLTF_obj.log_E_L_gpetas)
+    print('E mle  :%.2f' % perfLTF_obj.log_E_L_mle)
+    print('HE07   :%.2f' % perfLTF_obj.log_E_L_HE07_ref)
 
     hf6 = plt.figure(figsize=(20, 8))
     data_star = None
