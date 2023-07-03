@@ -18,6 +18,7 @@ output_dir_tables = "output_LTF/tables"
 output_dir_figures = "output_LTF/figures"
 output_dir_data = "output_LTF/data"
 
+
 def init_outdir():
     if not os.path.isdir(output_dir):
         os.mkdir(output_dir)
@@ -78,7 +79,7 @@ def plot_LTF(perfLTF_obj, clim=None):
     plt.gca().yaxis.set_major_locator(plt.MaxNLocator(3))
     plt.ylabel('density')
     plt.xlabel('$N^*$')
-    print('GP-E  kde(Nobs)=',perfLTF_obj.kde_Nstar(perfLTF_obj.N_obs))
+    print('GP-E  kde(Nobs)=', perfLTF_obj.kde_Nstar(perfLTF_obj.N_obs))
     print('E mle kde(Nobs)=', perfLTF_obj.kde_Nstar_mle(perfLTF_obj.N_obs))
 
     plt.subplot(2, 1, 2)
@@ -92,8 +93,8 @@ def plot_LTF(perfLTF_obj, clim=None):
 
     hf4 = plt.figure()
     plt.plot(perfLTF_obj.loglike_gpetas, '.k', label='GP-E')
-    plt.plot(perfLTF_obj.loglike_mle, '.b', label='E',alpha=0.7)
-    plt.plot(perfLTF_obj.loglike_HE07_ref, '.g', label='HE07',alpha=0.7)
+    plt.plot(perfLTF_obj.loglike_mle, '.b', label='E', alpha=0.7)
+    plt.plot(perfLTF_obj.loglike_HE07_ref, '.g', label='HE07', alpha=0.7)
     plt.gca().xaxis.set_major_locator(plt.MaxNLocator(3))
     plt.gca().yaxis.set_major_locator(plt.MaxNLocator(3))
     plt.legend(bbox_to_anchor=(1, 1))
@@ -112,12 +113,85 @@ def plot_LTF(perfLTF_obj, clim=None):
     print('GP-E   :%.2f' % perfLTF_obj.log_E_L_gpetas)
     print('E mle  :%.2f' % perfLTF_obj.log_E_L_mle)
     print('HE07   :%.2f' % perfLTF_obj.log_E_L_HE07_ref)
+    print('===========================')
+    ref = perfLTF_obj.log_E_L_gpetas
+    print('delta per obs. event GP-E   :%.2f' % ((ref-perfLTF_obj.log_E_L_gpetas)/perfLTF_obj.N_obs))
+    print('delta per obs. event E mle  :%.2f' % ((ref-perfLTF_obj.log_E_L_mle)/perfLTF_obj.N_obs))
+    print('delta per obs. event HE07   :%.2f' % ((ref-perfLTF_obj.log_E_L_HE07_ref)/perfLTF_obj.N_obs))
+
+    if clim == 'yes':
+        c2 = np.log10(max(np.max(perfLTF_obj.mu_HE07_m0_sim_ref),np.max(perfLTF_obj.mu_HE07_m0_mle)))
+        c1 = np.log10(min(np.min(perfLTF_obj.mu_HE07_m0_sim_ref),np.min(perfLTF_obj.mu_HE07_m0_mle)))
+        clim = [c1,c2]
 
     hf6 = plt.figure(figsize=(20, 8))
     data_star = None
+    plt.subplot(2, 4, 2)
+    lam = (perfLTF_obj.mu_res_obj.mu_x_norm.T * perfLTF_obj.Nstar).T
+    lam_mean = np.mean(lam, axis=0)
+    plot_2D_z(z=lam_mean, X_grid_plot=perfLTF_obj.X_grid, data_star=data_star, clim=clim, show_colorbar=1)
+    plt.subplot(2, 4, 3)
+    lam = (np.reshape(perfLTF_obj.mu_res_obj_mle.mu_x_norm, [-1, 1]) * perfLTF_obj.Nstar_mle).T
+    lam_mean = np.mean(lam, axis=0)
+    plot_2D_z(z=lam_mean, X_grid_plot=perfLTF_obj.X_grid, data_star=data_star, clim=clim, show_colorbar=1)
+    plt.subplot(2, 4, 4)
+    lam = (perfLTF_obj.mu_res_obj.mu_x_norm.T * perfLTF_obj.Nstar).T
+    lam_mean = lam[len(perfLTF_obj.mu_res_obj.mu_xprime) - 1]
+    plot_2D_z(z=lam_mean, X_grid_plot=perfLTF_obj.X_grid, data_star=data_star, clim=clim, show_colorbar=1)
+    plt.subplot(2, 4, 5)
+    lam = perfLTF_obj.mu_HE07_m0_sim_ref
+    lam_mean = np.mean(lam, axis=0)
+    plot_2D_z(z=lam_mean, X_grid_plot=perfLTF_obj.HE07_X_grid, data_star=data_star, clim=clim, show_colorbar=1)
+    plt.subplot(2, 4, 6)
+    lam = perfLTF_obj.mu_HE07_m0_gpetas
+    lam_mean = np.mean(lam, axis=0)
+    plot_2D_z(z=lam_mean, X_grid_plot=perfLTF_obj.HE07_X_grid, data_star=data_star, clim=clim, show_colorbar=1)
+    plt.subplot(2, 4, 7)
+    lam = perfLTF_obj.mu_HE07_m0_mle
+    lam_mean = np.mean(lam, axis=0)
+    plot_2D_z(z=lam_mean, X_grid_plot=perfLTF_obj.HE07_X_grid, data_star=data_star, clim=clim, show_colorbar=1)
+    plt.subplot(2, 4, 8)
+    lam = perfLTF_obj.mu_HE07_m0_gpetas
+    lam_mean = lam[len(perfLTF_obj.mu_res_obj.mu_xprime) - 1]
+    plot_2D_z(z=lam_mean, X_grid_plot=perfLTF_obj.HE07_X_grid, data_star=data_star, clim=clim, show_colorbar=1)
+
+    hf7 = plt.figure(figsize=(20, 8))
+    data_star = perfLTF_obj.data_star
+    plt.subplot(2, 4, 2)
+    lam = (perfLTF_obj.mu_res_obj.mu_x_norm.T * perfLTF_obj.Nstar).T
+    lam_mean = np.mean(lam, axis=0)
+    plot_2D_z(z=lam_mean, X_grid_plot=perfLTF_obj.X_grid, data_star=data_star, clim=clim, show_colorbar=1)
+    plt.subplot(2, 4, 3)
+    lam = (np.reshape(perfLTF_obj.mu_res_obj_mle.mu_x_norm, [-1, 1]) * perfLTF_obj.Nstar_mle).T
+    lam_mean = np.mean(lam, axis=0)
+    plot_2D_z(z=lam_mean, X_grid_plot=perfLTF_obj.X_grid, data_star=data_star, clim=clim, show_colorbar=1)
+    plt.subplot(2, 4, 4)
+    lam = (perfLTF_obj.mu_res_obj.mu_x_norm.T * perfLTF_obj.Nstar).T
+    lam_mean = lam[len(perfLTF_obj.mu_res_obj.mu_xprime) - 1]
+    plot_2D_z(z=lam_mean, X_grid_plot=perfLTF_obj.X_grid, data_star=data_star, clim=clim, show_colorbar=1)
+    plt.subplot(2, 4, 5)
+    lam = perfLTF_obj.mu_HE07_m0_sim_ref
+    lam_mean = np.mean(lam, axis=0)
+    plot_2D_z(z=lam_mean, X_grid_plot=perfLTF_obj.HE07_X_grid, data_star=data_star, clim=clim, show_colorbar=1)
+    plt.subplot(2, 4, 6)
+    lam = perfLTF_obj.mu_HE07_m0_gpetas
+    lam_mean = np.mean(lam, axis=0)
+    plot_2D_z(z=lam_mean, X_grid_plot=perfLTF_obj.HE07_X_grid, data_star=data_star, clim=clim, show_colorbar=1)
+    plt.subplot(2, 4, 7)
+    lam = perfLTF_obj.mu_HE07_m0_mle
+    lam_mean = np.mean(lam, axis=0)
+    plot_2D_z(z=lam_mean, X_grid_plot=perfLTF_obj.HE07_X_grid, data_star=data_star, clim=clim, show_colorbar=1)
+    plt.subplot(2, 4, 8)
+    lam = perfLTF_obj.mu_HE07_m0_gpetas
+    lam_mean = lam[len(perfLTF_obj.mu_res_obj.mu_xprime) - 1]
+    plot_2D_z(z=lam_mean, X_grid_plot=perfLTF_obj.HE07_X_grid, data_star=data_star, clim=clim, show_colorbar=1)
+
+    '''
+    hf6 = plt.figure(figsize=(20, 8))
+    data_star = None
     plt.subplot(2, 4, 1)
-    fac = 1#perfLTF_obj.mu_res_obj.Lprime/perfLTF_obj.mu_res_obj.abs_X
-    plot_2D_z(z=perfLTF_obj.HE07_mu_x_per_0p1x0p1deg_m0*fac, X_grid_plot=perfLTF_obj.HE07_X_grid, data_star=data_star, clim=clim,
+    plot_2D_z(z=perfLTF_obj.HE07_mu_x_per_0p1x0p1deg_m0, X_grid_plot=perfLTF_obj.HE07_X_grid, data_star=data_star,
+              clim=clim,
               show_colorbar=1)
     plt.subplot(2, 4, 2)
     plot_2D_z(z=np.mean(perfLTF_obj.mu_res_obj.mu_xprime, axis=0), X_grid_plot=perfLTF_obj.HE07_X_grid,
@@ -141,7 +215,8 @@ def plot_LTF(perfLTF_obj, clim=None):
     hf7 = plt.figure(figsize=(20, 8))
     data_star = perfLTF_obj.data_star
     plt.subplot(2, 4, 1)
-    plot_2D_z(z=perfLTF_obj.HE07_mu_x_per_0p1x0p1deg_m0*fac, X_grid_plot=perfLTF_obj.HE07_X_grid, data_star=data_star, clim=clim,
+    plot_2D_z(z=perfLTF_obj.HE07_mu_x_per_0p1x0p1deg_m0, X_grid_plot=perfLTF_obj.HE07_X_grid, data_star=data_star,
+              clim=clim,
               show_colorbar=1)
     plt.subplot(2, 4, 2)
     plot_2D_z(z=np.mean(perfLTF_obj.mu_res_obj.mu_xprime, axis=0), X_grid_plot=perfLTF_obj.HE07_X_grid,
@@ -161,7 +236,7 @@ def plot_LTF(perfLTF_obj, clim=None):
     plt.subplot(2, 4, 8)
     plot_2D_z(z=perfLTF_obj.mu_res_obj.mu_x[len(perfLTF_obj.mu_res_obj.mu_x) - 1],
               X_grid_plot=perfLTF_obj.mu_res_obj.X_grid, data_star=data_star, clim=clim, show_colorbar=1)
-
+    '''
     return hf1, hf2, hf3, hf4, hf5, hf6, hf7
 
 
@@ -184,12 +259,14 @@ def plot_2D_z(z, X_grid_plot=None, data_star=None, clim=None, show_colorbar=None
     plt.gca().yaxis.set_major_locator(plt.MaxNLocator(2))
     return
 
-def get_data_star(save_obj_GS,tau1,tau2,mstar=None):
+
+def get_data_star(save_obj_GS, tau1, tau2, mstar=None):
     data_obj = save_obj_GS['data_obj']
     m0 = data_obj.domain.m0
     if mstar is None:
         mstar = m0
-    idx = np.where((data_obj.data_all.times >= tau1) & (data_obj.data_all.times <= tau2) & (data_obj.data_all.magnitudes >= mstar))
+    idx = np.where(
+        (data_obj.data_all.times >= tau1) & (data_obj.data_all.times <= tau2) & (data_obj.data_all.magnitudes >= mstar))
     data_star = np.empty([len(data_obj.data_all.times[idx]), 4])
     data_star[:, 0] = np.copy(data_obj.data_all.times[idx])
     data_star[:, 1] = np.copy(data_obj.data_all.magnitudes[idx])
@@ -198,12 +275,11 @@ def get_data_star(save_obj_GS,tau1,tau2,mstar=None):
     return data_star
 
 
-
-
 class performance_LTF_HE07_m495():
     """
     a scaled variant of m0
     """
+
     def __init__(self, save_obj_GS, pred_obj_1D,
                  forecast_5yrs_495_HE07,
                  sample_idx_vec=None,
@@ -237,17 +313,16 @@ class performance_LTF_HE07_m495():
         self.HE07_X_grid = X_grid_HE07_xy
         self.L = len(self.HE07_X_grid)
         self.HE07_mu_x_per_0p1x0p1deg_m495 = np.copy(z)
-        self.HE07_mu_x_ua_m495 = self.HE07_mu_x_per_0p1x0p1deg_m495/(0.1**2.) # adjusting per unit area 'ua'
+        self.HE07_mu_x_ua_m495 = self.HE07_mu_x_per_0p1x0p1deg_m495 / (0.1 ** 2.)  # adjusting per unit area 'ua'
         self.m_beta = save_obj_GS['setup_obj'].m_beta
         self.m0 = self.save_obj_GS['data_obj'].domain.m0
         self.m0_factor = np.exp(self.m_beta * (4.95 - self.m0))
         self.HE07_mean_Nstar_m0 = np.sum(self.HE07_mu_x_per_0p1x0p1deg_m495) * self.m0_factor
         self.HE07_mu_x_ua_m0 = self.HE07_mu_x_ua_m495 * self.m0_factor
-        self.HE07_mu_x_per_0p1x0p1deg_m0 = self.HE07_mu_x_ua_m0 * (0.1)**2.
+        self.HE07_mu_x_per_0p1x0p1deg_m0 = self.HE07_mu_x_ua_m0 * (0.1) ** 2.
         # normalization
         self.HE07_Zprime_m0 = np.sum(self.HE07_mu_x_ua_m0) * self.abs_X / self.L
         self.HE07_mu_x_ua_m0_xprime_norm = self.HE07_mu_x_ua_m0 / self.HE07_Zprime_m0
-
 
         # mu resolution
         # gpetas
@@ -255,7 +330,7 @@ class performance_LTF_HE07_m495():
         if sample_idx_vec is None:
             n = int(self.pred_obj_1D.Ksim_total / self.pred_obj_1D.Ksamples_total)
             vector = np.arange(0, self.pred_obj_1D.Ksamples_total, 1)
-            sample_idx_vec = np.tile(vector, n)# Repeat the vector n times
+            sample_idx_vec = np.tile(vector, n)  # Repeat the vector n times
         self.sample_idx_vec = sample_idx_vec
         self.mu_res_obj = gpetas.prediction_1d.resolution_mu_gpetas(save_obj_GS,
                                                                     X_grid_prime=self.HE07_X_grid,
@@ -270,11 +345,14 @@ class performance_LTF_HE07_m495():
             abs_T_data_star = 5 * 365.25  # CSEP forecast window 5yrs
         self.abs_T_data_star = abs_T_data_star
         self.abs_T_fac = self.abs_T_data_star / self.abs_T_forecast_ref
-        self.Nstar = self.pred_obj_1D.N_star_array[:, :, 2].flatten()/self.m0_factor*self.abs_T_fac  # N in T and X
-        self.Nstar_mle = self.pred_obj_1D_mle.N_star_array[:, :, 2].flatten()/self.m0_factor*self.abs_T_fac
-        self.HE07_Nstar_m0_sim = np.random.poisson(lam=self.HE07_mean_Nstar_m0*self.abs_T_fac, size=len(self.Nstar))/self.m0_factor
-        self.N0_star = self.pred_obj_1D.N_star_array[:, :, -1].flatten()/self.m0_factor*self.abs_T_fac  # N0star in T and X
-        self.N0_star_mle = self.pred_obj_1D_mle.N_star_array[:, :, -1].flatten()/self.m0_factor*self.abs_T_fac # N0star in T and X
+        self.Nstar = self.pred_obj_1D.N_star_array[:, :, 2].flatten() / self.m0_factor * self.abs_T_fac  # N in T and X
+        self.Nstar_mle = self.pred_obj_1D_mle.N_star_array[:, :, 2].flatten() / self.m0_factor * self.abs_T_fac
+        self.HE07_Nstar_m0_sim = np.random.poisson(lam=self.HE07_mean_Nstar_m0 * self.abs_T_fac,
+                                                   size=len(self.Nstar)) / self.m0_factor
+        self.N0_star = self.pred_obj_1D.N_star_array[:, :,
+                       -1].flatten() / self.m0_factor * self.abs_T_fac  # N0star in T and X
+        self.N0_star_mle = self.pred_obj_1D_mle.N_star_array[:, :,
+                           -1].flatten() / self.m0_factor * self.abs_T_fac  # N0star in T and X
 
         # mu with m>=m0 forecast
         self.mu_HE07_m0_gpetas = (self.mu_res_obj.mu_xprime_norm.T * self.Nstar).T
@@ -388,27 +466,26 @@ class performance_LTF_HE07_m0():
         self.HE07_X_grid = X_grid_HE07_xy
         self.L = len(self.HE07_X_grid)
         self.HE07_mu_x_per_0p1x0p1deg_m495 = np.copy(z)
-        self.HE07_mu_x_ua_m495 = self.HE07_mu_x_per_0p1x0p1deg_m495/(0.1**2.) # adjusting per unit area 'ua'
+        self.HE07_mu_x_ua_m495 = self.HE07_mu_x_per_0p1x0p1deg_m495 / (0.1 ** 2.)  # adjusting per unit area 'ua'
         self.m_beta = save_obj_GS['setup_obj'].m_beta
         self.m0 = self.save_obj_GS['data_obj'].domain.m0
         self.m0_factor = np.exp(self.m_beta * (4.95 - self.m0))
         self.HE07_mean_Nstar_m0 = np.sum(self.HE07_mu_x_per_0p1x0p1deg_m495) * self.m0_factor
         self.HE07_mu_x_ua_m0 = self.HE07_mu_x_ua_m495 * self.m0_factor
-        self.HE07_mu_x_per_0p1x0p1deg_m0 = self.HE07_mu_x_ua_m0 * (0.1)**2.
+        self.HE07_mu_x_per_0p1x0p1deg_m0 = self.HE07_mu_x_ua_m0 * (0.1) ** 2.
         # normalization
         self.HE07_Zprime_m0 = np.sum(self.HE07_mu_x_ua_m0) * self.abs_X / self.L
         self.HE07_mu_x_ua_m0_xprime_norm = self.HE07_mu_x_ua_m0 / self.HE07_Zprime_m0
-
 
         # mu resolution
         # gpetas
         K_samples_total = len(save_obj_GS['lambda_bar'])
         if sample_idx_vec is None:
-            n = int(self.pred_obj_1D.Ksim_total/self.pred_obj_1D.Ksamples_total)
+            n = int(self.pred_obj_1D.Ksim_total / self.pred_obj_1D.Ksamples_total)
             vector = np.arange(0, self.pred_obj_1D.Ksamples_total, 1)
             # Repeat the vector n times
             sample_idx_vec = np.tile(vector, n)
-            #sample_idx_vec = np.arange(0, K_samples_total, 1)
+            # sample_idx_vec = np.arange(0, K_samples_total, 1)
         self.sample_idx_vec = sample_idx_vec
         self.mu_res_obj = gpetas.prediction_1d.resolution_mu_gpetas(save_obj_GS,
                                                                     X_grid_prime=self.HE07_X_grid,
@@ -422,12 +499,12 @@ class performance_LTF_HE07_m0():
         if abs_T_data_star is None:
             abs_T_data_star = 5 * 365.25  # CSEP forecast window 5yrs
         self.abs_T_data_star = abs_T_data_star
-        self.abs_T_fac = self.abs_T_data_star/self.abs_T_forecast_ref
-        self.Nstar = self.pred_obj_1D.N_star_array[:, :, 2].flatten()*self.abs_T_fac  # N in T and X
-        self.Nstar_mle = self.pred_obj_1D_mle.N_star_array[:, :, 2].flatten()*self.abs_T_fac
-        self.HE07_Nstar_m0_sim = np.random.poisson(lam=self.HE07_mean_Nstar_m0*self.abs_T_fac, size=len(self.Nstar))
-        self.N0_star = self.pred_obj_1D.N_star_array[:, :, -1].flatten() *self.abs_T_fac # N0star in T and X
-        self.N0_star_mle = self.pred_obj_1D_mle.N_star_array[:, :, -1].flatten() *self.abs_T_fac # N0star in T and X
+        self.abs_T_fac = self.abs_T_data_star / self.abs_T_forecast_ref
+        self.Nstar = self.pred_obj_1D.N_star_array[:, :, 2].flatten() * self.abs_T_fac  # N in T and X
+        self.Nstar_mle = self.pred_obj_1D_mle.N_star_array[:, :, 2].flatten() * self.abs_T_fac
+        self.HE07_Nstar_m0_sim = np.random.poisson(lam=self.HE07_mean_Nstar_m0 * self.abs_T_fac, size=len(self.Nstar))
+        self.N0_star = self.pred_obj_1D.N_star_array[:, :, -1].flatten() * self.abs_T_fac  # N0star in T and X
+        self.N0_star_mle = self.pred_obj_1D_mle.N_star_array[:, :, -1].flatten() * self.abs_T_fac  # N0star in T and X
 
         # mu with m>=m0 forecast
         self.mu_HE07_m0_gpetas = (self.mu_res_obj.mu_xprime_norm.T * self.Nstar).T
@@ -542,6 +619,7 @@ class resolution_mu_mle:
         self.mu_x = mle_obj.mu_grid
         self.mu_x_norm = (self.mu_x.T / self.Z).T
 
+
 class resolution_mu_gpetas:
     def __init__(self, save_obj_GS, X_grid_prime=None, sample_idx_vec=None, summary=None):
         X_grid = save_obj_GS['X_grid']
@@ -573,7 +651,7 @@ class resolution_mu_gpetas:
             if summary == 'mean':
                 mu_gpetas_k = np.mean(save_obj_GS['mu_grid'], axis=0)
                 mu = gpetas.some_fun.mu_xprime_gpetas(xprime, mu_gpetas_k, X_grid, X_borders, method=None,
-                                                             lambda_bar=None, cov_params=None)
+                                                      lambda_bar=None, cov_params=None)
                 self.sample_idx_vec = None
                 self.summary = 'mean'
                 norm_fac = self.Lprime / self.L * np.sum(mu_gpetas_k) / np.sum(mu)
@@ -581,7 +659,7 @@ class resolution_mu_gpetas:
             if summary == 'median':
                 mu_gpetas_k = np.median(save_obj_GS['mu_grid'], axis=0)
                 mu = gpetas.some_fun.mu_xprime_gpetas(xprime, mu_gpetas_k, X_grid, X_borders, method=None,
-                                                             lambda_bar=None, cov_params=None)
+                                                      lambda_bar=None, cov_params=None)
                 self.sample_idx_vec = None
                 self.summary = 'median'
                 norm_fac = self.Lprime / self.L * np.sum(mu_gpetas_k) / np.sum(mu)
@@ -594,8 +672,8 @@ class resolution_mu_gpetas:
                     mu_gpetas_k = np.copy(save_obj_GS['mu_grid'][int(k)])
                     mu = gpetas.some_fun.mu_xprime_gpetas(xprime, mu_gpetas_k, X_grid, X_borders, method=None,
                                                           lambda_bar=None, cov_params=None)
-                    norm_fac = self.Lprime / self.L * np.sum(mu_gpetas_k)/np.sum(mu)
-                    mu_xprime[i, :] = mu*norm_fac
+                    norm_fac = self.Lprime / self.L * np.sum(mu_gpetas_k) / np.sum(mu)
+                    mu_xprime[i, :] = mu * norm_fac
                     mu_x_arr[i, :] = mu_gpetas_k
         self.mu_xprime = mu_xprime
         self.xprime = xprime
@@ -604,10 +682,11 @@ class resolution_mu_gpetas:
         self.Zprime = self.abs_X / self.Lprime * np.sum(self.mu_xprime, axis=1)
         self.mu_xprime_norm = (self.mu_xprime.T / self.Zprime).T
         self.L = len(self.X_grid)
-        #self.Z = self.abs_X / self.L * np.sum(save_obj_GS['mu_grid'], axis=1)
+        # self.Z = self.abs_X / self.L * np.sum(save_obj_GS['mu_grid'], axis=1)
         self.Z = self.abs_X / self.L * np.sum(mu_x_arr, axis=1)
-        self.mu_x = mu_x_arr #np.array(save_obj_GS['mu_grid'])
+        self.mu_x = mu_x_arr  # np.array(save_obj_GS['mu_grid'])
         self.mu_x_norm = (self.mu_x.T / self.Z).T
+
 
 def new_extract_forecast_original_units(forecast, region, plot_yes=None):
     '''
@@ -652,6 +731,7 @@ def new_extract_forecast_original_units(forecast, region, plot_yes=None):
             plt.show()
 
     return x, y, mu_forecast_mag_gt495, xx, yy, idx_forecast_data
+
 
 # new 1D implementation
 def simulation(obj, mu, theta_off):
@@ -835,7 +915,6 @@ class predictions_1d:
         # get inputs
         self.init_general_fixed_params()
 
-
         # init save_dict
         init_save_dictionary(self)
 
@@ -863,7 +942,8 @@ class predictions_1d:
                 N_star_array[k_sim, k_sample, 3] = k
                 N_star_array[k_sim, k_sample, 4] = k_sim
                 N_star_array[k_sim, k_sample, 5] = N_0_Tstar
-            sys.stdout.write('\r' + str('\t simulation %3d/%d: N=%d. N0=%d\r.' % (k_sim + 1, self.Ksim_per_sample, N_star_array[k_sim, k_sample, 1], N_0_Tstar)))
+            sys.stdout.write('\r' + str('\t simulation %3d/%d: N=%d. N0=%d\r.' % (
+            k_sim + 1, self.Ksim_per_sample, N_star_array[k_sim, k_sample, 1], N_0_Tstar)))
             sys.stdout.flush()
 
         self.N_star_array = N_star_array
@@ -1039,20 +1119,12 @@ def sample_long_range_decay_RL_pwl(N, x_center, y_center, m_center, q, D, gamma_
     return xy_array
 
 
-
-
-
-
-
-
-
-
 ####################################
 # old stuff to be deleted in future
 ####################################
 
 class predictions_1d_gpetas:
-    def __init__(self,save_obj_GS, tau1, tau2, tau0_Ht=0., sample_idx_vec=None, seed=None, approx=None, Ksim=None,
+    def __init__(self, save_obj_GS, tau1, tau2, tau0_Ht=0., sample_idx_vec=None, seed=None, approx=None, Ksim=None,
                  randomized_samples='yes', Bayesian_m_beta=None):
         self.tau0_Ht = tau0_Ht
         self.tau1 = tau1
@@ -1232,10 +1304,6 @@ class predictions_1d_gpetas:
                                                                                which_events='all')
 
 
-
-
-
-
 class predictions_1d_mle:
     def __init__(self, mle_obj, tau1, tau2, tau0_Ht=0., Ksim=None, data_obj=None, seed=None, Bayesian_m_beta=None):
         '''
@@ -1345,7 +1413,6 @@ class predictions_1d_mle:
             self.Ht_offspring = np.copy(Ht_pred_aug)
             self.events_all_with_Ht_offspring = np.copy(events_all_with_Ht_offspring)
 
-
             # save results
             self.save_pred['pred_offspring_Ht'].append(self.Ht_offspring)
             self.save_pred['pred_bgnew_and_offspring'].append(self.bgnew_and_offspring)
@@ -1378,8 +1445,9 @@ class predictions_1d_mle:
 
             # some postprocessing
             self.save_pred['cumsum'] = gpetas.prediction_2d.cumsum_events_pred(save_obj_pred=self.save_pred,
-                                                          tau1=self.tau1, tau2=self.tau2, m0=self.m0,
-                                                          which_events='all')
+                                                                               tau1=self.tau1, tau2=self.tau2,
+                                                                               m0=self.m0,
+                                                                               which_events='all')
 
 
 def sim_add_offspring(obj, X0_events):
@@ -1467,6 +1535,7 @@ def NHPPsim(tau1, tau2, lambda_fun, fargs, max_lambda, dim=1):
     X_unthinned = np.random.uniform(tau1, tau2, size=Nc)
     idx = (np.random.uniform(0., max_lambda, size=Nc) <= lambda_fun(X_unthinned, *fargs))
     return np.sort(X_unthinned[idx])
+
 
 '''
 def init_save_dictionary(obj):
