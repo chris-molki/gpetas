@@ -230,6 +230,9 @@ class performance_LTF_HE07():
         self.HE07_mean_Nstar_m0 = np.sum(self.HE07_mu_x_per_0p1x0p1deg_m495) * self.m0_factor
         self.HE07_mu_x_ua_m0 = self.HE07_mu_x_ua_m495 * self.m0_factor
         self.HE07_mu_x_per_0p1x0p1deg_m0 = self.HE07_mu_x_ua_m0 * (0.1)**2.
+        # normalization
+        self.HE07_Zprime_m0 = np.sum(self.HE07_mu_x_ua_m0) * self.abs_X / self.L
+        self.HE07_mu_x_ua_m0_xprime_norm = self.HE07_mu_x_ua_m0 / self.HE07_Zprime_m0
 
 
         # mu resolution
@@ -259,7 +262,7 @@ class performance_LTF_HE07():
         # mu with m>=m0 forecast
         self.mu_HE07_m0_gpetas = (self.mu_res_obj.mu_xprime_norm.T * self.Nstar).T
         self.mu_HE07_m0_mle = (np.reshape(self.mu_res_obj_mle.mu_xprime_norm, [-1, 1]) * self.Nstar_mle).T
-        self.mu_HE07_m0_sim_ref = ((np.reshape(self.HE07_mu_x_ua_m0, [-1, 1])) * self.HE07_Nstar_m0_sim).T
+        self.mu_HE07_m0_sim_ref = ((np.reshape(self.HE07_mu_x_ua_m0_xprime_norm, [-1, 1])) * self.HE07_Nstar_m0_sim).T
 
         # kde for marginals of Nstar
         bw_method = 'silverman'
@@ -302,7 +305,7 @@ class performance_LTF_HE07():
             loglike_gpetas.append(loglike)
 
             # HE07 reference
-            mu_grid = self.mu_HE07_m0_sim_ref[i]#*19.2866 # 0.1x0.1 degree grid
+            mu_grid = self.mu_HE07_m0_sim_ref[i]
             Nstar_in_absT = self.HE07_Nstar_m0_sim[i]
             loglike = self.poisson_likelihood(mu_grid, X_grid, Nstar_in_absT, data_star, X_borders=self.X_borders)
             loglike_HE07_ref.append(loglike)
@@ -330,8 +333,6 @@ class performance_LTF_HE07():
                                                    method=None, print_method=None)
         integral_part = Nstar_in_absT
         log_like = np.sum(np.log(mu_xi)) - integral_part
-
-        print(Nstar_in_absT,np.sum(mu_grid)*self.abs_X/self.L)
 
         return log_like
 
@@ -364,8 +365,6 @@ class resolution_mu_mle:
         self.xprime = xprime
 
         # normalization
-        self.Lprime = len(self.xprime)
-        self.abs_X = np.prod(np.diff(self.X_borders))
         self.Zprime = self.abs_X / self.Lprime * np.sum(self.mu_xprime)
         self.mu_xprime_norm = (self.mu_xprime.T / self.Zprime).T
         self.L = len(self.X_grid)
