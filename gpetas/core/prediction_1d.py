@@ -43,7 +43,7 @@ def plot_LTF(perfLTF_obj, clim=None):
     hf = plt.hist(perfLTF_obj.Nstar, bins=bins, density=True, color='k', label='GP-E')
     hf = plt.hist(perfLTF_obj.Nstar_mle, bins=bins, density=True, color='b', alpha=0.7, label='E')
     plt.axvline(perfLTF_obj.N_obs, color='m', label='$N_{obs}$')
-    hf1 = plt.hist(perfLTF_obj.HE07_Nstar_m0_sim, bins=bins, density=True, color='g', alpha=0.7, label='HE07')
+    hf = plt.hist(perfLTF_obj.HE07_Nstar_m0_sim, bins=bins, density=True, color='g', alpha=0.5, label='HE07')
     plt.ylabel('density')
     plt.xlabel('$N^*$')
     plt.legend(bbox_to_anchor=(1, 1))
@@ -91,9 +91,9 @@ def plot_LTF(perfLTF_obj, clim=None):
     plt.show()
 
     hf4 = plt.figure()
-    plt.plot(perfLTF_obj.loglike_HE07_ref, '.g', label='HE07')
     plt.plot(perfLTF_obj.loglike_gpetas, '.k', label='GP-E')
-    plt.plot(perfLTF_obj.loglike_mle, '.b', label='E')
+    plt.plot(perfLTF_obj.loglike_mle, '.b', label='E',alpha=0.7)
+    plt.plot(perfLTF_obj.loglike_HE07_ref, '.g', label='HE07',alpha=0.7)
     plt.gca().xaxis.set_major_locator(plt.MaxNLocator(3))
     plt.gca().yaxis.set_major_locator(plt.MaxNLocator(3))
     plt.legend(bbox_to_anchor=(1, 1))
@@ -101,9 +101,9 @@ def plot_LTF(perfLTF_obj, clim=None):
     plt.ylabel('$\\ln \\mathcal{L}$')
 
     hf5 = plt.figure()
-    hf = plt.hist(perfLTF_obj.loglike_HE07_ref, color='g', bins='auto', density=True, label='HE07')
     hf = plt.hist(perfLTF_obj.loglike_gpetas, color='k', bins='auto', density=True, label='GP-E')
     hf = plt.hist(perfLTF_obj.loglike_mle, color='b', bins='auto', density=True, label='E', alpha=0.7)
+    hf = plt.hist(perfLTF_obj.loglike_HE07_ref, color='g', bins='auto', density=True, label='HE07')
     plt.legend(bbox_to_anchor=(1, 1))
     plt.gca().xaxis.set_major_locator(plt.MaxNLocator(3))
     plt.gca().yaxis.set_major_locator(plt.MaxNLocator(3))
@@ -134,7 +134,7 @@ def plot_LTF(perfLTF_obj, clim=None):
     plot_2D_z(z=perfLTF_obj.mu_res_obj_mle.mu_x, X_grid_plot=perfLTF_obj.mu_res_obj.X_grid, data_star=data_star,
               clim=clim, show_colorbar=1)
     plt.subplot(2, 4, 8)
-    plot_2D_z(z=perfLTF_obj.mu_res_obj.mu_x[len(perfLTF_obj.mu_res_obj.mu_xprime) - 1],
+    plot_2D_z(z=perfLTF_obj.mu_res_obj.mu_x[len(perfLTF_obj.mu_res_obj.mu_x) - 1],
               X_grid_plot=perfLTF_obj.mu_res_obj.X_grid, data_star=data_star, clim=clim, show_colorbar=1)
 
     hf7 = plt.figure(figsize=(20, 8))
@@ -149,7 +149,7 @@ def plot_LTF(perfLTF_obj, clim=None):
     plot_2D_z(z=perfLTF_obj.mu_res_obj_mle.mu_xprime, X_grid_plot=perfLTF_obj.HE07_X_grid, data_star=data_star,
               clim=clim, show_colorbar=1)
     plt.subplot(2, 4, 4)
-    plot_2D_z(z=perfLTF_obj.mu_res_obj.mu_xprime[len(perfLTF_obj.mu_res_obj.mu_xprime) - 1],
+    plot_2D_z(z=perfLTF_obj.mu_res_obj.mu_xprime[len(perfLTF_obj.mu_res_obj.mu_x) - 1],
               X_grid_plot=perfLTF_obj.HE07_X_grid, data_star=data_star, clim=clim, show_colorbar=1)
     plt.subplot(2, 4, 6)
     plot_2D_z(z=np.mean(perfLTF_obj.mu_res_obj.mu_x, axis=0), X_grid_plot=perfLTF_obj.mu_res_obj.X_grid,
@@ -158,7 +158,7 @@ def plot_LTF(perfLTF_obj, clim=None):
     plot_2D_z(z=perfLTF_obj.mu_res_obj_mle.mu_x, X_grid_plot=perfLTF_obj.mu_res_obj.X_grid, data_star=data_star,
               clim=clim, show_colorbar=1)
     plt.subplot(2, 4, 8)
-    plot_2D_z(z=perfLTF_obj.mu_res_obj.mu_x[len(perfLTF_obj.mu_res_obj.mu_xprime) - 1],
+    plot_2D_z(z=perfLTF_obj.mu_res_obj.mu_x[len(perfLTF_obj.mu_res_obj.mu_x) - 1],
               X_grid_plot=perfLTF_obj.mu_res_obj.X_grid, data_star=data_star, clim=clim, show_colorbar=1)
 
     return hf1, hf2, hf3, hf4, hf5, hf6, hf7
