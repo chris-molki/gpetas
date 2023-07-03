@@ -115,9 +115,9 @@ def plot_LTF(perfLTF_obj, clim=None):
     print('HE07   :%.2f' % perfLTF_obj.log_E_L_HE07_ref)
     print('===========================')
     ref = perfLTF_obj.log_E_L_gpetas
-    print('delta per obs. event GP-E   :%.2f' % ((ref-perfLTF_obj.log_E_L_gpetas)/perfLTF_obj.N_obs))
-    print('delta per obs. event E mle  :%.2f' % ((ref-perfLTF_obj.log_E_L_mle)/perfLTF_obj.N_obs))
-    print('delta per obs. event HE07   :%.2f' % ((ref-perfLTF_obj.log_E_L_HE07_ref)/perfLTF_obj.N_obs))
+    print('delta per obs. event GP-E   :%.2f' % ((perfLTF_obj.log_E_L_gpetas-ref)/perfLTF_obj.N_obs))
+    print('delta per obs. event E mle  :%.2f' % ((perfLTF_obj.log_E_L_mle-ref)/perfLTF_obj.N_obs))
+    print('delta per obs. event HE07   :%.2f' % ((perfLTF_obj.log_E_L_HE07_ref-ref)/perfLTF_obj.N_obs))
 
     if clim == 'yes':
         c2 = np.log10(max(np.max(perfLTF_obj.mu_HE07_m0_sim_ref),np.max(perfLTF_obj.mu_HE07_m0_mle)))
