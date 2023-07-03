@@ -116,7 +116,7 @@ def plot_LTF(perfLTF_obj, clim=None):
     hf6 = plt.figure(figsize=(20, 8))
     data_star = None
     plt.subplot(2, 4, 1)
-    plot_2D_z(z=perfLTF_obj.HE07_mu_x, X_grid_plot=perfLTF_obj.HE07_X_grid, data_star=data_star, clim=clim,
+    plot_2D_z(z=perfLTF_obj.HE07_mu_x_per_0p1x0p1deg_m0, X_grid_plot=perfLTF_obj.HE07_X_grid, data_star=data_star, clim=clim,
               show_colorbar=1)
     plt.subplot(2, 4, 2)
     plot_2D_z(z=np.mean(perfLTF_obj.mu_res_obj.mu_xprime, axis=0), X_grid_plot=perfLTF_obj.HE07_X_grid,
@@ -140,7 +140,7 @@ def plot_LTF(perfLTF_obj, clim=None):
     hf7 = plt.figure(figsize=(20, 8))
     data_star = perfLTF_obj.data_star
     plt.subplot(2, 4, 1)
-    plot_2D_z(z=perfLTF_obj.HE07_mu_x, X_grid_plot=perfLTF_obj.HE07_X_grid, data_star=data_star, clim=clim,
+    plot_2D_z(z=perfLTF_obj.HE07_mu_x_per_0p1x0p1deg_m0, X_grid_plot=perfLTF_obj.HE07_X_grid, data_star=data_star, clim=clim,
               show_colorbar=1)
     plt.subplot(2, 4, 2)
     plot_2D_z(z=np.mean(perfLTF_obj.mu_res_obj.mu_xprime, axis=0), X_grid_plot=perfLTF_obj.HE07_X_grid,
@@ -205,6 +205,7 @@ class performance_LTF_HE07():
         self.pred_obj_1D = pred_obj_1D
         self.case_name = str(save_obj_GS['case_name'])
         self.X_borders = self.save_obj_GS['data_obj'].domain.X_borders
+        self.abs_X = np.prod(np.diff(self.X_borders))
 
         # mle if given
         self.mle_obj = save_obj_GS
@@ -220,11 +221,16 @@ class performance_LTF_HE07():
         X_grid_HE07_xy[:, 0] = x
         X_grid_HE07_xy[:, 1] = y
         self.HE07_X_grid = X_grid_HE07_xy
-        self.HE07_mu_x = np.copy(z)
+        self.L = len(self.HE07_X_grid)
+        self.HE07_mu_x_per_0p1x0p1deg_m495 = np.copy(z)
+        self.HE07_mu_x_ua_m495 = self.HE07_mu_x_per_0p1x0p1deg_m495/(0.1**2.) # adjusting per unit area 'ua'
         self.m_beta = save_obj_GS['setup_obj'].m_beta
         self.m0 = self.save_obj_GS['data_obj'].domain.m0
         self.m0_factor = np.exp(self.m_beta * (4.95 - self.m0))
-        self.HE07_mean_Nstar_m0 = np.sum(self.HE07_mu_x) * self.m0_factor
+        self.HE07_mean_Nstar_m0 = np.sum(self.HE07_mu_x_per_0p1x0p1deg_m495) * self.m0_factor
+        self.HE07_mu_x_ua_m0 = self.HE07_mu_x_ua_m495 * self.m0_factor
+        self.HE07_mu_x_per_0p1x0p1deg_m0 = self.HE07_mu_x_ua_m0 * (0.1)**2.
+
 
         # mu resolution
         # gpetas
@@ -253,7 +259,7 @@ class performance_LTF_HE07():
         # mu with m>=m0 forecast
         self.mu_HE07_m0_gpetas = (self.mu_res_obj.mu_xprime_norm.T * self.Nstar).T
         self.mu_HE07_m0_mle = (np.reshape(self.mu_res_obj_mle.mu_xprime_norm, [-1, 1]) * self.Nstar_mle).T
-        self.mu_HE07_m0_sim_ref = ((np.reshape(self.HE07_mu_x, [-1, 1])) * self.HE07_Nstar_m0_sim).T
+        self.mu_HE07_m0_sim_ref = ((np.reshape(self.HE07_mu_x_ua_m0, [-1, 1])) * self.HE07_Nstar_m0_sim).T
 
         # kde for marginals of Nstar
         bw_method = 'silverman'
@@ -296,7 +302,7 @@ class performance_LTF_HE07():
             loglike_gpetas.append(loglike)
 
             # HE07 reference
-            mu_grid = self.mu_HE07_m0_sim_ref[i]
+            mu_grid = self.mu_HE07_m0_sim_ref[i]#*19.2866 # 0.1x0.1 degree grid
             Nstar_in_absT = self.HE07_Nstar_m0_sim[i]
             loglike = self.poisson_likelihood(mu_grid, X_grid, Nstar_in_absT, data_star, X_borders=self.X_borders)
             loglike_HE07_ref.append(loglike)
@@ -324,6 +330,8 @@ class performance_LTF_HE07():
                                                    method=None, print_method=None)
         integral_part = Nstar_in_absT
         log_like = np.sum(np.log(mu_xi)) - integral_part
+
+        print(Nstar_in_absT,np.sum(mu_grid)*self.abs_X/self.L)
 
         return log_like
 
