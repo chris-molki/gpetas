@@ -28,7 +28,15 @@ def init_outdir():
     if not os.path.isdir(output_dir_data):
         os.mkdir(output_dir_data)
 
-
+def get_data_star(save_obj_GS,tau1,tau2):
+    data_obj = save_obj_GS['data_obj']
+    idx = np.where((data_obj.data_all.times >= tau1) & (data_obj.data_all.times <= tau2))
+    data_star = np.empty([len(data_obj.data_all.times[idx]), 4])
+    data_star[:, 0] = np.copy(data_obj.data_all.times[idx])
+    data_star[:, 1] = np.copy(data_obj.data_all.magnitudes[idx])
+    data_star[:, 2] = np.copy(data_obj.data_all.positions[idx, 0])
+    data_star[:, 3] = np.copy(data_obj.data_all.positions[idx, 1])
+    return data_star
 
 class performance_LTF_HE07():
     def __init__(self, save_obj_GS, pred_obj_1D,
@@ -543,13 +551,13 @@ class predictions_1d:
             file = open(fname, "wb")  # remember to open the file in binary mode
             pickle.dump(self, file)
             file.close()
-            print('GP-E pred_obj_1D has been created and saved:', fname)
+            print('\n GP-E pred_obj_1D has been created and saved:', fname)
         if (save_obj_GS is None) & (mle_obj is not None):
             fname = output_dir + "/pred_obj_1D_%s_mle.all" % self.case_name
             file = open(fname, "wb")  # remember to open the file in binary mode
             pickle.dump(self, file)
             file.close()
-            print('E mle pred_obj_1D has been created and saved:', fname)
+            print('\n E mle pred_obj_1D has been created and saved:', fname)
 
     def init_general_fixed_params(self):
         Ht = np.copy(self.Ht)
