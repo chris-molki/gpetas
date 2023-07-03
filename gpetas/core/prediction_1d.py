@@ -8,6 +8,7 @@ import gpetas
 from gpetas.utils.some_fun import get_grid_data_for_a_point
 import sys
 import os
+import pickle
 import matplotlib.pyplot as plt
 
 # some globals
@@ -170,18 +171,24 @@ class resolution_mu_mle:
         X_borders = mle_obj.data_obj.domain.X_borders
         self.X_grid = X_grid
         self.x = X_grid
+        self.L = len(self.X_grid)
+        self.abs_X = np.prod(np.diff(mle_obj.data_obj.domain.X_borders))
         self.X_borders = X_borders
         self.mle_obj = mle_obj
         self.X_grid_prime = X_grid_prime
         if X_grid_prime is None:
+            self.Lprime = np.copy(self.L)
             xprime = X_borders
             mu_xprime = np.copy(mle_obj.mu_grid)
             print('No new resolution: same output mu as input mu')
         else:
+            self.Lprime = len(X_grid_prime)
             xprime = X_grid_prime
             mu_x = mle_obj.mu_grid
-            mu_xprime = gpetas.some_fun.mu_xprime_interpol(xprime, mu_x, X_grid, X_borders, method=None)
-            # mu_xprime=mle_obj.eval_kde_xprime(X_grid_HE07_xy)
+            mu = gpetas.some_fun.mu_xprime_interpol(xprime, mu_x, X_grid, X_borders, method=None)
+            # mu=mle_obj.eval_kde_xprime(X_grid_HE07_xy)
+            norm_fac = self.Lprime / self.L * np.sum(mu_x) / np.sum(mu)
+            mu_xprime = mu * norm_fac
         self.mu_xprime = mu_xprime
         self.xprime = xprime
 
@@ -201,6 +208,8 @@ class resolution_mu_gpetas:
         X_borders = save_obj_GS['data_obj'].domain.X_borders
         K_samples_total = len(save_obj_GS['lambda_bar'])
         self.X_grid = X_grid
+        self.L = len(self.X_grid)
+        self.abs_X = np.prod(np.diff(save_obj_GS['data_obj'].domain.X_borders))
         self.x = X_grid
         self.X_borders = X_borders
         self.K_samples_total = K_samples_total
@@ -214,23 +223,29 @@ class resolution_mu_gpetas:
                 print('No sample_idx_vec is given. Posterior sample k=%i is taken.' % sample_idx_vec)
         self.sample_idx_vec = sample_idx_vec
         if X_grid_prime is None:
+            self.Lprime = np.copy(self.L)
             xprime = X_borders
             mu_xprime = np.copy(save_obj_GS['mu_grid'])
             print('No new resolution: same output mu as input mu')
         else:
+            self.Lprime = len(X_grid_prime)
             xprime = X_grid_prime
             if summary == 'mean':
                 mu_gpetas_k = np.mean(save_obj_GS['mu_grid'], axis=0)
-                mu_xprime = gpetas.some_fun.mu_xprime_gpetas(xprime, mu_gpetas_k, X_grid, X_borders, method=None,
+                mu = gpetas.some_fun.mu_xprime_gpetas(xprime, mu_gpetas_k, X_grid, X_borders, method=None,
                                                              lambda_bar=None, cov_params=None)
                 self.sample_idx_vec = None
                 self.summary = 'mean'
+                norm_fac = self.Lprime / self.L * np.sum(mu_gpetas_k) / np.sum(mu)
+                mu_xprime = mu * norm_fac
             if summary == 'median':
                 mu_gpetas_k = np.median(save_obj_GS['mu_grid'], axis=0)
-                mu_xprime = gpetas.some_fun.mu_xprime_gpetas(xprime, mu_gpetas_k, X_grid, X_borders, method=None,
+                mu = gpetas.some_fun.mu_xprime_gpetas(xprime, mu_gpetas_k, X_grid, X_borders, method=None,
                                                              lambda_bar=None, cov_params=None)
                 self.sample_idx_vec = None
                 self.summary = 'median'
+                norm_fac = self.Lprime / self.L * np.sum(mu_gpetas_k) / np.sum(mu)
+                mu_xprime = mu * norm_fac
             else:
                 mu_xprime = np.empty([len(sample_idx_vec), len(xprime)]) * np.nan
                 for i in range(len(sample_idx_vec)):
@@ -238,13 +253,12 @@ class resolution_mu_gpetas:
                     mu_gpetas_k = np.copy(save_obj_GS['mu_grid'][int(k)])
                     mu = gpetas.some_fun.mu_xprime_gpetas(xprime, mu_gpetas_k, X_grid, X_borders, method=None,
                                                           lambda_bar=None, cov_params=None)
-                    mu_xprime[i, :] = mu
+                    norm_fac = self.Lprime / self.L * np.sum(mu_gpetas_k)/np.sum(mu)
+                    mu_xprime[i, :] = mu*norm_fac
         self.mu_xprime = mu_xprime
         self.xprime = xprime
 
         # normalization
-        self.Lprime = len(self.xprime)
-        self.abs_X = np.prod(np.diff(self.X_borders))
         self.Zprime = self.abs_X / self.Lprime * np.sum(self.mu_xprime, axis=1)
         self.mu_xprime_norm = (self.mu_xprime.T / self.Zprime).T
         self.L = len(self.X_grid)
@@ -395,6 +409,33 @@ class predictions_1d:
                  seed=None, approx=None,
                  randomized_samples='yes',
                  Bayesian_m_beta=None, mle_obj=None):
+        """
+        Simulates (forecast) Nstar number of events in T and X assuming a static, homogeneous background rate (named 1D).
+        :param save_obj_GS: if None and mle_obj=mle_obj prediction is for mle case.
+        :type save_obj_GS:
+        :param tau1:
+        :type tau1:
+        :param tau2:
+        :type tau2:
+        :param tau0_Ht:
+        :type tau0_Ht:
+        :param Ksim_per_sample:
+        :type Ksim_per_sample:
+        :param m_max:
+        :type m_max:
+        :param sample_idx_vec:
+        :type sample_idx_vec:
+        :param seed:
+        :type seed:
+        :param approx:
+        :type approx:
+        :param randomized_samples:
+        :type randomized_samples:
+        :param Bayesian_m_beta:
+        :type Bayesian_m_beta:
+        :param mle_obj:
+        :type mle_obj:
+        """
 
         # mle
         self.mle_obj = mle_obj
@@ -404,6 +445,7 @@ class predictions_1d:
             self.data_obj = mle_obj.data_obj
         else:
             self.data_obj = save_obj_GS['data_obj']
+        self.case_name = self.data_obj.case_name
 
         # inference results
         self.save_obj_GS = save_obj_GS  # new ... maybe delete all individual sub attributes
@@ -493,6 +535,21 @@ class predictions_1d:
             sys.stdout.flush()
 
         self.N_star_array = N_star_array
+
+        # save simulations
+        init_outdir()
+        if save_obj_GS is not None:
+            fname = output_dir + "/pred_obj_1D_%s.all" % self.case_name
+            file = open(fname, "wb")  # remember to open the file in binary mode
+            pickle.dump(self, file)
+            file.close()
+            print('GP-E pred_obj_1D has been created and saved:', fname)
+        if (save_obj_GS is None) & (mle_obj is not None):
+            fname = output_dir + "/pred_obj_1D_%s_mle.all" % self.case_name
+            file = open(fname, "wb")  # remember to open the file in binary mode
+            pickle.dump(self, file)
+            file.close()
+            print('E mle pred_obj_1D has been created and saved:', fname)
 
     def init_general_fixed_params(self):
         Ht = np.copy(self.Ht)
