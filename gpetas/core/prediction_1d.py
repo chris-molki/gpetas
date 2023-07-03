@@ -7,6 +7,7 @@ import time
 import gpetas
 from gpetas.utils.some_fun import get_grid_data_for_a_point
 import sys
+import os
 import matplotlib.pyplot as plt
 
 # some globals
