@@ -28,6 +28,161 @@ def init_outdir():
     if not os.path.isdir(output_dir_data):
         os.mkdir(output_dir_data)
 
+
+def plot_LTF(perfLTF_obj, clim=None):
+    # plot definitions
+    pSIZE = 16
+    plt.rc('font', size=pSIZE)
+    plt.rc('axes', titlesize=pSIZE)
+    bins = 'auto'
+    x = np.linspace(0., 1.1 * np.max([perfLTF_obj.Nstar, perfLTF_obj.Nstar_mle]), 1000)
+    x_N0 = np.linspace(0., 1.1 * np.max([perfLTF_obj.N0_star, perfLTF_obj.N0_star_mle]), 1000)
+
+    hf1 = plt.figure()
+    plt.subplot(2, 1, 1)
+    hf = plt.hist(perfLTF_obj.Nstar, bins=bins, density=True, color='k', label='GP-E')
+    hf = plt.hist(perfLTF_obj.Nstar_mle, bins=bins, density=True, color='b', alpha=0.7, label='E')
+    plt.axvline(perfLTF_obj.N_obs, color='m', label='$N_{obs}$')
+    hf1 = plt.hist(perfLTF_obj.HE07_Nstar_m0_sim, bins=bins, density=True, color='g', alpha=0.7, label='HE07')
+    plt.ylabel('density')
+    plt.xlabel('$N^*$')
+    plt.legend(bbox_to_anchor=(1, 1))
+
+    hf2 = plt.figure()
+    plt.subplot(1, 2, 1)
+    plt.plot(perfLTF_obj.Nstar, color='k', label='GP-E')
+    plt.plot(perfLTF_obj.Nstar_mle, ':b', label='E')
+    plt.plot(perfLTF_obj.HE07_Nstar_m0_sim, '--g', label='HE07')
+    plt.axhline(perfLTF_obj.N_obs, color='m', label='$N_{obs}$')
+    plt.ylabel('$N^*$')
+    plt.xlabel('simulation')
+
+    plt.subplot(1, 2, 2)
+    # plt.gca().set(yticklabels=[])
+    plt.xlabel('simulation')
+    plt.plot(perfLTF_obj.N0_star, 'darkgray')
+    plt.plot(perfLTF_obj.N0_star_mle, 'steelblue', linestyle=':')
+    plt.gca().yaxis.tick_right()
+    plt.ylabel('$N_0^*$ background events')
+    plt.gca().yaxis.set_label_position("right")
+    plt.gca().yaxis.tick_right()
+
+    hf3 = plt.figure(figsize=(7, 10))
+    plt.subplot(2, 1, 1)
+    plt.plot(x, perfLTF_obj.kde_Nstar.pdf(x), 'k')
+    plt.plot(x, perfLTF_obj.kde_Nstar_mle.pdf(x), ':b')
+    plt.axvline(perfLTF_obj.N_obs, color='m')
+    # plt.axvline(Nm0_HE07,color='g')
+    plt.plot(x, perfLTF_obj.kde_Nstar_HE07.pdf(x), '--g')
+    plt.gca().xaxis.set_major_locator(plt.MaxNLocator(4))
+    plt.gca().yaxis.set_major_locator(plt.MaxNLocator(3))
+    plt.ylabel('density')
+    plt.xlabel('$N^*$')
+    print('GP-E  kde(Nobs)=',perfLTF_obj.kde_Nstar(perfLTF_obj.N_obs))
+    print('E mle kde(Nobs)=', perfLTF_obj.kde_Nstar_mle(perfLTF_obj.N_obs))
+
+    plt.subplot(2, 1, 2)
+    plt.plot(x_N0, perfLTF_obj.kde_N0_star.pdf(x_N0), 'darkgray', linewidth=2)
+    plt.plot(x_N0, perfLTF_obj.kde_N0_star_mle.pdf(x_N0), 'steelblue', linestyle=':', linewidth=2)
+    plt.gca().xaxis.set_major_locator(plt.MaxNLocator(4))
+    plt.gca().yaxis.set_major_locator(plt.MaxNLocator(3))
+    plt.ylabel('density')
+    plt.xlabel('$N_0^*$ ')
+    plt.show()
+
+    hf4 = plt.figure()
+    plt.plot(perfLTF_obj.loglike_HE07_ref, '.g', label='HE07')
+    plt.plot(perfLTF_obj.loglike_gpetas, '.k', label='GP-E')
+    plt.plot(perfLTF_obj.loglike_mle, '.b', label='E')
+    plt.gca().xaxis.set_major_locator(plt.MaxNLocator(3))
+    plt.gca().yaxis.set_major_locator(plt.MaxNLocator(3))
+    plt.legend(bbox_to_anchor=(1, 1))
+    plt.xlabel('simulation')
+    plt.ylabel('$\\ln \\mathcal{L}$')
+
+    hf5 = plt.figure()
+    hf = plt.hist(perfLTF_obj.loglike_HE07_ref, color='g', bins='auto', density=True, label='HE07')
+    hf = plt.hist(perfLTF_obj.loglike_gpetas, color='k', bins='auto', density=True, label='GP-E')
+    hf = plt.hist(perfLTF_obj.loglike_mle, color='b', bins='auto', density=True, label='E', alpha=0.7)
+    plt.legend(bbox_to_anchor=(1, 1))
+    plt.gca().xaxis.set_major_locator(plt.MaxNLocator(3))
+    plt.gca().yaxis.set_major_locator(plt.MaxNLocator(3))
+    plt.xlabel('$\\ln \\mathcal{L}$')
+    plt.ylabel('density')
+    print('GP-E   :%.1f' % perfLTF_obj.log_E_L_gpetas)
+    print('E mle  :%.1f' % perfLTF_obj.log_E_L_mle)
+    print('HE07   :%.1f' % perfLTF_obj.log_E_L_HE07_ref)
+
+    hf6 = plt.figure(figsize=(20, 8))
+    data_star = None
+    plt.subplot(2, 4, 1)
+    plot_2D_z(z=perfLTF_obj.HE07_mu_x, X_grid_plot=perfLTF_obj.HE07_X_grid, data_star=data_star, clim=clim,
+              show_colorbar=1)
+    plt.subplot(2, 4, 2)
+    plot_2D_z(z=np.mean(perfLTF_obj.mu_res_obj.mu_xprime, axis=0), X_grid_plot=perfLTF_obj.HE07_X_grid,
+              data_star=data_star, clim=clim, show_colorbar=1)
+    plt.subplot(2, 4, 3)
+    plot_2D_z(z=perfLTF_obj.mu_res_obj_mle.mu_xprime, X_grid_plot=perfLTF_obj.HE07_X_grid, data_star=data_star,
+              clim=clim, show_colorbar=1)
+    plt.subplot(2, 4, 4)
+    plot_2D_z(z=perfLTF_obj.mu_res_obj.mu_xprime[len(perfLTF_obj.mu_res_obj.mu_xprime) - 1],
+              X_grid_plot=perfLTF_obj.HE07_X_grid, data_star=data_star, clim=clim, show_colorbar=1)
+    plt.subplot(2, 4, 6)
+    plot_2D_z(z=np.mean(perfLTF_obj.mu_res_obj.mu_x, axis=0), X_grid_plot=perfLTF_obj.mu_res_obj.X_grid,
+              data_star=data_star, clim=clim, show_colorbar=1)
+    plt.subplot(2, 4, 7)
+    plot_2D_z(z=perfLTF_obj.mu_res_obj_mle.mu_x, X_grid_plot=perfLTF_obj.mu_res_obj.X_grid, data_star=data_star,
+              clim=clim, show_colorbar=1)
+    plt.subplot(2, 4, 8)
+    plot_2D_z(z=perfLTF_obj.mu_res_obj.mu_x[len(perfLTF_obj.mu_res_obj.mu_xprime) - 1],
+              X_grid_plot=perfLTF_obj.mu_res_obj.X_grid, data_star=data_star, clim=clim, show_colorbar=1)
+
+    hf7 = plt.figure(figsize=(20, 8))
+    data_star = perfLTF_obj.data_star
+    plt.subplot(2, 4, 1)
+    plot_2D_z(z=perfLTF_obj.HE07_mu_x, X_grid_plot=perfLTF_obj.HE07_X_grid, data_star=data_star, clim=clim,
+              show_colorbar=1)
+    plt.subplot(2, 4, 2)
+    plot_2D_z(z=np.mean(perfLTF_obj.mu_res_obj.mu_xprime, axis=0), X_grid_plot=perfLTF_obj.HE07_X_grid,
+              data_star=data_star, clim=clim, show_colorbar=1)
+    plt.subplot(2, 4, 3)
+    plot_2D_z(z=perfLTF_obj.mu_res_obj_mle.mu_xprime, X_grid_plot=perfLTF_obj.HE07_X_grid, data_star=data_star,
+              clim=clim, show_colorbar=1)
+    plt.subplot(2, 4, 4)
+    plot_2D_z(z=perfLTF_obj.mu_res_obj.mu_xprime[len(perfLTF_obj.mu_res_obj.mu_xprime) - 1],
+              X_grid_plot=perfLTF_obj.HE07_X_grid, data_star=data_star, clim=clim, show_colorbar=1)
+    plt.subplot(2, 4, 6)
+    plot_2D_z(z=np.mean(perfLTF_obj.mu_res_obj.mu_x, axis=0), X_grid_plot=perfLTF_obj.mu_res_obj.X_grid,
+              data_star=data_star, clim=clim, show_colorbar=1)
+    plt.subplot(2, 4, 7)
+    plot_2D_z(z=perfLTF_obj.mu_res_obj_mle.mu_x, X_grid_plot=perfLTF_obj.mu_res_obj.X_grid, data_star=data_star,
+              clim=clim, show_colorbar=1)
+    plt.subplot(2, 4, 8)
+    plot_2D_z(z=perfLTF_obj.mu_res_obj.mu_x[len(perfLTF_obj.mu_res_obj.mu_xprime) - 1],
+              X_grid_plot=perfLTF_obj.mu_res_obj.X_grid, data_star=data_star, clim=clim, show_colorbar=1)
+
+    return hf1, hf2, hf3, hf4, hf5, hf6, hf7
+
+
+def plot_2D_z(z, X_grid_plot=None, data_star=None, clim=None, show_colorbar=None):
+    nbins_plot = int(np.sqrt(len(z)))
+    if X_grid_plot is not None:
+        plt.pcolor(X_grid_plot[:, 0].reshape([nbins_plot, nbins_plot]),
+                   X_grid_plot[:, 1].reshape([nbins_plot, nbins_plot]),
+                   np.log10(z.reshape([nbins_plot, nbins_plot])))
+    else:
+        plt.pcolor(np.log10(z.reshape([nbins_plot, nbins_plot])))
+    if show_colorbar is not None:
+        plt.colorbar(shrink=0.25)
+    if data_star is not None:
+        plt.plot(data_star[:, 2], data_star[:, 3], '.r')  # ,markersize=3)
+    if clim is not None:
+        plt.clim(clim)
+    plt.axis('square')
+    plt.gca().xaxis.set_major_locator(plt.MaxNLocator(2))
+    plt.gca().yaxis.set_major_locator(plt.MaxNLocator(2))
+    return
+
 def get_data_star(save_obj_GS,tau1,tau2):
     data_obj = save_obj_GS['data_obj']
     idx = np.where((data_obj.data_all.times >= tau1) & (data_obj.data_all.times <= tau2))
