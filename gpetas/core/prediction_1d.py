@@ -219,6 +219,7 @@ class performance_LTF_HE07_m495():
         self.case_name = str(save_obj_GS['case_name'])
         self.X_borders = self.save_obj_GS['data_obj'].domain.X_borders
         self.abs_X = np.prod(np.diff(self.X_borders))
+        self.X_grid = save_obj_GS['X_grid']
 
         # mle if given
         self.mle_obj = save_obj_GS
@@ -369,6 +370,7 @@ class performance_LTF_HE07_m0():
         self.case_name = str(save_obj_GS['case_name'])
         self.X_borders = self.save_obj_GS['data_obj'].domain.X_borders
         self.abs_X = np.prod(np.diff(self.X_borders))
+        self.X_grid = save_obj_GS['X_grid']
 
         # mle if given
         self.mle_obj = save_obj_GS
