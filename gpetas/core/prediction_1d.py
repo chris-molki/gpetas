@@ -586,6 +586,7 @@ class resolution_mu_gpetas:
                 mu_xprime = mu * norm_fac
             else:
                 mu_xprime = np.empty([len(sample_idx_vec), len(xprime)]) * np.nan
+                mu_x_arr = np.empty([len(sample_idx_vec), len(X_grid)]) * np.nan
                 for i in range(len(sample_idx_vec)):
                     k = sample_idx_vec[i]
                     mu_gpetas_k = np.copy(save_obj_GS['mu_grid'][int(k)])
@@ -593,6 +594,7 @@ class resolution_mu_gpetas:
                                                           lambda_bar=None, cov_params=None)
                     norm_fac = self.Lprime / self.L * np.sum(mu_gpetas_k)/np.sum(mu)
                     mu_xprime[i, :] = mu*norm_fac
+                    mu_x_arr[i, :] = mu_gpetas_k
         self.mu_xprime = mu_xprime
         self.xprime = xprime
 
@@ -600,8 +602,9 @@ class resolution_mu_gpetas:
         self.Zprime = self.abs_X / self.Lprime * np.sum(self.mu_xprime, axis=1)
         self.mu_xprime_norm = (self.mu_xprime.T / self.Zprime).T
         self.L = len(self.X_grid)
-        self.Z = self.abs_X / self.L * np.sum(save_obj_GS['mu_grid'], axis=1)
-        self.mu_x = np.array(save_obj_GS['mu_grid'])
+        #self.Z = self.abs_X / self.L * np.sum(save_obj_GS['mu_grid'], axis=1)
+        self.Z = self.abs_X / self.L * np.sum(mu_x_arr, axis=1)
+        self.mu_x = mu_x_arr #np.array(save_obj_GS['mu_grid'])
         self.mu_x_norm = (self.mu_x.T / self.Z).T
 
 def new_extract_forecast_original_units(forecast, region, plot_yes=None):
