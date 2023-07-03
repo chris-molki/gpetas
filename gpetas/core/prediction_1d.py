@@ -209,6 +209,9 @@ class performance_LTF_HE07_m495():
                  mle_obj=None, pred_obj_1D_mle=None,
                  data_star=None,
                  abs_T_data_star=None):
+
+        self.abs_T_forecast_ref = 5. * 365.25  # 5yrs CSEP convention
+
         # gpetas
         self.save_obj_GS = save_obj_GS
         self.pred_obj_1D = pred_obj_1D
@@ -264,11 +267,12 @@ class performance_LTF_HE07_m495():
         if abs_T_data_star is None:
             abs_T_data_star = 5 * 365.25  # CSEP forecast window 5yrs
         self.abs_T_data_star = abs_T_data_star
-        self.Nstar = self.pred_obj_1D.N_star_array[:, :, 2].flatten()/self.m0_factor  # N in T and X
-        self.Nstar_mle = self.pred_obj_1D_mle.N_star_array[:, :, 2].flatten()/self.m0_factor
-        self.HE07_Nstar_m0_sim = np.random.poisson(lam=self.HE07_mean_Nstar_m0, size=len(self.Nstar))/self.m0_factor
-        self.N0_star = self.pred_obj_1D.N_star_array[:, :, -1].flatten()/self.m0_factor  # N0star in T and X
-        self.N0_star_mle = self.pred_obj_1D_mle.N_star_array[:, :, -1].flatten()/self.m0_factor # N0star in T and X
+        self.abs_T_fac = self.abs_T_data_star / self.abs_T_forecast_ref
+        self.Nstar = self.pred_obj_1D.N_star_array[:, :, 2].flatten()/self.m0_factor*self.abs_T_fac  # N in T and X
+        self.Nstar_mle = self.pred_obj_1D_mle.N_star_array[:, :, 2].flatten()/self.m0_factor*self.abs_T_fac
+        self.HE07_Nstar_m0_sim = np.random.poisson(lam=self.HE07_mean_Nstar_m0*self.abs_T_fac, size=len(self.Nstar))/self.m0_factor
+        self.N0_star = self.pred_obj_1D.N_star_array[:, :, -1].flatten()/self.m0_factor*self.abs_T_fac  # N0star in T and X
+        self.N0_star_mle = self.pred_obj_1D_mle.N_star_array[:, :, -1].flatten()/self.m0_factor*self.abs_T_fac # N0star in T and X
 
         # mu with m>=m0 forecast
         self.mu_HE07_m0_gpetas = (self.mu_res_obj.mu_xprime_norm.T * self.Nstar).T
