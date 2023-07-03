@@ -19,6 +19,16 @@ output_dir_tables = "output_pred/tables"
 output_dir_figures = "output_pred/figures"
 output_dir_data = "output_pred/data"
 
+def init_outdir():
+    if not os.path.isdir(output_dir):
+        os.mkdir(output_dir)
+    if not os.path.isdir(output_dir_tables):
+        os.mkdir(output_dir_tables)
+    if not os.path.isdir(output_dir_figures):
+        os.mkdir(output_dir_figures)
+    if not os.path.isdir(output_dir_data):
+        os.mkdir(output_dir_data)
+
 
 # bock/enable print()
 # Disable
@@ -160,17 +170,6 @@ class setup_sequential_pred():
         pickle.dump(self, file)
         file.close()
         print('setup_obj has been created and saved:', fname_setup_obj)
-
-
-def init_outdir():
-    if not os.path.isdir(output_dir):
-        os.mkdir(output_dir)
-    if not os.path.isdir(output_dir_tables):
-        os.mkdir(output_dir_tables)
-    if not os.path.isdir(output_dir_figures):
-        os.mkdir(output_dir_figures)
-    if not os.path.isdir(output_dir_data):
-        os.mkdir(output_dir_data)
 
 
 # stability issues

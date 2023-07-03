@@ -11,10 +11,21 @@ import matplotlib.pyplot as plt
 
 # some globals
 time_format = "%Y-%m-%d %H:%M:%S.%f"
-output_dir = "output_pred"
-output_dir_tables = "output_pred/tables"
-output_dir_figures = "output_pred/figures"
-output_dir_data = "output_pred/data"
+output_dir = "output_LTF"
+output_dir_tables = "output_LTF/tables"
+output_dir_figures = "output_LTF/figures"
+output_dir_data = "output_LTF/data"
+
+def init_outdir():
+    if not os.path.isdir(output_dir):
+        os.mkdir(output_dir)
+    if not os.path.isdir(output_dir_tables):
+        os.mkdir(output_dir_tables)
+    if not os.path.isdir(output_dir_figures):
+        os.mkdir(output_dir_figures)
+    if not os.path.isdir(output_dir_data):
+        os.mkdir(output_dir_data)
+
 
 
 class performance_LTF_HE07():
