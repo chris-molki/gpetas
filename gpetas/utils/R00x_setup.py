@@ -200,6 +200,16 @@ class R00x_california_set_domain:
             [x_low, y_low],
             [x_low, y_up]])
 
+        # R007a frame (Lake Tahoe, Yosimity)
+        x_low, x_up = -120.5, -118.5
+        y_low, y_up = 37., 39.
+        self.polygon_R007a = np.array([
+            [x_low, y_up],
+            [x_up, y_up],
+            [x_up, y_low],
+            [x_low, y_low],
+            [x_low, y_up]])
+
         # TOTAL CA test area (HE07)
         xlon_min_H07 = -126.35
         xlon_max_H07 = -112.15
