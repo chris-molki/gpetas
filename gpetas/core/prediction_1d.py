@@ -391,7 +391,7 @@ class performance_LTF_HE07_m0():
                  sample_idx_vec=None,
                  mle_obj=None, pred_obj_1D_mle=None,
                  data_star=None,
-                 abs_T_data_star=None):
+                 abs_T_data_star=None,m_beta_scaling=None):
 
         self.abs_T_forecast_ref = 5. * 365.25  # 5yrs CSEP convention
 
@@ -422,7 +422,11 @@ class performance_LTF_HE07_m0():
         self.HE07_mu_x_ua_m495 = self.HE07_mu_x_per_0p1x0p1deg_m495 / (0.1 ** 2.)  # adjusting per unit area 'ua'
         self.m_beta = save_obj_GS['setup_obj'].m_beta
         self.m0 = self.save_obj_GS['data_obj'].domain.m0
-        self.m0_factor = np.exp(self.m_beta * (4.95 - self.m0))
+        if m_beta_scaling is None:
+            self.m_beta_scaling = self.m_beta
+        else:
+            self.m_beta_scaling = m_beta_scaling
+        self.m0_factor = np.exp(self.m_beta_scaling * (4.95 - self.m0))
         self.HE07_mean_Nstar_m0 = np.sum(self.HE07_mu_x_per_0p1x0p1deg_m495) * self.m0_factor
         self.HE07_mu_x_ua_m0 = self.HE07_mu_x_ua_m495 * self.m0_factor
         self.HE07_mu_x_per_0p1x0p1deg_m0 = self.HE07_mu_x_ua_m0 * (0.1) ** 2.
