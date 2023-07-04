@@ -210,6 +210,26 @@ class R00x_california_set_domain:
             [x_low, y_low],
             [x_low, y_up]])
 
+        # R008 frame (Sequoia National Park)
+        x_low, x_up = -119.5, -117.5
+        y_low, y_up = 35.5, 37.5
+        self.polygon_R008 = np.array([
+            [x_low, y_up],
+            [x_up, y_up],
+            [x_up, y_low],
+            [x_low, y_low],
+            [x_low, y_up]])
+
+        # R009 frame (Ridgecrest)
+        x_low, x_up = -119., -117.
+        y_low, y_up = 35., 37.
+        self.polygon_R009 = np.array([
+            [x_low, y_up],
+            [x_up, y_up],
+            [x_up, y_low],
+            [x_low, y_low],
+            [x_low, y_up]])
+
         # TOTAL CA test area (HE07)
         xlon_min_H07 = -126.35
         xlon_max_H07 = -112.15
