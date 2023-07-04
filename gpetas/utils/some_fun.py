@@ -628,6 +628,7 @@ class create_data_obj_from_cat_file():
 
     def __init__(self, fname, X_borders=None, T_borders_all=None, T_borders_training=None, utm_yes=None,
                  T_borders_test=None, m0=None, outdir=None, case_name='case_01', time_origin=None,
+                 time_end=None,
                  domain_obj=None, flatmap_proj='yes', map_units='degree'):
         """
         :param fname:
@@ -670,6 +671,7 @@ class create_data_obj_from_cat_file():
         self.case_name = case_name
         self.domain = dom()
         self.domain.time_origin = time_origin
+        self.domain.time_end = time_end
         self.data_all = obs()
         self.utm_yes = utm_yes
 
@@ -1181,6 +1183,7 @@ class dom():
         self.X_borders_original = None
         self.m0 = None
         self.time_origin = None
+        self.time_end = None
 
 
 class obs():

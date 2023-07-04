@@ -27,6 +27,7 @@ def data_obj__from_catalog_obj(catalog_obj, R_obj, m_min=None, fname_ixymt=None,
     init_outdir()
     catalog = catalog_obj
     time_origin = R_obj.time_origin
+    time_end = R_obj.time_end
     X_borders = R_obj.X_borders
     T_borders_all = R_obj.T_borders_all
     T_borders_training = R_obj.T_borders_training
@@ -129,7 +130,8 @@ def data_obj__from_catalog_obj(catalog_obj, R_obj, m_min=None, fname_ixymt=None,
                                                              m0=m_min,
                                                              outdir=outdir,
                                                              case_name=case_name,
-                                                             time_origin=time_origin)
+                                                             time_origin=time_origin,
+                                                             time_end=time_end)
 
     return data_obj
 
