@@ -1351,7 +1351,8 @@ def plot_intensity_2d(intensity_grid, X_grid=None,
 
 
 def plot_setting(data_obj=None, save_obj_GS=None, test_data_blue=None, gm_obj=None, show_datasets='Yes',
-                 show_domain=None, pos_xy_text_star=None, show_training_data_only=None):
+                 show_domain=None, pos_xy_text_star=None, show_training_data_only=None,
+                  plot_lon_lat=None):
     """
     :param data_obj: type data from get_data in data_utils
     :param show_domain: shows X domain borders, default = None
@@ -1359,6 +1360,7 @@ def plot_setting(data_obj=None, save_obj_GS=None, test_data_blue=None, gm_obj=No
     """
     if data_obj is None:
         data_obj = save_obj_GS['data_obj']
+
     # plot definitions
     pSIZE = 30
     plt.rc('font', size=pSIZE)
@@ -1370,7 +1372,10 @@ def plot_setting(data_obj=None, save_obj_GS=None, test_data_blue=None, gm_obj=No
 
     hf1 = plt.figure(figsize=(10, 10))
     plt.tight_layout()
-    plt.plot(data_obj.data_all.positions[:, 0], data_obj.data_all.positions[:, 1], 'k.', markersize=5)
+    if plot_lon_lat is not None:
+        plt.plot(data_obj.data_all.positions_lon_lat[:, 0], data_obj.data_all.positions_lon_lat[:, 1], 'k.', markersize=5)
+    else:
+        plt.plot(data_obj.data_all.positions[:, 0], data_obj.data_all.positions[:, 1], 'k.', markersize=5)
     ax = plt.gca()
     ax.tick_params(direction='out', left=True, right=True, top=True, bottom=True)
     if test_data_blue == 1:
@@ -1382,6 +1387,9 @@ def plot_setting(data_obj=None, save_obj_GS=None, test_data_blue=None, gm_obj=No
         plt.axhline(data_obj.domain.X_borders[1, 1], color=color_string)
     xticks = np.round(np.linspace(data_obj.domain.X_borders[0, 0], data_obj.domain.X_borders[0, 1], 3), 3)
     yticks = np.round(np.linspace(data_obj.domain.X_borders[1, 0], data_obj.domain.X_borders[1, 1], 3), 3)
+    if plot_lon_lat is not None:
+        xticks = np.round(np.linspace(data_obj.domain.X_borders_lon_lat[0, 0], data_obj.domain.X_borders_lon_lat[0, 1], 3), 3)
+        yticks = np.round(np.linspace(data_obj.domain.X_borders_lon_lat[1, 0], data_obj.domain.X_borders_lon_lat[1, 1], 3), 3)
     plt.xticks(xticks)
     plt.yticks(yticks)
     ax.set_yticklabels(('', yticks[1], yticks[2]))
@@ -1391,8 +1399,12 @@ def plot_setting(data_obj=None, save_obj_GS=None, test_data_blue=None, gm_obj=No
     ax = plt.gca()
     ax.tick_params(direction='out', left=True, right=True, top=True, bottom=True)
     plt.axis('square')
-    plt.xlim(data_obj.domain.X_borders[0, :])
-    plt.ylim(data_obj.domain.X_borders[1, :])
+    if plot_lon_lat is not None:
+        plt.xlim(data_obj.domain.X_borders_lon_lat[0, :])
+        plt.ylim(data_obj.domain.X_borders_lon_lat[1, :])
+    else:
+        plt.xlim(data_obj.domain.X_borders[0, :])
+        plt.ylim(data_obj.domain.X_borders[1, :])
 
     if data_obj.domain.X_borders_UTM_km is not None:
         hf1a = plt.figure(figsize=(10, 10))
@@ -1477,7 +1489,10 @@ def plot_setting(data_obj=None, save_obj_GS=None, test_data_blue=None, gm_obj=No
         hf3 = plt.figure(figsize=(10, 10))
         plt.tight_layout()
         idx = np.copy(data_obj.idx_training)
-        plt.plot(data_obj.data_all.positions[idx, 0], data_obj.data_all.positions[idx, 1], 'k.', markersize=5)
+        if plot_lon_lat is not None:
+            plt.plot(data_obj.data_all.positions_lon_lat[idx, 0], data_obj.data_all.positions_lon_lat[idx, 1], 'k.', markersize=5)
+        else:
+            plt.plot(data_obj.data_all.positions[idx, 0], data_obj.data_all.positions[idx, 1], 'k.', markersize=5)
         ax = plt.gca()
         ax.tick_params(direction='out', left=True, right=True, top=True, bottom=True)
         if show_domain is not None:
@@ -1487,6 +1502,9 @@ def plot_setting(data_obj=None, save_obj_GS=None, test_data_blue=None, gm_obj=No
             plt.axhline(data_obj.domain.X_borders[1, 1], color=color_string)
         xticks = np.round(np.linspace(data_obj.domain.X_borders[0, 0], data_obj.domain.X_borders[0, 1], 3), 3)
         yticks = np.round(np.linspace(data_obj.domain.X_borders[1, 0], data_obj.domain.X_borders[1, 1], 3), 3)
+        if plot_lon_lat is not None:
+            xticks = np.round(np.linspace(data_obj.domain.X_borders_lon_lat[0, 0], data_obj.domain.X_borders_lon_lat[0, 1], 3), 3)
+            yticks = np.round(np.linspace(data_obj.domain.X_borders_lon_lat[1, 0], data_obj.domain.X_borders_lon_lat[1, 1], 3), 3)
         plt.xticks(xticks)
         plt.yticks(yticks)
         ax.set_yticklabels(('', yticks[1], yticks[2]))
@@ -1498,11 +1516,17 @@ def plot_setting(data_obj=None, save_obj_GS=None, test_data_blue=None, gm_obj=No
         plt.axis('square')
         plt.xlim(data_obj.domain.X_borders[0, :])
         plt.ylim(data_obj.domain.X_borders[1, :])
+        if plot_lon_lat is not None:
+            plt.xlim(data_obj.domain.X_borders_lon_lat[0, :])
+            plt.ylim(data_obj.domain.X_borders_lon_lat[1, :])
 
         hf4 = plt.figure(figsize=(10, 10))
         plt.tight_layout()
         idx = np.copy(idx_test)
-        plt.plot(data_obj.data_all.positions[idx, 0], data_obj.data_all.positions[idx, 1], 'k.', markersize=5)
+        if plot_lon_lat is not None:
+            plt.plot(data_obj.data_all.positions_lon_lat[idx, 0], data_obj.data_all.positions_lon_lat[idx, 1], 'k.', markersize=5)
+        else:
+            plt.plot(data_obj.data_all.positions[idx, 0], data_obj.data_all.positions[idx, 1], 'k.', markersize=5)
         ax = plt.gca()
         ax.tick_params(direction='out', left=True, right=True, top=True, bottom=True)
         if show_domain is not None:
@@ -1512,6 +1536,9 @@ def plot_setting(data_obj=None, save_obj_GS=None, test_data_blue=None, gm_obj=No
             plt.axhline(data_obj.domain.X_borders[1, 1], color=color_string)
         xticks = np.round(np.linspace(data_obj.domain.X_borders[0, 0], data_obj.domain.X_borders[0, 1], 3), 3)
         yticks = np.round(np.linspace(data_obj.domain.X_borders[1, 0], data_obj.domain.X_borders[1, 1], 3), 3)
+        if plot_lon_lat is not None:
+            xticks = np.round(np.linspace(data_obj.domain.X_borders_lon_lat[0, 0], data_obj.domain.X_borders_lon_lat[0, 1], 3), 3)
+            yticks = np.round(np.linspace(data_obj.domain.X_borders_lon_lat[1, 0], data_obj.domain.X_borders_lon_lat[1, 1], 3), 3)
         plt.xticks(xticks)
         plt.yticks(yticks)
         ax.set_yticklabels(('', yticks[1], yticks[2]))
@@ -1523,6 +1550,9 @@ def plot_setting(data_obj=None, save_obj_GS=None, test_data_blue=None, gm_obj=No
         plt.axis('square')
         plt.xlim(data_obj.domain.X_borders[0, :])
         plt.ylim(data_obj.domain.X_borders[1, :])
+        if plot_lon_lat is not None:
+            plt.xlim(data_obj.domain.X_borders_lon_lat[0, :])
+            plt.ylim(data_obj.domain.X_borders_lon_lat[1, :])
 
     hf5 = None
     if show_training_data_only is not None:
