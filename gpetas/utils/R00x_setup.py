@@ -46,7 +46,7 @@ class R00x_california_set_domain:
         self.time_origin = time_origin
         self.t1_time_end_training = time_end_training
         self.t2_time_end_total = time_end_total
-        self.list_regions_of_interest=['R002a','R002b','R002c','R002d','R005','R006','R007a']
+        self.list_regions_of_interest = ['R002a', 'R002b', 'R002c', 'R002d', 'R002e', 'R005', 'R006', 'R007a', 'R008']
 
         # info: Helmstetter 2007 paper
         m1 = 'Helmstetter, 2007: SRL \n ' \
@@ -57,7 +57,7 @@ class R00x_california_set_domain:
         m2 = 'We use earthquakes of M ≥ 2 in the Advanced National Seismic System (ANSS) catalog,\n in the time period from 1 January 1981 to 23 August 2005. We selected earthquakes\n within a rectangu- lar area 30.55° < latitude < 43.95° and –126.35° < longitude < –112.15°,\n larger by 1° than the RELM testing area, to avoid finite region size effects.\n'
         m3 = 'Our final model (our forecast for the next five years) is model #21 in table 1, \n , which uses all available data.\n Model #21 in table 1 uses all the available input data, from 1 January 1981 to 23 August 2005\n'
         m4 = 'The resulting declustered catalog has 81,659 “indepen- dent events” \n (“mainshocks” and “background events”), and 75,545 “dependent events” \n (“foreshocks” and “aftershocks”). The parameters of the declustering algorithm \n were adjusted to remove large fluctuations of seismic activity in space and time.\n'
-        #print(m1, m2, m3, m4)
+        # print(m1, m2, m3, m4)
 
     def get_region(self, region_string, time_origin=None, time_end_training=None, time_end_total=None, bins_Xgrid=None):
         region_obj = region_class()
@@ -152,8 +152,8 @@ class R00x_california_set_domain:
             [x_low, y_up]])
 
         # R002c frame (Landers, Hector Mine, Ridgecrest) 2.5 x 2.5 degrees
-        #x_low, x_up = -118.25, -115.75
-        #y_low, y_up = 33.75, 36.25
+        # x_low, x_up = -118.25, -115.75
+        # y_low, y_up = 33.75, 36.25
         x_low, x_up = -118.3, -115.7
         y_low, y_up = 33.7, 36.3
         self.polygon_R002c = np.array([
@@ -167,6 +167,16 @@ class R00x_california_set_domain:
         x_low, x_up = -118.5, -116.5
         y_low, y_up = 34.5, 36.5
         self.polygon_R002d = np.array([
+            [x_low, y_up],
+            [x_up, y_up],
+            [x_up, y_low],
+            [x_low, y_low],
+            [x_low, y_up]])
+
+        # R002e frame (Ridgecrest)
+        x_low, x_up = -119., -117.
+        y_low, y_up = 35., 37.
+        self.polygon_R002e = np.array([
             [x_low, y_up],
             [x_up, y_up],
             [x_up, y_low],
@@ -217,16 +227,6 @@ class R00x_california_set_domain:
         x_low, x_up = -119.5, -117.5
         y_low, y_up = 35.5, 37.5
         self.polygon_R008 = np.array([
-            [x_low, y_up],
-            [x_up, y_up],
-            [x_up, y_low],
-            [x_low, y_low],
-            [x_low, y_up]])
-
-        # R009 frame (Ridgecrest)
-        x_low, x_up = -119., -117.
-        y_low, y_up = 35., 37.
-        self.polygon_R009 = np.array([
             [x_low, y_up],
             [x_up, y_up],
             [x_up, y_low],
