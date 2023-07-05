@@ -170,7 +170,7 @@ def plot_priors_offspring(save_obj_GS):
 
 
 def plot_l_ltest(save_obj_GS, mle_obj=None, mle_obj_silverman=None, t1=None, t2=None, idx_samples=None,
-                 method_posterior_GP=None, table_yes=None):
+                 method_posterior_GP=None, table_yes=None, fout_table_dir=None):
     '''
     Plots test likelihood for test data.
     :param save_obj_GS:
@@ -324,7 +324,7 @@ def plot_l_ltest(save_obj_GS, mle_obj=None, mle_obj_silverman=None, t1=None, t2=
                                                      l_test_kde_default=np.array(
                                                          [l_mle_training.lnl_value, l_mle_testing.lnl_value]),
                                                      l_test_kde_silverman=None,
-                                                     fout_dir=None, idx_samples=idx_samples)
+                                                     fout_dir=fout_table_dir, idx_samples=idx_samples)
 
     return h1, h2
 

@@ -8,7 +8,7 @@ class summary_gpetas():
     " Gives plots and summary tables of GP-ETAS inference"
 
     def __init__(self, save_obj_GS, gm_obj=None, mle_obj=None, mle_obj_silverman=None, fout_dir=None,
-                 case_name=None,ltest_plot='yes'):
+                 case_name=None,ltest_plot='yes',fout_table_dir=None):
 
         # data structures
         data_obj = save_obj_GS['data_obj']
@@ -205,7 +205,7 @@ class summary_gpetas():
 
         # (10) ltest plot
         h1, h2 = gpetas.plotting.plot_l_ltest(save_obj_GS=save_obj_GS,mle_obj=mle_obj,mle_obj_silverman=mle_obj_silverman,
-                                              method_posterior_GP='nearest',table_yes='yes')
+                                              method_posterior_GP='nearest',table_yes='yes',fout_table_dir=save_obj_GS['setup_obj'].outdir)
         h1.savefig(out_dir + '/%s_F10_l_ltest01.pdf' % data_obj.case_name, bbox_inches='tight')
         h2.savefig(out_dir + '/%s_F10b_l_ltest02.pdf' % data_obj.case_name, bbox_inches='tight')
 
