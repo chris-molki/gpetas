@@ -151,8 +151,10 @@ class R00x_california_set_domain:
             [x_low, y_up]])
 
         # R002c frame (Landers, Hector Mine, Ridgecrest) 2.5 x 2.5 degrees
-        x_low, x_up = -118.25, -115.75
-        y_low, y_up = 33.75, 36.25
+        #x_low, x_up = -118.25, -115.75
+        #y_low, y_up = 33.75, 36.25
+        x_low, x_up = -118.3, -115.7
+        y_low, y_up = 33.7, 36.3
         self.polygon_R002c = np.array([
             [x_low, y_up],
             [x_up, y_up],
