@@ -46,7 +46,7 @@ class R00x_california_set_domain:
         self.time_origin = time_origin
         self.t1_time_end_training = time_end_training
         self.t2_time_end_total = time_end_total
-        #self.list_regions_of_interest = ['R002a', 'R002b', 'R002c', 'R002d', 'R002e', 'R005', 'R006', 'R007a', 'R008']
+        self.list_regions_of_interest = ['R002a', 'R002b', 'R002c', 'R002d', 'R002e', 'R005', 'R006', 'R007a', 'R008']
 
         # info: Helmstetter 2007 paper
         m1 = 'Helmstetter, 2007: SRL \n ' \
