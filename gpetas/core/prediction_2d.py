@@ -2349,7 +2349,7 @@ def pred_summary(save_obj_pred=None, save_obj_pred_mle=None, save_obj_pred_mle_s
 
 
 def plot_pred_seq_forecast_updated(pred_seq, mle_only=None, gpetas_only=None,
-                                   quantile=None, ylim=None, NB_fit=None, yscale=None,
+                                   quantile=None, ylim=None, xlim=None, NB_fit=None, yscale=None,
                                    markersize=None):
     if quantile is None:
         quantile = 0.05
@@ -2417,6 +2417,8 @@ def plot_pred_seq_forecast_updated(pred_seq, mle_only=None, gpetas_only=None,
     plt.ylabel('N')
     if ylim is not None:
         plt.ylim(ylim)
+    if xlim is not None:
+        plt.xlim(xlim)
 
     print(Ksim)
 
@@ -2480,8 +2482,10 @@ def plot_pred_seq_forecast_updated(pred_seq, mle_only=None, gpetas_only=None,
         plt.ylabel('N')
         if ylim is not None:
             plt.ylim(ylim)
+        if xlim is not None:
+            plt.xlim(xlim)
 
-        return h1, n_vec, p_vec, n_vec_mle, p_vec_mle
+    return h1, n_vec, p_vec, n_vec_mle, p_vec_mle
 
 
 # write report
