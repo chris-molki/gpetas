@@ -2351,6 +2351,11 @@ def pred_summary(save_obj_pred=None, save_obj_pred_mle=None, save_obj_pred_mle_s
 def plot_pred_seq_forecast_updated(pred_seq, mle_only=None, gpetas_only=None,
                                    quantile=None, ylim=None, xlim=None, NB_fit=None, yscale=None,
                                    markersize=None):
+    # plot definitions
+    pSIZE = 20
+    plt.rc('font', size=pSIZE)
+    plt.rc('axes', titlesize=pSIZE)
+
     if quantile is None:
         quantile = 0.05
     if yscale is None:
