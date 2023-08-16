@@ -2350,7 +2350,7 @@ def pred_summary(save_obj_pred=None, save_obj_pred_mle=None, save_obj_pred_mle_s
 
 def plot_pred_seq_forecast_updated(pred_seq, mle_only=None, gpetas_only=None,
                                    quantile=None, ylim=None, xlim=None, NB_fit=None, yscale=None,
-                                   markersize=None):
+                                   markersize=None,plot_median=None):
     # plot definitions
     pSIZE = 20
     plt.rc('font', size=pSIZE)
@@ -2374,7 +2374,10 @@ def plot_pred_seq_forecast_updated(pred_seq, mle_only=None, gpetas_only=None,
     h1 = plt.figure(figsize=[15, 5])
 
     if mle_only is None or gpetas_only is not None:
-        plt.plot(t, np.mean(N_t_array, axis=1), 'k')
+        if plot_median is not None:
+            plt.plot(t, np.median(N_t_array, axis=1), 'k')
+        else:
+            plt.plot(t, np.mean(N_t_array, axis=1), 'k')
         plt.fill_between(t, y1=np.quantile(N_t_array, q=quantile, axis=1),
                          y2=np.quantile(N_t_array, q=1. - quantile, axis=1),
                          color='lightgrey',
@@ -2382,7 +2385,10 @@ def plot_pred_seq_forecast_updated(pred_seq, mle_only=None, gpetas_only=None,
         # plt.plot(t,np.quantile(N_t_array,q=quantile,axis=1),':k')
         # plt.plot(t,np.quantile(N_t_array,q=1.-quantile,axis=1),':k')
     if pred_seq.mle_obj is not None and gpetas_only is None:
-        plt.plot(t, np.mean(pred_seq.N_t_array_mle, axis=1), '--b', linewidth=1)
+        if plot_median is not None:
+            plt.plot(t, np.median(pred_seq.N_t_array_mle, axis=1), '--b', linewidth=1)
+        else:
+            plt.plot(t, np.mean(pred_seq.N_t_array_mle, axis=1), '--b', linewidth=1)
         plt.plot(t, np.quantile(pred_seq.N_t_array_mle, q=quantile, axis=1), ':b', linewidth=1)
         plt.plot(t, np.quantile(pred_seq.N_t_array_mle, q=1. - quantile, axis=1), ':b', linewidth=1)
         if mle_only is not None:
@@ -2455,7 +2461,10 @@ def plot_pred_seq_forecast_updated(pred_seq, mle_only=None, gpetas_only=None,
 
         # plots
         if mle_only is None or gpetas_only is not None:
-            plt.plot(t, np.mean(N_t_array, axis=1), 'k')
+            if plot_median is not None:
+                plt.plot(t, np.median(N_t_array, axis=1), 'k')
+            else:
+                plt.plot(t, np.mean(N_t_array, axis=1), 'k')
             plt.fill_between(t, y1=np.quantile(N_t_array, q=quantile, axis=1),
                              y2=np.quantile(N_t_array, q=1. - quantile, axis=1),
                              color='lightgrey',
@@ -2466,7 +2475,10 @@ def plot_pred_seq_forecast_updated(pred_seq, mle_only=None, gpetas_only=None,
             plt.plot(t, q_down, ':k', linewidth=1)
 
         if pred_seq.mle_obj is not None and gpetas_only is None:
-            plt.plot(t, np.mean(pred_seq.N_t_array_mle, axis=1), '--b', linewidth=1)
+            if plot_median is not None:
+                plt.plot(t, np.median(pred_seq.N_t_array_mle, axis=1), '--b', linewidth=1)
+            else:
+                plt.plot(t, np.mean(pred_seq.N_t_array_mle, axis=1), '--b', linewidth=1)
             plt.plot(t, np.quantile(pred_seq.N_t_array_mle, q=quantile, axis=1), ':b', linewidth=1)
             plt.plot(t, np.quantile(pred_seq.N_t_array_mle, q=1. - quantile, axis=1), ':b', linewidth=1)
             if mle_only is not None:
