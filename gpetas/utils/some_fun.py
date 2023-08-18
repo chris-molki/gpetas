@@ -40,7 +40,7 @@ def NB_n_p_methods_of_moments(data):
 
     return n_hat, p_hat
 
-def lonlat2xy(lon,lat,X_borders=None):
+def lonlat2xy_short(lon,lat,X_borders=None):
     """
     Converts lon, lat to x,y (flatmap in degrees)
     :param lon:
