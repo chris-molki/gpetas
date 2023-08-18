@@ -40,6 +40,34 @@ def NB_n_p_methods_of_moments(data):
 
     return n_hat, p_hat
 
+def lonlat2xy(lon,lat,X_borders=None):
+    """
+    Converts lon, lat to x,y (flatmap in degrees)
+    :param lon:
+    :type lon:
+    :param lat:
+    :type lat:
+    :return:
+    :rtype:
+    """
+    # Get reference lon, lat
+    ref_lon = X_borders[0, 0] + np.diff(X_borders[0, :]) / 2.
+    ref_lat = X_borders[1, 0] + np.diff(X_borders[1, :]) / 2.
+
+    # Transformation
+    x = (lon - ref_lon) * np.cos(np.radians(ref_lat))
+    y = lat - ref_lat
+
+    # Transformation of the bounds of the X domain
+    lon = X_borders[0, :]
+    lat = X_borders[1, :]
+    x_X_borders = (lon - ref_lon) * np.cos(np.radians(ref_lat))
+    y_X_borders = lat - ref_lat
+    X_borders_proj = np.array([[x_X_borders[0], x_X_borders[1]], [y_X_borders[0], y_X_borders[1]]])
+
+    return x, y, X_borders_proj
+
+
 def lonlat2xy_flatmap(data_obj):
     """
     Converts longitude latitude (spherical coordinates) onto flat map with planar x,y coordinates: Rectangular projection
