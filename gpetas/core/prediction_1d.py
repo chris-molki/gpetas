@@ -481,8 +481,8 @@ class performance_LTF_HE07_m0():
 
         # test data
         if data_star is None:
-            tau1 = pred_obj_1D.tau1
-            tau2 = pred_obj_1D.tau2
+            tau1 = pred_obj_1D.tau1 # todo might be wrong times
+            tau2 = pred_obj_1D.tau2 # todo
             data_obj = self.save_obj_GS['data_obj']
             idx = np.where((data_obj.data_all.times >= tau1) & (data_obj.data_all.times <= tau2))
             data_star = np.empty([len(data_obj.data_all.times[idx]), 4])
