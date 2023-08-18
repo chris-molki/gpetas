@@ -819,6 +819,12 @@ def mu_xprime_interpol(xprime, mu_grid, X_grid, X_borders, method=None, print_me
     if method == 'nearest':
         mu_xprime = griddata(points=X_grid, values=mu_grid.reshape(-1),
                              xi=xprime, method='nearest', fill_value=np.nan, rescale=False)
+        # Assign np.nan to points outside the convex hull
+        x = X_grid[:, 0]
+        y = X_grid[:, 1]
+        xi = xprime[:, 0]
+        yi = xprime[:, 1]
+        mu_xprime[(xi < min(x)) | (xi > max(x)) | (yi < min(y)) | (yi > max(y))] = np.nan
 
     if method == 'grid_approx':
         mu_xprime = get_grid_data_for_a_point(mu_grid.flatten(), xprime, X_borders=X_borders)
@@ -851,6 +857,12 @@ def mu_xprime_gpetas(xprime, mu_grid, X_grid, X_borders, method=None, lambda_bar
     if method == 'nearest':
         mu_xprime = griddata(points=X_grid, values=mu_grid.reshape(-1),
                              xi=xprime, method='nearest', fill_value=np.nan, rescale=False)
+        # Assign np.nan to points outside the convex hull
+        x = X_grid[:, 0]
+        y = X_grid[:, 1]
+        xi = xprime[:, 0]
+        yi = xprime[:, 1]
+        mu_xprime[(xi < min(x)) | (xi > max(x)) | (yi < min(y)) | (yi > max(y))] = np.nan
 
     if method == 'grid_approx':
         mu_xprime = get_grid_data_for_a_point(mu_grid.flatten(), xprime, X_borders=X_borders)
