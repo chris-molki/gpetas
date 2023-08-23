@@ -251,7 +251,8 @@ class performance_LTF_HE07_m495():
         self.X_grid = save_obj_GS['X_grid']
 
         # mle if given
-        self.mle_obj = save_obj_GS
+        #self.mle_obj = save_obj_GS
+        self.mle_obj = mle_obj
         self.pred_obj_1D_mle = pred_obj_1D_mle
 
         # Extract HE07 for region X
@@ -404,7 +405,8 @@ class performance_LTF_HE07_m0():
         self.X_grid = save_obj_GS['X_grid']
 
         # mle if given
-        self.mle_obj = save_obj_GS
+        #self.mle_obj = save_obj_GS
+        self.mle_obj = mle_obj
         self.pred_obj_1D_mle = pred_obj_1D_mle
 
         # Extract HE07 for region X
