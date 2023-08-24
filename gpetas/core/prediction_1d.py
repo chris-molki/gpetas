@@ -601,8 +601,18 @@ class resolution_mu_gpetas:
         self.sample_idx_vec = sample_idx_vec
         if X_grid_prime is None:
             self.Lprime = np.copy(self.L)
-            xprime = X_borders
-            mu_xprime = np.copy(save_obj_GS['mu_grid'])
+            xprime = X_grid
+            mu_xprime = np.empty([len(sample_idx_vec), len(xprime)]) * np.nan
+            mu_x_arr = np.empty([len(sample_idx_vec), len(X_grid)]) * np.nan
+            for i in range(len(sample_idx_vec)):
+                k = sample_idx_vec[i]
+                mu_gpetas_k = np.copy(save_obj_GS['mu_grid'][int(k)])
+                mu = gpetas.some_fun.mu_xprime_gpetas(xprime, mu_gpetas_k, X_grid, X_borders, method=None,
+                                                      lambda_bar=None, cov_params=None)
+                norm_fac = self.Lprime / self.L * np.sum(mu_gpetas_k) / np.sum(mu)
+                mu_xprime[i, :] = mu * norm_fac
+                mu_x_arr[i, :] = mu_gpetas_k
+            #mu_xprime = np.copy(save_obj_GS['mu_grid'])
             print('No new resolution: same output mu as input mu')
         else:
             self.Lprime = len(X_grid_prime)
