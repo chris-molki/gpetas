@@ -460,6 +460,7 @@ class performance_LTF_HE07_m0():
         self.abs_T_data_star = abs_T_data_star
         self.abs_T_fac = self.abs_T_data_star / self.abs_T_forecast_ref
         self.Nstar = self.pred_obj_1D.N_star_array[:, :, 2].flatten() * self.abs_T_fac  # N in T and X
+        self.sample_idx_vec_all_sim = self.pred_obj_1D.N_star_array[:, :, 3].flatten()
         self.Nstar_mle = self.pred_obj_1D_mle.N_star_array[:, :, 2].flatten() * self.abs_T_fac
         self.HE07_Nstar_m0_sim = np.random.poisson(lam=self.HE07_mean_Nstar_m0 * self.abs_T_fac, size=len(self.Nstar))
         self.N0_star = self.pred_obj_1D.N_star_array[:, :, -1].flatten() * self.abs_T_fac  # N0star in T and X
@@ -916,6 +917,7 @@ class predictions_1d:
             sys.stdout.flush()
 
         self.N_star_array = N_star_array
+        self.sample_idx_vec_ksim_all = self.N_star_array[:, :, 3].flatten()
 
         # save simulations
         init_outdir()
