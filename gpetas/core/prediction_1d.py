@@ -312,7 +312,8 @@ class performance_LTF_HE07_m495():
                            -1].flatten() / self.m0_factor * self.abs_T_fac  # N0star in T and X
 
         # mu with m>=m0 forecast
-        self.mu_HE07_m0_gpetas = (self.mu_res_obj.mu_xprime_norm.T * self.Nstar).T
+        #self.mu_HE07_m0_gpetas = (self.mu_res_obj.mu_xprime_norm.T * self.Nstar).T
+        self.mu_HE07_m0_gpetas = (np.tile(self.mu_res_obj.mu_xprime_norm, (pred_obj_1D.Ksim_per_sample, 1)).T * self.Nstar).T
         self.mu_HE07_m0_mle = (np.reshape(self.mu_res_obj_mle.mu_xprime_norm, [-1, 1]) * self.Nstar_mle).T
         self.mu_HE07_m0_sim_ref = ((np.reshape(self.HE07_mu_x_ua_m0_xprime_norm, [-1, 1])) * self.HE07_Nstar_m0_sim).T
 
@@ -876,6 +877,8 @@ class predictions_1d:
         # forecast time window
         self.tau1 = tau1
         self.tau2 = tau2
+        self.absT_star = tau2-tau1
+        self.absT_HE07 = 5.*365.25
 
         # considered history H_tau1
         if tau0_Ht is None:
@@ -913,6 +916,9 @@ class predictions_1d:
                 mu = np.copy(bg_events)
                 N_0_Tstar = len(mu)
                 N_star_array[k_sim, k_sample, :3] = simulation(self, mu, theta_off)
+                N_star_array[k_sim, k_sample, 0] = N_star_array[k_sim, k_sample, 0]*self.absT_HE07/self.absT_star
+                N_star_array[k_sim, k_sample, 1] = N_star_array[k_sim, k_sample, 1]*self.absT_HE07/self.absT_star
+                N_star_array[k_sim, k_sample, 2] = N_star_array[k_sim, k_sample, 2]*self.absT_HE07/self.absT_star
                 N_star_array[k_sim, k_sample, 3] = k
                 N_star_array[k_sim, k_sample, 4] = k_sim
                 N_star_array[k_sim, k_sample, 5] = N_0_Tstar
