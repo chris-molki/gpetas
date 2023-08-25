@@ -364,12 +364,16 @@ class performance_LTF_HE07_m495():
             Nstar_in_absT = self.Nstar[i]
             loglike, mu_xi, integral_part = self.poisson_likelihood(mu_grid, X_grid, Nstar_in_absT, data_star, X_borders=self.X_borders)
             loglike_gpetas.append(loglike)
+            mu_xi_gpetas.append(mu_xi)
+            integral_part_gpetas.append(integral_part)
 
             # HE07 reference
             mu_grid = self.mu_HE07_m0_sim_ref[i]
             Nstar_in_absT = self.HE07_Nstar_m0_sim[i]
             loglike, mu_xi, integral_part = self.poisson_likelihood(mu_grid, X_grid, Nstar_in_absT, data_star, X_borders=self.X_borders)
             loglike_HE07_ref.append(loglike)
+            mu_xi_HE07_ref.append(mu_xi)
+            integral_part_HE07_ref.append(integral_part)
 
             # mle-obj
             if mle_obj is not None:
@@ -377,15 +381,28 @@ class performance_LTF_HE07_m495():
                 Nstar_in_absT = self.Nstar_mle[i]
                 loglike, mu_xi, integral_part = self.poisson_likelihood(mu_grid, X_grid, Nstar_in_absT, data_star, X_borders=self.X_borders)
                 loglike_mle.append(loglike)
+                mu_xi_mle.append(mu_xi)
+                integral_part_mle.append(integral_part)
 
         self.loglike_gpetas = loglike_gpetas
         self.loglike_HE07_ref = loglike_HE07_ref
         self.loglike_mle = loglike_mle
+        self.loglike_mu_xi_gpetas = mu_xi_gpetas
+        self.loglike_mu_xi_HE07_ref = mu_xi_HE07_ref
+        self.loglike_mu_xi_mle = mu_xi_mle
+        self.loglike_integral_part_gpetas = integral_part_gpetas
+        self.loglike_integral_part_HE07_ref = integral_part_HE07_ref
+        self.loglike_integral_part_mle = integral_part_mle
+
 
         # log(E[L])
         self.log_E_L_gpetas = logsumexp(self.loglike_gpetas) - np.log(len(self.loglike_gpetas))
         self.log_E_L_HE07_ref = logsumexp(self.loglike_HE07_ref) - np.log(len(self.loglike_HE07_ref))
         self.log_E_L_mle = logsumexp(self.loglike_mle) - np.log(len(self.loglike_mle))
+
+        # approx branching ratio: n \approx N_varphi/N = (N-N_0)/N
+        self.n_branching_approx_gpetas = (self.Nstar - self.N0_star) / self.Nstar
+        self.n_branching_approx_mle = (self.Nstar_mle - self.N0_star_mle) / self.Nstar_mle
 
     def poisson_likelihood(self, mu_grid, X_grid, Nstar_in_absT, data_star, X_borders=None):
         mu_xi = gpetas.some_fun.mu_xprime_interpol(xprime=data_star[:, 2:4], mu_grid=mu_grid,
