@@ -99,6 +99,7 @@ def plot_slice_x(intensity_ensemble, X_grid=None, intensity_1_grid=None, intensi
                                                      np.log10(np.mean(intensity_ensemble, axis=0)),
                                                      cb_label='$\\log_{10} \ {\\rm E}[\\lambda(x,t^\\ast)]$',
                                                      X_grid=X_grid,
+                                                     cb_format='%.1f',
                                                      clim=clim_where)
         # if intensity_1_grid is not None:
         #    h3_where = gpetas.plotting.plot_intensity_2d(intensity_grid=np.log10(intensity_1_grid),
@@ -107,6 +108,8 @@ def plot_slice_x(intensity_ensemble, X_grid=None, intensity_1_grid=None, intensi
         ax.axvline(x=(xidx[0]+1.) * dx + X_borders[0, 0], color='w', linestyle='--')
 
         if points is not None:
+            if size_points is None:
+                size_points = 20
             plt.scatter(points[:, 0], points[:, 1], s=size_points, c='red')  # s=10
 
         return h1_xslice, h1a_xslicezoommax, h3_where
