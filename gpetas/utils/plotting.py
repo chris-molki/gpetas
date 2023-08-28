@@ -8,7 +8,7 @@ import gpetas
 
 def plot_slice_x(intensity_ensemble, X_grid=None, intensity_1_grid=None, intensity_2_grid=None,
                  xidx=None, quantile=0.05, log10scale='yes', X_borders=None, label_pos='yes',
-                 points=None,size_points=None):
+                 points=None,size_points=None,clim_where=None):
     Ksamples, L = intensity_ensemble.shape
     xbins = int(np.sqrt(L))
     ybins = xbins
@@ -56,13 +56,14 @@ def plot_slice_x(intensity_ensemble, X_grid=None, intensity_1_grid=None, intensi
         else:
             plt.ylabel('$\\lambda(x,t^\\ast)$')
         plt.xlabel('$x_2$, (Lat.)')
-        hl = plt.legend(fontsize=16)
         if label_pos is not None:
-            print((xidx[0] + 1) * dy + X_borders[0, 0])
-            plt.annotate('$x_1=$%.3f' % ((xidx[0] + 1) * dy + X_borders[0, 0]), xy=(1, 0.025),
+            print((xidx[0] + 1) * dx + X_borders[0, 0])
+            plt.annotate('$x_1=$%.3f' % ((xidx[0] + 1) * dx + X_borders[0, 0]), xy=(1, 0.025),
                          xycoords='axes fraction',
                          horizontalalignment='right',
                          fontsize=16)
+        #hl = plt.legend(fontsize=16)
+        hl = plt.legend(fontsize=16, bbox_to_anchor=(0.435, 0.35))
         plt.show()
 
         # zoom into max
@@ -97,12 +98,13 @@ def plot_slice_x(intensity_ensemble, X_grid=None, intensity_1_grid=None, intensi
         h3_where = gpetas.plotting.plot_intensity_2d(intensity_grid=
                                                      np.log10(np.mean(intensity_ensemble, axis=0)),
                                                      cb_label='$\\log_{10} \ {\\rm E}[\\lambda(x,t^\\ast)]$',
-                                                     X_grid=X_grid)
+                                                     X_grid=X_grid,
+                                                     clim=clim_where)
         # if intensity_1_grid is not None:
         #    h3_where = gpetas.plotting.plot_intensity_2d(intensity_grid=np.log10(intensity_1_grid),
         #                                             X_grid=X_grid)
         ax = h3_where.gca()
-        ax.axvline(x=(xidx[0]) * dx + X_borders[0, 0], color='w', linestyle='--')
+        ax.axvline(x=(xidx[0]+1.) * dx + X_borders[0, 0], color='w', linestyle='--')
 
         if points is not None:
             plt.scatter(points[:, 0], points[:, 1], s=size_points, c='red')  # s=10
