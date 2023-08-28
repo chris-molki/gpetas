@@ -1309,7 +1309,7 @@ def plot_intensity_2d(intensity_grid, X_grid=None,
     # points
     if points is not None:
         if size_points is None:
-            size_points = 10
+            size_points = 20 #10
         plt.scatter(points[:, 0], points[:, 1], s=size_points, c='red')  # s=10
     if data_testing_points is not None:
         idx_testing = np.where((data_obj.data_all.times >= data_obj.domain.T_borders_testing[0]))
