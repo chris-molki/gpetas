@@ -199,7 +199,8 @@ def plot_LTF(perfLTF_obj, clim=None):
     return hf1, hf2, hf3, hf4, hf5, hf6, hf7
 
 
-def plot_2D_z(z, X_grid_plot=None, data_star=None, clim=None, show_colorbar=None):
+def plot_2D_z(z, X_grid_plot=None, data_star=None, data_star_495=None, clim=None, show_colorbar=None,
+              xlabel=None,ylabel=None):
     nbins_plot = int(np.sqrt(len(z)))
     if X_grid_plot is not None:
         plt.pcolor(X_grid_plot[:, 0].reshape([nbins_plot, nbins_plot]),
@@ -207,13 +208,19 @@ def plot_2D_z(z, X_grid_plot=None, data_star=None, clim=None, show_colorbar=None
                    np.log10(z.reshape([nbins_plot, nbins_plot])))
     else:
         plt.pcolor(np.log10(z.reshape([nbins_plot, nbins_plot])))
+    if clim is not None:
+        plt.clim(clim)
     if show_colorbar is not None:
         plt.colorbar(shrink=0.25)
     if data_star is not None:
         plt.plot(data_star[:, 2], data_star[:, 3], '.r')  # ,markersize=3)
-    if clim is not None:
-        plt.clim(clim)
+    if data_star_495 is not None:
+        plt.scatter(data_star_495[:, 2], data_star_495[:, 3], facecolors='none', edgecolors='white', zorder=2)  # ,markersize=3)
     plt.axis('square')
+    if xlabel is not None:
+        plt.xlabel(xlabel)
+    if ylabel is not None:
+        plt.ylabel(ylabel)
     plt.gca().xaxis.set_major_locator(plt.MaxNLocator(2))
     plt.gca().yaxis.set_major_locator(plt.MaxNLocator(2))
     return
