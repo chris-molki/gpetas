@@ -723,6 +723,7 @@ def new_extract_forecast_original_units(forecast, region, plot_yes=None):
     Uses midpoints saved in the region object
 
     '''
+    hf1 = None
     x_bool = np.logical_and(forecast.region.midpoints()[:, 0] > np.min(region[:, 0]),
                             forecast.region.midpoints()[:, 0] < np.max(region[:, 0]))
     y_bool = np.logical_and(forecast.region.midpoints()[:, 1] > np.min(region[:, 1]),
@@ -762,7 +763,10 @@ def new_extract_forecast_original_units(forecast, region, plot_yes=None):
             plt.plot(region[:, 0], region[:, 1], '--k', linewidth=1)
             plt.show()
 
-    return x, y, mu_forecast_mag_gt495, xx, yy, idx_forecast_data,hf1
+    if hf1 is not None:
+        return x, y, mu_forecast_mag_gt495, xx, yy, idx_forecast_data,hf1
+    else:
+        return x, y, mu_forecast_mag_gt495, xx, yy, idx_forecast_data
 
 
 # new 1D implementation
