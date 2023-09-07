@@ -200,7 +200,7 @@ def plot_LTF(perfLTF_obj, clim=None):
 
 
 def plot_2D_z(z, X_grid_plot=None, data_star=None, data_star_495=None, clim=None, show_colorbar=None,
-              xlabel=None,ylabel=None):
+              xlabel=None,ylabel=None,cb_label=None):
     nbins_plot = int(np.sqrt(len(z)))
     if X_grid_plot is not None:
         plt.pcolor(X_grid_plot[:, 0].reshape([nbins_plot, nbins_plot]),
@@ -211,7 +211,9 @@ def plot_2D_z(z, X_grid_plot=None, data_star=None, data_star_495=None, clim=None
     if clim is not None:
         plt.clim(clim)
     if show_colorbar is not None:
-        plt.colorbar(shrink=0.25)
+        cb = plt.colorbar(shrink=0.25)
+    if cb_label is not None:
+        cb.set_label(cb_label)
     if data_star is not None:
         plt.plot(data_star[:, 2], data_star[:, 3], '.r')  # ,markersize=3)
     if data_star_495 is not None:
