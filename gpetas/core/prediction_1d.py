@@ -750,6 +750,8 @@ def new_extract_forecast_original_units(forecast, region, plot_yes=None):
             plt.plot(forecast.region.midpoints()[:, 0], forecast.region.midpoints()[:, 1], 'k.', zorder=-2)
             plt.imshow(np.log10(mu_forecast_mag_gt495_long), origin='lower', extent=extent)
             plt.plot(region[:, 0], region[:, 1], 'r', linewidth=3)
+            plt.xlabel('Longitude')
+            plt.ylabel('Latitude')
             plt.show()
     except ValueError:
         print('Region has grid cells outside CSEP California test site region.')
