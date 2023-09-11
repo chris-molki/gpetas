@@ -2350,7 +2350,7 @@ def pred_summary(save_obj_pred=None, save_obj_pred_mle=None, save_obj_pred_mle_s
 
 def plot_pred_seq_forecast_updated(pred_seq, mle_only=None, gpetas_only=None,
                                    quantile=None, ylim=None, xlim=None, NB_fit=None, yscale=None,
-                                   markersize=None,plot_median=None):
+                                   markersize=None,plot_median=None,legend_yes=None):
     # plot definitions
     pSIZE = 20
     plt.rc('font', size=pSIZE)
@@ -2375,21 +2375,21 @@ def plot_pred_seq_forecast_updated(pred_seq, mle_only=None, gpetas_only=None,
 
     if mle_only is None or gpetas_only is not None:
         if plot_median is not None:
-            plt.plot(t, np.median(N_t_array, axis=1), 'k')
+            plt.plot(t, np.median(N_t_array, axis=1), 'k',label='GP-E')
         else:
-            plt.plot(t, np.mean(N_t_array, axis=1), 'k')
+            plt.plot(t, np.mean(N_t_array, axis=1), 'k',label='GP-E')
         plt.fill_between(t, y1=np.quantile(N_t_array, q=quantile, axis=1),
                          y2=np.quantile(N_t_array, q=1. - quantile, axis=1),
                          color='lightgrey',
-                         label='$q_{%.2f,%.2f}$' % (quantile, 1 - quantile))
+                         label='GP-E: $q_{%.3f,%.3f}$' % (quantile, 1 - quantile))
         # plt.plot(t,np.quantile(N_t_array,q=quantile,axis=1),':k')
         # plt.plot(t,np.quantile(N_t_array,q=1.-quantile,axis=1),':k')
     if pred_seq.mle_obj is not None and gpetas_only is None:
         if plot_median is not None:
-            plt.plot(t, np.median(pred_seq.N_t_array_mle, axis=1), '--b', linewidth=1)
+            plt.plot(t, np.median(pred_seq.N_t_array_mle, axis=1), '--b', linewidth=1, label='E')
         else:
-            plt.plot(t, np.mean(pred_seq.N_t_array_mle, axis=1), '--b', linewidth=1)
-        plt.plot(t, np.quantile(pred_seq.N_t_array_mle, q=quantile, axis=1), ':b', linewidth=1)
+            plt.plot(t, np.mean(pred_seq.N_t_array_mle, axis=1), '--b', linewidth=1, label='E')
+        plt.plot(t, np.quantile(pred_seq.N_t_array_mle, q=quantile, axis=1), ':b', linewidth=1,label='E: $q_{%.3f,%.3f}$' % (quantile, 1 - quantile))
         plt.plot(t, np.quantile(pred_seq.N_t_array_mle, q=1. - quantile, axis=1), ':b', linewidth=1)
         if mle_only is not None:
             plt.fill_between(t, y1=np.quantile(pred_seq.N_t_array_mle, q=quantile, axis=1),
@@ -2397,7 +2397,7 @@ def plot_pred_seq_forecast_updated(pred_seq, mle_only=None, gpetas_only=None,
                              color='lightblue',
                              label='$q_{%.2f,%.2f}$' % (quantile, 1 - quantile))
     # obs
-    plt.plot(t, Nobs_array, '.m', markersize=markersize)
+    plt.plot(t, Nobs_array, '.m', markersize=markersize,label='$N_{obs}$')
     plt.yscale(yscale)
 
     N_t_array_updated = np.zeros(np.shape(N_t_array))
@@ -2430,6 +2430,9 @@ def plot_pred_seq_forecast_updated(pred_seq, mle_only=None, gpetas_only=None,
         plt.ylim(ylim)
     if xlim is not None:
         plt.xlim(xlim)
+    if legend_yes is not None:
+        print('legend')
+        plt.legend(fontsize=14)
 
     print(Ksim)
 
@@ -2501,6 +2504,7 @@ def plot_pred_seq_forecast_updated(pred_seq, mle_only=None, gpetas_only=None,
             plt.ylim(ylim)
         if xlim is not None:
             plt.xlim(xlim)
+
 
     return h1, n_vec, p_vec, n_vec_mle, p_vec_mle
 
