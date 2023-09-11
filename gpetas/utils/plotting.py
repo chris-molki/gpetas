@@ -1357,7 +1357,7 @@ def plot_intensity_2d(intensity_grid, X_grid=None,
 
 def plot_setting(data_obj=None, save_obj_GS=None, test_data_blue=None, gm_obj=None, show_datasets='Yes',
                  show_domain=None, pos_xy_text_star=None, show_training_data_only=None,
-                  plot_lon_lat=None):
+                  plot_lon_lat=None, scale_markersize=None):
     """
     :param data_obj: type data from get_data in data_utils
     :param show_domain: shows X domain borders, default = None
@@ -1378,9 +1378,22 @@ def plot_setting(data_obj=None, save_obj_GS=None, test_data_blue=None, gm_obj=No
     hf1 = plt.figure(figsize=(10, 10))
     plt.tight_layout()
     if plot_lon_lat is not None:
-        plt.plot(data_obj.data_all.positions_lon_lat[:, 0], data_obj.data_all.positions_lon_lat[:, 1], 'k.', markersize=5)
+        if scale_markersize is None:
+            plt.plot(data_obj.data_all.positions_lon_lat[:, 0], data_obj.data_all.positions_lon_lat[:, 1], 'k.', markersize=5.)
+        else:
+            m_size = 20 ** (-1.75 + 0.75 * data_obj.data_all.magnitudes)
+            plt.scatter(data_obj.data_all.positions_lon_lat[:, 0], data_obj.data_all.positions_lon_lat[:, 1],
+                    marker='o', facecolors='none', edgecolors='k',
+                    s=m_size)
     else:
-        plt.plot(data_obj.data_all.positions[:, 0], data_obj.data_all.positions[:, 1], 'k.', markersize=5)
+        if scale_markersize is None:
+            plt.plot(data_obj.data_all.positions[:, 0], data_obj.data_all.positions[:, 1], 'k.', markersize=5)
+        else:
+            m_size = 20 ** (-1.75 + 0.75 * data_obj.data_all.magnitudes)
+            plt.scatter(data_obj.data_all.positions[:, 0], data_obj.data_all.positions[:, 1],
+                        marker='o', facecolors='none', edgecolors='k',
+                        s=m_size)
+
     ax = plt.gca()
     ax.tick_params(direction='out', left=True, right=True, top=True, bottom=True)
     if test_data_blue == 1:
