@@ -61,8 +61,8 @@ def plot_LTF(perfLTF_obj, clim=None):
                    (perfLTF_obj.pred_obj_1D.Ksim_per_sample, 1)).T * perfLTF_obj.Nstar).T
     lam_mean = lam[len(perfLTF_obj.mu_res_obj.mu_xprime) - 1, :]
     lam_mean = lam[-1, :]
-    print(len(perfLTF_obj.mu_res_obj.mu_xprime) - 1)
-    print(lam.shape)
+    lam_mean = lam[np.argmax(perfLTF_obj.loglike_gpetas), :]
+    print(np.argmax(perfLTF_obj.loglike_gpetas))
     plot_2D_z(z=lam_mean, X_grid_plot=perfLTF_obj.X_grid, data_star=data_star, clim=clim, show_colorbar=1)
     plt.subplot(2, 4, 5)
     lam = perfLTF_obj.mu_HE07_m0_sim_ref
@@ -415,6 +415,27 @@ class performance_LTF_HE07_m495():
         self.n_branching_approx_gpetas = (self.Nstar - self.N0_star) / self.Nstar
         self.n_branching_approx_mle = (self.Nstar_mle - self.N0_star_mle) / self.Nstar_mle
 
+        # mean(lambda*) performance
+        ## gpetas
+        mu_grid = np.mean(self.mu_HE07_m0_gpetas, axis=0)
+        Nstar_in_absT = np.mean(self.Nstar)
+        self.loglike_mean_gpetas, self.mu_xi_mean_gpetas, self.integral_part_mean_gpetas = self.poisson_likelihood(
+            mu_grid, X_grid, Nstar_in_absT, data_star,
+            X_borders=self.X_borders)
+        ## HE07 ref
+        mu_grid = np.mean(self.mu_HE07_m0_sim_ref, axis=0)
+        Nstar_in_absT = np.mean(self.HE07_Nstar_m0_sim)
+        self.loglike_mean_HE07, self.mu_xi_mean_HE07, self.integral_part_mean_HE07 = self.poisson_likelihood(
+            mu_grid, X_grid, Nstar_in_absT, data_star,
+            X_borders=self.X_borders)
+
+        ## MLE
+        mu_grid = np.mean(self.mu_HE07_m0_mle, axis=0)
+        Nstar_in_absT = np.mean(self.Nstar_mle)
+        self.loglike_mean_mle, self.mu_xi_mean_mle, self.integral_part_mean_mle = self.poisson_likelihood(
+            mu_grid, X_grid, Nstar_in_absT, data_star,
+            X_borders=self.X_borders)
+
     def poisson_likelihood(self, mu_grid, X_grid, Nstar_in_absT, data_star, X_borders=None):
         mu_xi = gpetas.some_fun.mu_xprime_interpol(xprime=data_star[:, 2:4], mu_grid=mu_grid,
                                                    X_grid=X_grid,
@@ -593,6 +614,7 @@ class performance_LTF_HE07_m0():
         self.loglike_integral_part_mle = integral_part_mle
 
 
+
         # log(E[L])
         self.log_E_L_gpetas = logsumexp(self.loglike_gpetas) - np.log(len(self.loglike_gpetas))
         self.log_E_L_HE07_ref = logsumexp(self.loglike_HE07_ref) - np.log(len(self.loglike_HE07_ref))
@@ -601,6 +623,27 @@ class performance_LTF_HE07_m0():
         # approx branching ratio: n \approx N_varphi/N = (N-N_0)/N
         self.n_branching_approx_gpetas = (self.Nstar-self.N0_star)/self.Nstar
         self.n_branching_approx_mle = (self.Nstar_mle - self.N0_star_mle) / self.Nstar_mle
+
+        # mean(lambda*) performance
+        ## gpetas
+        mu_grid = np.mean(self.mu_HE07_m0_gpetas,axis=0)
+        Nstar_in_absT = np.mean(self.Nstar)
+        self.loglike_mean_gpetas, self.mu_xi_mean_gpetas, self.integral_part_mean_gpetas = self.poisson_likelihood(mu_grid, X_grid, Nstar_in_absT, data_star,
+                                                                X_borders=self.X_borders)
+        ## HE07 ref
+        mu_grid = np.mean(self.mu_HE07_m0_sim_ref, axis=0)
+        Nstar_in_absT = np.mean(self.HE07_Nstar_m0_sim)
+        self.loglike_mean_HE07, self.mu_xi_mean_HE07, self.integral_part_mean_HE07 = self.poisson_likelihood(
+            mu_grid, X_grid, Nstar_in_absT, data_star,
+            X_borders=self.X_borders)
+
+        ## MLE
+        mu_grid = np.mean(self.mu_HE07_m0_mle, axis=0)
+        Nstar_in_absT = np.mean(self.Nstar_mle)
+        self.loglike_mean_mle, self.mu_xi_mean_mle, self.integral_part_mean_mle = self.poisson_likelihood(
+            mu_grid, X_grid, Nstar_in_absT, data_star,
+            X_borders=self.X_borders)
+
 
     def poisson_likelihood(self, mu_grid, X_grid, Nstar_in_absT, data_star, X_borders=None):
         mu_xi = gpetas.some_fun.mu_xprime_interpol(xprime=data_star[:, 2:4], mu_grid=mu_grid,
