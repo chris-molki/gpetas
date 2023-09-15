@@ -78,7 +78,8 @@ def plot_LTF(perfLTF_obj, clim=None):
     plot_2D_z(z=lam_mean, X_grid_plot=perfLTF_obj.HE07_X_grid, data_star=data_star, clim=clim, show_colorbar=1)
     plt.subplot(2, 4, 8)
     lam = perfLTF_obj.mu_HE07_m0_gpetas
-    lam_mean = lam[len(perfLTF_obj.mu_res_obj.mu_xprime) - 1]
+    #lam_mean = lam[len(perfLTF_obj.mu_res_obj.mu_xprime) - 1]
+    lam_mean = lam[np.argmax(perfLTF_obj.loglike_gpetas), :]
     plot_2D_z(z=lam_mean, X_grid_plot=perfLTF_obj.HE07_X_grid, data_star=data_star, clim=clim, show_colorbar=1)
 
     hf7 = plt.figure(figsize=(20, 8))
