@@ -454,7 +454,7 @@ class performance_LTF_HE07_m0():
                  sample_idx_vec=None,
                  mle_obj=None, pred_obj_1D_mle=None,
                  data_star=None,
-                 abs_T_data_star=None, m_beta_scaling=None):
+                 abs_T_data_star=None, m_beta_scaling=None, method_mu=None):
 
         self.abs_T_forecast_ref = 5. * 365.25  # 5yrs CSEP convention
 
@@ -465,6 +465,7 @@ class performance_LTF_HE07_m0():
         self.X_borders = self.save_obj_GS['data_obj'].domain.X_borders
         self.abs_X = np.prod(np.diff(self.X_borders))
         self.X_grid = save_obj_GS['X_grid']
+        self.method_mu = method_mu
 
         # mle if given
         # self.mle_obj = save_obj_GS
@@ -511,7 +512,7 @@ class performance_LTF_HE07_m0():
         self.mu_res_obj = gpetas.prediction_1d.resolution_mu_gpetas(save_obj_GS,
                                                                     X_grid_prime=self.HE07_X_grid,
                                                                     sample_idx_vec=self.sample_idx_vec,
-                                                                    summary=None)
+                                                                    summary=None,method=method_mu)
         # mle
         if mle_obj is not None:
             self.mu_res_obj_mle = gpetas.prediction_1d.resolution_mu_mle(mle_obj, X_grid_prime=self.HE07_X_grid)
@@ -694,10 +695,12 @@ class resolution_mu_mle:
 
 
 class resolution_mu_gpetas:
-    def __init__(self, save_obj_GS, X_grid_prime=None, sample_idx_vec=None, summary=None):
+    def __init__(self, save_obj_GS, X_grid_prime=None, sample_idx_vec=None, summary=None, method=None):
         X_grid = save_obj_GS['X_grid']
         X_borders = save_obj_GS['data_obj'].domain.X_borders
         K_samples_total = len(save_obj_GS['lambda_bar'])
+        cov_params = None
+        lambda_bar = None # save_obj_GS['lambda_bar']
         self.X_grid = X_grid
         self.L = len(self.X_grid)
         self.abs_X = np.prod(np.diff(save_obj_GS['data_obj'].domain.X_borders))
@@ -708,6 +711,7 @@ class resolution_mu_gpetas:
         self.X_grid_prime = X_grid_prime
         self.sample_idx_vec = sample_idx_vec
         self.summary = summary
+        self.method = method
         if sample_idx_vec is None:
             sample_idx_vec = np.array([K_samples_total - 1])
             if summary is None:
@@ -721,8 +725,8 @@ class resolution_mu_gpetas:
             for i in range(len(sample_idx_vec)):
                 k = sample_idx_vec[i]
                 mu_gpetas_k = np.copy(save_obj_GS['mu_grid'][int(k)])
-                mu = gpetas.some_fun.mu_xprime_gpetas(xprime, mu_gpetas_k, X_grid, X_borders, method=None,
-                                                      lambda_bar=None, cov_params=None)
+                mu = gpetas.some_fun.mu_xprime_gpetas(xprime, mu_gpetas_k, X_grid, X_borders, method=method,
+                                                      lambda_bar=lambda_bar, cov_params=cov_params)
                 norm_fac = self.Lprime / self.L * np.sum(mu_gpetas_k) / np.sum(mu)
                 mu_xprime[i, :] = mu * norm_fac
                 mu_x_arr[i, :] = mu_gpetas_k
@@ -733,16 +737,16 @@ class resolution_mu_gpetas:
             xprime = X_grid_prime
             if summary == 'mean':
                 mu_gpetas_k = np.mean(save_obj_GS['mu_grid'], axis=0)
-                mu = gpetas.some_fun.mu_xprime_gpetas(xprime, mu_gpetas_k, X_grid, X_borders, method=None,
-                                                      lambda_bar=None, cov_params=None)
+                mu = gpetas.some_fun.mu_xprime_gpetas(xprime, mu_gpetas_k, X_grid, X_borders, method=method,
+                                                      lambda_bar=lambda_bar, cov_params=cov_params)
                 self.sample_idx_vec = None
                 self.summary = 'mean'
                 norm_fac = self.Lprime / self.L * np.sum(mu_gpetas_k) / np.sum(mu)
                 mu_xprime = mu * norm_fac
             if summary == 'median':
                 mu_gpetas_k = np.median(save_obj_GS['mu_grid'], axis=0)
-                mu = gpetas.some_fun.mu_xprime_gpetas(xprime, mu_gpetas_k, X_grid, X_borders, method=None,
-                                                      lambda_bar=None, cov_params=None)
+                mu = gpetas.some_fun.mu_xprime_gpetas(xprime, mu_gpetas_k, X_grid, X_borders, method=method,
+                                                      lambda_bar=lambda_bar, cov_params=cov_params)
                 self.sample_idx_vec = None
                 self.summary = 'median'
                 norm_fac = self.Lprime / self.L * np.sum(mu_gpetas_k) / np.sum(mu)
@@ -753,8 +757,10 @@ class resolution_mu_gpetas:
                 for i in range(len(sample_idx_vec)):
                     k = sample_idx_vec[i]
                     mu_gpetas_k = np.copy(save_obj_GS['mu_grid'][int(k)])
-                    mu = gpetas.some_fun.mu_xprime_gpetas(xprime, mu_gpetas_k, X_grid, X_borders, method=None,
-                                                          lambda_bar=None, cov_params=None)
+                    cov_params = save_obj_GS['cov_params'][k]
+                    lambda_bar = save_obj_GS['lambda_bar'][k]
+                    mu = gpetas.some_fun.mu_xprime_gpetas(xprime, mu_gpetas_k, X_grid, X_borders, method=method,
+                                                          lambda_bar=lambda_bar, cov_params=cov_params, print_method='yes')
                     norm_fac = self.Lprime / self.L * np.sum(mu_gpetas_k) / np.sum(mu)
                     mu_xprime[i, :] = mu * norm_fac
                     mu_x_arr[i, :] = mu_gpetas_k
