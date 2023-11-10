@@ -168,7 +168,7 @@ class generate_synthetic_data:
             if ii + 1 == 3:
                 subregion_borders = np.array(X_borders_sub_3)
                 absX_sub = np.prod(np.diff(X_borders_sub_3))  # area of subregion3
-            N = np.int(np.random.poisson(mu_i * abs_T * absX_sub))
+            N = int(np.random.poisson(mu_i * abs_T * absX_sub))
             S0part = np.zeros([N, 5])
             S0part[:, 1] = np.random.exponential(1. / m_beta, N) + m0  # m_i: marks
             S0part[:, 2] = np.random.uniform(subregion_borders[0, 0], subregion_borders[0, 1], N)  # x_coord
@@ -375,7 +375,7 @@ class generate_synthetic_data:
                 N = np.random.poisson((mu_i + mu_A0) * abs_T * R_sub)
             else:
                 N = np.random.poisson(mu_i * abs_T * R_sub)
-            new_events = np.zeros([np.int(N), 5])
+            new_events = np.zeros([int(N), 5])
             new_events[:, 1] = np.random.exponential(1. / m_beta, N) + m0  # m_i: marks
             new_events[:, 2] = np.random.uniform(x_l, x_u, N)  # x_coord
             new_events[:, 3] = np.random.uniform(y_l, y_u, N)  # y_coord
@@ -396,7 +396,7 @@ class generate_synthetic_data:
         # total area intensity
         if A0_yes is not None:
             N = np.random.poisson(mu_A0 * abs_T * abs_X)
-            new_events = np.zeros([np.int(N), 5])
+            new_events = np.zeros([int(N), 5])
             new_events[:, 1] = np.random.exponential(1. / m_beta, N) + m0  # m_i: marks
             new_events[:, 2] = np.random.uniform(X_borders[0, 0], X_borders[0, 1], N)  # x_coord
             new_events[:, 3] = np.random.uniform(X_borders[1, 0], X_borders[1, 1], N)  # y_coord
@@ -518,7 +518,7 @@ class generate_synthetic_data:
         # generate background events from a gabor like function
         # generate candidates
         mu_max = 0.1
-        N = np.int(np.random.poisson(mu_max * abs_T * abs_X))
+        N = int(np.random.poisson(mu_max * abs_T * abs_X))
         positions = np.random.rand(N, 2) * np.diff(X_borders).reshape(1, 2) + X_borders[:, 0]
 
         # thinning
@@ -858,8 +858,8 @@ class generate_synthetic_data:
         ticks = np.linspace(0, np.max(self.domain.X_borders), 6)
         plt.xticks(ticks)
         plt.yticks(ticks)
-        ax.set_yticklabels([np.int(ticks[0]), '', np.int(ticks[2]), '', np.int(ticks[4]), ''])
-        ax.set_xticklabels([np.int(ticks[0]), '', np.int(ticks[2]), '', np.int(ticks[4]), ''])
+        ax.set_yticklabels([int(ticks[0]), '', int(ticks[2]), '', int(ticks[4]), ''])
+        ax.set_xticklabels([int(ticks[0]), '', int(ticks[2]), '', int(ticks[4]), ''])
         ax.tick_params(direction='out', left=True, right=True, top=True, bottom=True)
         plt.axis('square')
         ax = plt.subplot(1, 2, 2)
@@ -868,8 +868,8 @@ class generate_synthetic_data:
         ticks = np.linspace(0, np.max(self.domain.X_borders), 6)
         plt.xticks(ticks)
         plt.yticks(ticks)
-        ax.set_yticklabels([np.int(ticks[0]), '', np.int(ticks[2]), '', np.int(ticks[4]), ''])
-        ax.set_xticklabels([np.int(ticks[0]), '', np.int(ticks[2]), '', np.int(ticks[4]), ''])
+        ax.set_yticklabels([int(ticks[0]), '', int(ticks[2]), '', int(ticks[4]), ''])
+        ax.set_xticklabels([int(ticks[0]), '', int(ticks[2]), '', int(ticks[4]), ''])
         ax.set_yticklabels([])
         ax.tick_params(direction='out', left=True, right=True, top=True, bottom=True)
         plt.axis('square')
