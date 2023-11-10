@@ -826,6 +826,17 @@ class generate_synthetic_data:
         fname = "./" + out_dir + "/%s_data_sim_3rates.cat" % (self.case_name)
         np.savetxt(fname, X=write_data, delimiter='\t', fmt='%.0f\t%.4f\t%.4f\t%.2f\t%.6f')
 
+        # write to file with branching
+        write_data = np.zeros((len(self.data_all.times), 6))
+        write_data[:, 0] = np.arange(len(self.data_all.times)) + 1
+        write_data[:, 1] = self.data_all.positions[:, 0]
+        write_data[:, 2] = self.data_all.positions[:, 1]
+        write_data[:, 3] = self.data_all.magnitudes
+        write_data[:, 4] = self.data_all.times
+        write_data[:, 5] = self.data_all.branching
+        fname = "./" + out_dir + "/%s_data_sim_3rates_with_branching.cat" % (self.case_name)
+        np.savetxt(fname, X=write_data, delimiter='\t', fmt='%.0f\t%.4f\t%.4f\t%.2f\t%.6f\t%i')
+
         # write to file save_obj_gm
         file = open("./" + out_dir + "/%s_gm.all" % (self.case_name), "wb")  # remember to open the file in binary mode
         pickle.dump(self, file)
