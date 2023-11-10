@@ -754,13 +754,15 @@ class resolution_mu_gpetas:
             else:
                 mu_xprime = np.empty([len(sample_idx_vec), len(xprime)]) * np.nan
                 mu_x_arr = np.empty([len(sample_idx_vec), len(X_grid)]) * np.nan
+                print('method:',method)
                 for i in range(len(sample_idx_vec)):
                     k = sample_idx_vec[i]
                     mu_gpetas_k = np.copy(save_obj_GS['mu_grid'][int(k)])
                     cov_params = save_obj_GS['cov_params'][k]
                     lambda_bar = save_obj_GS['lambda_bar'][k]
                     mu = gpetas.some_fun.mu_xprime_gpetas(xprime, mu_gpetas_k, X_grid, X_borders, method=method,
-                                                          lambda_bar=lambda_bar, cov_params=cov_params, print_method='yes')
+                                                          lambda_bar=lambda_bar, cov_params=cov_params,
+                                                          print_method=None)
                     norm_fac = self.Lprime / self.L * np.sum(mu_gpetas_k) / np.sum(mu)
                     mu_xprime[i, :] = mu * norm_fac
                     mu_x_arr[i, :] = mu_gpetas_k
