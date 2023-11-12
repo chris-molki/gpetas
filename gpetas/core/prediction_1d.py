@@ -254,9 +254,11 @@ class performance_LTF_HE07_m495():
                  sample_idx_vec=None,
                  mle_obj=None, pred_obj_1D_mle=None,
                  data_star=None,
-                 abs_T_data_star=None):
+                 abs_T_data_star=None,
+                 method_mu=None):
 
         self.abs_T_forecast_ref = 5. * 365.25  # 5yrs CSEP convention
+        self.method_mu = method_mu
 
         # gpetas
         self.save_obj_GS = save_obj_GS
@@ -305,7 +307,8 @@ class performance_LTF_HE07_m495():
         self.mu_res_obj = gpetas.prediction_1d.resolution_mu_gpetas(save_obj_GS,
                                                                     X_grid_prime=self.HE07_X_grid,
                                                                     sample_idx_vec=self.sample_idx_vec,
-                                                                    summary=None)
+                                                                    summary=None,
+                                                                    method=method_mu)
         # mle
         if mle_obj is not None:
             self.mu_res_obj_mle = gpetas.prediction_1d.resolution_mu_mle(mle_obj, X_grid_prime=self.HE07_X_grid)
@@ -441,7 +444,7 @@ class performance_LTF_HE07_m495():
         mu_xi = gpetas.some_fun.mu_xprime_interpol(xprime=data_star[:, 2:4], mu_grid=mu_grid,
                                                    X_grid=X_grid,
                                                    X_borders=X_borders,
-                                                   method=None, print_method=None)
+                                                   method=self.method_mu, print_method=None)
         integral_part = Nstar_in_absT
         log_like = np.sum(np.log(mu_xi)) - integral_part
 
@@ -457,6 +460,7 @@ class performance_LTF_HE07_m0():
                  abs_T_data_star=None, m_beta_scaling=None, method_mu=None):
 
         self.abs_T_forecast_ref = 5. * 365.25  # 5yrs CSEP convention
+        self.method_mu = method_mu
 
         # gpetas
         self.save_obj_GS = save_obj_GS
@@ -651,7 +655,7 @@ class performance_LTF_HE07_m0():
         mu_xi = gpetas.some_fun.mu_xprime_interpol(xprime=data_star[:, 2:4], mu_grid=mu_grid,
                                                    X_grid=X_grid,
                                                    X_borders=X_borders,
-                                                   method=None, print_method=None)
+                                                   method=self.method_mu, print_method=None)
         integral_part = Nstar_in_absT
         log_like = np.sum(np.log(mu_xi)) - integral_part
 
