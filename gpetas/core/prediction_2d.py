@@ -2426,8 +2426,17 @@ def plot_pred_seq_forecast_updated(pred_seq, mle_only=None, gpetas_only=None,
     # plt.xlabel('time since %s in days'%data_obj.domain.time_origin)
     plt.xlabel('time in days')
     plt.ylabel('N')
+
     if ylim is not None:
         plt.ylim(ylim)
+        # Manipulate the yticks (delete all ticks < 1)
+        major_y_ticks = plt.yticks()[0]
+        modified_major_y_ticks = [tick for tick in major_y_ticks if 1 <= tick <= ylim[1]]
+        # Hide all minor y-axis ticks
+        plt.gca().yaxis.set_minor_locator(plt.NullLocator())
+
+
+
     if xlim is not None:
         plt.xlim(xlim)
     if legend_yes is not None:
