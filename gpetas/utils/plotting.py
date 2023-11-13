@@ -1356,7 +1356,7 @@ def plot_intensity_2d(intensity_grid, X_grid=None,
 
 
 def plot_setting(data_obj=None, save_obj_GS=None, test_data_blue=None, gm_obj=None, show_datasets='Yes',
-                 show_domain=None, pos_xy_text_star=None, show_training_data_only=None,
+                 show_domain=None, pos_xy_text=None, pos_xy_text_star=None, show_training_data_only=None,
                   plot_lon_lat=None, scale_markersize=None):
     """
     :param data_obj: type data from get_data in data_utils
@@ -1412,8 +1412,13 @@ def plot_setting(data_obj=None, save_obj_GS=None, test_data_blue=None, gm_obj=No
     plt.yticks(yticks)
     ax.set_yticklabels(('', yticks[1], yticks[2]))
     ax.set_xticklabels(('', xticks[1], xticks[2]))
-    plt.xlabel('$x_1$,  (Lon.) $N_{\mathcal{D} \cup \mathcal{D}^\\ast=%i}$' % (len(data_obj.data_all.positions[:, 0])))
-    plt.ylabel('$x_2$,  (Lat.)')
+    if plot_lon_lat is not None:
+        plt.xlabel('$x_1$,  (Lon.) $N_{\mathcal{D} \cup \mathcal{D}^\\ast=%i}$' % (len(data_obj.data_all.positions[:, 0])))
+        plt.ylabel('$x_2$,  (Lat.)')
+    else:
+        plt.xlabel(
+            '$x_1$, $N_{\mathcal{D} \cup \mathcal{D}^\\ast=%i}$' % (len(data_obj.data_all.positions[:, 0])))
+        plt.ylabel('$x_2$')
     ax = plt.gca()
     ax.tick_params(direction='out', left=True, right=True, top=True, bottom=True)
     plt.axis('square')
@@ -1474,12 +1479,20 @@ def plot_setting(data_obj=None, save_obj_GS=None, test_data_blue=None, gm_obj=No
     else:
         plt.xlabel('time, days')
     # plt.text(np.min(x[:, 0]), x.shape[0],
-    plt.text(0.05, 0.975,
+    if pos_xy_text is None:
+        plt.text(0.05, 0.975,
              '$N_{\mathcal{D}}=$ %s\n$m_{\mathcal{D}}\in[%.2f,%.2f]$'
              % (x[data_obj.idx_training].shape[0], np.min(x[data_obj.idx_training, 1]),
                 np.max(x[data_obj.idx_training, 1])),
              horizontalalignment='left',
              verticalalignment='top', fontsize=20, transform=ax.transAxes)
+    else:
+        plt.text(pos_xy_text[0], pos_xy_text[1],
+                 '$N_{\mathcal{D}}=$ %s\n$m_{\mathcal{D}}\in[%.2f,%.2f]$'
+                 % (x[data_obj.idx_training].shape[0], np.min(x[data_obj.idx_training, 1]),
+                    np.max(x[data_obj.idx_training, 1])),
+                 horizontalalignment='left',
+                 verticalalignment='top', fontsize=20, transform=ax.transAxes)
     if np.sum(idx_test) > 0:
         # plt.text(training_end, 0,
         if pos_xy_text_star is None:
@@ -1527,8 +1540,12 @@ def plot_setting(data_obj=None, save_obj_GS=None, test_data_blue=None, gm_obj=No
         plt.yticks(yticks)
         ax.set_yticklabels(('', yticks[1], yticks[2]))
         ax.set_xticklabels(('', xticks[1], xticks[2]))
-        plt.xlabel('$x_1$,  (Lon.)  $N_{\mathcal{D}}=%i$' % (x[data_obj.idx_training].shape[0]))
-        plt.ylabel('$x_2$,  (Lat.)')
+        if plot_lon_lat is not None:
+            plt.xlabel('$x_1$,  (Lon.)  $N_{\mathcal{D}}=%i$' % (x[data_obj.idx_training].shape[0]))
+            plt.ylabel('$x_2$,  (Lat.)')
+        else:
+            plt.xlabel('$x_1$,  $N_{\mathcal{D}}=%i$' % (x[data_obj.idx_training].shape[0]))
+            plt.ylabel('$x_2$')
         ax = plt.gca()
         ax.tick_params(direction='out', left=True, right=True, top=True, bottom=True)
         plt.axis('square')
@@ -1561,8 +1578,12 @@ def plot_setting(data_obj=None, save_obj_GS=None, test_data_blue=None, gm_obj=No
         plt.yticks(yticks)
         ax.set_yticklabels(('', yticks[1], yticks[2]))
         ax.set_xticklabels(('', xticks[1], xticks[2]))
-        plt.xlabel('$x_1$,  (Lon.)  $N_{\mathcal{D}^\\ast}=%i$' % (x[idx].shape[0]))
-        plt.ylabel('$x_2$,  (Lat.)')
+        if plot_lon_lat is not None:
+            plt.xlabel('$x_1$,  (Lon.)  $N_{\mathcal{D}^\\ast}=%i$' % (x[idx].shape[0]))
+            plt.ylabel('$x_2$,  (Lat.)')
+        else:
+            plt.xlabel('$x_1$,  $N_{\mathcal{D}^\\ast}=%i$' % (x[idx].shape[0]))
+            plt.ylabel('$x_2$')
         ax = plt.gca()
         ax.tick_params(direction='out', left=True, right=True, top=True, bottom=True)
         plt.axis('square')
