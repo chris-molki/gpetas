@@ -38,24 +38,24 @@ def plot_slice_x(intensity_ensemble, X_grid=None, intensity_1_grid=None, intensi
         z_slice = np.mean(z_array[:, :, xidx], axis=0).squeeze() # or better median?
         h1_xslice = plt.figure()
         plt.plot(y, z_slice, 'k', linewidth=3,
-                 label='GP-E (this study)')
+                 label='GP-E: mean')
         # print(np.median(z_array[:, :, xidx], axis=0).squeeze().shape)
         plt.fill_between(x=y, y1=np.quantile(z_array[:, :, xidx], 1. - quantile, axis=0).squeeze(),
                          y2=np.quantile(z_array[:, :, xidx], quantile, axis=0).squeeze(),
-                         facecolor='gray', alpha=0.5)
+                         facecolor='gray', alpha=0.5, label='GP-E: $q_{%.3f,%.3f}$'%(quantile,1-quantile))
 
         if intensity_1_grid is not None:
             if log10scale is not None:
                 z_grid = np.log10(intensity_1_grid.reshape(xbins, -1).T)
             else:
                 z_grid = intensity_1_grid.reshape(xbins, -1).T
-            plt.plot(y, z_grid[xidx, :].squeeze(), '--r', linewidth=1.5, label='E')
+            plt.plot(y, z_grid[xidx, :].squeeze(), '--b', linewidth=1.5, label='E')
             # zlimits = [0, np.max(mle_obj.mu_grid)]
         if log10scale is not None:
             plt.ylabel('$\\log_{10} \ \\lambda(x,t^\\ast)$')
         else:
             plt.ylabel('$\\lambda(x,t^\\ast)$')
-        plt.xlabel('$x_2$, (Lat.)')
+        plt.xlabel('$x_2$')
         if label_pos is not None:
             print((xidx[0] + 1) * dx + X_borders[0, 0])
             plt.annotate('$x_1=$%.3f' % ((xidx[0] + 1) * dx + X_borders[0, 0]), xy=(1, 0.025),
@@ -63,7 +63,7 @@ def plot_slice_x(intensity_ensemble, X_grid=None, intensity_1_grid=None, intensi
                          horizontalalignment='right',
                          fontsize=16)
         #hl = plt.legend(fontsize=16)
-        hl = plt.legend(fontsize=16, bbox_to_anchor=(0.435, 0.35))
+        hl = plt.legend(fontsize=16, bbox_to_anchor=(0.4, 0.425))
         plt.show()
 
         # zoom into max
@@ -74,7 +74,7 @@ def plot_slice_x(intensity_ensemble, X_grid=None, intensity_1_grid=None, intensi
         yidx_max = np.argmax(z_slice)
         n = 3
         plt.plot(y[yidx_max - n:yidx_max + n], z_slice[yidx_max - n:yidx_max + n], 'k', linewidth=3,
-                 label='GP-ETAS (this study)')
+                 label='GP-ETAS')
         y1 = np.quantile(z_array[:, :, xidx], 1. - quantile, axis=0).squeeze()
         y2 = np.quantile(z_array[:, :, xidx], quantile, axis=0).squeeze()
         plt.fill_between(x=y[yidx_max - n:yidx_max + n], y1=y1[yidx_max - n:yidx_max + n],
@@ -88,10 +88,10 @@ def plot_slice_x(intensity_ensemble, X_grid=None, intensity_1_grid=None, intensi
                 z_grid = intensity_1_grid.reshape(xbins, -1).T
                 z_slice_2 = z_grid[xidx, :].squeeze()
             plt.plot(y[yidx_max - n:yidx_max + n],
-                     z_slice_2[yidx_max - n:yidx_max + n], '--r', linewidth=1.5, label='ETAS classical')
+                     z_slice_2[yidx_max - n:yidx_max + n], '--b', linewidth=1.5, label='ETAS classical')
 
         plt.ylabel('$\\lambda(x,t^\\ast)$')
-        plt.xlabel('$x_2$, (Lat.)')
+        plt.xlabel('$x_2$')
         plt.show()
 
         # where are the slices
@@ -105,7 +105,7 @@ def plot_slice_x(intensity_ensemble, X_grid=None, intensity_1_grid=None, intensi
         #    h3_where = gpetas.plotting.plot_intensity_2d(intensity_grid=np.log10(intensity_1_grid),
         #                                             X_grid=X_grid)
         ax = h3_where.gca()
-        ax.axvline(x=(xidx[0]+1.) * dx + X_borders[0, 0], color='w', linestyle='--')
+        ax.axvline(x=(xidx[0]+0.5) * dx + X_borders[0, 0], color='w', linestyle='--')
 
         if points is not None:
             if size_points is None:
