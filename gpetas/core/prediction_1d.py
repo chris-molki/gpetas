@@ -259,6 +259,7 @@ class performance_LTF_HE07_m495():
 
         self.abs_T_forecast_ref = 5. * 365.25  # 5yrs CSEP convention
         self.method_mu = method_mu
+        self.m0_performance = 4.95
 
         # gpetas
         self.save_obj_GS = save_obj_GS
@@ -461,6 +462,7 @@ class performance_LTF_HE07_m0():
 
         self.abs_T_forecast_ref = 5. * 365.25  # 5yrs CSEP convention
         self.method_mu = method_mu
+        self.m0_performance = save_obj_GS['data_obj'].domain.m0
 
         # gpetas
         self.save_obj_GS = save_obj_GS
