@@ -52,7 +52,7 @@ def plot_slice_x(intensity_ensemble, X_grid=None, intensity_1_grid=None, intensi
             plt.plot(y, z_grid[xidx, :].squeeze(), '--b', linewidth=1.5, label='E')
             # zlimits = [0, np.max(mle_obj.mu_grid)]
         if log10scale is not None:
-            plt.ylabel('$\\log_{10} \ \\lambda(x,t^\\ast)$')
+            plt.ylabel('$\\log_{10} \ \\lambda(x,t^\\ast|H_{t^\\ast})$')
         else:
             plt.ylabel('$\\lambda(x,t^\\ast)$')
         plt.xlabel('$x_2$')
@@ -90,14 +90,14 @@ def plot_slice_x(intensity_ensemble, X_grid=None, intensity_1_grid=None, intensi
             plt.plot(y[yidx_max - n:yidx_max + n],
                      z_slice_2[yidx_max - n:yidx_max + n], '--b', linewidth=1.5, label='ETAS classical')
 
-        plt.ylabel('$\\lambda(x,t^\\ast)$')
+        plt.ylabel('$\\lambda(x,t^\\ast|H_{t^\\ast})$')
         plt.xlabel('$x_2$')
         plt.show()
 
         # where are the slices
         h3_where = gpetas.plotting.plot_intensity_2d(intensity_grid=
                                                      np.log10(np.mean(intensity_ensemble, axis=0)),
-                                                     cb_label='$\\log_{10} \ {\\rm E}[\\lambda(x,t^\\ast)]$',
+                                                     cb_label='$\\log_{10} \ {\\rm E}[\\lambda(x,t^\\ast|H_{t^\\ast})]$',
                                                      X_grid=X_grid,
                                                      cb_format='%.1f',
                                                      clim=clim_where)
