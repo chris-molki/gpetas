@@ -27,6 +27,40 @@ def init_outdir():
     if not os.path.isdir(output_dir_data):
         os.mkdir(output_dir_data)
 
+def score_CRPS(forecasts,observations):
+    y_obs = observations
+    F_obj = forecasts
+    if F_obj.ndim==1:
+        M = len(F_obj)
+    else:
+        M = len(F_obj[0])
+    if isinstance(y_obs, (int, float)):
+        if F_obj.ndim==1:
+            F_j = np.sort(F_obj)
+        else:
+            F_j = np.sort(F_obj[j])
+        y_j = y_obs
+        S_crps = 2./M**2*np.sum((F_j-y_j)*(M*(y_j < F_j).astype(int)-np.arange(1,M+1,1)+0.5))
+    else:
+        S_crps = np.zeros(len(y_obs))*np.nan
+        for j in range(len(y_obs)):
+            F_j = np.sort(F_obj[j])
+            y_j = y_obs[j]
+            S_crps[j] = 2./M**2*np.sum((F_j-y_j)*(M*(y_j < F_j).astype(int)-np.arange(1,M+1,1)+0.5))
+    return S_crps
+
+def score_CRPS_SR(forecasts,observations):
+    y_obs = observations
+    F_obj = forecasts
+    M = len(F_obj[0])
+    S_crps = np.zeros(len(y_obs))*np.nan
+    for j in range(len(y_obs)):
+        F_j = np.sort(F_obj[j])
+        y_j = y_obs[j]
+        S_crps[j] = 2./M*np.sum((np.arange(1,M+1,1)-0.5)/M*np.maximum(0,(y_j-F_j)))+2./M*np.sum((1.-((np.arange(1,M+1,1)-0.5))/M)*np.maximum(0,(F_j-y_j)))
+    return S_crps
+
+
 def NB_n_p_methods_of_moments(data):
     if data.ndim == 1:
         sample_mean = np.mean(data)
