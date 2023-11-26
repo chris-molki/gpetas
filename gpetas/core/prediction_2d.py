@@ -763,6 +763,19 @@ class predictions_gpetas():
 
         if sample_idx_vec is None:
             sample_idx_vec = [0]
+        self.sample_idx_vec_original_used = sample_idx_vec
+
+        # new sample_idx_vec implementation
+        if Ksim is None:
+            Ksim = 1
+        self.Ksim_per_sample = Ksim
+        self.Ksamples_total = len(save_obj_GS['lambda_bar'])
+        self.Ksamples_used = len(sample_idx_vec)
+        sample_idx_vec_work = np.repeat(self.sample_idx_vec_original_used, self.Ksim_per_sample)
+        sample_idx_vec = np.copy(sample_idx_vec_work)
+        self.sample_idx_vec = sample_idx_vec
+        self.Ksim_total=len(sample_idx_vec)
+
         self.seed = seed
         if seed is not None:
             np.random.seed(seed)
@@ -799,6 +812,7 @@ class predictions_gpetas():
         self.save_pred['save_obj_GS'] = self.save_obj_GS
         self.tic = time.perf_counter()
 
+        '''
         if Ksim is not None:
             print('1', len(sample_idx_vec))
             # if len(sample_idx_vec)==1:
@@ -817,11 +831,10 @@ class predictions_gpetas():
                 print('len(sample_idx_vec)=', len(sample_idx_vec), 'Ksim=', Ksim)
             print(Ksim, len(sample_idx_vec))
             print(sample_idx_vec)
+        '''
         self.save_pred['sample_idx_vec'] = sample_idx_vec
-        if Ksim is None:
-            self.Ksim = 1
-        else:
-            self.Ksim = Ksim
+        print(Ksim, len(sample_idx_vec))
+        print(sample_idx_vec)
 
         for i in range(len(sample_idx_vec)):
             if np.mod(i, 1) == 0:  # info every 10th event
