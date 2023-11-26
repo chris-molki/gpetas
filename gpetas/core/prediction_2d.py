@@ -818,6 +818,10 @@ class predictions_gpetas():
             print(Ksim, len(sample_idx_vec))
             print(sample_idx_vec)
         self.save_pred['sample_idx_vec'] = sample_idx_vec
+        if Ksim is None:
+            self.Ksim = 1
+        else:
+            self.Ksim = Ksim
 
         for i in range(len(sample_idx_vec)):
             if np.mod(i, 1) == 0:  # info every 10th event
