@@ -224,7 +224,7 @@ def init_save_dictionary(obj):
     obj.save_pred['tau_vec'].append(obj.tau_vec)
 
 
-def sim_add_offspring(obj, X0_events):
+def sim_add_offspring(obj, X0_events,print_current_K=None):
     """
     simulates offspring: with branching
     :param X0_events:
@@ -346,7 +346,8 @@ def sim_add_offspring(obj, X0_events):
     complete_branching_structure_tmxyzcg[:, 6] = z_generation_sorted_t.reshape([-1, ])
     complete_branching_structure_tmxyzcg[:, 7] = np.array(np.arange(np.size(x_sorted_t[:, 0])) + 1)
 
-    print('in add_offspring K:', K)
+    if print_current_K is not None:
+        print('in add_offspring K:', K)
     return (data_tmxyz, complete_branching_structure_tmxyzcg)
 
 
