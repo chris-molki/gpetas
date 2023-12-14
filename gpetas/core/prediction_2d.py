@@ -544,6 +544,7 @@ class predictions_mle():
         :param Bayesian_m_beta:
         :type Bayesian_m_beta:
         """
+        self.model_str = 'E_mle'
         if Ksim is None:
             Ksim = 1
         dim = 2
@@ -732,6 +733,7 @@ class predictions_gpetas():
         :param approx:
         :type approx:
         '''
+        self.model_str = 'gpetas'
         self.tau0_Ht = tau0_Ht
         self.tau1 = tau1
         self.tau2 = tau2
