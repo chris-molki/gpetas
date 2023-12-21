@@ -813,6 +813,7 @@ class predictions_gpetas():
         self.save_pred['m0'] = np.copy(self.data_obj.domain.m0)
         self.save_pred['data_obj'] = self.data_obj
         self.save_pred['save_obj_GS'] = self.save_obj_GS
+        self.save_pred['pred_obj_init'] = self
         self.tic = time.perf_counter()
 
         '''
