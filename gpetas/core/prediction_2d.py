@@ -106,6 +106,7 @@ class setup_pred():
         self.seed = seed
         self.approx = approx
         self.Bayesian_m_beta = Bayesian_m_beta
+        self.Ksim_total = self.Ksim*len(self.sample_idx_vec)
 
         # write to file
         fname_setup_obj = output_dir + "/setup_obj_pred_%s.all" % (self.case_name)
@@ -608,6 +609,8 @@ class predictions_mle():
         abs_X = np.prod(np.diff(data_obj.domain.X_borders))
         self.tic = time.perf_counter()
         self.Bayesian_m_beta = Bayesian_m_beta
+
+        self.Ksim_total = Ksim
 
         for k in range(Ksim):
 
