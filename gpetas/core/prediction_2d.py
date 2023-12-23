@@ -55,7 +55,7 @@ class setup_pred():
     def __init__(self, save_obj_GS=None, tau1=None, tau2=None, tau0_Ht=None,
                  Ksim=None, sample_idx_vec=None,
                  mle_obj=None, mle_obj_silverman=None, epsilon_after_mainshock=1e-6,
-                 m_max=None):
+                 m_max=None, seed=None, approx=None,Bayesian_m_beta=None):
         """
         Generates setup_obj_pred for T*=[tau1,tau2] based on inference results saved in corresponding objects
         :param save_obj_GS:
@@ -99,6 +99,13 @@ class setup_pred():
         self.epsilon_after_mainshock = epsilon_after_mainshock
         self.case_name = save_obj_GS['setup_obj'].case_name
         self.output_dir = output_dir
+        if m_max is None:
+            m_max = np.max(save_obj_GS['data_obj'].data_all.magnitudes)
+            print('maximum simulated magnitude = max(data magnitudes). here= ',m_max)
+        self.m_max = m_max
+        self.seed = seed
+        self.approx = approx
+        self.Bayesian_m_beta = Bayesian_m_beta
 
         # write to file
         fname_setup_obj = output_dir + "/setup_obj_pred_%s.all" % (self.case_name)
