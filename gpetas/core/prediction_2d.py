@@ -593,6 +593,7 @@ class predictions_mle():
         self.save_pred['data_obj'] = data_obj
         self.save_pred['mle_obj'] = self.mle_obj
         self.save_pred['m0'] = np.copy(self.data_obj.domain.m0)
+        self.save_pred['pred_obj_init'] = self
 
         # some params
         mu_max_bg_mle = np.max(mle_obj.mu_grid)
