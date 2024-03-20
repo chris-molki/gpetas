@@ -1207,7 +1207,7 @@ def plot_intensity_2d(intensity_grid, X_grid=None,
                       data_obj=None, points=None, data_testing_points=None, data_training_points=None, cmap_dots=None,
                       cmap=None, clim=None, cb_label=None, cb_ticks=None, cb_format=None,
                       contour_lines=None, cl_color=None,
-                      fig_label=None,size_points=None):
+                      fig_label=None,size_points=None,fs=None):
     '''
 
     :param intensity_grid:
@@ -1244,7 +1244,9 @@ def plot_intensity_2d(intensity_grid, X_grid=None,
     :rtype:
     '''
     # plot definitions
-    pSIZE = 30
+    if fs is None:
+        fs = 30
+    pSIZE = fs
     plt.rc('font', size=pSIZE)
     plt.rc('axes', titlesize=pSIZE)
     if cmap is None:
