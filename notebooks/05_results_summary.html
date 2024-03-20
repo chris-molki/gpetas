@@ -1,0 +1,655 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Results &#8212; gpetas 0.0.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script src="../_static/documentation_options.js?v=e645c8fa"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/05_results_summary';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="gpetas package" href="../gpetas.html" />
+    <link rel="prev" title="Inference: classical ETAS MLE" href="04a_classical_inference_MLE_KDE_ETAS.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.svg" class="logo__image only-light" alt="gpetas 0.0.1 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.svg" class="logo__image only-dark" alt="gpetas 0.0.1 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="00_domain_setup.html">Define domain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01_getdata_from_file.html">Data from a text file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_getdata_from_online_via_pycsep.html">Data from an online source</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="03_inference_setup.html">Inference setup, model setup</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="04_gibbs_sampling_gpetas.html">Inference: GP-ETAS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04a_classical_inference_MLE_KDE_ETAS.html">Inference: classical ETAS MLE</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Results</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">API reference</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../gpetas.html">gpetas package</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../gpetas.core.html">gpetas.core package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gpetas.synthetic_experiments.html">gpetas.synthetic_experiments package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gpetas.utils.html">gpetas.utils package</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/chris-molki/gpetas" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/05_results_summary.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Results</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Bayesian-inference-via-sampling-and-MLE">Bayesian inference via sampling and MLE</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Load-inference-results:-save_GS_obj-and-mle_obj">Load inference results: <em>save_GS_obj</em> and <em>mle_obj</em></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Plot-summary">Plot summary</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="Results">
+<h1>Results<a class="headerlink" href="#Results" title="Link to this heading">#</a></h1>
+<section id="Bayesian-inference-via-sampling-and-MLE">
+<h2>Bayesian inference via sampling and MLE<a class="headerlink" href="#Bayesian-inference-via-sampling-and-MLE" title="Link to this heading">#</a></h2>
+<p>Generate some summary and comparison</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">gpetas</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="n">time_format</span> <span class="o">=</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S.</span><span class="si">%f</span><span class="s2">&quot;</span>
+
+
+<span class="c1"># auto reload using developer version</span>
+<span class="o">%</span><span class="k">load_ext</span> autoreload
+<span class="o">%</span><span class="k">autoreload</span> 2
+</pre></div>
+</div>
+</div>
+<section id="Load-inference-results:-save_GS_obj-and-mle_obj">
+<h3>Load inference results: <em>save_GS_obj</em> and <em>mle_obj</em><a class="headerlink" href="#Load-inference-results:-save_GS_obj-and-mle_obj" title="Link to this heading">#</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">case_name</span> <span class="o">=</span> <span class="s1">&#39;Rxxx&#39;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">case_name</span><span class="p">)</span>
+<span class="n">output_dir</span> <span class="o">=</span> <span class="s1">&#39;./output/inference_results&#39;</span>
+
+<span class="c1"># sampler</span>
+<span class="n">fname</span> <span class="o">=</span> <span class="n">output_dir</span><span class="o">+</span><span class="s1">&#39;/GS_save_data_</span><span class="si">%s</span><span class="s1">.bin&#39;</span><span class="o">%</span><span class="k">case_name</span>
+<span class="n">save_GS_obj</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span><span class="n">allow_pickle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># mle default</span>
+<span class="n">fname</span> <span class="o">=</span> <span class="n">output_dir</span><span class="o">+</span><span class="s1">&#39;/mle_default_hmin_</span><span class="si">%s</span><span class="s1">.all&#39;</span><span class="o">%</span><span class="k">case_name</span>
+<span class="n">mle_obj</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span><span class="n">allow_pickle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Rxxx
+</pre></div></div>
+</div>
+</section>
+<section id="Plot-summary">
+<h3>Plot summary<a class="headerlink" href="#Plot-summary" title="Link to this heading">#</a></h3>
+<p>You can directly plot a summary of the Bayesian inference or you can first do MLE and plot subsequently a summary with comparison</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gpetas</span><span class="o">.</span><span class="n">summary</span><span class="o">.</span><span class="n">summary_gpetas</span><span class="p">(</span><span class="n">save_obj_GS</span><span class="o">=</span><span class="n">save_GS_obj</span><span class="p">,</span><span class="n">mle_obj</span><span class="o">=</span><span class="n">mle_obj</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+from orig. data_obj |T_training| [3000.] |X| 49.0
+testing periods
+[[   0. 3000.]
+ [3000. 4383.]] days.
+Number of employed posterior samples: 90
+Current T_star_testing = [   0. 3000.]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">KeyboardInterrupt</span>                         Traceback (most recent call last)
+Cell <span class="ansi-green-fg">In[3], line 1</span>
+<span class="ansi-green-fg">----&gt; 1</span> <span class="ansi-yellow-bg">gpetas</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">summary</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">summary_gpetas</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">save_obj_GS</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">save_GS_obj</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg">mle_obj</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">mle_obj</span><span class="ansi-yellow-bg">)</span>
+
+File <span class="ansi-green-fg">/Volumes/data_SFB1294/pack/gpetas_github/gpetas/utils/summary.py:206</span>, in <span class="ansi-cyan-fg">summary_gpetas.__init__</span><span class="ansi-blue-fg">(self, save_obj_GS, gm_obj, mle_obj, mle_obj_silverman, fout_dir, case_name, ltest_plot)</span>
+<span class="ansi-green-intense-fg ansi-bold">    201</span>     plt<span style="color: rgb(98,98,98)">.</span>close(h1)
+<span class="ansi-green-intense-fg ansi-bold">    203</span> <span style="color: rgb(95,135,135)"># (9) gpetas_intensity(X_grid,t)</span>
+<span class="ansi-green-intense-fg ansi-bold">    204</span>
+<span class="ansi-green-intense-fg ansi-bold">    205</span> <span style="color: rgb(95,135,135)"># (10) ltest plot</span>
+<span class="ansi-green-fg">--&gt; 206</span> h1, h2 <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">gpetas</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">plotting</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">plot_l_ltest</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">save_obj_GS</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">save_obj_GS</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg">mle_obj</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">mle_obj</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg">mle_obj_silverman</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">mle_obj_silverman</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    207</span> h1<span style="color: rgb(98,98,98)">.</span>savefig(out_dir <span style="color: rgb(98,98,98)">+</span> <span style="color: rgb(175,0,0)">&#39;</span><span style="color: rgb(175,0,0)">/</span><span class="ansi-bold" style="color: rgb(175,95,135)">%s</span><span style="color: rgb(175,0,0)">_F10_l_ltest01.pdf</span><span style="color: rgb(175,0,0)">&#39;</span> <span style="color: rgb(98,98,98)">%</span> data_obj<span style="color: rgb(98,98,98)">.</span>case_name, bbox_inches<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">&#39;</span><span style="color: rgb(175,0,0)">tight</span><span style="color: rgb(175,0,0)">&#39;</span>)
+<span class="ansi-green-intense-fg ansi-bold">    208</span> h2<span style="color: rgb(98,98,98)">.</span>savefig(out_dir <span style="color: rgb(98,98,98)">+</span> <span style="color: rgb(175,0,0)">&#39;</span><span style="color: rgb(175,0,0)">/</span><span class="ansi-bold" style="color: rgb(175,95,135)">%s</span><span style="color: rgb(175,0,0)">_F10b_l_ltest02.pdf</span><span style="color: rgb(175,0,0)">&#39;</span> <span style="color: rgb(98,98,98)">%</span> data_obj<span style="color: rgb(98,98,98)">.</span>case_name, bbox_inches<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">&#39;</span><span style="color: rgb(175,0,0)">tight</span><span style="color: rgb(175,0,0)">&#39;</span>)
+
+File <span class="ansi-green-fg">/Volumes/data_SFB1294/pack/gpetas_github/gpetas/utils/plotting.py:80</span>, in <span class="ansi-cyan-fg">plot_l_ltest</span><span class="ansi-blue-fg">(save_obj_GS, mle_obj, mle_obj_silverman, t1, t2, idx_samples)</span>
+<span class="ansi-green-intense-fg ansi-bold">     78</span> <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> idx_samples <span class="ansi-bold" style="color: rgb(175,0,255)">is</span> <span class="ansi-bold" style="color: rgb(0,135,0)">None</span>:
+<span class="ansi-green-intense-fg ansi-bold">     79</span>     idx_samples <span style="color: rgb(98,98,98)">=</span> np<span style="color: rgb(98,98,98)">.</span>arange(<span style="color: rgb(98,98,98)">0</span>, <span style="color: rgb(0,135,0)">len</span>(save_obj_GS[<span style="color: rgb(175,0,0)">&#39;</span><span style="color: rgb(175,0,0)">lambda_bar</span><span style="color: rgb(175,0,0)">&#39;</span>]))
+<span class="ansi-green-fg">---&gt; 80</span> l_values <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">gpetas</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">loglike</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">test_likelihood_GS</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">save_obj_GS</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">save_obj_GS</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">     81</span> <span class="ansi-yellow-bg">                                             </span><span class="ansi-yellow-bg">testing_periods</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">testing_periods</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">     82</span> <span class="ansi-yellow-bg">                                             </span><span class="ansi-yellow-bg">data_obj</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">save_obj_GS</span><span class="ansi-yellow-bg">[</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#39;</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">data_obj</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#39;</span><span class="ansi-yellow-bg">]</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">     83</span> <span class="ansi-yellow-bg">                                             </span><span class="ansi-yellow-bg">idx_samples</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">idx_samples</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">     84</span> <span class="ansi-yellow-bg">                                             </span><span class="ansi-yellow-bg">method_posterior_GP</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">method_posterior_GP</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">     85</span> <span class="ansi-yellow-bg">                                             </span><span class="ansi-yellow-bg">method_integral</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(0,135,0)">None</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     86</span> <span style="color: rgb(0,135,0)">print</span>(<span style="color: rgb(175,0,0)">&#39;</span><span style="color: rgb(175,0,0)">gpetas:</span><span style="color: rgb(175,0,0)">&#39;</span>, l_values<span style="color: rgb(98,98,98)">.</span>l_test_GPetas_log_E_L)
+<span class="ansi-green-intense-fg ansi-bold">     88</span> <span style="color: rgb(95,135,135)"># mle</span>
+
+File <span class="ansi-green-fg">/Volumes/data_SFB1294/pack/gpetas_github/gpetas/core/loglike.py:253</span>, in <span class="ansi-cyan-fg">test_likelihood_GS.__init__</span><span class="ansi-blue-fg">(self, save_obj_GS, testing_periods, data_obj, idx_samples, method_posterior_GP, method_integral)</span>
+<span class="ansi-green-intense-fg ansi-bold">    250</span> <span style="color: rgb(0,135,0)">print</span>(<span style="color: rgb(175,0,0)">&#39;</span><span style="color: rgb(175,0,0)">Current T_star_testing =</span><span style="color: rgb(175,0,0)">&#39;</span>, T_borders_testing)
+<span class="ansi-green-intense-fg ansi-bold">    252</span> <span style="color: rgb(95,135,135)"># gpetas: log_E_L_gpetas</span>
+<span class="ansi-green-fg">--&gt; 253</span> lnl_samples_i <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">gpetas</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">loglike</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">lnl_sample</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">save_obj_GS</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">save_obj_GS</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">    254</span> <span class="ansi-yellow-bg">                                          </span><span class="ansi-yellow-bg">data_obj</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">data_obj</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">    255</span> <span class="ansi-yellow-bg">                                          </span><span class="ansi-yellow-bg">idx_samples</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">idx_samples</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">    256</span> <span class="ansi-yellow-bg">                                          </span><span class="ansi-yellow-bg">T_borders_eval_l</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">T_borders_testing</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">    257</span> <span class="ansi-yellow-bg">                                          </span><span class="ansi-yellow-bg">method_posterior_GP</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">method_posterior_GP</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">    258</span> <span class="ansi-yellow-bg">                                          </span><span class="ansi-yellow-bg">method_integral</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">method_integral</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    259</span> lnl_samples_mat[i, :] <span style="color: rgb(98,98,98)">=</span> np<span style="color: rgb(98,98,98)">.</span>copy(lnl_samples_i<span style="color: rgb(98,98,98)">.</span>lnl_all)
+<span class="ansi-green-intense-fg ansi-bold">    260</span> l_test_GPetas_log_E_L[i] <span style="color: rgb(98,98,98)">=</span> logsumexp(lnl_samples_i<span style="color: rgb(98,98,98)">.</span>lnl_all) <span style="color: rgb(98,98,98)">-</span> np<span style="color: rgb(98,98,98)">.</span>log(<span style="color: rgb(0,135,0)">len</span>(lnl_samples_i<span style="color: rgb(98,98,98)">.</span>lnl_all))
+
+File <span class="ansi-green-fg">/Volumes/data_SFB1294/pack/gpetas_github/gpetas/core/loglike.py:173</span>, in <span class="ansi-cyan-fg">lnl_sample.__init__</span><span class="ansi-blue-fg">(self, save_obj_GS, data_obj, idx_samples, T_borders_eval_l, method_posterior_GP, method_integral)</span>
+<span class="ansi-green-intense-fg ansi-bold">    171</span> k <span style="color: rgb(98,98,98)">=</span> idx_samples[i]
+<span class="ansi-green-intense-fg ansi-bold">    172</span> <span style="color: rgb(95,135,135)"># mu_xi_at_all_data (=data_obj.data_all.positions)</span>
+<span class="ansi-green-fg">--&gt; 173</span> mu_xi_at_all_data <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">mu_xprime_gpetas</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">xprime</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">position_testing</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">    174</span> <span class="ansi-yellow-bg">                                     </span><span class="ansi-yellow-bg">mu_grid</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">save_obj_GS</span><span class="ansi-yellow-bg">[</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#39;</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">mu_grid</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#39;</span><span class="ansi-yellow-bg">]</span><span class="ansi-yellow-bg">[</span><span class="ansi-yellow-bg">k</span><span class="ansi-yellow-bg">]</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">X_grid</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">X_grid</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">    175</span> <span class="ansi-yellow-bg">                                     </span><span class="ansi-yellow-bg">X_borders</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">X_borders</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">    176</span> <span class="ansi-yellow-bg">                                     </span><span class="ansi-yellow-bg">method</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">method_posterior_GP</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">    177</span> <span class="ansi-yellow-bg">                                     </span><span class="ansi-yellow-bg">lambda_bar</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">save_obj_GS</span><span class="ansi-yellow-bg">[</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#39;</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">lambda_bar</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#39;</span><span class="ansi-yellow-bg">]</span><span class="ansi-yellow-bg">[</span><span class="ansi-yellow-bg">k</span><span class="ansi-yellow-bg">]</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">    178</span> <span class="ansi-yellow-bg">                                     </span><span class="ansi-yellow-bg">cov_params</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">[</span><span class="ansi-yellow-bg">save_obj_GS</span><span class="ansi-yellow-bg">[</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#39;</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">cov_params_theta</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#39;</span><span class="ansi-yellow-bg">]</span><span class="ansi-yellow-bg">[</span><span class="ansi-yellow-bg">k</span><span class="ansi-yellow-bg">]</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">item</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">np</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">array</span><span class="ansi-yellow-bg">(</span>
+<span class="ansi-green-intense-fg ansi-bold">    179</span> <span class="ansi-yellow-bg">                                         </span><span class="ansi-yellow-bg">[</span><span class="ansi-yellow-bg">save_obj_GS</span><span class="ansi-yellow-bg">[</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#39;</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">cov_params_nu1</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#39;</span><span class="ansi-yellow-bg">]</span><span class="ansi-yellow-bg">[</span><span class="ansi-yellow-bg">k</span><span class="ansi-yellow-bg">]</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">item</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">    180</span> <span class="ansi-yellow-bg">                                          </span><span class="ansi-yellow-bg">save_obj_GS</span><span class="ansi-yellow-bg">[</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#39;</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">cov_params_nu2</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#39;</span><span class="ansi-yellow-bg">]</span><span class="ansi-yellow-bg">[</span><span class="ansi-yellow-bg">k</span><span class="ansi-yellow-bg">]</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">item</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">]</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">]</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    182</span> <span style="color: rgb(95,135,135)"># integral mu_x</span>
+<span class="ansi-green-intense-fg ansi-bold">    183</span> <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> method_integral <span style="color: rgb(98,98,98)">==</span> <span style="color: rgb(175,0,0)">&#39;</span><span style="color: rgb(175,0,0)">Riemann_sum</span><span style="color: rgb(175,0,0)">&#39;</span>:
+
+File <span class="ansi-green-fg">/Volumes/data_SFB1294/pack/gpetas_github/gpetas/utils/some_fun.py:577</span>, in <span class="ansi-cyan-fg">mu_xprime_gpetas</span><span class="ansi-blue-fg">(xprime, mu_grid, X_grid, X_borders, method, lambda_bar, cov_params)</span>
+<span class="ansi-green-intense-fg ansi-bold">    575</span> <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> method <span style="color: rgb(98,98,98)">==</span> <span style="color: rgb(175,0,0)">&#39;</span><span style="color: rgb(175,0,0)">sparse</span><span style="color: rgb(175,0,0)">&#39;</span>:
+<span class="ansi-green-intense-fg ansi-bold">    576</span>     f <span style="color: rgb(98,98,98)">=</span> inv_sigmoid(mu_grid <span style="color: rgb(98,98,98)">/</span> lambda_bar)
+<span class="ansi-green-fg">--&gt; 577</span>     fprime <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">sample_from_cond_gp</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">xprime</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">f</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">X_grid</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">cov_params</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">cov_params</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    578</span>     mu_xprime <span style="color: rgb(98,98,98)">=</span> lambda_bar <span style="color: rgb(98,98,98)">*</span> sigmoid(fprime)
+<span class="ansi-green-intense-fg ansi-bold">    580</span> <span class="ansi-bold" style="color: rgb(0,135,0)">elif</span> method <span style="color: rgb(98,98,98)">==</span> <span style="color: rgb(175,0,0)">&#39;</span><span style="color: rgb(175,0,0)">sparse_mean</span><span style="color: rgb(175,0,0)">&#39;</span>:
+
+File <span class="ansi-green-fg">/Volumes/data_SFB1294/pack/gpetas_github/gpetas/utils/some_fun.py:630</span>, in <span class="ansi-cyan-fg">sample_from_cond_gp</span><span class="ansi-blue-fg">(xprime, f, x, cov_params, noise)</span>
+<span class="ansi-green-intense-fg ansi-bold">    628</span> k <span style="color: rgb(98,98,98)">=</span> cov_func(x, xprime, cov_params<span style="color: rgb(98,98,98)">=</span>cov_params)  <span style="color: rgb(95,135,135)"># K_ffprime</span>
+<span class="ansi-green-intense-fg ansi-bold">    629</span> K_ff <span style="color: rgb(98,98,98)">=</span> cov_func(x, x, cov_params<span style="color: rgb(98,98,98)">=</span>cov_params)
+<span class="ansi-green-fg">--&gt; 630</span> K_ff_inv <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">inverse</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">K_ff</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    631</span> mean <span style="color: rgb(98,98,98)">=</span> k<span style="color: rgb(98,98,98)">.</span>T<span style="color: rgb(98,98,98)">.</span>dot(K_ff_inv<span style="color: rgb(98,98,98)">.</span>dot(f))
+<span class="ansi-green-intense-fg ansi-bold">    632</span> kprimeprime <span style="color: rgb(98,98,98)">=</span> cov_func(xprime, xprime, cov_params<span style="color: rgb(98,98,98)">=</span>cov_params)
+
+File <span class="ansi-green-fg">/Volumes/data_SFB1294/pack/gpetas_github/gpetas/utils/some_fun.py:653</span>, in <span class="ansi-cyan-fg">inverse</span><span class="ansi-blue-fg">(K, noise)</span>
+<span class="ansi-green-intense-fg ansi-bold">    651</span> L <span style="color: rgb(98,98,98)">=</span> np<span style="color: rgb(98,98,98)">.</span>linalg<span style="color: rgb(98,98,98)">.</span>cholesky(K)
+<span class="ansi-green-intense-fg ansi-bold">    652</span> L_inv <span style="color: rgb(98,98,98)">=</span> solve_triangular(L, np<span style="color: rgb(98,98,98)">.</span>eye(L<span style="color: rgb(98,98,98)">.</span>shape[<span style="color: rgb(98,98,98)">0</span>]), lower<span style="color: rgb(98,98,98)">=</span><span class="ansi-bold" style="color: rgb(0,135,0)">True</span>, check_finite<span style="color: rgb(98,98,98)">=</span><span class="ansi-bold" style="color: rgb(0,135,0)">False</span>)
+<span class="ansi-green-fg">--&gt; 653</span> K_inv <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">L_inv</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">T</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">dot</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">L_inv</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    654</span> <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> K_inv
+
+<span class="ansi-red-fg">KeyboardInterrupt</span>:
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_05_results_summary_5_2.png" src="../_images/notebooks_05_results_summary_5_2.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_05_results_summary_5_3.png" src="../_images/notebooks_05_results_summary_5_3.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_05_results_summary_5_4.png" src="../_images/notebooks_05_results_summary_5_4.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_05_results_summary_5_5.png" src="../_images/notebooks_05_results_summary_5_5.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_05_results_summary_5_6.png" src="../_images/notebooks_05_results_summary_5_6.png" />
+</div>
+</div>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="04a_classical_inference_MLE_KDE_ETAS.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Inference: classical ETAS MLE</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../gpetas.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">gpetas package</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Bayesian-inference-via-sampling-and-MLE">Bayesian inference via sampling and MLE</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Load-inference-results:-save_GS_obj-and-mle_obj">Load inference results: <em>save_GS_obj</em> and <em>mle_obj</em></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Plot-summary">Plot summary</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By chrism
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023, chrism.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

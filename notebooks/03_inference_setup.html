@@ -1,0 +1,893 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Inference setup, model setup &#8212; gpetas 0.0.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script src="../_static/documentation_options.js?v=e645c8fa"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/03_inference_setup';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Inference: GP-ETAS" href="04_gibbs_sampling_gpetas.html" />
+    <link rel="prev" title="Data from an online source" href="02_getdata_from_online_via_pycsep.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.svg" class="logo__image only-light" alt="gpetas 0.0.1 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.svg" class="logo__image only-dark" alt="gpetas 0.0.1 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="00_domain_setup.html">Define domain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01_getdata_from_file.html">Data from a text file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_getdata_from_online_via_pycsep.html">Data from an online source</a></li>
+
+
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Inference setup, model setup</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="04_gibbs_sampling_gpetas.html">Inference: GP-ETAS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04a_classical_inference_MLE_KDE_ETAS.html">Inference: classical ETAS MLE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_results_summary.html">Results</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">API reference</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../gpetas.html">gpetas package</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../gpetas.core.html">gpetas.core package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gpetas.synthetic_experiments.html">gpetas.synthetic_experiments package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gpetas.utils.html">gpetas.utils package</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/chris-molki/gpetas" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/03_inference_setup.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Inference setup, model setup</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Inference setup, model setup</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Setup-object-for-Bayesian-inference-(Gibbs-sampler)">Setup object for Bayesian inference (Gibbs sampler)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Requires-a-data_obj-which-includes-domain_obj">Requires a <em>data_obj</em> which includes <em>domain_obj</em></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#Generating-an-setup_obj-for-GP-ETAS-(gpetas)">Generating an setup_obj for GP-ETAS (gpetas)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Setup-object-for-classical-MLE-(KDE-ETAS)">Setup object for classical MLE (KDE-ETAS)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Requires a <em>data_obj</em> which includes <em>domain_obj</em></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="Inference-setup,-model-setup">
+<h1>Inference setup, model setup<a class="headerlink" href="#Inference-setup,-model-setup" title="Link to this heading">#</a></h1>
+<p>In order to perform inference (Bayesian or Maximum Likelihood) one needs to define or setup several auxiliary variables. This is done by creating a <strong>setup_obj</strong> for the inference which includes all required information of the * Bayesian inference, i.e., Gibbs sampling procedure with Gaussian process modelling of the background intensity (GP-ETAS, gpetas) or * classical Maximum Likelihood estimation (MLE) using a kernel density estimator for the background intensity</p>
+<section id="Setup-object-for-Bayesian-inference-(Gibbs-sampler)">
+<h2>Setup object for Bayesian inference (Gibbs sampler)<a class="headerlink" href="#Setup-object-for-Bayesian-inference-(Gibbs-sampler)" title="Link to this heading">#</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">gpetas</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="n">time_format</span> <span class="o">=</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S.</span><span class="si">%f</span><span class="s2">&quot;</span>
+
+
+<span class="c1"># auto reload using developer version</span>
+<span class="o">%</span><span class="k">load_ext</span> autoreload
+<span class="o">%</span><span class="k">autoreload</span> 2
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The autoreload extension is already loaded. To reload it, use:
+  %reload_ext autoreload
+</pre></div></div>
+</div>
+<section id="Requires-a-data_obj-which-includes-domain_obj">
+<h3>Requires a <em>data_obj</em> which includes <em>domain_obj</em><a class="headerlink" href="#Requires-a-data_obj-which-includes-domain_obj" title="Link to this heading">#</a></h3>
+<p>In this example we specify first a domain in California and we download the data accordingly from an online source using pycsep functionalities</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### generate domain obj</span>
+<span class="c1"># time domain</span>
+<span class="n">time_origin</span> <span class="o">=</span> <span class="s1">&#39;2010-01-01 00:00:00.0&#39;</span>
+<span class="n">time_end</span> <span class="o">=</span> <span class="s1">&#39;2022-01-01 00:00:00.0&#39;</span>
+<span class="n">time_origin_obj</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">time_origin</span><span class="p">,</span> <span class="n">time_format</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+                <span class="n">tzinfo</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span>
+<span class="n">time_end_obj</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">time_end</span><span class="p">,</span> <span class="n">time_format</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+                <span class="n">tzinfo</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span>
+<span class="n">delta_Tall</span><span class="o">=</span><span class="p">(</span><span class="n">time_end_obj</span><span class="o">-</span><span class="n">time_origin_obj</span><span class="p">)</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span><span class="o">/</span><span class="p">(</span><span class="mf">60.</span><span class="o">*</span><span class="mf">60.</span><span class="o">*</span><span class="mi">24</span><span class="p">)</span>
+<span class="n">T_borders_all</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.</span><span class="p">,</span><span class="n">delta_Tall</span><span class="p">])</span>
+<span class="n">T_borders_training</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.</span><span class="p">,</span><span class="mf">3000.</span><span class="p">])</span>
+
+<span class="c1"># spatial domain</span>
+<span class="n">X_borders</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="mf">120.</span><span class="p">,</span> <span class="o">-</span><span class="mf">113.</span><span class="p">],[</span>  <span class="mf">30.</span><span class="p">,</span>   <span class="mf">37.</span><span class="p">]])</span>
+
+<span class="c1"># mark domain: [m0,+inf)</span>
+<span class="n">m0</span><span class="o">=</span><span class="mf">3.5</span>
+
+<span class="n">domain_obj</span> <span class="o">=</span> <span class="n">gpetas</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">R00x_setup</span><span class="o">.</span><span class="n">region_class</span><span class="p">()</span>
+<span class="n">domain_obj</span><span class="o">.</span><span class="n">T_borders_all</span> <span class="o">=</span> <span class="n">T_borders_all</span>
+<span class="n">domain_obj</span><span class="o">.</span><span class="n">T_borders_training</span><span class="o">=</span><span class="n">T_borders_training</span>
+<span class="n">domain_obj</span><span class="o">.</span><span class="n">T_borders_testing</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">T_borders_training</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">T_borders_all</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
+<span class="n">domain_obj</span><span class="o">.</span><span class="n">time_origin</span> <span class="o">=</span> <span class="n">time_origin</span>
+<span class="n">domain_obj</span><span class="o">.</span><span class="n">X_borders</span> <span class="o">=</span> <span class="n">X_borders</span>
+<span class="n">domain_obj</span><span class="o">.</span><span class="n">m0</span> <span class="o">=</span> <span class="n">m0</span>
+<span class="c1"># case_name (optional)</span>
+<span class="c1"># domain_obj.case_name = case_name</span>
+<span class="nb">vars</span><span class="p">(</span><span class="n">domain_obj</span><span class="p">)</span>
+
+<span class="c1">### generate data_obj with download data from online source</span>
+<span class="c1"># get pycsep catalog object</span>
+<span class="kn">import</span> <span class="nn">csep</span>
+<span class="kn">from</span> <span class="nn">csep.utils</span> <span class="kn">import</span> <span class="n">comcat</span>
+<span class="n">start_time</span> <span class="o">=</span> <span class="n">time_origin_obj</span>
+<span class="n">end_time</span> <span class="o">=</span> <span class="n">time_end_obj</span>
+<span class="n">min_magnitude</span><span class="o">=</span><span class="n">domain_obj</span><span class="o">.</span><span class="n">m0</span>
+<span class="n">min_latitude</span><span class="o">=</span><span class="n">domain_obj</span><span class="o">.</span><span class="n">X_borders</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">max_latitude</span><span class="o">=</span><span class="n">domain_obj</span><span class="o">.</span><span class="n">X_borders</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">min_longitude</span><span class="o">=</span><span class="n">domain_obj</span><span class="o">.</span><span class="n">X_borders</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">max_longitude</span><span class="o">=</span><span class="n">domain_obj</span><span class="o">.</span><span class="n">X_borders</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">catalog_obj</span> <span class="o">=</span> <span class="n">csep</span><span class="o">.</span><span class="n">query_comcat</span><span class="p">(</span><span class="n">start_time</span><span class="o">=</span><span class="n">start_time</span><span class="p">,</span> <span class="n">end_time</span><span class="o">=</span><span class="n">end_time</span><span class="p">,</span>
+                        <span class="n">min_magnitude</span><span class="o">=</span><span class="n">min_magnitude</span><span class="p">,</span>
+                        <span class="n">min_latitude</span><span class="o">=</span><span class="n">min_latitude</span><span class="p">,</span><span class="n">max_latitude</span><span class="o">=</span><span class="n">max_latitude</span><span class="p">,</span>
+                        <span class="n">min_longitude</span><span class="o">=</span><span class="n">min_longitude</span><span class="p">,</span> <span class="n">max_longitude</span><span class="o">=</span><span class="n">max_longitude</span><span class="p">)</span>
+<span class="c1"># cat2data_obj</span>
+<span class="n">data_obj</span> <span class="o">=</span> <span class="n">gpetas</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">get_data_pycsep</span><span class="o">.</span><span class="n">data_obj__from_catalog_obj</span><span class="p">(</span><span class="n">catalog_obj</span><span class="o">=</span><span class="n">catalog_obj</span><span class="p">,</span><span class="n">R_obj</span><span class="o">=</span><span class="n">domain_obj</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Fetched ComCat catalog in 12.02537202835083 seconds.
+
+Downloaded catalog from ComCat with following parameters
+Start Date: 2010-01-04 00:02:17.990000+00:00
+End Date: 2021-12-19 10:27:35.704000+00:00
+Min Latitude: 30.0063 and Max Latitude: 36.989
+Min Longitude: -119.9986667 and Max Longitude: -113.1498
+Min Magnitude: 3.5
+Found 1688 events in the ComCat catalog.
+Warning:
+Warning: 1  Duplicate(s) in the data set.
+jitter= 1.5046296084619826e-06
+    Values at idx [695] and [696] (counting from 0 to n-1) are the same.
+    Time: [968.88711481] [968.88711481]  days.
+    NEW Times: [968.88711481] [968.88711632]  days.
+NEW number of time duplicates= 0
+----------------------------------------------------------------------
+total number of events =  1688
+time origin            =  2010-01-01 00:00:00+00:00
+Starting time          = 0.0 time max= 4383.0
+T_borders all          = [   0. 4383.]
+|T|                    = 4383.0  days.
+T_borders training     = [   0. 3000.]
+min event time         = 3.0015971064814817
+max event time         = 4370.435829907407
+X_borders              = [[-120. -113.]
+ [  30.   37.]]
+|X|= 49.0 deg**2
+x lon min -119.9986667 x lon max -113.1498 dx= 6.848866700000002
+y lat min 30.0063 y lat max 36.989 dy= 6.982699999999998
+minimum magnitude 3.5 maximum magnitude 7.2
+Number of identical event times:   0
+Fname is:  comcat_Rxxx_m0_35.dat
+____________________________________________________
+data_obj has been created and saved in: output/inference_results/data_obj_Rxxx.all
+</pre></div></div>
+</div>
+</section>
+</section>
+</section>
+<section id="Generating-an-setup_obj-for-GP-ETAS-(gpetas)">
+<h1>Generating an setup_obj for GP-ETAS (gpetas)<a class="headerlink" href="#Generating-an-setup_obj-for-GP-ETAS-(gpetas)" title="Link to this heading">#</a></h1>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### load data_obj</span>
+<span class="n">case_name</span> <span class="o">=</span> <span class="s1">&#39;Rxxx&#39;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">case_name</span><span class="p">)</span>
+<span class="n">output_dir</span> <span class="o">=</span> <span class="s1">&#39;./output/inference_results&#39;</span>
+<span class="n">fname</span> <span class="o">=</span> <span class="n">output_dir</span><span class="o">+</span><span class="s1">&#39;/data_obj_</span><span class="si">%s</span><span class="s1">.all&#39;</span><span class="o">%</span><span class="k">case_name</span>
+<span class="n">data_obj</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span><span class="n">allow_pickle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+<span class="c1">### variables of the Gibbs sampler</span>
+
+<span class="c1"># sampler parameters</span>
+<span class="n">burnin</span> <span class="o">=</span> <span class="mi">100</span>                               <span class="c1"># number of discared initial samples. default: 5000</span>
+<span class="n">Ksamples</span> <span class="o">=</span> <span class="mi">100</span>                             <span class="c1"># number of samples of the joint posterior default: 500 (a few hundreds)</span>
+<span class="n">thinning</span> <span class="o">=</span> <span class="mi">10</span>                              <span class="c1"># default:10 # or 20:thinning of the obtained samples in order to avoid autocorrelation</span>
+<span class="n">num_iterations</span> <span class="o">=</span> <span class="n">Ksamples</span><span class="o">*</span><span class="n">thinning</span><span class="o">+</span><span class="mi">1</span>
+<span class="n">MH_proposals_offspring</span> <span class="o">=</span> <span class="mi">100</span>               <span class="c1"># Number of MH proposals for offspring params</span>
+<span class="n">MH_cov_empirical_yes</span> <span class="o">=</span> <span class="kc">None</span>                <span class="c1"># using empirical cov for proposal distribution</span>
+<span class="n">sigma_proposal_offspring_params</span> <span class="o">=</span> <span class="kc">None</span>     <span class="c1"># uses default values: 0.01**2 # alternatives:0.03**2</span>
+<span class="n">kth_sample_obj</span> <span class="o">=</span> <span class="kc">None</span>                      <span class="c1"># starting sampling from kth sample</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;#iters&#39;</span><span class="p">,</span><span class="n">num_iterations</span><span class="p">)</span>
+
+
+<span class="c1"># offspring</span>
+<span class="n">prior_theta_dist</span> <span class="o">=</span> <span class="s1">&#39;gamma&#39;</span>                 <span class="c1"># specifies prior distribution either &#39;gamma&#39; or &#39;uniform&#39;</span>
+<span class="n">prior_theta_params</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">theta_start_Kcpadgq</span> <span class="o">=</span> <span class="kc">None</span>                 <span class="c1"># uses default values:</span>
+<span class="n">spatial_offspring</span> <span class="o">=</span> <span class="s1">&#39;R&#39;</span>                    <span class="c1"># alternatives: &#39;G&#39; gaussian</span>
+<span class="n">stable_theta_sampling</span> <span class="o">=</span> <span class="s1">&#39;yes&#39;</span>              <span class="c1"># constraint on theta that only stable Hawkes processes are allowed</span>
+
+
+<span class="c1"># bg:</span>
+<span class="n">cov_params</span> <span class="o">=</span> <span class="kc">None</span>                          <span class="c1"># start values of hypers, uses default: silverman rule</span>
+<span class="n">mu_nu0</span> <span class="o">=</span> <span class="kc">None</span>                              <span class="c1"># mean of hyper prior on nu_0, uses default value:</span>
+
+
+
+<span class="c1"># bg: spatial resolution for plotting/evaluations</span>
+<span class="n">ngrid_per_dim</span> <span class="o">=</span> <span class="mi">50</span>                         <span class="c1"># default value: 50</span>
+<span class="n">X_grid</span> <span class="o">=</span> <span class="n">gpetas</span><span class="o">.</span><span class="n">some_fun</span><span class="o">.</span><span class="n">make_X_grid</span><span class="p">(</span><span class="n">data_obj</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">X_borders</span><span class="p">,</span> <span class="n">nbins</span><span class="o">=</span><span class="n">ngrid_per_dim</span><span class="p">)</span>
+                                           <span class="c1"># generates spatial grid for plotting etc.</span>
+
+<span class="c1"># general</span>
+<span class="n">time_origin</span> <span class="o">=</span> <span class="n">data_obj</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">time_origin</span>
+<span class="n">case_name</span> <span class="o">=</span> <span class="n">data_obj</span><span class="o">.</span><span class="n">case_name</span>
+
+<span class="c1"># save results</span>
+<span class="n">outdir</span> <span class="o">=</span> <span class="n">output_dir</span>
+
+
+
+
+<span class="c1">### (3.1) GS sampler  set up</span>
+<span class="n">setup_obj</span> <span class="o">=</span> <span class="n">gpetas</span><span class="o">.</span><span class="n">setup_Gibbs_sampler</span><span class="o">.</span><span class="n">setup_sampler</span><span class="p">(</span><span class="n">data_obj</span><span class="o">=</span><span class="n">data_obj</span><span class="p">,</span>
+             <span class="n">utm_yes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+             <span class="n">spatial_offspring</span><span class="o">=</span><span class="n">spatial_offspring</span><span class="p">,</span>
+             <span class="n">theta_start_Kcpadgq</span><span class="o">=</span><span class="n">theta_start_Kcpadgq</span><span class="p">,</span>
+             <span class="n">sigma_proposal_offspring_params</span><span class="o">=</span><span class="n">sigma_proposal_offspring_params</span><span class="p">,</span>
+             <span class="n">ngrid_per_dim</span><span class="o">=</span><span class="n">ngrid_per_dim</span><span class="p">,</span>
+             <span class="n">cov_params</span><span class="o">=</span><span class="n">cov_params</span><span class="p">,</span>
+             <span class="n">mu_nu0</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+             <span class="n">X_grid</span><span class="o">=</span><span class="n">X_grid</span><span class="p">,</span>
+             <span class="n">outdir</span><span class="o">=</span><span class="n">outdir</span><span class="p">,</span>
+             <span class="n">prior_theta_dist</span><span class="o">=</span><span class="n">prior_theta_dist</span><span class="p">,</span>
+             <span class="n">prior_theta_params</span><span class="o">=</span><span class="n">prior_theta_params</span><span class="p">,</span>
+             <span class="n">stable_theta_sampling</span><span class="o">=</span><span class="n">stable_theta_sampling</span><span class="p">,</span>
+             <span class="n">time_origin</span><span class="o">=</span><span class="n">time_origin</span><span class="p">,</span>
+             <span class="n">case_name</span><span class="o">=</span><span class="n">case_name</span><span class="p">,</span>
+             <span class="n">burnin</span><span class="o">=</span><span class="n">burnin</span><span class="p">,</span>
+             <span class="n">Ksamples</span><span class="o">=</span><span class="n">Ksamples</span><span class="p">,</span>
+             <span class="n">num_iterations</span><span class="o">=</span><span class="n">num_iterations</span><span class="p">,</span>
+             <span class="n">thinning</span><span class="o">=</span><span class="n">thinning</span><span class="p">,</span>
+             <span class="n">MH_proposals_offspring</span><span class="o">=</span><span class="n">MH_proposals_offspring</span><span class="p">,</span>
+             <span class="n">MH_cov_empirical_yes</span><span class="o">=</span><span class="n">MH_cov_empirical_yes</span><span class="p">,</span>
+             <span class="n">kth_sample_obj</span><span class="o">=</span><span class="n">kth_sample_obj</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Rxxx
+#iters 1001
+Output subdirectory exists
+setup_obj has been created and saved: ./output/inference_results/setup_obj_Rxxx.all
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">vars</span><span class="p">(</span><span class="n">setup_obj</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;utm_yes&#39;: None,
+ &#39;N_training&#39;: 998,
+ &#39;mu0_start&#39;: 0.003394557823129252,
+ &#39;mu0_grid&#39;: None,
+ &#39;m0&#39;: 3.5,
+ &#39;m_beta&#39;: 2.3977128030175625,
+ &#39;theta_start_Kcpadgqbm0&#39;: array([2.5000000e-03, 1.0000000e-02, 1.2000000e+00, 1.8000000e+00,
+        5.0000000e-02, 5.0000000e-01, 2.0000000e+00, 2.3977128e+00,
+        3.5000000e+00]),
+ &#39;spatial_offspring&#39;: &#39;R&#39;,
+ &#39;sigma_proposal_offspring_params&#39;: 0.0001,
+ &#39;cov_params&#39;: [5.0, array([0.37814954, 0.37814954])],
+ &#39;cov_params_start&#39;: [5.0, array([0.37814954, 0.37814954])],
+ &#39;mu_upper_bound&#39;: None,
+ &#39;std_factor&#39;: 1.0,
+ &#39;mu_nu0&#39;: None,
+ &#39;mu_length_scale&#39;: None,
+ &#39;sigma_proposal_hypers&#39;: 0.05,
+ &#39;X_grid&#39;: array([[-120.        ,   30.        ],
+        [-119.85714286,   30.        ],
+        [-119.71428571,   30.        ],
+        ...,
+        [-113.28571429,   37.        ],
+        [-113.14285714,   37.        ],
+        [-113.        ,   37.        ]]),
+ &#39;X_grid_NN&#39;: array([[0.        , 0.        ],
+        [0.14285714, 0.        ],
+        [0.28571429, 0.        ],
+        ...,
+        [6.71428571, 7.        ],
+        [6.85714286, 7.        ],
+        [7.        , 7.        ]]),
+ &#39;prior_theta_dist&#39;: &#39;gamma&#39;,
+ &#39;prior_theta_params&#39;: None,
+ &#39;stable_theta_sampling&#39;: &#39;yes&#39;,
+ &#39;data_obj&#39;: &lt;gpetas.utils.some_fun.create_data_obj_from_cat_file at 0x7ff68a6166d0&gt;,
+ &#39;time_origin&#39;: &#39;2010-01-01 00:00:00.000000&#39;,
+ &#39;case_name&#39;: &#39;Rxxx&#39;,
+ &#39;burnin&#39;: 100,
+ &#39;Ksamples&#39;: 100,
+ &#39;num_iterations&#39;: 1001,
+ &#39;thinning&#39;: 10,
+ &#39;MH_proposals_offspring&#39;: 100,
+ &#39;MH_cov_empirical_yes&#39;: None,
+ &#39;kth_sample_obj&#39;: None,
+ &#39;outdir&#39;: &#39;./output/inference_results&#39;}
+</pre></div></div>
+</div>
+<hr class="docutils" />
+<hr class="docutils" />
+<section id="Setup-object-for-classical-MLE-(KDE-ETAS)">
+<h2>Setup object for classical MLE (KDE-ETAS)<a class="headerlink" href="#Setup-object-for-classical-MLE-(KDE-ETAS)" title="Link to this heading">#</a></h2>
+<section id="id1">
+<h3>Requires a <em>data_obj</em> which includes <em>domain_obj</em><a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<p>In this example we load a previously generated <em>data_obj</em> and we also load a previously generated <em>setup_obj</em> of the Gibbs sampler in order to generate a <em>setup_obj_mle</em> comparable to the Gibbs sampler setup.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### load data_obj</span>
+<span class="n">case_name</span> <span class="o">=</span> <span class="s1">&#39;Rxxx&#39;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">case_name</span><span class="p">)</span>
+<span class="n">output_dir</span> <span class="o">=</span> <span class="s1">&#39;./output/inference_results&#39;</span>
+<span class="n">fname</span> <span class="o">=</span> <span class="n">output_dir</span><span class="o">+</span><span class="s1">&#39;/data_obj_</span><span class="si">%s</span><span class="s1">.all&#39;</span><span class="o">%</span><span class="k">case_name</span>
+<span class="n">data_obj</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span><span class="n">allow_pickle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1">### load setup_obj from the GP-ETAS sampler</span>
+<span class="n">fname</span> <span class="o">=</span> <span class="n">output_dir</span><span class="o">+</span><span class="s1">&#39;/setup_obj_</span><span class="si">%s</span><span class="s1">.all&#39;</span><span class="o">%</span><span class="k">case_name</span>
+<span class="n">setup_obj</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span><span class="n">allow_pickle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1">### variables of the MLE procedure (EM)</span>
+
+<span class="c1"># bg KDE parameters</span>
+<span class="n">Nnearest</span><span class="o">=</span><span class="mi">15</span>                                     <span class="c1"># default value: 15</span>
+<span class="n">h_min_degree</span><span class="o">=</span><span class="mf">0.05</span>                               <span class="c1"># default value: 0.05 in degrees</span>
+<span class="n">silverman</span> <span class="o">=</span> <span class="kc">None</span>                                <span class="c1"># default value: None #alternative &#39;yes&#39;; minimal bandwith via Silverman Rule yes or no(None)</span>
+<span class="n">bins</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">setup_obj</span><span class="o">.</span><span class="n">X_grid</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>  <span class="c1"># default value: 50</span>
+<span class="n">X_grid</span> <span class="o">=</span> <span class="n">setup_obj</span><span class="o">.</span><span class="n">X_grid</span>
+
+<span class="c1"># offspring</span>
+<span class="n">stable_theta</span> <span class="o">=</span> <span class="n">setup_obj</span><span class="o">.</span><span class="n">stable_theta_sampling</span>
+<span class="n">theta_start_Kcpadgqbm0</span> <span class="o">=</span> <span class="n">setup_obj</span><span class="o">.</span><span class="n">theta_start_Kcpadgqbm0</span>  <span class="c1"># uses default values for a stabil Hawkes process:</span>
+<span class="n">spatial_offspring</span> <span class="o">=</span> <span class="n">setup_obj</span><span class="o">.</span><span class="n">spatial_offspring</span>
+
+<span class="c1"># save setup_obj_mle</span>
+<span class="n">outdir</span> <span class="o">=</span> <span class="n">setup_obj</span><span class="o">.</span><span class="n">outdir</span>
+<span class="n">case_name</span> <span class="o">=</span> <span class="n">setup_obj</span><span class="o">.</span><span class="n">case_name</span>
+
+<span class="c1"># create setup_obj_mle</span>
+<span class="n">setup_obj_mle</span> <span class="o">=</span> <span class="n">gpetas</span><span class="o">.</span><span class="n">mle_KDE_ETAS</span><span class="o">.</span><span class="n">setup_mle</span><span class="p">(</span><span class="n">data_obj</span><span class="o">=</span><span class="n">data_obj</span><span class="p">,</span>
+                    <span class="n">theta_start_Kcpadgqbm0</span><span class="o">=</span><span class="n">theta_start_Kcpadgqbm0</span><span class="p">,</span>
+                    <span class="n">spatial_offspring</span><span class="o">=</span><span class="n">spatial_offspring</span><span class="p">,</span>
+                    <span class="n">Nnearest</span><span class="o">=</span><span class="n">Nnearest</span><span class="p">,</span>
+                    <span class="n">h_min_degree</span><span class="o">=</span><span class="n">h_min_degree</span><span class="p">,</span>
+                    <span class="n">spatial_units</span><span class="o">=</span><span class="s1">&#39;degree&#39;</span><span class="p">,</span>
+                    <span class="n">utm_yes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                    <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span>
+                    <span class="n">X_grid</span><span class="o">=</span><span class="n">X_grid</span><span class="p">,</span>
+                    <span class="n">outdir</span><span class="o">=</span><span class="n">outdir</span><span class="p">,</span>
+                    <span class="n">stable_theta</span><span class="o">=</span><span class="n">stable_theta</span><span class="p">,</span>
+                    <span class="n">case_name</span><span class="o">=</span><span class="n">case_name</span><span class="p">,</span>
+                    <span class="n">silverman</span><span class="o">=</span><span class="n">silverman</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Rxxx
+./output/inference_results subdirectory exists
+mle_setup_obj has been created and saved: ./output/inference_results/setup_obj_default_Rxxx_mle.all
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">vars</span><span class="p">(</span><span class="n">setup_obj_mle</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;data_obj&#39;: &lt;gpetas.utils.some_fun.create_data_obj_from_cat_file at 0x7ff68b37d640&gt;,
+ &#39;utm_yes&#39;: None,
+ &#39;spatial_units&#39;: &#39;degree&#39;,
+ &#39;N_training&#39;: 998,
+ &#39;absX_training&#39;: 49.0,
+ &#39;absT_training&#39;: 3000.0,
+ &#39;case_name&#39;: &#39;Rxxx&#39;,
+ &#39;theta_start_Kcpadgqbm0&#39;: array([2.5000000e-03, 1.0000000e-02, 1.2000000e+00, 1.8000000e+00,
+        5.0000000e-02, 5.0000000e-01, 2.0000000e+00, 2.3977128e+00,
+        3.5000000e+00]),
+ &#39;m0&#39;: 3.5,
+ &#39;m_beta&#39;: 2.3977128030175625,
+ &#39;spatial_offspring&#39;: &#39;R&#39;,
+ &#39;mu_start&#39;: 0.003394557823129252,
+ &#39;X_borders_NN&#39;: array([[0., 7.],
+        [0., 7.]]),
+ &#39;X_grid&#39;: array([[-120.        ,   30.        ],
+        [-119.85714286,   30.        ],
+        [-119.71428571,   30.        ],
+        ...,
+        [-113.28571429,   37.        ],
+        [-113.14285714,   37.        ],
+        [-113.        ,   37.        ]]),
+ &#39;bins&#39;: 50,
+ &#39;Nnearest&#39;: 15,
+ &#39;h_min_degree&#39;: 0.05,
+ &#39;dLL&#39;: 10.0,
+ &#39;stable_theta&#39;: &#39;yes&#39;,
+ &#39;outdir&#39;: &#39;./output/inference_results&#39;}
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="02_getdata_from_online_via_pycsep.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Data from an online source</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="04_gibbs_sampling_gpetas.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Inference: GP-ETAS</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Inference setup, model setup</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Setup-object-for-Bayesian-inference-(Gibbs-sampler)">Setup object for Bayesian inference (Gibbs sampler)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Requires-a-data_obj-which-includes-domain_obj">Requires a <em>data_obj</em> which includes <em>domain_obj</em></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#Generating-an-setup_obj-for-GP-ETAS-(gpetas)">Generating an setup_obj for GP-ETAS (gpetas)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Setup-object-for-classical-MLE-(KDE-ETAS)">Setup object for classical MLE (KDE-ETAS)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Requires a <em>data_obj</em> which includes <em>domain_obj</em></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By chrism
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023, chrism.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

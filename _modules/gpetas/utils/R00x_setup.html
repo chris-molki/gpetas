@@ -1,0 +1,836 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>gpetas.utils.R00x_setup &#8212; gpetas 0.0.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=384b581d" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script src="../../../_static/documentation_options.js?v=e645c8fa"></script>
+    <script src="../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/gpetas/utils/R00x_setup';</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/logo.svg" class="logo__image only-light" alt="gpetas 0.0.1 documentation - Home"/>
+    <script>document.write(`<img src="../../../_static/logo.svg" class="logo__image only-dark" alt="gpetas 0.0.1 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/00_domain_setup.html">Define domain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/01_getdata_from_file.html">Data from a text file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/02_getdata_from_online_via_pycsep.html">Data from an online source</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/03_inference_setup.html">Inference setup, model setup</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/04_gibbs_sampling_gpetas.html">Inference: GP-ETAS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/04a_classical_inference_MLE_KDE_ETAS.html">Inference: classical ETAS MLE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/05_results_summary.html">Results</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">API reference</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../gpetas.html">gpetas package</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../gpetas.core.html">gpetas.core package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../gpetas.synthetic_experiments.html">gpetas.synthetic_experiments package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../gpetas.utils.html">gpetas.utils package</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/chris-molki/gpetas" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for gpetas.utils.R00x_setup</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+
+<span class="n">time_format</span> <span class="o">=</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S.</span><span class="si">%f</span><span class="s2">&quot;</span>
+
+
+<div class="viewcode-block" id="R00x_california_set_domain">
+<a class="viewcode-back" href="../../../gpetas.utils.html#gpetas.utils.R00x_setup.R00x_california_set_domain">[docs]</a>
+<span class="k">class</span> <span class="nc">R00x_california_set_domain</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time_origin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">time_end_training</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">time_end_total</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bins_Xgrid</span><span class="o">=</span><span class="mi">50</span><span class="p">):</span>
+        <span class="c1"># special events: sequences (locations)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">point_E001_Landers</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">116.437</span><span class="p">,</span> <span class="mf">34.200</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">point_E002_HectorMine</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">116.265</span><span class="p">,</span> <span class="mf">34.603</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">point_E003_Ridgecrest</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">117.599</span><span class="p">,</span> <span class="mf">35.770</span><span class="p">])</span>
+
+        <span class="c1"># X domain</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bins_Xgrid</span> <span class="o">=</span> <span class="n">bins_Xgrid</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">regions_X_domain</span><span class="p">()</span>
+
+        <span class="c1"># time domain (here oriented at Helmstetter 2007)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time_format</span> <span class="o">=</span> <span class="n">time_format</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time_format_example</span> <span class="o">=</span> <span class="s1">&#39;2005-08-23 00:00:00.0&#39;</span>
+        <span class="k">if</span> <span class="n">time_origin</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">time_origin</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="s1">&#39;1981-01-01 00:00:00.0&#39;</span><span class="p">,</span> <span class="n">time_format</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+                <span class="n">tzinfo</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">time_origin</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">time_origin</span><span class="p">,</span> <span class="n">time_format</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">tzinfo</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">time_end_training</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">time_end_training</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="s1">&#39;2005-08-23 00:00:00.0&#39;</span><span class="p">,</span> <span class="n">time_format</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+                <span class="n">tzinfo</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">time_end_training</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">time_end_training</span><span class="p">,</span> <span class="n">time_format</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+                <span class="n">tzinfo</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">time_end_total</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">time_end_total</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="s1">&#39;2022-01-01 00:00:00.0&#39;</span><span class="p">,</span> <span class="n">time_format</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+                <span class="n">tzinfo</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">time_end_total</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">time_end_total</span><span class="p">,</span> <span class="n">time_format</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+                <span class="n">tzinfo</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span>
+        <span class="n">T_borders_all</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.</span><span class="p">,</span> <span class="p">(</span><span class="n">time_end_total</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()</span> <span class="o">-</span> <span class="n">time_origin</span><span class="o">.</span><span class="n">timestamp</span><span class="p">())</span> <span class="o">/</span> <span class="p">(</span><span class="mf">60.</span> <span class="o">*</span> <span class="mf">60.</span> <span class="o">*</span> <span class="mf">24.</span><span class="p">)])</span>
+        <span class="n">T_borders_training</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.</span><span class="p">,</span> <span class="p">(</span><span class="n">time_end_training</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()</span> <span class="o">-</span> <span class="n">time_origin</span><span class="o">.</span><span class="n">timestamp</span><span class="p">())</span> <span class="o">/</span> <span class="p">(</span>
+                <span class="mf">60.</span> <span class="o">*</span> <span class="mf">60.</span> <span class="o">*</span> <span class="mf">24.</span><span class="p">)])</span>  <span class="c1"># 1/1/1981 to 23/8/2005: 9000 days</span>
+        <span class="n">T_borders_testing</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">T_borders_training</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">T_borders_all</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">T_borders_all</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">T_borders_all</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">T_borders_training</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">T_borders_training</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">T_borders_testing</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">T_borders_testing</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time_origin</span> <span class="o">=</span> <span class="n">time_origin</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t1_time_end_training</span> <span class="o">=</span> <span class="n">time_end_training</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t2_time_end_total</span> <span class="o">=</span> <span class="n">time_end_total</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">list_regions_of_interest</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;R002a&#39;</span><span class="p">,</span> <span class="s1">&#39;R002b&#39;</span><span class="p">,</span> <span class="s1">&#39;R002c&#39;</span><span class="p">,</span> <span class="s1">&#39;R002d&#39;</span><span class="p">,</span> <span class="s1">&#39;R002e&#39;</span><span class="p">,</span> <span class="s1">&#39;R005&#39;</span><span class="p">,</span> <span class="s1">&#39;R006&#39;</span><span class="p">,</span> <span class="s1">&#39;R007a&#39;</span><span class="p">,</span> <span class="s1">&#39;R008&#39;</span><span class="p">]</span>
+        <span class="c1">#self.list_regions_of_interest = [&#39;R005&#39;, &#39;R006&#39;, &#39;R007a&#39;, &#39;R008&#39;]</span>
+
+        <span class="c1"># info: Helmstetter 2007 paper</span>
+        <span class="n">m1</span> <span class="o">=</span> <span class="s1">&#39;Helmstetter, 2007: SRL </span><span class="se">\n</span><span class="s1"> &#39;</span> \
+             <span class="s1">&#39;training period originally: 1 January 1981 to (1/1/1996)</span><span class="se">\n</span><span class="s1">&#39;</span> \
+             <span class="s1">&#39;training period final     : 1 January 1981 to 23/8/2005 (it was extended to this date)</span><span class="se">\n</span><span class="s1">&#39;</span> \
+             <span class="s1">&#39;in Helmstetter test period: 1/1/1996 to 8/23/2005 </span><span class="se">\n</span><span class="s1"> magnitude: &gt;=2</span><span class="se">\n</span><span class="s1">&#39;</span> \
+             <span class="s1">&#39;Our testing period: 8/23/2005 to 01/01/2022 magnitude &gt;= 3.0&#39;</span>
+        <span class="n">m2</span> <span class="o">=</span> <span class="s1">&#39;We use earthquakes of M ≥ 2 in the Advanced National Seismic System (ANSS) catalog,</span><span class="se">\n</span><span class="s1"> in the time period from 1 January 1981 to 23 August 2005. We selected earthquakes</span><span class="se">\n</span><span class="s1"> within a rectangu- lar area 30.55° &lt; latitude &lt; 43.95° and –126.35° &lt; longitude &lt; –112.15°,</span><span class="se">\n</span><span class="s1"> larger by 1° than the RELM testing area, to avoid finite region size effects.</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="n">m3</span> <span class="o">=</span> <span class="s1">&#39;Our final model (our forecast for the next five years) is model #21 in table 1, </span><span class="se">\n</span><span class="s1"> , which uses all available data.</span><span class="se">\n</span><span class="s1"> Model #21 in table 1 uses all the available input data, from 1 January 1981 to 23 August 2005</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="n">m4</span> <span class="o">=</span> <span class="s1">&#39;The resulting declustered catalog has 81,659 “indepen- dent events” </span><span class="se">\n</span><span class="s1"> (“mainshocks” and “background events”), and 75,545 “dependent events” </span><span class="se">\n</span><span class="s1"> (“foreshocks” and “aftershocks”). The parameters of the declustering algorithm </span><span class="se">\n</span><span class="s1"> were adjusted to remove large fluctuations of seismic activity in space and time.</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="c1"># print(m1, m2, m3, m4)</span>
+
+<div class="viewcode-block" id="R00x_california_set_domain.get_region">
+<a class="viewcode-back" href="../../../gpetas.utils.html#gpetas.utils.R00x_setup.R00x_california_set_domain.get_region">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_region</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">region_string</span><span class="p">,</span> <span class="n">time_origin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">time_end_training</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">time_end_total</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bins_Xgrid</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">region_obj</span> <span class="o">=</span> <span class="n">region_class</span><span class="p">()</span>
+        <span class="n">region_obj</span><span class="o">.</span><span class="n">time_format</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_format</span>
+        <span class="n">region_obj</span><span class="o">.</span><span class="n">time_format_example</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_format_example</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;polygon_</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">region_string</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Region object: </span><span class="si">%s</span><span class="s1">_obj has been created.&#39;</span> <span class="o">%</span> <span class="n">region_string</span><span class="p">)</span>
+            <span class="n">region</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;polygon_</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">region_string</span><span class="p">)</span>
+            <span class="n">region_obj</span><span class="o">.</span><span class="n">X_borders</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+                <span class="p">[[</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">region</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">region</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])],</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">region</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">region</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])]])</span>
+            <span class="n">region_obj</span><span class="o">.</span><span class="n">X_borders_original</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">region_obj</span><span class="o">.</span><span class="n">X_borders</span><span class="p">)</span>
+
+            <span class="c1"># spatial resolution</span>
+            <span class="n">region_obj</span><span class="o">.</span><span class="n">binsize</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">region_obj</span><span class="o">.</span><span class="n">X_borders</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">bins_Xgrid</span>
+            <span class="k">if</span> <span class="n">bins_Xgrid</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">region_obj</span><span class="o">.</span><span class="n">bins_Xgrid</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bins_Xgrid</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">region_obj</span><span class="o">.</span><span class="n">bins_Xgrid</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">bins_Xgrid</span><span class="p">)</span>
+
+            <span class="c1"># some info</span>
+            <span class="n">region_obj</span><span class="o">.</span><span class="n">polygon</span> <span class="o">=</span> <span class="n">region</span>
+            <span class="n">region_obj</span><span class="o">.</span><span class="n">region_string</span> <span class="o">=</span> <span class="n">region_string</span>
+            <span class="n">region_obj</span><span class="o">.</span><span class="n">case_name</span> <span class="o">=</span> <span class="n">region_string</span>
+            <span class="n">region_obj</span><span class="o">.</span><span class="n">polygon_CA</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;polygon_CA&#39;</span><span class="p">)</span>
+            <span class="n">region_obj</span><span class="o">.</span><span class="n">X_borders_CA</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+                <span class="p">[[</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">region_obj</span><span class="o">.</span><span class="n">polygon_CA</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">region_obj</span><span class="o">.</span><span class="n">polygon_CA</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])],</span>
+                 <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">region_obj</span><span class="o">.</span><span class="n">polygon_CA</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">region_obj</span><span class="o">.</span><span class="n">polygon_CA</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])]])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="s1">&#39;WARNING: Region </span><span class="si">%s</span><span class="s1"> is not defined as subregion in California.&#39;</span>
+
+        <span class="c1"># time domain</span>
+        <span class="n">time_format</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_format</span>
+        <span class="k">if</span> <span class="n">time_origin</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">time_origin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_origin</span>
+            <span class="n">region_obj</span><span class="o">.</span><span class="n">time_origin</span> <span class="o">=</span> <span class="n">time_origin</span>
+            <span class="n">region_obj</span><span class="o">.</span><span class="n">time_origin</span> <span class="o">=</span> <span class="n">time_origin</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">time_origin</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">time_origin</span><span class="p">,</span> <span class="n">time_format</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">tzinfo</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span>
+            <span class="n">region_obj</span><span class="o">.</span><span class="n">time_origin</span> <span class="o">=</span> <span class="n">time_origin</span>
+            <span class="n">region_obj</span><span class="o">.</span><span class="n">time_origin</span> <span class="o">=</span> <span class="n">time_origin</span>
+        <span class="k">if</span> <span class="n">time_end_training</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">time_end_training</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">t1_time_end_training</span>
+            <span class="n">region_obj</span><span class="o">.</span><span class="n">t1_time_end_training</span> <span class="o">=</span> <span class="n">time_end_training</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">time_end_training</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">time_end_training</span><span class="p">,</span> <span class="n">time_format</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+                <span class="n">tzinfo</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span>
+            <span class="n">region_obj</span><span class="o">.</span><span class="n">t1_time_end_training</span> <span class="o">=</span> <span class="n">time_end_training</span>
+        <span class="k">if</span> <span class="n">time_end_total</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">time_end_total</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">t2_time_end_total</span>
+            <span class="n">region_obj</span><span class="o">.</span><span class="n">t2_time_end_total</span> <span class="o">=</span> <span class="n">time_end_total</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">time_end_total</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">time_end_total</span><span class="p">,</span> <span class="n">time_format</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+                <span class="n">tzinfo</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span>
+            <span class="n">region_obj</span><span class="o">.</span><span class="n">t2_time_end_total</span> <span class="o">=</span> <span class="n">time_end_total</span>
+
+        <span class="n">T_borders_all</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.</span><span class="p">,</span> <span class="p">(</span><span class="n">time_end_total</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()</span> <span class="o">-</span> <span class="n">time_origin</span><span class="o">.</span><span class="n">timestamp</span><span class="p">())</span> <span class="o">/</span> <span class="p">(</span><span class="mf">60.</span> <span class="o">*</span> <span class="mf">60.</span> <span class="o">*</span> <span class="mf">24.</span><span class="p">)])</span>
+        <span class="n">T_borders_training</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.</span><span class="p">,</span> <span class="p">(</span><span class="n">time_end_training</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()</span> <span class="o">-</span> <span class="n">time_origin</span><span class="o">.</span><span class="n">timestamp</span><span class="p">())</span> <span class="o">/</span> <span class="p">(</span>
+                <span class="mf">60.</span> <span class="o">*</span> <span class="mf">60.</span> <span class="o">*</span> <span class="mf">24.</span><span class="p">)])</span>  <span class="c1"># 1/1/1981 to 23/8/2005: 9000 days</span>
+        <span class="n">T_borders_testing</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">T_borders_training</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">T_borders_all</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
+        <span class="n">region_obj</span><span class="o">.</span><span class="n">T_borders_all</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">T_borders_all</span><span class="p">)</span>
+        <span class="n">region_obj</span><span class="o">.</span><span class="n">T_borders_training</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">T_borders_training</span><span class="p">)</span>
+        <span class="n">region_obj</span><span class="o">.</span><span class="n">T_borders_testing</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">T_borders_testing</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">region_obj</span></div>
+
+
+<div class="viewcode-block" id="R00x_california_set_domain.regions_X_domain">
+<a class="viewcode-back" href="../../../gpetas.utils.html#gpetas.utils.R00x_setup.R00x_california_set_domain.regions_X_domain">[docs]</a>
+    <span class="k">def</span> <span class="nf">regions_X_domain</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># regions</span>
+        <span class="c1"># R001 frame</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">polygon_R001</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="p">[</span><span class="o">-</span><span class="mf">118.</span><span class="p">,</span> <span class="mf">36.</span><span class="p">],</span>
+            <span class="p">[</span><span class="o">-</span><span class="mi">116</span><span class="p">,</span> <span class="mf">36.</span><span class="p">],</span>
+            <span class="p">[</span><span class="o">-</span><span class="mi">116</span><span class="p">,</span> <span class="mf">34.</span><span class="p">],</span>
+            <span class="p">[</span><span class="o">-</span><span class="mi">118</span><span class="p">,</span> <span class="mf">34.</span><span class="p">],</span>
+            <span class="p">[</span><span class="o">-</span><span class="mf">118.</span><span class="p">,</span> <span class="mf">36.</span><span class="p">]])</span>
+
+        <span class="c1"># R002a frame (Landers)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">polygon_R002a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="p">[</span><span class="o">-</span><span class="mf">117.5</span><span class="p">,</span> <span class="mf">35.</span><span class="p">],</span>
+            <span class="p">[</span><span class="o">-</span><span class="mf">115.5</span><span class="p">,</span> <span class="mf">35.</span><span class="p">],</span>
+            <span class="p">[</span><span class="o">-</span><span class="mf">115.5</span><span class="p">,</span> <span class="mf">33.</span><span class="p">],</span>
+            <span class="p">[</span><span class="o">-</span><span class="mf">117.5</span><span class="p">,</span> <span class="mf">33.</span><span class="p">],</span>
+            <span class="p">[</span><span class="o">-</span><span class="mf">117.5</span><span class="p">,</span> <span class="mf">35.</span><span class="p">]])</span>
+
+        <span class="c1"># R002b frame (Landers, Hector Mine, Ridgecrest)</span>
+        <span class="n">x_low</span><span class="p">,</span> <span class="n">x_up</span> <span class="o">=</span> <span class="o">-</span><span class="mi">118</span><span class="p">,</span> <span class="o">-</span><span class="mi">116</span>
+        <span class="n">y_low</span><span class="p">,</span> <span class="n">y_up</span> <span class="o">=</span> <span class="mf">34.</span><span class="p">,</span> <span class="mf">36.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">polygon_R002b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="p">[</span><span class="n">x_low</span><span class="p">,</span> <span class="n">y_up</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">x_up</span><span class="p">,</span> <span class="n">y_up</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">x_up</span><span class="p">,</span> <span class="n">y_low</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">x_low</span><span class="p">,</span> <span class="n">y_low</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">x_low</span><span class="p">,</span> <span class="n">y_up</span><span class="p">]])</span>
+
+        <span class="c1"># R002c frame (Landers, Hector Mine, Ridgecrest) 2.5 x 2.5 degrees</span>
+        <span class="c1"># x_low, x_up = -118.25, -115.75</span>
+        <span class="c1"># y_low, y_up = 33.75, 36.25</span>
+        <span class="n">x_low</span><span class="p">,</span> <span class="n">x_up</span> <span class="o">=</span> <span class="o">-</span><span class="mf">118.3</span><span class="p">,</span> <span class="o">-</span><span class="mf">115.7</span>
+        <span class="n">y_low</span><span class="p">,</span> <span class="n">y_up</span> <span class="o">=</span> <span class="mf">33.7</span><span class="p">,</span> <span class="mf">36.3</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">polygon_R002c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="p">[</span><span class="n">x_low</span><span class="p">,</span> <span class="n">y_up</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">x_up</span><span class="p">,</span> <span class="n">y_up</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">x_up</span><span class="p">,</span> <span class="n">y_low</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">x_low</span><span class="p">,</span> <span class="n">y_low</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">x_low</span><span class="p">,</span> <span class="n">y_up</span><span class="p">]])</span>
+
+        <span class="c1"># R002d frame (Ridgecrest) 2. x 2. degrees</span>
+        <span class="n">x_low</span><span class="p">,</span> <span class="n">x_up</span> <span class="o">=</span> <span class="o">-</span><span class="mf">118.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">116.5</span>
+        <span class="n">y_low</span><span class="p">,</span> <span class="n">y_up</span> <span class="o">=</span> <span class="mf">34.5</span><span class="p">,</span> <span class="mf">36.5</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">polygon_R002d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="p">[</span><span class="n">x_low</span><span class="p">,</span> <span class="n">y_up</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">x_up</span><span class="p">,</span> <span class="n">y_up</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">x_up</span><span class="p">,</span> <span class="n">y_low</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">x_low</span><span class="p">,</span> <span class="n">y_low</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">x_low</span><span class="p">,</span> <span class="n">y_up</span><span class="p">]])</span>
+
+        <span class="c1"># R002e frame (Ridgecrest)</span>
+        <span class="n">x_low</span><span class="p">,</span> <span class="n">x_up</span> <span class="o">=</span> <span class="o">-</span><span class="mf">119.</span><span class="p">,</span> <span class="o">-</span><span class="mf">117.</span>
+        <span class="n">y_low</span><span class="p">,</span> <span class="n">y_up</span> <span class="o">=</span> <span class="mf">35.</span><span class="p">,</span> <span class="mf">37.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">polygon_R002e</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="p">[</span><span class="n">x_low</span><span class="p">,</span> <span class="n">y_up</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">x_up</span><span class="p">,</span> <span class="n">y_up</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">x_up</span><span class="p">,</span> <span class="n">y_low</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">x_low</span><span class="p">,</span> <span class="n">y_low</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">x_low</span><span class="p">,</span> <span class="n">y_up</span><span class="p">]])</span>
+
+        <span class="c1"># R005 frame (San Francisco)</span>
+        <span class="n">x_low</span><span class="p">,</span> <span class="n">x_up</span> <span class="o">=</span> <span class="o">-</span><span class="mf">122.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">120.5</span>
+        <span class="n">y_low</span><span class="p">,</span> <span class="n">y_up</span> <span class="o">=</span> <span class="mf">36.5</span><span class="p">,</span> <span class="mf">38.5</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">polygon_R005</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="p">[</span><span class="n">x_low</span><span class="p">,</span> <span class="n">y_up</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">x_up</span><span class="p">,</span> <span class="n">y_up</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">x_up</span><span class="p">,</span> <span class="n">y_low</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">x_low</span><span class="p">,</span> <span class="n">y_low</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">x_low</span><span class="p">,</span> <span class="n">y_up</span><span class="p">]])</span>
+
+        <span class="c1"># R006 frame (Los Angelos)</span>
+        <span class="n">x_low</span><span class="p">,</span> <span class="n">x_up</span> <span class="o">=</span> <span class="o">-</span><span class="mf">119.</span><span class="p">,</span> <span class="o">-</span><span class="mf">117.</span>
+        <span class="n">y_low</span><span class="p">,</span> <span class="n">y_up</span> <span class="o">=</span> <span class="mf">33.</span><span class="p">,</span> <span class="mf">35.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">polygon_R006</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="p">[</span><span class="n">x_low</span><span class="p">,</span> <span class="n">y_up</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">x_up</span><span class="p">,</span> <span class="n">y_up</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">x_up</span><span class="p">,</span> <span class="n">y_low</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">x_low</span><span class="p">,</span> <span class="n">y_low</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">x_low</span><span class="p">,</span> <span class="n">y_up</span><span class="p">]])</span>
+
+        <span class="c1"># R007 frame (Lake Tahoe, Yosimity)</span>
+        <span class="n">x_low</span><span class="p">,</span> <span class="n">x_up</span> <span class="o">=</span> <span class="o">-</span><span class="mf">120.</span><span class="p">,</span> <span class="o">-</span><span class="mf">118.</span>
+        <span class="n">y_low</span><span class="p">,</span> <span class="n">y_up</span> <span class="o">=</span> <span class="mf">37.</span><span class="p">,</span> <span class="mf">39.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">polygon_R007</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="p">[</span><span class="n">x_low</span><span class="p">,</span> <span class="n">y_up</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">x_up</span><span class="p">,</span> <span class="n">y_up</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">x_up</span><span class="p">,</span> <span class="n">y_low</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">x_low</span><span class="p">,</span> <span class="n">y_low</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">x_low</span><span class="p">,</span> <span class="n">y_up</span><span class="p">]])</span>
+
+        <span class="c1"># R007a frame (Lake Tahoe, Yosimity)</span>
+        <span class="n">x_low</span><span class="p">,</span> <span class="n">x_up</span> <span class="o">=</span> <span class="o">-</span><span class="mf">120.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">118.5</span>
+        <span class="n">y_low</span><span class="p">,</span> <span class="n">y_up</span> <span class="o">=</span> <span class="mf">37.</span><span class="p">,</span> <span class="mf">39.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">polygon_R007a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="p">[</span><span class="n">x_low</span><span class="p">,</span> <span class="n">y_up</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">x_up</span><span class="p">,</span> <span class="n">y_up</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">x_up</span><span class="p">,</span> <span class="n">y_low</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">x_low</span><span class="p">,</span> <span class="n">y_low</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">x_low</span><span class="p">,</span> <span class="n">y_up</span><span class="p">]])</span>
+
+        <span class="c1"># R008 frame (Sequoia National Park)</span>
+        <span class="n">x_low</span><span class="p">,</span> <span class="n">x_up</span> <span class="o">=</span> <span class="o">-</span><span class="mf">119.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">117.5</span>
+        <span class="n">y_low</span><span class="p">,</span> <span class="n">y_up</span> <span class="o">=</span> <span class="mf">35.5</span><span class="p">,</span> <span class="mf">37.5</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">polygon_R008</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="p">[</span><span class="n">x_low</span><span class="p">,</span> <span class="n">y_up</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">x_up</span><span class="p">,</span> <span class="n">y_up</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">x_up</span><span class="p">,</span> <span class="n">y_low</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">x_low</span><span class="p">,</span> <span class="n">y_low</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">x_low</span><span class="p">,</span> <span class="n">y_up</span><span class="p">]])</span>
+
+        <span class="c1"># TOTAL CA test area (HE07)</span>
+        <span class="n">xlon_min_H07</span> <span class="o">=</span> <span class="o">-</span><span class="mf">126.35</span>
+        <span class="n">xlon_max_H07</span> <span class="o">=</span> <span class="o">-</span><span class="mf">112.15</span>
+        <span class="n">ylat_min_H07</span> <span class="o">=</span> <span class="mf">30.55</span>
+        <span class="n">ylat_max_H07</span> <span class="o">=</span> <span class="mf">43.95</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">polygon_CA</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="p">[</span><span class="n">xlon_min_H07</span><span class="p">,</span> <span class="n">ylat_min_H07</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">xlon_min_H07</span><span class="p">,</span> <span class="n">ylat_max_H07</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">xlon_max_H07</span><span class="p">,</span> <span class="n">ylat_max_H07</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">xlon_max_H07</span><span class="p">,</span> <span class="n">ylat_min_H07</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">xlon_min_H07</span><span class="p">,</span> <span class="n">ylat_min_H07</span><span class="p">]])</span>
+
+        <span class="c1"># SOUTHERN CALIFORNIA</span>
+        <span class="n">x_low</span><span class="p">,</span> <span class="n">x_up</span> <span class="o">=</span> <span class="o">-</span><span class="mf">120.</span><span class="p">,</span> <span class="o">-</span><span class="mf">113.</span>
+        <span class="n">y_low</span><span class="p">,</span> <span class="n">y_up</span> <span class="o">=</span> <span class="mf">30.</span><span class="p">,</span> <span class="mf">37.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">polygon_RSC7</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="p">[</span><span class="n">x_low</span><span class="p">,</span> <span class="n">y_up</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">x_up</span><span class="p">,</span> <span class="n">y_up</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">x_up</span><span class="p">,</span> <span class="n">y_low</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">x_low</span><span class="p">,</span> <span class="n">y_low</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">x_low</span><span class="p">,</span> <span class="n">y_up</span><span class="p">]])</span>
+
+        <span class="c1"># ROSS22 ZONE: SOUTHERN CALIFORNIA</span>
+        <span class="n">x_low</span><span class="p">,</span> <span class="n">x_up</span> <span class="o">=</span> <span class="o">-</span><span class="mf">122.</span><span class="p">,</span> <span class="o">-</span><span class="mf">113.</span>
+        <span class="n">y_low</span><span class="p">,</span> <span class="n">y_up</span> <span class="o">=</span> <span class="mf">30.</span><span class="p">,</span> <span class="mf">37.5</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">polygon_R002r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="p">[</span><span class="n">x_low</span><span class="p">,</span> <span class="n">y_up</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">x_up</span><span class="p">,</span> <span class="n">y_up</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">x_up</span><span class="p">,</span> <span class="n">y_low</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">x_low</span><span class="p">,</span> <span class="n">y_low</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">x_low</span><span class="p">,</span> <span class="n">y_up</span><span class="p">]])</span></div>
+</div>
+
+
+
+<span class="c1"># subclasses</span>
+<div class="viewcode-block" id="region_class">
+<a class="viewcode-back" href="../../../gpetas.utils.html#gpetas.utils.R00x_setup.region_class">[docs]</a>
+<span class="k">class</span> <span class="nc">region_class</span><span class="p">():</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">T_borders_all</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">T_borders_training</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">T_borders_testing</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">X_borders</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">X_borders_UTM_km</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">X_borders_original</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time_origin</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">m0</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">case_name</span> <span class="o">=</span> <span class="s1">&#39;Rxxx&#39;</span></div>
+
+
+
+<div class="viewcode-block" id="event">
+<a class="viewcode-back" href="../../../gpetas.utils.html#gpetas.utils.R00x_setup.event">[docs]</a>
+<span class="k">class</span> <span class="nc">event</span><span class="p">():</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+
+<div class="viewcode-block" id="special_events">
+<a class="viewcode-back" href="../../../gpetas.utils.html#gpetas.utils.R00x_setup.special_events">[docs]</a>
+<span class="k">class</span> <span class="nc">special_events</span><span class="p">():</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time_format</span> <span class="o">=</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S.</span><span class="si">%f</span><span class="s2">&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Landers</span> <span class="o">=</span> <span class="n">event</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Landers</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="s1">&#39;1992-06-28 11:57:34.0&#39;</span><span class="p">,</span> <span class="n">time_format</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+            <span class="n">tzinfo</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Landers</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">116.437</span><span class="p">,</span> <span class="mf">34.200</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Hector_Mine</span> <span class="o">=</span> <span class="n">event</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Hector_Mine</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="s1">&#39;1999-10-16 09:46:44.0&#39;</span><span class="p">,</span> <span class="n">time_format</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+            <span class="n">tzinfo</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Hector_Mine</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">116.265</span><span class="p">,</span> <span class="mf">34.603</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Ridgecrest</span> <span class="o">=</span> <span class="n">event</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Ridgecrest</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="s1">&#39;2019-07-06 03:19:53.0&#39;</span><span class="p">,</span> <span class="n">time_format</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+            <span class="n">tzinfo</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Ridgecrest</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">117.599</span><span class="p">,</span> <span class="mf">35.770</span><span class="p">])</span>
+
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        def(self, region_string)</span>
+<span class="sd">        </span>
+<span class="sd">        time_separation = np.array([0., 9000., 14975.])</span>
+<span class="sd">        bins_Xgrid=50</span>
+<span class="sd">        </span>
+<span class="sd">        # regions</span>
+<span class="sd">        # R001 frame</span>
+<span class="sd">        square_R001 = np.array([</span>
+<span class="sd">            [-118., 36.],</span>
+<span class="sd">            [-116, 36.],</span>
+<span class="sd">            [-116, 34.],</span>
+<span class="sd">            [-118, 34.],</span>
+<span class="sd">            [-118., 36.]])</span>
+
+<span class="sd">        # R002a frame (Landers)</span>
+<span class="sd">        square_R002a = np.array([</span>
+<span class="sd">            [-117.5, 35.],</span>
+<span class="sd">            [-115.5, 35.],</span>
+<span class="sd">            [-115.5, 33.],</span>
+<span class="sd">            [-117.5, 33.],</span>
+<span class="sd">            [-117.5, 35.]])</span>
+
+<span class="sd">        # R002b frame (Landers, Hector Mine, Ridgecrest)</span>
+<span class="sd">        x_low, x_up = -118, -116</span>
+<span class="sd">        y_low, y_up = 34., 36.</span>
+<span class="sd">        square_R002b = np.array([</span>
+<span class="sd">            [x_low, y_up],</span>
+<span class="sd">            [x_up, y_up],</span>
+<span class="sd">            [x_up, y_low],</span>
+<span class="sd">            [x_low, y_low],</span>
+<span class="sd">            [x_low, y_up]])</span>
+
+<span class="sd">        # R002c frame (Landers, Hector Mine, Ridgecrest) 2.5 x 2.5 degrees</span>
+<span class="sd">        x_low, x_up = -118.25, -115.75</span>
+<span class="sd">        y_low, y_up = 33.75, 36.25</span>
+<span class="sd">        square_R002c = np.array([</span>
+<span class="sd">            [x_low, y_up],</span>
+<span class="sd">            [x_up, y_up],</span>
+<span class="sd">            [x_up, y_low],</span>
+<span class="sd">            [x_low, y_low],</span>
+<span class="sd">            [x_low, y_up]])</span>
+
+<span class="sd">        # R005 frame (San Francisco)</span>
+<span class="sd">        x_low, x_up = -122.5, -120.5</span>
+<span class="sd">        y_low, y_up = 36.5, 38.5</span>
+<span class="sd">        square_R005 = np.array([</span>
+<span class="sd">            [x_low, y_up],</span>
+<span class="sd">            [x_up, y_up],</span>
+<span class="sd">            [x_up, y_low],</span>
+<span class="sd">            [x_low, y_low],</span>
+<span class="sd">            [x_low, y_up]])</span>
+
+<span class="sd">        # R006 frame (Los Angelos)</span>
+<span class="sd">        x_low, x_up = -119., -117.</span>
+<span class="sd">        y_low, y_up = 33., 35.</span>
+<span class="sd">        square_R006 = np.array([</span>
+<span class="sd">            [x_low, y_up],</span>
+<span class="sd">            [x_up, y_up],</span>
+<span class="sd">            [x_up, y_low],</span>
+<span class="sd">            [x_low, y_low],</span>
+<span class="sd">            [x_low, y_up]])</span>
+
+<span class="sd">        # R007 frame (Lake Tahoe, Yosimity)</span>
+<span class="sd">        x_low, x_up = -120., -118.</span>
+<span class="sd">        y_low, y_up = 37., 39.</span>
+<span class="sd">        square_R007 = np.array([</span>
+<span class="sd">            [x_low, y_up],</span>
+<span class="sd">            [x_up, y_up],</span>
+<span class="sd">            [x_up, y_low],</span>
+<span class="sd">            [x_low, y_low],</span>
+<span class="sd">            [x_low, y_up]])</span>
+
+<span class="sd">        # TOTAL CA test area</span>
+<span class="sd">        xlon_min_H07 = -126.35</span>
+<span class="sd">        xlon_max_H07 = -112.15</span>
+<span class="sd">        ylat_min_H07 = 30.55</span>
+<span class="sd">        ylat_max_H07 = 43.95</span>
+<span class="sd">        square_CA = np.array([</span>
+<span class="sd">            [xlon_min_H07, ylat_min_H07],</span>
+<span class="sd">            [xlon_min_H07, ylat_max_H07],</span>
+<span class="sd">            [xlon_max_H07, ylat_max_H07],</span>
+<span class="sd">            [xlon_max_H07, ylat_min_H07],</span>
+<span class="sd">            [xlon_min_H07, ylat_min_H07]])</span>
+
+<span class="sd">        # SOUTHERN CALIFORNIA</span>
+<span class="sd">        x_low, x_up = -120., -113.</span>
+<span class="sd">        y_low, y_up = 30., 37.</span>
+<span class="sd">        square_RSCA = np.array([</span>
+<span class="sd">            [x_low, y_up],</span>
+<span class="sd">            [x_up, y_up],</span>
+<span class="sd">            [x_up, y_low],</span>
+<span class="sd">            [x_low, y_low],</span>
+<span class="sd">            [x_low, y_up]])</span>
+
+
+<span class="sd">        # spatial domain calX</span>
+<span class="sd">        if region_string == &#39;R001&#39;:</span>
+<span class="sd">            region = np.copy(square_R001)</span>
+<span class="sd">            region_name = region_string</span>
+<span class="sd">            cat_name_short = &#39;CA_&#39; + region_name</span>
+<span class="sd">        if region_string == &#39;R002a&#39;:</span>
+<span class="sd">            region = np.copy(square_R002a)</span>
+<span class="sd">            region_name = region_string</span>
+<span class="sd">            cat_name_short = &#39;CA_&#39; + region_name</span>
+<span class="sd">        if region_string == &#39;R002b&#39;:</span>
+<span class="sd">            region = np.copy(square_R002b)</span>
+<span class="sd">            region_name = region_string</span>
+<span class="sd">            cat_name_short = &#39;CA_&#39; + region_name</span>
+<span class="sd">        if region_string == &#39;R002c&#39;:</span>
+<span class="sd">            region = np.copy(square_R002c)</span>
+<span class="sd">            region_name = region_string</span>
+<span class="sd">            cat_name_short = &#39;CA_&#39; + region_name</span>
+<span class="sd">        if region_string == &#39;R005&#39;:</span>
+<span class="sd">            region = np.copy(square_R005)</span>
+<span class="sd">            region_name = region_string</span>
+<span class="sd">            cat_name_short = &#39;CA_&#39; + region_name</span>
+<span class="sd">        if region_string == &#39;R006&#39;:</span>
+<span class="sd">            region = np.copy(square_R006)</span>
+<span class="sd">            region_name = region_string</span>
+<span class="sd">            cat_name_short = &#39;CA_&#39; + region_name</span>
+<span class="sd">        if region_string == &#39;R007&#39;:</span>
+<span class="sd">            region = np.copy(square_R007)</span>
+<span class="sd">            region_name = region_string</span>
+<span class="sd">            cat_name_short = &#39;CA_&#39; + region_name</span>
+<span class="sd">        if region_string == &#39;RSCA&#39;:</span>
+<span class="sd">            region = np.copy(square_RSCA)</span>
+<span class="sd">            region_name = region_string</span>
+<span class="sd">            cat_name_short = &#39;CA_&#39; + region_name</span>
+<span class="sd">        else:</span>
+<span class="sd">            self.region = region</span>
+<span class="sd">            self.X_borders = np.array(</span>
+<span class="sd">                [[np.min(region[:, 0]), np.max(region[:, 0])], [np.min(region[:, 1]), np.max(region[:, 1])]])</span>
+
+<span class="sd">            # spatial resolution</span>
+<span class="sd">            self.binsize = np.diff(self.X_borders[0, :]) / bins_Xgrid</span>
+
+<span class="sd">            # time domain calT: oriented on HE07</span>
+<span class="sd">            self.T_borders_all = np.array([time_separation[0], time_separation[2]])</span>
+<span class="sd">            self.T_borders_training = np.array([time_separation[0], time_separation[1]])  # 1/1/1981 to 23/8/2005: 9000 days</span>
+<span class="sd">            self.T_borders_testing = np.array([self.T_borders_training[1], self.T_borders_all[1]])</span>
+
+<span class="sd">            # some info</span>
+<span class="sd">            self.region_string = region_string</span>
+<span class="sd">            self.case_name = region_string</span>
+<span class="sd">            self.time_separation = time_separation</span>
+<span class="sd">            self.bins_Xgrid = bins_Xgrid</span>
+<span class="sd">            self.square_CA = square_CA</span>
+<span class="sd">    </span>
+<span class="sd">    &#39;&#39;&#39;</span></div>
+
+</pre></div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By chrism
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023, chrism.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
