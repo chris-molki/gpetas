@@ -1,0 +1,1371 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>gpetas.utils package &#8212; gpetas 0.0.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=384b581d" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script src="_static/documentation_options.js?v=e645c8fa"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'gpetas.utils';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="gpetas.synthetic_experiments package" href="gpetas.synthetic_experiments.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.svg" class="logo__image only-light" alt="gpetas 0.0.1 documentation - Home"/>
+    <script>document.write(`<img src="_static/logo.svg" class="logo__image only-dark" alt="gpetas 0.0.1 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="notebooks/00_domain_setup.html">Define domain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/01_getdata_from_file.html">Data from a text file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/02_getdata_from_online_via_pycsep.html">Data from an online source</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="notebooks/03_inference_setup.html">Inference setup, model setup</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="notebooks/04_gibbs_sampling_gpetas.html">Inference: GP-ETAS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/04a_classical_inference_MLE_KDE_ETAS.html">Inference: classical ETAS MLE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/05_results_summary.html">Results</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">API reference</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="gpetas.html">gpetas package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="gpetas.core.html">gpetas.core package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gpetas.synthetic_experiments.html">gpetas.synthetic_experiments package</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">gpetas.utils package</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/chris-molki/gpetas" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/gpetas.utils.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>gpetas.utils package</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-gpetas.utils.R00x_setup">gpetas.utils.R00x_setup module</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.R00x_setup.R00x_california_set_domain"><code class="docutils literal notranslate"><span class="pre">R00x_california_set_domain</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.R00x_setup.R00x_california_set_domain.get_region"><code class="docutils literal notranslate"><span class="pre">R00x_california_set_domain.get_region()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.R00x_setup.R00x_california_set_domain.regions_X_domain"><code class="docutils literal notranslate"><span class="pre">R00x_california_set_domain.regions_X_domain()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.R00x_setup.region_class"><code class="docutils literal notranslate"><span class="pre">region_class</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.R00x_setup.event"><code class="docutils literal notranslate"><span class="pre">event</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.R00x_setup.special_events"><code class="docutils literal notranslate"><span class="pre">special_events</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-gpetas.utils.get_data_pycsep">gpetas.utils.get_data_pycsep module</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.get_data_pycsep.init_outdir"><code class="docutils literal notranslate"><span class="pre">init_outdir()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.get_data_pycsep.data_obj__from_catalog_obj"><code class="docutils literal notranslate"><span class="pre">data_obj__from_catalog_obj()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.get_data_pycsep.plot_regions"><code class="docutils literal notranslate"><span class="pre">plot_regions()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.get_data_pycsep.plot_regions_with_catalog"><code class="docutils literal notranslate"><span class="pre">plot_regions_with_catalog()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-gpetas.utils.mle_KDE_ETAS">gpetas.utils.mle_KDE_ETAS module</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.mle_KDE_ETAS.setup_mle"><code class="docutils literal notranslate"><span class="pre">setup_mle</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.mle_KDE_ETAS.mle_units"><code class="docutils literal notranslate"><span class="pre">mle_units</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.mle_KDE_ETAS.mle_units.eval_kde_xprime"><code class="docutils literal notranslate"><span class="pre">mle_units.eval_kde_xprime()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.mle_KDE_ETAS.mle_units.eval_kde_unscaled"><code class="docutils literal notranslate"><span class="pre">mle_units.eval_kde_unscaled()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.mle_KDE_ETAS.calculate_mu"><code class="docutils literal notranslate"><span class="pre">calculate_mu()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.mle_KDE_ETAS.gaussian"><code class="docutils literal notranslate"><span class="pre">gaussian()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.mle_KDE_ETAS.fR"><code class="docutils literal notranslate"><span class="pre">fR()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.mle_KDE_ETAS.fP"><code class="docutils literal notranslate"><span class="pre">fP()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.mle_KDE_ETAS.fG"><code class="docutils literal notranslate"><span class="pre">fG()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.mle_KDE_ETAS.integrateETAS"><code class="docutils literal notranslate"><span class="pre">integrateETAS()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.mle_KDE_ETAS.dist"><code class="docutils literal notranslate"><span class="pre">dist()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.mle_KDE_ETAS.data_structure"><code class="docutils literal notranslate"><span class="pre">data_structure</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.mle_KDE_ETAS.mle_stable_hawkes"><code class="docutils literal notranslate"><span class="pre">mle_stable_hawkes</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.mle_KDE_ETAS.mle_stable_hawkes.nl_constraint"><code class="docutils literal notranslate"><span class="pre">mle_stable_hawkes.nl_constraint()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.mle_KDE_ETAS.mle_stable_hawkes.jacobian_nl_cons"><code class="docutils literal notranslate"><span class="pre">mle_stable_hawkes.jacobian_nl_cons()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.mle_KDE_ETAS.mle_stable_hawkes.l_constraint"><code class="docutils literal notranslate"><span class="pre">mle_stable_hawkes.l_constraint()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-gpetas.utils.plotting">gpetas.utils.plotting module</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.plotting.plot_slice_x"><code class="docutils literal notranslate"><span class="pre">plot_slice_x()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.plotting.plot_priors_offspring"><code class="docutils literal notranslate"><span class="pre">plot_priors_offspring()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.plotting.plot_l_ltest"><code class="docutils literal notranslate"><span class="pre">plot_l_ltest()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.plotting.plot_1D_estimation"><code class="docutils literal notranslate"><span class="pre">plot_1D_estimation()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.plotting.plot_autocorr_hyperparams"><code class="docutils literal notranslate"><span class="pre">plot_autocorr_hyperparams()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.plotting.plot_autocorr_data"><code class="docutils literal notranslate"><span class="pre">plot_autocorr_data()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.plotting.plot_hyperparams"><code class="docutils literal notranslate"><span class="pre">plot_hyperparams()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.plotting.plot_acceptance_offspring"><code class="docutils literal notranslate"><span class="pre">plot_acceptance_offspring()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.plotting.plot_autocorr"><code class="docutils literal notranslate"><span class="pre">plot_autocorr()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.plotting.plot_offspring_mcmc_chains"><code class="docutils literal notranslate"><span class="pre">plot_offspring_mcmc_chains()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.plotting.plot_scatter"><code class="docutils literal notranslate"><span class="pre">plot_scatter()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.plotting.plot_scatter_data"><code class="docutils literal notranslate"><span class="pre">plot_scatter_data()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.plotting.plot_number_of_bg_events"><code class="docutils literal notranslate"><span class="pre">plot_number_of_bg_events()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.plotting.plot_hist_lambda_bar"><code class="docutils literal notranslate"><span class="pre">plot_hist_lambda_bar()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.plotting.plot_lambda_bar"><code class="docutils literal notranslate"><span class="pre">plot_lambda_bar()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.plotting.plot_slices_and_upper_bound"><code class="docutils literal notranslate"><span class="pre">plot_slices_and_upper_bound()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.plotting.plot_intensity_2d"><code class="docutils literal notranslate"><span class="pre">plot_intensity_2d()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.plotting.plot_setting"><code class="docutils literal notranslate"><span class="pre">plot_setting()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-gpetas.utils.some_fun">gpetas.utils.some_fun module</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.init_outdir"><code class="docutils literal notranslate"><span class="pre">init_outdir()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.score_CRPS"><code class="docutils literal notranslate"><span class="pre">score_CRPS()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.score_CRPS_SR"><code class="docutils literal notranslate"><span class="pre">score_CRPS_SR()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.NB_n_p_methods_of_moments"><code class="docutils literal notranslate"><span class="pre">NB_n_p_methods_of_moments()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.lonlat2xy_short"><code class="docutils literal notranslate"><span class="pre">lonlat2xy_short()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.lonlat2xy_flatmap"><code class="docutils literal notranslate"><span class="pre">lonlat2xy_flatmap()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.etas_intensity"><code class="docutils literal notranslate"><span class="pre">etas_intensity()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.etas_intensity_mle"><code class="docutils literal notranslate"><span class="pre">etas_intensity_mle()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.eval_n"><code class="docutils literal notranslate"><span class="pre">eval_n()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.integral_offspring"><code class="docutils literal notranslate"><span class="pre">integral_offspring()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.Lambda_t_1D"><code class="docutils literal notranslate"><span class="pre">Lambda_t_1D()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.n_mol"><code class="docutils literal notranslate"><span class="pre">n_mol()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.n"><code class="docutils literal notranslate"><span class="pre">n()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.mu_posterior_grid"><code class="docutils literal notranslate"><span class="pre">mu_posterior_grid()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.get_grid_count_forecast"><code class="docutils literal notranslate"><span class="pre">get_grid_count_forecast()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.get_grid_count_data"><code class="docutils literal notranslate"><span class="pre">get_grid_count_data()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.cumsum_events"><code class="docutils literal notranslate"><span class="pre">cumsum_events()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.cumsum_events_pred"><code class="docutils literal notranslate"><span class="pre">cumsum_events_pred()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.autocorr"><code class="docutils literal notranslate"><span class="pre">autocorr()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.autocorr2"><code class="docutils literal notranslate"><span class="pre">autocorr2()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.make_X_grid"><code class="docutils literal notranslate"><span class="pre">make_X_grid()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.create_data_obj_from_cat_file"><code class="docutils literal notranslate"><span class="pre">create_data_obj_from_cat_file</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.create_data_obj_from_cat_file.utm_conversion"><code class="docutils literal notranslate"><span class="pre">create_data_obj_from_cat_file.utm_conversion()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.silverman_scott_rule_d"><code class="docutils literal notranslate"><span class="pre">silverman_scott_rule_d()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.mu_xprime_interpol"><code class="docutils literal notranslate"><span class="pre">mu_xprime_interpol()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.mu_xprime_gpetas"><code class="docutils literal notranslate"><span class="pre">mu_xprime_gpetas()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.sample_from_cond_gp"><code class="docutils literal notranslate"><span class="pre">sample_from_cond_gp()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.inverse"><code class="docutils literal notranslate"><span class="pre">inverse()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.cov_func"><code class="docutils literal notranslate"><span class="pre">cov_func()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.get_grid_data_for_a_point"><code class="docutils literal notranslate"><span class="pre">get_grid_data_for_a_point()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.write_table_l_test_real_data"><code class="docutils literal notranslate"><span class="pre">write_table_l_test_real_data()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.dom"><code class="docutils literal notranslate"><span class="pre">dom</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.obs"><code class="docutils literal notranslate"><span class="pre">obs</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-gpetas.utils.summary">gpetas.utils.summary module</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.summary.summary_gpetas"><code class="docutils literal notranslate"><span class="pre">summary_gpetas</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-gpetas.utils">Module contents</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="gpetas-utils-package">
+<h1>gpetas.utils package<a class="headerlink" href="#gpetas-utils-package" title="Link to this heading">#</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">#</a></h2>
+</section>
+<section id="module-gpetas.utils.R00x_setup">
+<span id="gpetas-utils-r00x-setup-module"></span><h2>gpetas.utils.R00x_setup module<a class="headerlink" href="#module-gpetas.utils.R00x_setup" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="gpetas.utils.R00x_setup.R00x_california_set_domain">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">R00x_california_set_domain</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_origin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_end_training</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_end_total</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins_Xgrid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/R00x_setup.html#R00x_california_set_domain"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.R00x_setup.R00x_california_set_domain" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="gpetas.utils.R00x_setup.R00x_california_set_domain.get_region">
+<span class="sig-name descname"><span class="pre">get_region</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">region_string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_origin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_end_training</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_end_total</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins_Xgrid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/R00x_setup.html#R00x_california_set_domain.get_region"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.R00x_setup.R00x_california_set_domain.get_region" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gpetas.utils.R00x_setup.R00x_california_set_domain.regions_X_domain">
+<span class="sig-name descname"><span class="pre">regions_X_domain</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/R00x_setup.html#R00x_california_set_domain.regions_X_domain"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.R00x_setup.R00x_california_set_domain.regions_X_domain" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="gpetas.utils.R00x_setup.region_class">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">region_class</span></span><a class="reference internal" href="_modules/gpetas/utils/R00x_setup.html#region_class"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.R00x_setup.region_class" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="gpetas.utils.R00x_setup.event">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">event</span></span><a class="reference internal" href="_modules/gpetas/utils/R00x_setup.html#event"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.R00x_setup.event" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="gpetas.utils.R00x_setup.special_events">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">special_events</span></span><a class="reference internal" href="_modules/gpetas/utils/R00x_setup.html#special_events"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.R00x_setup.special_events" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+</section>
+<section id="module-gpetas.utils.get_data_pycsep">
+<span id="gpetas-utils-get-data-pycsep-module"></span><h2>gpetas.utils.get_data_pycsep module<a class="headerlink" href="#module-gpetas.utils.get_data_pycsep" title="Link to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.get_data_pycsep.init_outdir">
+<span class="sig-name descname"><span class="pre">init_outdir</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/get_data_pycsep.html#init_outdir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.get_data_pycsep.init_outdir" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.get_data_pycsep.data_obj__from_catalog_obj">
+<span class="sig-name descname"><span class="pre">data_obj__from_catalog_obj</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">catalog_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fname_ixymt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">case_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/get_data_pycsep.html#data_obj__from_catalog_obj"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.get_data_pycsep.data_obj__from_catalog_obj" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.get_data_pycsep.plot_regions">
+<span class="sig-name descname"><span class="pre">plot_regions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">regions_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R_obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/get_data_pycsep.html#plot_regions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.get_data_pycsep.plot_regions" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.get_data_pycsep.plot_regions_with_catalog">
+<span class="sig-name descname"><span class="pre">plot_regions_with_catalog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">catalog_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">regions_obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R_obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">training</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'yes'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/get_data_pycsep.html#plot_regions_with_catalog"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.get_data_pycsep.plot_regions_with_catalog" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-gpetas.utils.mle_KDE_ETAS">
+<span id="gpetas-utils-mle-kde-etas-module"></span><h2>gpetas.utils.mle_KDE_ETAS module<a class="headerlink" href="#module-gpetas.utils.mle_KDE_ETAS" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="gpetas.utils.mle_KDE_ETAS.setup_mle">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">setup_mle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">theta_start_Kcpadgqbm0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spatial_offspring</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Nnearest</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">15</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">h_min_degree</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spatial_units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'degree'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">utm_yes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_grid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outdir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stable_theta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">case_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'case_01'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">silverman</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/mle_KDE_ETAS.html#setup_mle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.mle_KDE_ETAS.setup_mle" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="gpetas.utils.mle_KDE_ETAS.mle_units">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mle_units</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">setup_obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optmethod</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'BFGS'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fout_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/mle_KDE_ETAS.html#mle_units"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.mle_KDE_ETAS.mle_units" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>mle classical for the KDE-Epidemic Type Aftershock Sequence (ETAS) model.
+Spaghetti code translated from the C_code routine GFZ</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="gpetas.utils.mle_KDE_ETAS.mle_units.eval_kde_xprime">
+<span class="sig-name descname"><span class="pre">eval_kde_xprime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_prime</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/mle_KDE_ETAS.html#mle_units.eval_kde_xprime"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.mle_KDE_ETAS.mle_units.eval_kde_xprime" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gpetas.utils.mle_KDE_ETAS.mle_units.eval_kde_unscaled">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">eval_kde_unscaled</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_prime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_positions_training</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">h_vec</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_vec</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">absT_training</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/mle_KDE_ETAS.html#mle_units.eval_kde_unscaled"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.mle_KDE_ETAS.mle_units.eval_kde_unscaled" title="Link to this definition">#</a></dt>
+<dd><p>Computes KDE at x_prime positions assuming domain X is R^2, therefore unscaled
+:param x_prime: (N,2) array, with N x_prime points
+:param data_positions_training: (N,2) array, with N x_training points
+:param p_vec: (N,1) array
+:param h_vec: (N,1) array
+:param absT_training:
+:return:</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.mle_KDE_ETAS.calculate_mu">
+<span class="sig-name descname"><span class="pre">calculate_mu</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Rii</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stdi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pbacki</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/mle_KDE_ETAS.html#calculate_mu"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.mle_KDE_ETAS.calculate_mu" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.mle_KDE_ETAS.gaussian">
+<span class="sig-name descname"><span class="pre">gaussian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sig</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/mle_KDE_ETAS.html#gaussian"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.mle_KDE_ETAS.gaussian" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.mle_KDE_ETAS.fR">
+<span class="sig-name descname"><span class="pre">fR</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/mle_KDE_ETAS.html#fR"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.mle_KDE_ETAS.fR" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.mle_KDE_ETAS.fP">
+<span class="sig-name descname"><span class="pre">fP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m_reduced</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/mle_KDE_ETAS.html#fP"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.mle_KDE_ETAS.fP" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.mle_KDE_ETAS.fG">
+<span class="sig-name descname"><span class="pre">fG</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m_reduced</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/mle_KDE_ETAS.html#fG"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.mle_KDE_ETAS.fG" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.mle_KDE_ETAS.integrateETAS">
+<span class="sig-name descname"><span class="pre">integrateETAS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">T1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mutot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Na</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/mle_KDE_ETAS.html#integrateETAS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.mle_KDE_ETAS.integrateETAS" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.mle_KDE_ETAS.dist">
+<span class="sig-name descname"><span class="pre">dist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lat1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/mle_KDE_ETAS.html#dist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.mle_KDE_ETAS.dist" title="Link to this definition">#</a></dt>
+<dd><p>Distance (in [km]) between points given as [lat,lon]</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="gpetas.utils.mle_KDE_ETAS.data_structure">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data_structure</span></span><a class="reference internal" href="_modules/gpetas/utils/mle_KDE_ETAS.html#data_structure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.mle_KDE_ETAS.data_structure" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="gpetas.utils.mle_KDE_ETAS.mle_stable_hawkes">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mle_stable_hawkes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">m_beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2.302585092994046</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/mle_KDE_ETAS.html#mle_stable_hawkes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.mle_KDE_ETAS.mle_stable_hawkes" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="gpetas.utils.mle_KDE_ETAS.mle_stable_hawkes.nl_constraint">
+<span class="sig-name descname"><span class="pre">nl_constraint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/mle_KDE_ETAS.html#mle_stable_hawkes.nl_constraint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.mle_KDE_ETAS.mle_stable_hawkes.nl_constraint" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gpetas.utils.mle_KDE_ETAS.mle_stable_hawkes.jacobian_nl_cons">
+<span class="sig-name descname"><span class="pre">jacobian_nl_cons</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/mle_KDE_ETAS.html#mle_stable_hawkes.jacobian_nl_cons"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.mle_KDE_ETAS.mle_stable_hawkes.jacobian_nl_cons" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gpetas.utils.mle_KDE_ETAS.mle_stable_hawkes.l_constraint">
+<span class="sig-name descname"><span class="pre">l_constraint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/mle_KDE_ETAS.html#mle_stable_hawkes.l_constraint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.mle_KDE_ETAS.mle_stable_hawkes.l_constraint" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-gpetas.utils.plotting">
+<span id="gpetas-utils-plotting-module"></span><h2>gpetas.utils.plotting module<a class="headerlink" href="#module-gpetas.utils.plotting" title="Link to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.plotting.plot_slice_x">
+<span class="sig-name descname"><span class="pre">plot_slice_x</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">intensity_ensemble</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_grid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intensity_1_grid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intensity_2_grid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xidx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quantile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log10scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'yes'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_borders</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_pos</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'yes'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clim_where</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/plotting.html#plot_slice_x"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.plotting.plot_slice_x" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.plotting.plot_priors_offspring">
+<span class="sig-name descname"><span class="pre">plot_priors_offspring</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_obj_GS</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/plotting.html#plot_priors_offspring"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.plotting.plot_priors_offspring" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.plotting.plot_l_ltest">
+<span class="sig-name descname"><span class="pre">plot_l_ltest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_obj_GS</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mle_obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mle_obj_silverman</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">idx_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method_posterior_GP</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_yes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fout_table_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/plotting.html#plot_l_ltest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.plotting.plot_l_ltest" title="Link to this definition">#</a></dt>
+<dd><p>Plots test likelihood for test data.
+:param save_obj_GS:
+:type save_obj_GS:
+:param mle_obj:
+:type mle_obj:
+:param mle_obj_silverman:
+:type mle_obj_silverman:
+:param t1:
+:type t1:
+:param t2:
+:type t2:
+:param idx_samples:
+:type idx_samples:
+:param method_posterior_GP:
+:type method_posterior_GP:
+:param table_yes:
+:type table_yes:
+:return:
+:rtype:</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.plotting.plot_1D_estimation">
+<span class="sig-name descname"><span class="pre">plot_1D_estimation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_obj_GS</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_idx_vec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mle_obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mle_obj_silverman</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quantile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xlim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(10,</span> <span class="pre">5)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pos_textND</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pos_textNDstar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/plotting.html#plot_1D_estimation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.plotting.plot_1D_estimation" title="Link to this definition">#</a></dt>
+<dd><p>Computes and plots 1D estimation of ETAS, in time, given history H_t until t
+:param label:
+:type label:
+:param save_obj_GS:
+:type save_obj_GS:
+:param sample_idx_vec:
+:type sample_idx_vec:
+:param mle_obj:
+:type mle_obj:
+:param mle_obj_silverman:
+:type mle_obj_silverman:
+:param quantile:
+:type quantile:
+:param resolution:
+:type resolution:
+:param xlim:
+:type xlim:
+:param figsize:
+:type figsize:
+:param pos_textND:
+:type pos_textND:
+:param pos_textNDstar:
+:type pos_textNDstar:
+:return:
+:rtype:</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.plotting.plot_autocorr_hyperparams">
+<span class="sig-name descname"><span class="pre">plot_autocorr_hyperparams</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_obj_GS</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">idx_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/plotting.html#plot_autocorr_hyperparams"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.plotting.plot_autocorr_hyperparams" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.plotting.plot_autocorr_data">
+<span class="sig-name descname"><span class="pre">plot_autocorr_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">idx_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">varnames</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xlim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxlag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_ESS</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_u_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs_plot</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/plotting.html#plot_autocorr_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.plotting.plot_autocorr_data" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.plotting.plot_hyperparams">
+<span class="sig-name descname"><span class="pre">plot_hyperparams</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_obj_GS</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/plotting.html#plot_hyperparams"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.plotting.plot_hyperparams" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.plotting.plot_acceptance_offspring">
+<span class="sig-name descname"><span class="pre">plot_acceptance_offspring</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_obj_GS</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/plotting.html#plot_acceptance_offspring"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.plotting.plot_acceptance_offspring" title="Link to this definition">#</a></dt>
+<dd><p>Multi proposal MH-MCMC acceptance rate
+:param save_obj_GS:
+:type save_obj_GS:
+:return:
+:rtype:</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.plotting.plot_autocorr">
+<span class="sig-name descname"><span class="pre">plot_autocorr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_obj_GS</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">idx_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">varnames</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xlim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxlag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_ESS</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs_plot</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/plotting.html#plot_autocorr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.plotting.plot_autocorr" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.plotting.plot_offspring_mcmc_chains">
+<span class="sig-name descname"><span class="pre">plot_offspring_mcmc_chains</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_obj_GS</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gm_obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mle_obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mle_obj_silverman</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">theta_true_Kcpadgq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/plotting.html#plot_offspring_mcmc_chains"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.plotting.plot_offspring_mcmc_chains" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.plotting.plot_scatter">
+<span class="sig-name descname"><span class="pre">plot_scatter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_obj_GS</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mle_obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mle_obj_silverman</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tracked_values</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'seismic'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">median_yes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs_plot</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/plotting.html#plot_scatter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.plotting.plot_scatter" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.plotting.plot_scatter_data">
+<span class="sig-name descname"><span class="pre">plot_scatter_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">varnames</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'seismic'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs_plot</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/plotting.html#plot_scatter_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.plotting.plot_scatter_data" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.plotting.plot_number_of_bg_events">
+<span class="sig-name descname"><span class="pre">plot_number_of_bg_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_obj_GS</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mle_obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mle_obj_silverman</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gm_obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kde_hist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pred</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quantile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/plotting.html#plot_number_of_bg_events"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.plotting.plot_number_of_bg_events" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.plotting.plot_hist_lambda_bar">
+<span class="sig-name descname"><span class="pre">plot_hist_lambda_bar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_obj_GS</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_bar_true</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quantile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/plotting.html#plot_hist_lambda_bar"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.plotting.plot_hist_lambda_bar" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.plotting.plot_lambda_bar">
+<span class="sig-name descname"><span class="pre">plot_lambda_bar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/plotting.html#plot_lambda_bar"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.plotting.plot_lambda_bar" title="Link to this definition">#</a></dt>
+<dd><p>Lambda bar, latent Poisson process
+Analysis Background part 2: SAMPLER
+:param save_obj:
+:return:</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.plotting.plot_slices_and_upper_bound">
+<span class="sig-name descname"><span class="pre">plot_slices_and_upper_bound</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_obj_GS</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gm_obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mle_obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mle_obj_silverman</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quantile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">case_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xidx_vec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yidx_vec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logscale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/plotting.html#plot_slices_and_upper_bound"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.plotting.plot_slices_and_upper_bound" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.plotting.plot_intensity_2d">
+<span class="sig-name descname"><span class="pre">plot_intensity_2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">intensity_grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_grid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_testing_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_training_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap_dots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cb_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cb_ticks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cb_format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">contour_lines</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cl_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/plotting.html#plot_intensity_2d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.plotting.plot_intensity_2d" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>intensity_grid</strong> – </p></li>
+<li><p><strong>X_grid</strong> – </p></li>
+<li><p><strong>data_obj</strong> – </p></li>
+<li><p><strong>points</strong> – </p></li>
+<li><p><strong>data_testing_points</strong> – </p></li>
+<li><p><strong>data_training_points</strong> – </p></li>
+<li><p><strong>cmap_dots</strong> – </p></li>
+<li><p><strong>cmap</strong> – </p></li>
+<li><p><strong>clim</strong> – </p></li>
+<li><p><strong>cb_label</strong> – </p></li>
+<li><p><strong>cb_ticks</strong> – </p></li>
+<li><p><strong>cb_format</strong> – </p></li>
+<li><p><strong>contour_lines</strong> – </p></li>
+<li><p><strong>cl_color</strong> – </p></li>
+<li><p><strong>fig_label</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.plotting.plot_setting">
+<span class="sig-name descname"><span class="pre">plot_setting</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_obj_GS</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_data_blue</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gm_obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_datasets</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Yes'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_domain</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pos_xy_text</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pos_xy_text_star</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_training_data_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_lon_lat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale_markersize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/plotting.html#plot_setting"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.plotting.plot_setting" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_obj</strong> – type data from get_data in data_utils</p></li>
+<li><p><strong>show_domain</strong> – shows X domain borders, default = None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>figure handles</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-gpetas.utils.some_fun">
+<span id="gpetas-utils-some-fun-module"></span><h2>gpetas.utils.some_fun module<a class="headerlink" href="#module-gpetas.utils.some_fun" title="Link to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.some_fun.init_outdir">
+<span class="sig-name descname"><span class="pre">init_outdir</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/some_fun.html#init_outdir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.some_fun.init_outdir" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.some_fun.score_CRPS">
+<span class="sig-name descname"><span class="pre">score_CRPS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">forecasts</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">observations</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/some_fun.html#score_CRPS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.some_fun.score_CRPS" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.some_fun.score_CRPS_SR">
+<span class="sig-name descname"><span class="pre">score_CRPS_SR</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">forecasts</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">observations</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/some_fun.html#score_CRPS_SR"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.some_fun.score_CRPS_SR" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.some_fun.NB_n_p_methods_of_moments">
+<span class="sig-name descname"><span class="pre">NB_n_p_methods_of_moments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/some_fun.html#NB_n_p_methods_of_moments"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.some_fun.NB_n_p_methods_of_moments" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.some_fun.lonlat2xy_short">
+<span class="sig-name descname"><span class="pre">lonlat2xy_short</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lon</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_borders</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/some_fun.html#lonlat2xy_short"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.some_fun.lonlat2xy_short" title="Link to this definition">#</a></dt>
+<dd><p>Converts lon, lat to x,y (flatmap in degrees)
+:param lon:
+:type lon:
+:param lat:
+:type lat:
+:return:
+:rtype:</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.some_fun.lonlat2xy_flatmap">
+<span class="sig-name descname"><span class="pre">lonlat2xy_flatmap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/some_fun.html#lonlat2xy_flatmap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.some_fun.lonlat2xy_flatmap" title="Link to this definition">#</a></dt>
+<dd><p>Converts longitude latitude (spherical coordinates) onto flat map with planar x,y coordinates: Rectangular projection</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data_obj</strong> – gpetas object of input data and input domain</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>x, y, X_borders_proj</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.some_fun.etas_intensity">
+<span class="sig-name descname"><span class="pre">etas_intensity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_obj_GS</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_idx_vec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/some_fun.html#etas_intensity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.some_fun.etas_intensity" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.some_fun.etas_intensity_mle">
+<span class="sig-name descname"><span class="pre">etas_intensity_mle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mle_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/some_fun.html#etas_intensity_mle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.some_fun.etas_intensity_mle" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.some_fun.eval_n">
+<span class="sig-name descname"><span class="pre">eval_n</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_obj_GS</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mle_obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_end</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">inf</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/some_fun.html#eval_n"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.some_fun.eval_n" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>save_obj_GS</strong> – </p></li>
+<li><p><strong>mle_obj</strong> – </p></li>
+<li><p><strong>t_start</strong> – </p></li>
+<li><p><strong>t_end</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>n_vec, n_start, n_vec_absT if save_obj_GS is not None;
+n_mle, n_start, n_absT if mle_obj is not None;</p>
+<blockquote>
+<div><p>here absT stands for the integration limit of the kernel int_0^|T_training| instead of int_0^inf</p>
+</div></blockquote>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.some_fun.integral_offspring">
+<span class="sig-name descname"><span class="pre">integral_offspring</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_obj_GS</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_idx_vec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">H_T1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mle_obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/some_fun.html#integral_offspring"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.some_fun.integral_offspring" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.some_fun.Lambda_t_1D">
+<span class="sig-name descname"><span class="pre">Lambda_t_1D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t_end</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tau1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_obj_GS</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_idx_vec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mle_obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/some_fun.html#Lambda_t_1D"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.some_fun.Lambda_t_1D" title="Link to this definition">#</a></dt>
+<dd><p>Computes time integral of ETAS intensity function for an entire region for several times: np.linspace(tau1, t_end, resolution)
+:param t_end: upper bound of the time integration
+:type t_end: float
+:param tau1: lower bound of the integration
+:type tau1: float
+:param save_obj_GS: obj containing Gibbs sampling inference results
+:type save_obj_GS: python object
+:param sample_idx_vec: vector integers giving the index of employed posterior samples
+:type sample_idx_vec: numpy vector of integers
+:param mle_obj: obj containing mle inference results
+:type mle_obj: python object
+:param resolution: length of the time vector where the integral is evaluated
+:type resolution: integer
+:return: (LAM, t_eval_vec):=(array,vector) where LAM is the integral at all times in t_eval_vec
+:rtype: float</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.some_fun.n_mol">
+<span class="sig-name descname"><span class="pre">n_mol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">K</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_end</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">inf</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/some_fun.html#n_mol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.some_fun.n_mol" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.some_fun.n">
+<span class="sig-name descname"><span class="pre">n</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">m_alpha</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m_beta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">K</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_end</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">inf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/some_fun.html#n"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.some_fun.n" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.some_fun.mu_posterior_grid">
+<span class="sig-name descname"><span class="pre">mu_posterior_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_obj_GS</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_idx_vec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/some_fun.html#mu_posterior_grid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.some_fun.mu_posterior_grid" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.some_fun.get_grid_count_forecast">
+<span class="sig-name descname"><span class="pre">get_grid_count_forecast</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pred_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/some_fun.html#get_grid_count_forecast"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.some_fun.get_grid_count_forecast" title="Link to this definition">#</a></dt>
+<dd><dl class="simple">
+<dt>Obtains rates per unit time and unit area,</dt><dd><p>i.e., events per grid cell are counted for the
+prediction time-space window using 2D histogram function</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pred_obj</strong> (<em>python class</em>) – prediction object = forecast</p></li>
+<li><p><strong>bins</strong> (<em>integer</em>) – number of bins per dimension</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>2d times Ksim array with rates per unit time and unit area</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy array float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.some_fun.get_grid_count_data">
+<span class="sig-name descname"><span class="pre">get_grid_count_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pred_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/some_fun.html#get_grid_count_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.some_fun.get_grid_count_data" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.some_fun.cumsum_events">
+<span class="sig-name descname"><span class="pre">cumsum_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tau1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tau2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/some_fun.html#cumsum_events"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.some_fun.cumsum_events" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.some_fun.cumsum_events_pred">
+<span class="sig-name descname"><span class="pre">cumsum_events_pred</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tau1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tau2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pred_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/some_fun.html#cumsum_events_pred"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.some_fun.cumsum_events_pred" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.some_fun.autocorr">
+<span class="sig-name descname"><span class="pre">autocorr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/some_fun.html#autocorr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.some_fun.autocorr" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.some_fun.autocorr2">
+<span class="sig-name descname"><span class="pre">autocorr2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/some_fun.html#autocorr2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.some_fun.autocorr2" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.some_fun.make_X_grid">
+<span class="sig-name descname"><span class="pre">make_X_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_borders</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nbins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/some_fun.html#make_X_grid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.some_fun.make_X_grid" title="Link to this definition">#</a></dt>
+<dd><p>Generates positions of a regular (nbins x nbins) grid.
+:param X_borders: array (D,2)</p>
+<blockquote>
+<div><p>Domain of the grid as np.array([[d1_min, d1_max],… ,[D_min, D_max]]).</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nbins</strong> – int
+Number of bins in each dimension.</p></li>
+<li><p><strong>D</strong> – int
+Dimension.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>array (nbins**2,D)
+X_grid (meshgrid) positions.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="gpetas.utils.some_fun.create_data_obj_from_cat_file">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create_data_obj_from_cat_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_borders</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T_borders_all</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T_borders_training</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">utm_yes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T_borders_test</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outdir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">case_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'case_01'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_origin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_end</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">domain_obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flatmap_proj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'yes'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">map_units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'degree'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/some_fun.html#create_data_obj_from_cat_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.some_fun.create_data_obj_from_cat_file" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Reads data from a typical catalog file with format: idx, x_lon, y_lat, mag, time
+no header, time decimal in days
+with N data points the data file has dimension (N,5)
+e.g.,
+1   2.7523  2.1859  4.66    0.000000
+2   2.7447  2.0783  3.43    0.004436
+3   3.0142  2.1734  3.41    0.320997
+4   3.4610  1.5132  3.54    2.271304
+5   2.8646  2.2552  3.43    11.108739
+6   2.8682  3.0405  4.19    41.841438
+7   2.8948  3.0755  4.94    41.963901
+8   2.6674  3.0231  3.49    42.026355
+…</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="gpetas.utils.some_fun.create_data_obj_from_cat_file.utm_conversion">
+<span class="sig-name descname"><span class="pre">utm_conversion</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/some_fun.html#create_data_obj_from_cat_file.utm_conversion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.some_fun.create_data_obj_from_cat_file.utm_conversion" title="Link to this definition">#</a></dt>
+<dd><p>Converts coordinates in degree into coordinates in UTM
+Requires utm packages
+:return: no return type, directly alters the self object</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.some_fun.silverman_scott_rule_d">
+<span class="sig-name descname"><span class="pre">silverman_scott_rule_d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">individual_yes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/some_fun.html#silverman_scott_rule_d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.some_fun.silverman_scott_rule_d" title="Link to this definition">#</a></dt>
+<dd><dl class="simple">
+<dt>Silvermans rule: (4.15) page 86–87: h* = mean(sigma_ii)* N**(-1/(d+4))</dt><dd><p>= mean_std * N^(-0.1666…)
+e.g., used for minimum bandwidth in classical kde ETAS</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X_data</strong> – </p></li>
+<li><p><strong>individual_yes</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.some_fun.mu_xprime_interpol">
+<span class="sig-name descname"><span class="pre">mu_xprime_interpol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xprime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu_grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_borders</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/some_fun.html#mu_xprime_interpol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.some_fun.mu_xprime_interpol" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.some_fun.mu_xprime_gpetas">
+<span class="sig-name descname"><span class="pre">mu_xprime_gpetas</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xprime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu_grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_borders</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_bar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cov_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/some_fun.html#mu_xprime_gpetas"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.some_fun.mu_xprime_gpetas" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.some_fun.sample_from_cond_gp">
+<span class="sig-name descname"><span class="pre">sample_from_cond_gp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xprime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cov_params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0001</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/some_fun.html#sample_from_cond_gp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.some_fun.sample_from_cond_gp" title="Link to this definition">#</a></dt>
+<dd><p>Samples GP conditioned on GP at (grid) positions.
+:param self:
+:param xprime:
+:return: fprime</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.some_fun.inverse">
+<span class="sig-name descname"><span class="pre">inverse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">K</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0001</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/some_fun.html#inverse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.some_fun.inverse" title="Link to this definition">#</a></dt>
+<dd><dl class="simple">
+<dt>Computes inverse of K using</dt><dd><p>cholesky to get L
+solve triangular system based on L</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>K</strong> – </p></li>
+<li><p><strong>noise</strong> – jitter to enable inversion, often = 1e-5</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>K_inv, inverse of K</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.some_fun.cov_func">
+<span class="sig-name descname"><span class="pre">cov_func</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_prime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">only_diagonal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cov_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/some_fun.html#cov_func"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.some_fun.cov_func" title="Link to this definition">#</a></dt>
+<dd><p>Computes the covariance functions between x and x_prime.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> – numpy.ndarray [num_points x D]
+Contains coordinates for points of x</p></li>
+<li><p><strong>x_prime</strong> – numpy.ndarray [num_points_prime x D]
+Contains coordinates for points of x_prime</p></li>
+<li><p><strong>only_diagonal</strong> – bool
+If true only diagonal is computed (Works only if x and x_prime
+are the same, Default=False)</p></li>
+<li><p><strong>cov_params</strong> – hypers of the cov function RBF,e.g.,cov_params=[1, np.array([.1,.1])]</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>numpy.ndarray [num_points x num_points_prime]
+Kernel matrix.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.some_fun.get_grid_data_for_a_point">
+<span class="sig-name descname"><span class="pre">get_grid_data_for_a_point</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid_values_flattened</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">points_xy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_borders</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/some_fun.html#get_grid_data_for_a_point"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.some_fun.get_grid_data_for_a_point" title="Link to this definition">#</a></dt>
+<dd><p>get values for points (x,y) from grid data with shape (bins**2,)
+:param grid_values_flattened: float: array (bins**2,)</p>
+<blockquote>
+<div><p>Grid values of a bins times bins grid with bins**2 elements collapsed to one dimension (flattened).</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>grid_values_flattened</strong> – </p></li>
+<li><p><strong>points_xy</strong> – </p></li>
+<li><p><strong>X_borders</strong> – </p></li>
+<li><p><strong>method</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.utils.some_fun.write_table_l_test_real_data">
+<span class="sig-name descname"><span class="pre">write_table_l_test_real_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">testing_periods</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l_test_GP</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l_test_kde_default</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l_test_kde_silverman</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fout_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">idx_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/some_fun.html#write_table_l_test_real_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.some_fun.write_table_l_test_real_data" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="gpetas.utils.some_fun.dom">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dom</span></span><a class="reference internal" href="_modules/gpetas/utils/some_fun.html#dom"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.some_fun.dom" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="gpetas.utils.some_fun.obs">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">obs</span></span><a class="reference internal" href="_modules/gpetas/utils/some_fun.html#obs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.some_fun.obs" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+</section>
+<section id="module-gpetas.utils.summary">
+<span id="gpetas-utils-summary-module"></span><h2>gpetas.utils.summary module<a class="headerlink" href="#module-gpetas.utils.summary" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="gpetas.utils.summary.summary_gpetas">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">summary_gpetas</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_obj_GS</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gm_obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mle_obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mle_obj_silverman</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fout_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">case_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ltest_plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'yes'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fout_table_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/utils/summary.html#summary_gpetas"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.utils.summary.summary_gpetas" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Gives plots and summary tables of GP-ETAS inference</p>
+</dd></dl>
+
+</section>
+<section id="module-gpetas.utils">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-gpetas.utils" title="Link to this heading">#</a></h2>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="gpetas.synthetic_experiments.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">gpetas.synthetic_experiments package</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-gpetas.utils.R00x_setup">gpetas.utils.R00x_setup module</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.R00x_setup.R00x_california_set_domain"><code class="docutils literal notranslate"><span class="pre">R00x_california_set_domain</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.R00x_setup.R00x_california_set_domain.get_region"><code class="docutils literal notranslate"><span class="pre">R00x_california_set_domain.get_region()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.R00x_setup.R00x_california_set_domain.regions_X_domain"><code class="docutils literal notranslate"><span class="pre">R00x_california_set_domain.regions_X_domain()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.R00x_setup.region_class"><code class="docutils literal notranslate"><span class="pre">region_class</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.R00x_setup.event"><code class="docutils literal notranslate"><span class="pre">event</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.R00x_setup.special_events"><code class="docutils literal notranslate"><span class="pre">special_events</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-gpetas.utils.get_data_pycsep">gpetas.utils.get_data_pycsep module</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.get_data_pycsep.init_outdir"><code class="docutils literal notranslate"><span class="pre">init_outdir()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.get_data_pycsep.data_obj__from_catalog_obj"><code class="docutils literal notranslate"><span class="pre">data_obj__from_catalog_obj()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.get_data_pycsep.plot_regions"><code class="docutils literal notranslate"><span class="pre">plot_regions()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.get_data_pycsep.plot_regions_with_catalog"><code class="docutils literal notranslate"><span class="pre">plot_regions_with_catalog()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-gpetas.utils.mle_KDE_ETAS">gpetas.utils.mle_KDE_ETAS module</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.mle_KDE_ETAS.setup_mle"><code class="docutils literal notranslate"><span class="pre">setup_mle</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.mle_KDE_ETAS.mle_units"><code class="docutils literal notranslate"><span class="pre">mle_units</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.mle_KDE_ETAS.mle_units.eval_kde_xprime"><code class="docutils literal notranslate"><span class="pre">mle_units.eval_kde_xprime()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.mle_KDE_ETAS.mle_units.eval_kde_unscaled"><code class="docutils literal notranslate"><span class="pre">mle_units.eval_kde_unscaled()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.mle_KDE_ETAS.calculate_mu"><code class="docutils literal notranslate"><span class="pre">calculate_mu()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.mle_KDE_ETAS.gaussian"><code class="docutils literal notranslate"><span class="pre">gaussian()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.mle_KDE_ETAS.fR"><code class="docutils literal notranslate"><span class="pre">fR()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.mle_KDE_ETAS.fP"><code class="docutils literal notranslate"><span class="pre">fP()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.mle_KDE_ETAS.fG"><code class="docutils literal notranslate"><span class="pre">fG()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.mle_KDE_ETAS.integrateETAS"><code class="docutils literal notranslate"><span class="pre">integrateETAS()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.mle_KDE_ETAS.dist"><code class="docutils literal notranslate"><span class="pre">dist()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.mle_KDE_ETAS.data_structure"><code class="docutils literal notranslate"><span class="pre">data_structure</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.mle_KDE_ETAS.mle_stable_hawkes"><code class="docutils literal notranslate"><span class="pre">mle_stable_hawkes</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.mle_KDE_ETAS.mle_stable_hawkes.nl_constraint"><code class="docutils literal notranslate"><span class="pre">mle_stable_hawkes.nl_constraint()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.mle_KDE_ETAS.mle_stable_hawkes.jacobian_nl_cons"><code class="docutils literal notranslate"><span class="pre">mle_stable_hawkes.jacobian_nl_cons()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.mle_KDE_ETAS.mle_stable_hawkes.l_constraint"><code class="docutils literal notranslate"><span class="pre">mle_stable_hawkes.l_constraint()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-gpetas.utils.plotting">gpetas.utils.plotting module</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.plotting.plot_slice_x"><code class="docutils literal notranslate"><span class="pre">plot_slice_x()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.plotting.plot_priors_offspring"><code class="docutils literal notranslate"><span class="pre">plot_priors_offspring()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.plotting.plot_l_ltest"><code class="docutils literal notranslate"><span class="pre">plot_l_ltest()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.plotting.plot_1D_estimation"><code class="docutils literal notranslate"><span class="pre">plot_1D_estimation()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.plotting.plot_autocorr_hyperparams"><code class="docutils literal notranslate"><span class="pre">plot_autocorr_hyperparams()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.plotting.plot_autocorr_data"><code class="docutils literal notranslate"><span class="pre">plot_autocorr_data()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.plotting.plot_hyperparams"><code class="docutils literal notranslate"><span class="pre">plot_hyperparams()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.plotting.plot_acceptance_offspring"><code class="docutils literal notranslate"><span class="pre">plot_acceptance_offspring()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.plotting.plot_autocorr"><code class="docutils literal notranslate"><span class="pre">plot_autocorr()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.plotting.plot_offspring_mcmc_chains"><code class="docutils literal notranslate"><span class="pre">plot_offspring_mcmc_chains()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.plotting.plot_scatter"><code class="docutils literal notranslate"><span class="pre">plot_scatter()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.plotting.plot_scatter_data"><code class="docutils literal notranslate"><span class="pre">plot_scatter_data()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.plotting.plot_number_of_bg_events"><code class="docutils literal notranslate"><span class="pre">plot_number_of_bg_events()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.plotting.plot_hist_lambda_bar"><code class="docutils literal notranslate"><span class="pre">plot_hist_lambda_bar()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.plotting.plot_lambda_bar"><code class="docutils literal notranslate"><span class="pre">plot_lambda_bar()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.plotting.plot_slices_and_upper_bound"><code class="docutils literal notranslate"><span class="pre">plot_slices_and_upper_bound()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.plotting.plot_intensity_2d"><code class="docutils literal notranslate"><span class="pre">plot_intensity_2d()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.plotting.plot_setting"><code class="docutils literal notranslate"><span class="pre">plot_setting()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-gpetas.utils.some_fun">gpetas.utils.some_fun module</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.init_outdir"><code class="docutils literal notranslate"><span class="pre">init_outdir()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.score_CRPS"><code class="docutils literal notranslate"><span class="pre">score_CRPS()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.score_CRPS_SR"><code class="docutils literal notranslate"><span class="pre">score_CRPS_SR()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.NB_n_p_methods_of_moments"><code class="docutils literal notranslate"><span class="pre">NB_n_p_methods_of_moments()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.lonlat2xy_short"><code class="docutils literal notranslate"><span class="pre">lonlat2xy_short()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.lonlat2xy_flatmap"><code class="docutils literal notranslate"><span class="pre">lonlat2xy_flatmap()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.etas_intensity"><code class="docutils literal notranslate"><span class="pre">etas_intensity()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.etas_intensity_mle"><code class="docutils literal notranslate"><span class="pre">etas_intensity_mle()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.eval_n"><code class="docutils literal notranslate"><span class="pre">eval_n()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.integral_offspring"><code class="docutils literal notranslate"><span class="pre">integral_offspring()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.Lambda_t_1D"><code class="docutils literal notranslate"><span class="pre">Lambda_t_1D()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.n_mol"><code class="docutils literal notranslate"><span class="pre">n_mol()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.n"><code class="docutils literal notranslate"><span class="pre">n()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.mu_posterior_grid"><code class="docutils literal notranslate"><span class="pre">mu_posterior_grid()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.get_grid_count_forecast"><code class="docutils literal notranslate"><span class="pre">get_grid_count_forecast()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.get_grid_count_data"><code class="docutils literal notranslate"><span class="pre">get_grid_count_data()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.cumsum_events"><code class="docutils literal notranslate"><span class="pre">cumsum_events()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.cumsum_events_pred"><code class="docutils literal notranslate"><span class="pre">cumsum_events_pred()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.autocorr"><code class="docutils literal notranslate"><span class="pre">autocorr()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.autocorr2"><code class="docutils literal notranslate"><span class="pre">autocorr2()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.make_X_grid"><code class="docutils literal notranslate"><span class="pre">make_X_grid()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.create_data_obj_from_cat_file"><code class="docutils literal notranslate"><span class="pre">create_data_obj_from_cat_file</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.create_data_obj_from_cat_file.utm_conversion"><code class="docutils literal notranslate"><span class="pre">create_data_obj_from_cat_file.utm_conversion()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.silverman_scott_rule_d"><code class="docutils literal notranslate"><span class="pre">silverman_scott_rule_d()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.mu_xprime_interpol"><code class="docutils literal notranslate"><span class="pre">mu_xprime_interpol()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.mu_xprime_gpetas"><code class="docutils literal notranslate"><span class="pre">mu_xprime_gpetas()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.sample_from_cond_gp"><code class="docutils literal notranslate"><span class="pre">sample_from_cond_gp()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.inverse"><code class="docutils literal notranslate"><span class="pre">inverse()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.cov_func"><code class="docutils literal notranslate"><span class="pre">cov_func()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.get_grid_data_for_a_point"><code class="docutils literal notranslate"><span class="pre">get_grid_data_for_a_point()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.write_table_l_test_real_data"><code class="docutils literal notranslate"><span class="pre">write_table_l_test_real_data()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.dom"><code class="docutils literal notranslate"><span class="pre">dom</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.some_fun.obs"><code class="docutils literal notranslate"><span class="pre">obs</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-gpetas.utils.summary">gpetas.utils.summary module</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.utils.summary.summary_gpetas"><code class="docutils literal notranslate"><span class="pre">summary_gpetas</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-gpetas.utils">Module contents</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By chrism
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023, chrism.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

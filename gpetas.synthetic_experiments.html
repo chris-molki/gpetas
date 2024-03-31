@@ -1,0 +1,790 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>gpetas.synthetic_experiments package &#8212; gpetas 0.0.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=384b581d" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script src="_static/documentation_options.js?v=e645c8fa"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'gpetas.synthetic_experiments';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="gpetas.utils package" href="gpetas.utils.html" />
+    <link rel="prev" title="gpetas.core package" href="gpetas.core.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.svg" class="logo__image only-light" alt="gpetas 0.0.1 documentation - Home"/>
+    <script>document.write(`<img src="_static/logo.svg" class="logo__image only-dark" alt="gpetas 0.0.1 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="notebooks/00_domain_setup.html">Define domain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/01_getdata_from_file.html">Data from a text file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/02_getdata_from_online_via_pycsep.html">Data from an online source</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="notebooks/03_inference_setup.html">Inference setup, model setup</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="notebooks/04_gibbs_sampling_gpetas.html">Inference: GP-ETAS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/04a_classical_inference_MLE_KDE_ETAS.html">Inference: classical ETAS MLE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/05_results_summary.html">Results</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">API reference</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="gpetas.html">gpetas package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="gpetas.core.html">gpetas.core package</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">gpetas.synthetic_experiments package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gpetas.utils.html">gpetas.utils package</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/chris-molki/gpetas" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/gpetas.synthetic_experiments.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>gpetas.synthetic_experiments package</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-gpetas.synthetic_experiments.generative_model">gpetas.synthetic_experiments.generative_model module</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.synthetic_experiments.generative_model.generate_synthetic_data"><code class="docutils literal notranslate"><span class="pre">generate_synthetic_data</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.sim_case_01"><code class="docutils literal notranslate"><span class="pre">generate_synthetic_data.sim_case_01()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.sim_case_02"><code class="docutils literal notranslate"><span class="pre">generate_synthetic_data.sim_case_02()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.sim_case_03_gaborlike"><code class="docutils literal notranslate"><span class="pre">generate_synthetic_data.sim_case_03_gaborlike()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.sim_Xall_tmxyz_branching"><code class="docutils literal notranslate"><span class="pre">generate_synthetic_data.sim_Xall_tmxyz_branching()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.PHI_t_omori"><code class="docutils literal notranslate"><span class="pre">generate_synthetic_data.PHI_t_omori()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.n"><code class="docutils literal notranslate"><span class="pre">generate_synthetic_data.n()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.sim_NHPP"><code class="docutils literal notranslate"><span class="pre">generate_synthetic_data.sim_NHPP()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.sample_s_xy_short_range"><code class="docutils literal notranslate"><span class="pre">generate_synthetic_data.sample_s_xy_short_range()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.sample_long_range_decay_pwl"><code class="docutils literal notranslate"><span class="pre">generate_synthetic_data.sample_long_range_decay_pwl()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.sample_long_range_decay_RL_pwl"><code class="docutils literal notranslate"><span class="pre">generate_synthetic_data.sample_long_range_decay_RL_pwl()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.gabor_like_intensity"><code class="docutils literal notranslate"><span class="pre">generate_synthetic_data.gabor_like_intensity()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.pos_gabor"><code class="docutils literal notranslate"><span class="pre">generate_synthetic_data.pos_gabor()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.integral_ut_gabor_like_intensity"><code class="docutils literal notranslate"><span class="pre">generate_synthetic_data.integral_ut_gabor_like_intensity()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.write_to_file"><code class="docutils literal notranslate"><span class="pre">generate_synthetic_data.write_to_file()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.plot_paper_figure02_data"><code class="docutils literal notranslate"><span class="pre">generate_synthetic_data.plot_paper_figure02_data()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.synthetic_experiments.generative_model.make_X_grid"><code class="docutils literal notranslate"><span class="pre">make_X_grid()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.synthetic_experiments.generative_model.dom"><code class="docutils literal notranslate"><span class="pre">dom</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.synthetic_experiments.generative_model.obs"><code class="docutils literal notranslate"><span class="pre">obs</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.synthetic_experiments.generative_model.case01_info"><code class="docutils literal notranslate"><span class="pre">case01_info</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.synthetic_experiments.generative_model.case02_info"><code class="docutils literal notranslate"><span class="pre">case02_info</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.synthetic_experiments.generative_model.case03_info"><code class="docutils literal notranslate"><span class="pre">case03_info</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-gpetas.synthetic_experiments.synthetic_cases_aux_functions">gpetas.synthetic_experiments.synthetic_cases_aux_functions module</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.synthetic_experiments.synthetic_cases_aux_functions.write_results_to_tex_file"><code class="docutils literal notranslate"><span class="pre">write_results_to_tex_file()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.synthetic_experiments.synthetic_cases_aux_functions.write_table2_theta"><code class="docutils literal notranslate"><span class="pre">write_table2_theta()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.synthetic_experiments.synthetic_cases_aux_functions.write_table3_l2_background"><code class="docutils literal notranslate"><span class="pre">write_table3_l2_background()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-gpetas.synthetic_experiments">Module contents</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="gpetas-synthetic-experiments-package">
+<h1>gpetas.synthetic_experiments package<a class="headerlink" href="#gpetas-synthetic-experiments-package" title="Link to this heading">#</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">#</a></h2>
+</section>
+<section id="module-gpetas.synthetic_experiments.generative_model">
+<span id="gpetas-synthetic-experiments-generative-model-module"></span><h2>gpetas.synthetic_experiments.generative_model module<a class="headerlink" href="#module-gpetas.synthetic_experiments.generative_model" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="gpetas.synthetic_experiments.generative_model.generate_synthetic_data">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">generate_synthetic_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">m0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3.36</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m_beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2.302585092994046</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">theta_true_Kcpadgq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">array([0.018,</span> <span class="pre">0.006,</span> <span class="pre">1.2,</span> <span class="pre">1.69,</span> <span class="pre">0.015,</span> <span class="pre">0.2,</span> <span class="pre">2.])</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spatial_offspring</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'R'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_borders</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">array([[0.,</span> <span class="pre">5.],</span> <span class="pre">[0.,</span> <span class="pre">5.]])</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T_borders_all</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">array([0.,</span> <span class="pre">5000.])</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T_borders_training</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">array([0.,</span> <span class="pre">5000.])</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T_borders_testing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">array([0.,</span> <span class="pre">5000.])</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_points_n_per_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/synthetic_experiments/generative_model.html#generate_synthetic_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.synthetic_experiments.generative_model.generate_synthetic_data" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>class: generates synthetic data according to three synthetic cases shown in the paper</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="gpetas.synthetic_experiments.generative_model.generate_synthetic_data.sim_case_01">
+<span class="sig-name descname"><span class="pre">sim_case_01</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mu_true_3zones_ua_ut</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sep_fac</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_yes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T_borders_all</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T_borders_training</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T_borders_testing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/synthetic_experiments/generative_model.html#generate_synthetic_data.sim_case_01"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.sim_case_01" title="Link to this definition">#</a></dt>
+<dd><p>Generates data according to case1 of the paper.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mu_true_3zones_ua_ut</strong> – array (3,1):
+True intensities of the three zones.</p></li>
+<li><p><strong>sep_fac</strong> – array (2,1):
+Determines how domain X is subdivided into three zones X = [X_1 cup X_2 cup X_3].</p></li>
+<li><p><strong>seed</strong> – int or None:
+Initial random seed for the simulations.</p></li>
+<li><p><strong>save_yes</strong> – not None or None:
+Option if simulated data is saved (pickled).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>gm_obj: object:
+Contains the simulated data and additional info about the simulation.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gpetas.synthetic_experiments.generative_model.generate_synthetic_data.sim_case_02">
+<span class="sig-name descname"><span class="pre">sim_case_02</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">m0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">42</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_yes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T_borders_all</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T_borders_training</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T_borders_testing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/synthetic_experiments/generative_model.html#generate_synthetic_data.sim_case_02"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.sim_case_02" title="Link to this definition">#</a></dt>
+<dd><p>Generates data according to case1 of the paper.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>T_borders_testing</strong> – </p></li>
+<li><p><strong>T_borders_training</strong> – </p></li>
+<li><p><strong>T_borders_all</strong> – </p></li>
+<li><p><strong>m0</strong> – float:
+Lower cutoff magnitude of the magnitude density f_M(m), aka magnitude of completeness</p></li>
+<li><p><strong>seed</strong> – int or None:
+Initial random seed for the simulations. In the paper seed = 42.</p></li>
+<li><p><strong>save_yes</strong> – not None or None:
+Option if simulated data is saved (pickled).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>gm_obj: object
+Contains the simulated data and additional info about the data.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gpetas.synthetic_experiments.generative_model.generate_synthetic_data.sim_case_03_gaborlike">
+<span class="sig-name descname"><span class="pre">sim_case_03_gaborlike</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">40</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_yes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T_borders_all</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T_borders_training</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T_borders_testing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/synthetic_experiments/generative_model.html#generate_synthetic_data.sim_case_03_gaborlike"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.sim_case_03_gaborlike" title="Link to this definition">#</a></dt>
+<dd><p>Generates data according to case1 of the paper. (an altered Gabor function for the background intensity.)
+:param seed: int or None:</p>
+<blockquote>
+<div><p>Initial random seed for the simulations.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>m0</strong> – float:
+Lower cutoff magnitude of the magnitude density f_M(m), aka magnitude of completeness.</p></li>
+<li><p><strong>save_yes</strong> – not None or None:
+Option if simulated data is saved (pickled).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>gm_obj: object:
+Contains the simulated data and additional info about the simulation.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gpetas.synthetic_experiments.generative_model.generate_synthetic_data.sim_Xall_tmxyz_branching">
+<span class="sig-name descname"><span class="pre">sim_Xall_tmxyz_branching</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X0_events</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/synthetic_experiments/generative_model.html#generate_synthetic_data.sim_Xall_tmxyz_branching"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.sim_Xall_tmxyz_branching" title="Link to this definition">#</a></dt>
+<dd><p>Adds offspring events (aftershocks) to a list of N0 bg events.
+:param X0_events: array (N0,5)</p>
+<blockquote>
+<div><p>Background events (N0:number of bg events), cols: time,mag,x,y,branching</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gpetas.synthetic_experiments.generative_model.generate_synthetic_data.PHI_t_omori">
+<span class="sig-name descname"><span class="pre">PHI_t_omori</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">c</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_end</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">inf</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/synthetic_experiments/generative_model.html#generate_synthetic_data.PHI_t_omori"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.PHI_t_omori" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gpetas.synthetic_experiments.generative_model.generate_synthetic_data.n">
+<span class="sig-name descname"><span class="pre">n</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">m_alpha</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m_beta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">K</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_end</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">inf</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/synthetic_experiments/generative_model.html#generate_synthetic_data.n"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.n" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gpetas.synthetic_experiments.generative_model.generate_synthetic_data.sim_NHPP">
+<span class="sig-name descname"><span class="pre">sim_NHPP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fargs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_lambda</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/synthetic_experiments/generative_model.html#generate_synthetic_data.sim_NHPP"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.sim_NHPP" title="Link to this definition">#</a></dt>
+<dd><p>Simulates a 1D non-homogenous Poisson process (NHPP) via thinning.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>t1</strong> – float:
+Starting time of the simulation.</p></li>
+<li><p><strong>t2</strong> – float:
+Ending time of the simulation.</p></li>
+<li><p><strong>lambda_t</strong> – str, name of a function:
+Definition of the 1D intensity function. Here Mod.Omori law.</p></li>
+<li><p><strong>fargs</strong> – </p></li>
+<li><p><strong>max_lambda</strong> – float:
+Maximum value of the intensity function in [t1,t2] of the NHPP.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>array (N,1):
+Time series of events of the NHPP in [t1,t2].</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gpetas.synthetic_experiments.generative_model.generate_synthetic_data.sample_s_xy_short_range">
+<span class="sig-name descname"><span class="pre">sample_s_xy_short_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mean</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cov</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/synthetic_experiments/generative_model.html#generate_synthetic_data.sample_s_xy_short_range"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.sample_s_xy_short_range" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gpetas.synthetic_experiments.generative_model.generate_synthetic_data.sample_long_range_decay_pwl">
+<span class="sig-name descname"><span class="pre">sample_long_range_decay_pwl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_center</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_center</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m_center</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">D</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma_m</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/synthetic_experiments/generative_model.html#generate_synthetic_data.sample_long_range_decay_pwl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.sample_long_range_decay_pwl" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gpetas.synthetic_experiments.generative_model.generate_synthetic_data.sample_long_range_decay_RL_pwl">
+<span class="sig-name descname"><span class="pre">sample_long_range_decay_RL_pwl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_center</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_center</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m_center</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">D</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma_m</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/synthetic_experiments/generative_model.html#generate_synthetic_data.sample_long_range_decay_RL_pwl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.sample_long_range_decay_RL_pwl" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gpetas.synthetic_experiments.generative_model.generate_synthetic_data.gabor_like_intensity">
+<span class="sig-name descname"><span class="pre">gabor_like_intensity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">positions</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/synthetic_experiments/generative_model.html#generate_synthetic_data.gabor_like_intensity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.gabor_like_intensity" title="Link to this definition">#</a></dt>
+<dd><p>my intensity function case04</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gpetas.synthetic_experiments.generative_model.generate_synthetic_data.pos_gabor">
+<span class="sig-name descname"><span class="pre">pos_gabor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">positions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">freq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">theta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">psi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/synthetic_experiments/generative_model.html#generate_synthetic_data.pos_gabor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.pos_gabor" title="Link to this definition">#</a></dt>
+<dd><p>gabor function type</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gpetas.synthetic_experiments.generative_model.generate_synthetic_data.integral_ut_gabor_like_intensity">
+<span class="sig-name descname"><span class="pre">integral_ut_gabor_like_intensity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">res</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/synthetic_experiments/generative_model.html#generate_synthetic_data.integral_ut_gabor_like_intensity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.integral_ut_gabor_like_intensity" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gpetas.synthetic_experiments.generative_model.generate_synthetic_data.write_to_file">
+<span class="sig-name descname"><span class="pre">write_to_file</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/synthetic_experiments/generative_model.html#generate_synthetic_data.write_to_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.write_to_file" title="Link to this definition">#</a></dt>
+<dd><p>Saves simulated data into two files, and generates plots of the data.
+1: catalog in a numpy.savetxt file with format (idx xlon ylat magnitude time)
+2: save_obj_gm</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gpetas.synthetic_experiments.generative_model.generate_synthetic_data.plot_paper_figure02_data">
+<span class="sig-name descname"><span class="pre">plot_paper_figure02_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/synthetic_experiments/generative_model.html#generate_synthetic_data.plot_paper_figure02_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.plot_paper_figure02_data" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.synthetic_experiments.generative_model.make_X_grid">
+<span class="sig-name descname"><span class="pre">make_X_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_borders</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nbins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">D</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/synthetic_experiments/generative_model.html#make_X_grid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.synthetic_experiments.generative_model.make_X_grid" title="Link to this definition">#</a></dt>
+<dd><p>Generates positions of a regular (nbins x nbins) grid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X_borders</strong> – array (D,2)
+Domain of the grid as np.array([[d1_min, d1_max],… ,[D_min, D_max]]).</p></li>
+<li><p><strong>nbins</strong> – int
+Number of bins in each dimension.</p></li>
+<li><p><strong>D</strong> – int
+Dimension.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>array (nbins**2,D)
+X_grid (meshgrid) positions.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="gpetas.synthetic_experiments.generative_model.dom">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dom</span></span><a class="reference internal" href="_modules/gpetas/synthetic_experiments/generative_model.html#dom"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.synthetic_experiments.generative_model.dom" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="gpetas.synthetic_experiments.generative_model.obs">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">obs</span></span><a class="reference internal" href="_modules/gpetas/synthetic_experiments/generative_model.html#obs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.synthetic_experiments.generative_model.obs" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="gpetas.synthetic_experiments.generative_model.case01_info">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">case01_info</span></span><a class="reference internal" href="_modules/gpetas/synthetic_experiments/generative_model.html#case01_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.synthetic_experiments.generative_model.case01_info" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="gpetas.synthetic_experiments.generative_model.case02_info">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">case02_info</span></span><a class="reference internal" href="_modules/gpetas/synthetic_experiments/generative_model.html#case02_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.synthetic_experiments.generative_model.case02_info" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="gpetas.synthetic_experiments.generative_model.case03_info">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">case03_info</span></span><a class="reference internal" href="_modules/gpetas/synthetic_experiments/generative_model.html#case03_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.synthetic_experiments.generative_model.case03_info" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+</section>
+<section id="module-gpetas.synthetic_experiments.synthetic_cases_aux_functions">
+<span id="gpetas-synthetic-experiments-synthetic-cases-aux-functions-module"></span><h2>gpetas.synthetic_experiments.synthetic_cases_aux_functions module<a class="headerlink" href="#module-gpetas.synthetic_experiments.synthetic_cases_aux_functions" title="Link to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.synthetic_experiments.synthetic_cases_aux_functions.write_results_to_tex_file">
+<span class="sig-name descname"><span class="pre">write_results_to_tex_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t_start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_end</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fname_dat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/synthetic_experiments/synthetic_cases_aux_functions.html#write_results_to_tex_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.synthetic_experiments.synthetic_cases_aux_functions.write_results_to_tex_file" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.synthetic_experiments.synthetic_cases_aux_functions.write_table2_theta">
+<span class="sig-name descname"><span class="pre">write_table2_theta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_obj_GS</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gm_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mle_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mle_obj_silverman</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fout_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">idx_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/synthetic_experiments/synthetic_cases_aux_functions.html#write_table2_theta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.synthetic_experiments.synthetic_cases_aux_functions.write_table2_theta" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>save_obj_GS</strong> – </p></li>
+<li><p><strong>gm_obj</strong> – </p></li>
+<li><p><strong>mle_obj</strong> – </p></li>
+<li><p><strong>mle_obj_silverman</strong> – </p></li>
+<li><p><strong>fout_dir</strong> – </p></li>
+<li><p><strong>idx_samples</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gpetas.synthetic_experiments.synthetic_cases_aux_functions.write_table3_l2_background">
+<span class="sig-name descname"><span class="pre">write_table3_l2_background</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_obj_GS</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gm_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mle_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mle_obj_silverman</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fout_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">idx_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gpetas/synthetic_experiments/synthetic_cases_aux_functions.html#write_table3_l2_background"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpetas.synthetic_experiments.synthetic_cases_aux_functions.write_table3_l2_background" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-gpetas.synthetic_experiments">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-gpetas.synthetic_experiments" title="Link to this heading">#</a></h2>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="gpetas.core.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">gpetas.core package</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="gpetas.utils.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">gpetas.utils package</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-gpetas.synthetic_experiments.generative_model">gpetas.synthetic_experiments.generative_model module</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.synthetic_experiments.generative_model.generate_synthetic_data"><code class="docutils literal notranslate"><span class="pre">generate_synthetic_data</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.sim_case_01"><code class="docutils literal notranslate"><span class="pre">generate_synthetic_data.sim_case_01()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.sim_case_02"><code class="docutils literal notranslate"><span class="pre">generate_synthetic_data.sim_case_02()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.sim_case_03_gaborlike"><code class="docutils literal notranslate"><span class="pre">generate_synthetic_data.sim_case_03_gaborlike()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.sim_Xall_tmxyz_branching"><code class="docutils literal notranslate"><span class="pre">generate_synthetic_data.sim_Xall_tmxyz_branching()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.PHI_t_omori"><code class="docutils literal notranslate"><span class="pre">generate_synthetic_data.PHI_t_omori()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.n"><code class="docutils literal notranslate"><span class="pre">generate_synthetic_data.n()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.sim_NHPP"><code class="docutils literal notranslate"><span class="pre">generate_synthetic_data.sim_NHPP()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.sample_s_xy_short_range"><code class="docutils literal notranslate"><span class="pre">generate_synthetic_data.sample_s_xy_short_range()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.sample_long_range_decay_pwl"><code class="docutils literal notranslate"><span class="pre">generate_synthetic_data.sample_long_range_decay_pwl()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.sample_long_range_decay_RL_pwl"><code class="docutils literal notranslate"><span class="pre">generate_synthetic_data.sample_long_range_decay_RL_pwl()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.gabor_like_intensity"><code class="docutils literal notranslate"><span class="pre">generate_synthetic_data.gabor_like_intensity()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.pos_gabor"><code class="docutils literal notranslate"><span class="pre">generate_synthetic_data.pos_gabor()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.integral_ut_gabor_like_intensity"><code class="docutils literal notranslate"><span class="pre">generate_synthetic_data.integral_ut_gabor_like_intensity()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.write_to_file"><code class="docutils literal notranslate"><span class="pre">generate_synthetic_data.write_to_file()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.plot_paper_figure02_data"><code class="docutils literal notranslate"><span class="pre">generate_synthetic_data.plot_paper_figure02_data()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.synthetic_experiments.generative_model.make_X_grid"><code class="docutils literal notranslate"><span class="pre">make_X_grid()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.synthetic_experiments.generative_model.dom"><code class="docutils literal notranslate"><span class="pre">dom</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.synthetic_experiments.generative_model.obs"><code class="docutils literal notranslate"><span class="pre">obs</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.synthetic_experiments.generative_model.case01_info"><code class="docutils literal notranslate"><span class="pre">case01_info</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.synthetic_experiments.generative_model.case02_info"><code class="docutils literal notranslate"><span class="pre">case02_info</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.synthetic_experiments.generative_model.case03_info"><code class="docutils literal notranslate"><span class="pre">case03_info</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-gpetas.synthetic_experiments.synthetic_cases_aux_functions">gpetas.synthetic_experiments.synthetic_cases_aux_functions module</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.synthetic_experiments.synthetic_cases_aux_functions.write_results_to_tex_file"><code class="docutils literal notranslate"><span class="pre">write_results_to_tex_file()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.synthetic_experiments.synthetic_cases_aux_functions.write_table2_theta"><code class="docutils literal notranslate"><span class="pre">write_table2_theta()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpetas.synthetic_experiments.synthetic_cases_aux_functions.write_table3_l2_background"><code class="docutils literal notranslate"><span class="pre">write_table3_l2_background()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-gpetas.synthetic_experiments">Module contents</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By chrism
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023, chrism.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

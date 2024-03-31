@@ -1,0 +1,794 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Data from an online source &#8212; gpetas 0.0.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script src="../_static/documentation_options.js?v=e645c8fa"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/02_getdata_from_online_via_pycsep';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Inference setup, model setup" href="03_inference_setup.html" />
+    <link rel="prev" title="Data from a text file" href="01_getdata_from_file.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.svg" class="logo__image only-light" alt="gpetas 0.0.1 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.svg" class="logo__image only-dark" alt="gpetas 0.0.1 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="00_domain_setup.html">Define domain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01_getdata_from_file.html">Data from a text file</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Data from an online source</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="03_inference_setup.html">Inference setup, model setup</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="04_gibbs_sampling_gpetas.html">Inference: GP-ETAS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04a_classical_inference_MLE_KDE_ETAS.html">Inference: classical ETAS MLE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_results_summary.html">Results</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">API reference</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../gpetas.html">gpetas package</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../gpetas.core.html">gpetas.core package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gpetas.synthetic_experiments.html">gpetas.synthetic_experiments package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gpetas.utils.html">gpetas.utils package</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/chris-molki/gpetas" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/02_getdata_from_online_via_pycsep.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Data from an online source</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Data from an online source</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Define-domain">Define domain</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#Californian-data">Californian data</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#Italian-data">Italian data</a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="Data-from-an-online-source">
+<h1>Data from an online source<a class="headerlink" href="#Data-from-an-online-source" title="Link to this heading">#</a></h1>
+<p>Data can be easily downloaded from online sources as * USGS: HOST = ‘earthquake.usgs.gov’</p>
+<p>Here we use functionalities provided by the <code class="docutils literal notranslate"><span class="pre">pycsep</span></code> package which facilitates the data access. Related functions require a <em>datetime.datetime</em> to specify the start and end dates. <code class="docutils literal notranslate"><span class="pre">pycsep</span></code> provides access to the ComCat web API and to the Bollettino Sismico Italiano API using * csep.query_comcat() * csep.query_bsi().</p>
+<section id="Define-domain">
+<h2>Define domain<a class="headerlink" href="#Define-domain" title="Link to this heading">#</a></h2>
+<p>You have to specify following aspects of the domain:</p>
+<ul class="simple">
+<li><p>time domain</p>
+<ul>
+<li><p>time borders for the training T_borders_training</p></li>
+<li><p>time borders for the testing T_borders_testing</p></li>
+<li><p>time origin (when was ‘0.’ days) given by a <em>datetime</em> format: ‘%Y-%m-%d %H:%M:%S.%f’</p></li>
+</ul>
+</li>
+<li><p>spatial domain X_borders</p></li>
+<li><p>domain of the marks (magnitudes) usually by m0</p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">gpetas</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="n">time_format</span> <span class="o">=</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S.</span><span class="si">%f</span><span class="s2">&quot;</span>
+
+
+<span class="kn">import</span> <span class="nn">csep</span>
+<span class="kn">from</span> <span class="nn">csep.utils</span> <span class="kn">import</span> <span class="n">time_utils</span><span class="p">,</span> <span class="n">comcat</span>
+
+
+
+<span class="c1"># auto reload using developer version</span>
+<span class="o">%</span><span class="k">load_ext</span> autoreload
+<span class="o">%</span><span class="k">autoreload</span> 2
+<br/></pre></div>
+</div>
+</div>
+</section>
+</section>
+<section id="Californian-data">
+<h1>Californian data<a class="headerlink" href="#Californian-data" title="Link to this heading">#</a></h1>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># specify domain</span>
+
+<span class="c1"># time domain</span>
+<span class="n">time_origin</span> <span class="o">=</span> <span class="s1">&#39;2010-01-01 00:00:00.0&#39;</span>
+<span class="n">time_end</span> <span class="o">=</span> <span class="s1">&#39;2022-01-01 00:00:00.0&#39;</span>
+<span class="n">time_origin_obj</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">time_origin</span><span class="p">,</span> <span class="n">time_format</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+                <span class="n">tzinfo</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span>
+<span class="n">time_end_obj</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">time_end</span><span class="p">,</span> <span class="n">time_format</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+                <span class="n">tzinfo</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span>
+<span class="n">delta_Tall</span><span class="o">=</span><span class="p">(</span><span class="n">time_end_obj</span><span class="o">-</span><span class="n">time_origin_obj</span><span class="p">)</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span><span class="o">/</span><span class="p">(</span><span class="mf">60.</span><span class="o">*</span><span class="mf">60.</span><span class="o">*</span><span class="mi">24</span><span class="p">)</span>
+<span class="n">T_borders_all</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.</span><span class="p">,</span><span class="n">delta_Tall</span><span class="p">])</span>
+<span class="n">T_borders_training</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.</span><span class="p">,</span><span class="mf">3000.</span><span class="p">])</span>
+
+<span class="c1"># spatial domain</span>
+<span class="n">X_borders</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="mf">120.</span><span class="p">,</span> <span class="o">-</span><span class="mf">113.</span><span class="p">],[</span>  <span class="mf">30.</span><span class="p">,</span>   <span class="mf">37.</span><span class="p">]])</span>
+
+<span class="c1"># mark domain: [m0,+inf)</span>
+<span class="n">m0</span><span class="o">=</span><span class="mf">3.5</span>
+
+<span class="c1"># case_name (optional)</span>
+<span class="n">case_name</span> <span class="o">=</span> <span class="s1">&#39;R002r&#39;</span>
+
+<span class="n">domain_obj</span> <span class="o">=</span> <span class="n">gpetas</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">R00x_setup</span><span class="o">.</span><span class="n">region_class</span><span class="p">()</span>
+<span class="n">domain_obj</span><span class="o">.</span><span class="n">T_borders_all</span> <span class="o">=</span> <span class="n">T_borders_all</span>
+<span class="n">domain_obj</span><span class="o">.</span><span class="n">T_borders_training</span><span class="o">=</span><span class="n">T_borders_training</span>
+<span class="n">domain_obj</span><span class="o">.</span><span class="n">T_borders_testing</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">T_borders_training</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">T_borders_all</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
+<span class="n">domain_obj</span><span class="o">.</span><span class="n">time_origin</span> <span class="o">=</span> <span class="n">time_origin</span>
+<span class="n">domain_obj</span><span class="o">.</span><span class="n">X_borders</span> <span class="o">=</span> <span class="n">X_borders</span>
+<span class="n">domain_obj</span><span class="o">.</span><span class="n">m0</span> <span class="o">=</span> <span class="n">m0</span>
+<span class="n">domain_obj</span><span class="o">.</span><span class="n">case_name</span> <span class="o">=</span> <span class="n">case_name</span>
+<span class="nb">vars</span><span class="p">(</span><span class="n">domain_obj</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;T_borders_all&#39;: array([   0., 4383.]),
+ &#39;T_borders_training&#39;: array([   0., 3000.]),
+ &#39;T_borders_testing&#39;: array([3000., 4383.]),
+ &#39;X_borders&#39;: array([[-120., -113.],
+        [  30.,   37.]]),
+ &#39;X_borders_UTM_km&#39;: None,
+ &#39;X_borders_original&#39;: None,
+ &#39;time_origin&#39;: &#39;2010-01-01 00:00:00.0&#39;,
+ &#39;m0&#39;: 3.5,
+ &#39;case_name&#39;: &#39;R002r&#39;}
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># get pycsep catalog object</span>
+<span class="n">start_time</span> <span class="o">=</span> <span class="n">time_origin_obj</span>
+<span class="n">end_time</span> <span class="o">=</span> <span class="n">time_end_obj</span>
+<span class="n">min_magnitude</span><span class="o">=</span><span class="n">domain_obj</span><span class="o">.</span><span class="n">m0</span>
+<span class="n">min_latitude</span><span class="o">=</span><span class="n">domain_obj</span><span class="o">.</span><span class="n">X_borders</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">max_latitude</span><span class="o">=</span><span class="n">domain_obj</span><span class="o">.</span><span class="n">X_borders</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">min_longitude</span><span class="o">=</span><span class="n">domain_obj</span><span class="o">.</span><span class="n">X_borders</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">max_longitude</span><span class="o">=</span><span class="n">domain_obj</span><span class="o">.</span><span class="n">X_borders</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">catalog_obj</span> <span class="o">=</span> <span class="n">csep</span><span class="o">.</span><span class="n">query_comcat</span><span class="p">(</span><span class="n">start_time</span><span class="o">=</span><span class="n">start_time</span><span class="p">,</span> <span class="n">end_time</span><span class="o">=</span><span class="n">end_time</span><span class="p">,</span>
+                        <span class="n">min_magnitude</span><span class="o">=</span><span class="n">min_magnitude</span><span class="p">,</span>
+                        <span class="n">min_latitude</span><span class="o">=</span><span class="n">min_latitude</span><span class="p">,</span><span class="n">max_latitude</span><span class="o">=</span><span class="n">max_latitude</span><span class="p">,</span>
+                        <span class="n">min_longitude</span><span class="o">=</span><span class="n">min_longitude</span><span class="p">,</span> <span class="n">max_longitude</span><span class="o">=</span><span class="n">max_longitude</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Fetched ComCat catalog in 20.812978982925415 seconds.
+
+Downloaded catalog from ComCat with following parameters
+Start Date: 2010-01-04 00:02:17.990000+00:00
+End Date: 2021-12-19 10:27:35.704000+00:00
+Min Latitude: 30.0063 and Max Latitude: 36.989
+Min Longitude: -119.9986667 and Max Longitude: -113.1498
+Min Magnitude: 3.5
+Found 1688 events in the ComCat catalog.
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># cat2data_obj</span>
+<span class="n">data_obj</span> <span class="o">=</span> <span class="n">gpetas</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">get_data_pycsep</span><span class="o">.</span><span class="n">data_obj__from_catalog_obj</span><span class="p">(</span><span class="n">catalog_obj</span><span class="o">=</span><span class="n">catalog_obj</span><span class="p">,</span><span class="n">R_obj</span><span class="o">=</span><span class="n">domain_obj</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Warning:
+Warning: 1  Duplicate(s) in the data set.
+jitter= 1.5046296084619826e-06
+    Values at idx [695] and [696] (counting from 0 to n-1) are the same.
+    Time: [968.88711481] [968.88711481]  days.
+    NEW Times: [968.88711481] [968.88711632]  days.
+NEW number of time duplicates= 0
+----------------------------------------------------------------------
+total number of events =  1688
+time origin            =  2010-01-01 00:00:00+00:00
+Starting time          = 0.0 time max= 4383.0
+T_borders all          = [   0. 4383.]
+|T|                    = 4383.0  days.
+T_borders training     = [   0. 3000.]
+min event time         = 3.0015971064814817
+max event time         = 4370.435829907407
+X_borders              = [[-120. -113.]
+ [  30.   37.]]
+|X|= 49.0 deg**2
+x lon min -119.9986667 x lon max -113.1498 dx= 6.848866700000002
+y lat min 30.0063 y lat max 36.989 dy= 6.982699999999998
+minimum magnitude 3.5 maximum magnitude 7.2
+Number of identical event times:   0
+Fname is:  comcat_R002r_m0_35.dat
+____________________________________________________
+data_obj has been created and saved in: output/inference_results/data_obj_R002r.all
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">h</span><span class="o">=</span><span class="n">gpetas</span><span class="o">.</span><span class="n">plotting</span><span class="o">.</span><span class="n">plot_setting</span><span class="p">(</span><span class="n">data_obj</span><span class="o">=</span><span class="n">data_obj</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_02_getdata_from_online_via_pycsep_7_0.png" src="../_images/notebooks_02_getdata_from_online_via_pycsep_7_0.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_02_getdata_from_online_via_pycsep_7_1.png" src="../_images/notebooks_02_getdata_from_online_via_pycsep_7_1.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_02_getdata_from_online_via_pycsep_7_2.png" src="../_images/notebooks_02_getdata_from_online_via_pycsep_7_2.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_02_getdata_from_online_via_pycsep_7_3.png" src="../_images/notebooks_02_getdata_from_online_via_pycsep_7_3.png" />
+</div>
+</div>
+</section>
+<section id="Italian-data">
+<h1>Italian data<a class="headerlink" href="#Italian-data" title="Link to this heading">#</a></h1>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># specify domain</span>
+    <span class="c1"># L&#39;Aquila:</span>
+    <span class="c1"># 04/02/2001 to the 28/3/2020</span>
+    <span class="c1"># X = [12E,15E] × [41N,44N]</span>
+    <span class="c1"># 3.0 ≤ m ≤ 6.5</span>
+    <span class="c1"># (Ntraining = 723 events, Ttraining = [0,4000] days),</span>
+    <span class="c1"># and test data, all events with ti &gt; 4000 days (Ntest = 1466, Ttest = [4000,6993] days)</span>
+
+<span class="c1"># time domain</span>
+<span class="n">time_origin</span> <span class="o">=</span> <span class="s1">&#39;2001-02-04 00:00:00.0&#39;</span>
+<span class="n">time_end</span> <span class="o">=</span> <span class="s1">&#39;2020-03-28 00:00:00.0&#39;</span>
+<span class="n">time_origin_obj</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">time_origin</span><span class="p">,</span> <span class="n">time_format</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+                <span class="n">tzinfo</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span>
+<span class="n">time_end_obj</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">time_end</span><span class="p">,</span> <span class="n">time_format</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+                <span class="n">tzinfo</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span>
+<span class="n">delta_Tall</span><span class="o">=</span><span class="p">(</span><span class="n">time_end_obj</span><span class="o">-</span><span class="n">time_origin_obj</span><span class="p">)</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span><span class="o">/</span><span class="p">(</span><span class="mf">60.</span><span class="o">*</span><span class="mf">60.</span><span class="o">*</span><span class="mi">24</span><span class="p">)</span>
+<span class="n">T_borders_all</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.</span><span class="p">,</span><span class="n">delta_Tall</span><span class="p">])</span>
+<span class="n">T_borders_training</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.</span><span class="p">,</span><span class="mf">4000.</span><span class="p">])</span>
+
+<span class="c1"># spatial domain</span>
+<span class="n">X_borders</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">12.</span><span class="p">,</span> <span class="mf">15.</span><span class="p">],[</span>  <span class="mf">41.</span><span class="p">,</span>   <span class="mf">44.</span><span class="p">]])</span>
+
+<span class="c1"># mark domain: [m0,+inf)</span>
+<span class="n">m0</span><span class="o">=</span><span class="mf">3.0</span>
+
+<span class="n">domain_obj</span> <span class="o">=</span> <span class="n">gpetas</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">R00x_setup</span><span class="o">.</span><span class="n">region_class</span><span class="p">()</span>
+<span class="n">domain_obj</span><span class="o">.</span><span class="n">T_borders_all</span> <span class="o">=</span> <span class="n">T_borders_all</span>
+<span class="n">domain_obj</span><span class="o">.</span><span class="n">T_borders_training</span><span class="o">=</span><span class="n">T_borders_training</span>
+<span class="n">domain_obj</span><span class="o">.</span><span class="n">T_borders_testing</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">T_borders_training</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">T_borders_all</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
+<span class="n">domain_obj</span><span class="o">.</span><span class="n">time_origin</span> <span class="o">=</span> <span class="n">time_origin</span>
+<span class="n">domain_obj</span><span class="o">.</span><span class="n">X_borders</span> <span class="o">=</span> <span class="n">X_borders</span>
+<span class="n">domain_obj</span><span class="o">.</span><span class="n">m0</span> <span class="o">=</span> <span class="n">m0</span>
+<span class="nb">vars</span><span class="p">(</span><span class="n">domain_obj</span><span class="p">)</span>
+<br/><br/><br/><br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;T_borders_all&#39;: array([   0., 6992.]),
+ &#39;T_borders_training&#39;: array([   0., 4000.]),
+ &#39;T_borders_testing&#39;: array([4000., 6992.]),
+ &#39;X_borders&#39;: array([[12., 15.],
+        [41., 44.]]),
+ &#39;X_borders_UTM_km&#39;: None,
+ &#39;X_borders_original&#39;: None,
+ &#39;time_origin&#39;: &#39;2001-02-04 00:00:00.0&#39;,
+ &#39;m0&#39;: 3.0}
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># get pycsep catalog object</span>
+<span class="n">start_time</span> <span class="o">=</span> <span class="n">time_origin_obj</span>
+<span class="n">end_time</span> <span class="o">=</span> <span class="n">time_end_obj</span>
+<span class="n">min_magnitude</span><span class="o">=</span><span class="n">domain_obj</span><span class="o">.</span><span class="n">m0</span>
+<span class="n">min_latitude</span><span class="o">=</span><span class="n">domain_obj</span><span class="o">.</span><span class="n">X_borders</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">max_latitude</span><span class="o">=</span><span class="n">domain_obj</span><span class="o">.</span><span class="n">X_borders</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">min_longitude</span><span class="o">=</span><span class="n">domain_obj</span><span class="o">.</span><span class="n">X_borders</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">max_longitude</span><span class="o">=</span><span class="n">domain_obj</span><span class="o">.</span><span class="n">X_borders</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">catalog_obj</span> <span class="o">=</span> <span class="n">csep</span><span class="o">.</span><span class="n">query_bsi</span><span class="p">(</span><span class="n">start_time</span><span class="o">=</span><span class="n">start_time</span><span class="p">,</span> <span class="n">end_time</span><span class="o">=</span><span class="n">end_time</span><span class="p">,</span>
+                        <span class="n">min_magnitude</span><span class="o">=</span><span class="n">min_magnitude</span><span class="p">,</span>
+                        <span class="n">min_latitude</span><span class="o">=</span><span class="n">min_latitude</span><span class="p">,</span><span class="n">max_latitude</span><span class="o">=</span><span class="n">max_latitude</span><span class="p">,</span>
+                        <span class="n">min_longitude</span><span class="o">=</span><span class="n">min_longitude</span><span class="p">,</span> <span class="n">max_longitude</span><span class="o">=</span><span class="n">max_longitude</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">AttributeError</span>                            Traceback (most recent call last)
+Cell <span class="ansi-green-fg">In[11], line 9</span>
+<span class="ansi-green-intense-fg ansi-bold">      7</span> min_longitude<span style="color: rgb(98,98,98)">=</span>domain_obj<span style="color: rgb(98,98,98)">.</span>X_borders[<span style="color: rgb(98,98,98)">0</span>,<span style="color: rgb(98,98,98)">0</span>]
+<span class="ansi-green-intense-fg ansi-bold">      8</span> max_longitude<span style="color: rgb(98,98,98)">=</span>domain_obj<span style="color: rgb(98,98,98)">.</span>X_borders[<span style="color: rgb(98,98,98)">0</span>,<span style="color: rgb(98,98,98)">1</span>]
+<span class="ansi-green-fg">----&gt; 9</span> catalog_obj <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">csep</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">query_bsi</span>(start_time<span style="color: rgb(98,98,98)">=</span>start_time, end_time<span style="color: rgb(98,98,98)">=</span>end_time,
+<span class="ansi-green-intense-fg ansi-bold">     10</span>                         min_magnitude<span style="color: rgb(98,98,98)">=</span>min_magnitude,
+<span class="ansi-green-intense-fg ansi-bold">     11</span>                         min_latitude<span style="color: rgb(98,98,98)">=</span>min_latitude,max_latitude<span style="color: rgb(98,98,98)">=</span>max_latitude,
+<span class="ansi-green-intense-fg ansi-bold">     12</span>                         min_longitude<span style="color: rgb(98,98,98)">=</span>min_longitude, max_longitude<span style="color: rgb(98,98,98)">=</span>max_longitude)
+
+<span class="ansi-red-fg">AttributeError</span>: module &#39;csep&#39; has no attribute &#39;query_bsi&#39;
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># cat2data_obj</span>
+<span class="n">data_obj</span> <span class="o">=</span> <span class="n">gpetas</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">get_data_pycsep</span><span class="o">.</span><span class="n">data_obj__from_catalog_obj</span><span class="p">(</span><span class="n">catalog_obj</span><span class="o">=</span><span class="n">catalog_obj</span><span class="p">,</span><span class="n">R_obj</span><span class="o">=</span><span class="n">domain_obj</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">h</span><span class="o">=</span><span class="n">gpetas</span><span class="o">.</span><span class="n">plotting</span><span class="o">.</span><span class="n">plot_setting</span><span class="p">(</span><span class="n">data_obj</span><span class="o">=</span><span class="n">data_obj</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="01_getdata_from_file.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Data from a text file</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="03_inference_setup.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Inference setup, model setup</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Data from an online source</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Define-domain">Define domain</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#Californian-data">Californian data</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#Italian-data">Italian data</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By chrism
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023, chrism.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

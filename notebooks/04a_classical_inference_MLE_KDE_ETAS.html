@@ -1,0 +1,714 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Inference: classical ETAS MLE &#8212; gpetas 0.0.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script src="../_static/documentation_options.js?v=e645c8fa"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/04a_classical_inference_MLE_KDE_ETAS';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Results" href="05_results_summary.html" />
+    <link rel="prev" title="Inference: GP-ETAS" href="04_gibbs_sampling_gpetas.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.svg" class="logo__image only-light" alt="gpetas 0.0.1 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.svg" class="logo__image only-dark" alt="gpetas 0.0.1 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="00_domain_setup.html">Define domain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01_getdata_from_file.html">Data from a text file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_getdata_from_online_via_pycsep.html">Data from an online source</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="03_inference_setup.html">Inference setup, model setup</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="04_gibbs_sampling_gpetas.html">Inference: GP-ETAS</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Inference: classical ETAS MLE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_results_summary.html">Results</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">API reference</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../gpetas.html">gpetas package</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../gpetas.core.html">gpetas.core package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gpetas.synthetic_experiments.html">gpetas.synthetic_experiments package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gpetas.utils.html">gpetas.utils package</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/chris-molki/gpetas" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/04a_classical_inference_MLE_KDE_ETAS.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Inference: classical ETAS MLE</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Maximum-likelihood-(classical-way)">Maximum likelihood (classical way)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Load-setup_obj_mle-which-includes-data_obj-and-domain_obj">Load <em>setup_obj_mle</em> which includes <em>data_obj</em> and <em>domain_obj</em></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Start-MLE">Start MLE</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Plot-summary">Plot summary</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="Inference:-classical-ETAS-MLE">
+<h1>Inference: classical ETAS MLE<a class="headerlink" href="#Inference:-classical-ETAS-MLE" title="Link to this heading">#</a></h1>
+<section id="Maximum-likelihood-(classical-way)">
+<h2>Maximum likelihood (classical way)<a class="headerlink" href="#Maximum-likelihood-(classical-way)" title="Link to this heading">#</a></h2>
+<p>Starting classical MLE requires a <code class="docutils literal notranslate"><span class="pre">gpetas</span></code> <em>setup_obj_mle</em> as described above. It contains everything you need: data, domain definition, setup variables.</p>
+<p>Load or generate a <em>setup_obj_mle</em> as described above and start ML inference the sampler.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">gpetas</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="n">time_format</span> <span class="o">=</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S.</span><span class="si">%f</span><span class="s2">&quot;</span>
+
+
+<span class="c1"># auto reload using developer version</span>
+<span class="o">%</span><span class="k">load_ext</span> autoreload
+<span class="o">%</span><span class="k">autoreload</span> 2
+</pre></div>
+</div>
+</div>
+<section id="Load-setup_obj_mle-which-includes-data_obj-and-domain_obj">
+<h3>Load <em>setup_obj_mle</em> which includes <em>data_obj</em> and <em>domain_obj</em><a class="headerlink" href="#Load-setup_obj_mle-which-includes-data_obj-and-domain_obj" title="Link to this heading">#</a></h3>
+<p>In this example we load a previously generated <em>setup_obj_mle</em>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">case_name</span> <span class="o">=</span> <span class="s1">&#39;Rxxx&#39;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">case_name</span><span class="p">)</span>
+<span class="n">output_dir</span> <span class="o">=</span> <span class="s1">&#39;./output/inference_results&#39;</span>
+<span class="n">fname</span> <span class="o">=</span> <span class="n">output_dir</span><span class="o">+</span><span class="s1">&#39;/setup_obj_default_</span><span class="si">%s</span><span class="s1">_mle.all&#39;</span><span class="o">%</span><span class="k">case_name</span>
+<span class="n">setup_obj_mle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span><span class="n">allow_pickle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1">#vars(setup_obj_mle)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Rxxx
+</pre></div></div>
+</div>
+</section>
+<section id="Start-MLE">
+<h3>Start MLE<a class="headerlink" href="#Start-MLE" title="Link to this heading">#</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mle_obj</span> <span class="o">=</span> <span class="n">gpetas</span><span class="o">.</span><span class="n">mle_KDE_ETAS</span><span class="o">.</span><span class="n">mle_units</span><span class="p">(</span><span class="n">data_obj</span><span class="o">=</span><span class="n">setup_obj_mle</span><span class="o">.</span><span class="n">data_obj</span><span class="p">,</span> <span class="n">setup_obj</span><span class="o">=</span><span class="n">setup_obj_mle</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+All positions are shifted such that the origin of X domain is (0,0)
+MLE routine   : mle_units()
+
+         Rxxx read with 998 (m&gt;=3.50 &amp; 0.0 &lt;= t &lt;=3000.0) events
+
+Start values of the params: mu_start= 0.003394557823129252
+spatial kernel for offspring         : R
+Check setup theta_start [mufac, K, alpha, c, p, d, gamma, q - 1]: [1.     0.0025 1.8    0.01   1.2    0.05   0.5    1.    ]
+Rupture length parameterization with:
+Start values of the params: K,c,p,a,d,g,q,b,m0= [2.5000000e-03 1.0000000e-02 1.2000000e+00 1.8000000e+00 5.0000000e-02
+ 5.0000000e-01 2.0000000e+00 2.3977128e+00 3.5000000e+00]
+--------------------------------------------------------------
+KDE parameters:
+Nnearest     = 15
+h_min_degree = 0.05  (units) degrees.
+
+         X domain of inference is: [[0. 7.]
+ [0. 7.]]
+
+         Rxxx read with 998 (m&gt;=3.50 &amp; t&lt;=3000.0) events
+
+ --&gt; RESULT for time interval [0.0  3000.0]:
+
+search: mu=1.000  K=0.0025  alpha=1.80  c=0.0100  p=1.20 d=0.0500  gamma=0.50  q=2.00 --&gt; Nback=499.0 Ntot=609.7 (Z=998) nLL=3366.188708
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Volumes/data_SFB1294/pack/gpetas_github/gpetas/utils/mle_KDE_ETAS.py:531: ComplexWarning: Casting complex values to real discards the imaginary part
+  &#39;search: mu=%.3f  K=%.4f  alpha=%.2f  c=%.4f  p=%.2f d=%.4f  gamma=%.2f  q=%.2f --&gt; Nback=%.1f Ntot=%.1f (Z=%d) nLL=%f\r&#39; % (
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+`xtol` termination condition is satisfied.0.0078  p=1.10 d=0.0021  gamma=0.22  q=1.56 --&gt; Nback=265.0 Ntot=975.0 (Z=998) nLL=470.368042418695
+Number of iterations: 905, function evaluations: 13194, CG iterations: 5086, optimality: 1.35e-03, constraint violation: 0.00e+00, execution time: 1.6e+03 s.
+n problem 0.9999996346073149
+ nround=1:  mufac=0.531122  c=0.007763   p=1.102400  K=0.032427  alpha=1.149013   q=1.555504  d0=0.002116  gamma=0.216912   LL=-470.368042  dLL=10.000000
+search: mu=1.013  K=0.0318  alpha=1.18  c=0.0081  p=1.10 d=0.0021  gamma=0.22  q=1.64 --&gt; Nback=263.2 Ntot=973.8 (Z=998) nLL=347.318924558825
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/chrism/opt/anaconda3/envs/gpetas_env/lib/python3.9/site-packages/scipy/optimize/_hessian_update_strategy.py:182: UserWarning: delta_grad == 0.0. Check if the approximated function is linear. If the function is linear better results can be obtained by defining the Hessian as zero instead of using quasi-Newton approximations.
+  warn(&#39;delta_grad == 0.0. Check if the approximated &#39;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+`xtol` termination condition is satisfied.0.0081  p=1.10 d=0.0021  gamma=0.22  q=1.64 --&gt; Nback=263.2 Ntot=973.8 (Z=998) nLL=347.318917
+Number of iterations: 838, function evaluations: 13662, CG iterations: 3957, optimality: 8.42e-05, constraint violation: 0.00e+00, execution time: 1.7e+03 s.
+n problem 0.9999996170596824
+ nround=2:  mufac=1.013170  c=0.008091   p=1.103001  K=0.031793  alpha=1.182181   q=1.635878  d0=0.002149  gamma=0.223688   LL=-347.318917  dLL=123.049126
+`xtol` termination condition is satisfied.0.0081  p=1.10 d=0.0022  gamma=0.22  q=1.64 --&gt; Nback=263.0 Ntot=973.5 (Z=998) nLL=347.490761678428
+Number of iterations: 922, function evaluations: 15165, CG iterations: 4404, optimality: 5.57e-05, constraint violation: 0.00e+00, execution time: 1.9e+03 s.
+n problem 0.9999994297054512
+ nround=3:  mufac=1.000132  c=0.008098   p=1.102999  K=0.031794  alpha=1.182231   q=1.637150  d0=0.002155  gamma=0.223591   LL=-347.490761  dLL=0.171845
+`xtol` termination condition is satisfied.0.0081  p=1.10 d=0.0022  gamma=0.22  q=1.64 --&gt; Nback=263.0 Ntot=973.5 (Z=998) nLL=347.493021360326
+Number of iterations: 779, function evaluations: 13140, CG iterations: 3731, optimality: 3.79e-05, constraint violation: 0.00e+00, execution time: 1.6e+03 s.
+n problem 0.999999603283174
+ nround=4:  mufac=1.000002  c=0.008099   p=1.102999  K=0.031794  alpha=1.182229   q=1.637170  d0=0.002155  gamma=0.223589   LL=-347.493021  dLL=0.002259
+
+ Estimated values: mu=1.000002  K=0.031794      alpha=1.182229  c=0.008099      p=1.102999      d=0.002155      gamma=0.223589  q=1.637170
+
+[-323.42216302]
+All positions are rescaled with origin of original X domain [[-120. -113.]
+ [  30.   37.]]
+</pre></div></div>
+</div>
+</section>
+<section id="Plot-summary">
+<h3>Plot summary<a class="headerlink" href="#Plot-summary" title="Link to this heading">#</a></h3>
+<p>You can directly plot a summary of the Bayesian inference or you can first do MLE and plot subsequently a summary with comparison</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">save_GS_obj</span> <span class="o">=</span> <span class="n">GS</span><span class="o">.</span><span class="n">save_data</span>
+<span class="n">gpetas</span><span class="o">.</span><span class="n">summary</span><span class="o">.</span><span class="n">summary_gpetas</span><span class="p">(</span><span class="n">save_GS_obj</span><span class="o">=</span><span class="n">save_GS_obj</span><span class="p">,</span><span class="n">mle_obj</span><span class="o">=</span><span class="n">mle_obj</span><span class="p">,</span><span class="n">fout_dir</span><span class="o">=</span><span class="n">save_GS_obj</span><span class="p">[</span><span class="s1">&#39;setup_obj&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">outdir</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+from orig. data_obj |T_training| [3000.] |X| 49.0
+testing periods
+[[   0. 3000.]
+ [3000. 4383.]] days.
+Number of employed posterior samples: 10
+Current T_star_testing = [   0. 3000.]
+Employed number of posterior samples: 10
+Current T_star_testing = [3000. 4383.]
+Employed number of posterior samples: 10
+gpetas: [-345.89229143 2299.6937258 ]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;gpetas.utils.summary.summary_gpetas at 0x7fd108fabd60&gt;
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_04a_classical_inference_MLE_KDE_ETAS_7_2.png" src="../_images/notebooks_04a_classical_inference_MLE_KDE_ETAS_7_2.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_04a_classical_inference_MLE_KDE_ETAS_7_3.png" src="../_images/notebooks_04a_classical_inference_MLE_KDE_ETAS_7_3.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_04a_classical_inference_MLE_KDE_ETAS_7_4.png" src="../_images/notebooks_04a_classical_inference_MLE_KDE_ETAS_7_4.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_04a_classical_inference_MLE_KDE_ETAS_7_5.png" src="../_images/notebooks_04a_classical_inference_MLE_KDE_ETAS_7_5.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_04a_classical_inference_MLE_KDE_ETAS_7_6.png" src="../_images/notebooks_04a_classical_inference_MLE_KDE_ETAS_7_6.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_04a_classical_inference_MLE_KDE_ETAS_7_7.png" src="../_images/notebooks_04a_classical_inference_MLE_KDE_ETAS_7_7.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_04a_classical_inference_MLE_KDE_ETAS_7_8.png" src="../_images/notebooks_04a_classical_inference_MLE_KDE_ETAS_7_8.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_04a_classical_inference_MLE_KDE_ETAS_7_9.png" src="../_images/notebooks_04a_classical_inference_MLE_KDE_ETAS_7_9.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="04_gibbs_sampling_gpetas.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Inference: GP-ETAS</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="05_results_summary.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Results</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Maximum-likelihood-(classical-way)">Maximum likelihood (classical way)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Load-setup_obj_mle-which-includes-data_obj-and-domain_obj">Load <em>setup_obj_mle</em> which includes <em>data_obj</em> and <em>domain_obj</em></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Start-MLE">Start MLE</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Plot-summary">Plot summary</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By chrism
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023, chrism.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,1055 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>gpetas.utils.mle_KDE_ETAS &#8212; gpetas 0.0.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=384b581d" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script src="../../../_static/documentation_options.js?v=e645c8fa"></script>
+    <script src="../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/gpetas/utils/mle_KDE_ETAS';</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/logo.svg" class="logo__image only-light" alt="gpetas 0.0.1 documentation - Home"/>
+    <script>document.write(`<img src="../../../_static/logo.svg" class="logo__image only-dark" alt="gpetas 0.0.1 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/00_domain_setup.html">Define domain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/01_getdata_from_file.html">Data from a text file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/02_getdata_from_online_via_pycsep.html">Data from an online source</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/03_inference_setup.html">Inference setup, model setup</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/04_gibbs_sampling_gpetas.html">Inference: GP-ETAS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/04a_classical_inference_MLE_KDE_ETAS.html">Inference: classical ETAS MLE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/05_results_summary.html">Results</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">API reference</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../gpetas.html">gpetas package</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../gpetas.core.html">gpetas.core package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../gpetas.synthetic_experiments.html">gpetas.synthetic_experiments package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../gpetas.utils.html">gpetas.utils package</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/chris-molki/gpetas" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for gpetas.utils.mle_KDE_ETAS</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">norm</span>
+<span class="c1"># from scipy.optimize import minimize</span>
+<span class="kn">import</span> <span class="nn">scipy</span> <span class="k">as</span> <span class="nn">sc</span>
+<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="p">(</span><span class="n">Bounds</span><span class="p">,</span> <span class="n">NonlinearConstraint</span><span class="p">,</span> <span class="n">LinearConstraint</span><span class="p">,</span> <span class="n">minimize</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+
+<span class="kn">import</span> <span class="nn">gpetas</span>
+
+
+<div class="viewcode-block" id="setup_mle">
+<a class="viewcode-back" href="../../../gpetas.utils.html#gpetas.utils.mle_KDE_ETAS.setup_mle">[docs]</a>
+<span class="k">class</span> <span class="nc">setup_mle</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_obj</span><span class="p">,</span> <span class="n">theta_start_Kcpadgqbm0</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">spatial_offspring</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">Nnearest</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">h_min_degree</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
+                 <span class="n">spatial_units</span><span class="o">=</span><span class="s1">&#39;degree&#39;</span><span class="p">,</span> <span class="n">utm_yes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">X_grid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">outdir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">stable_theta</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">case_name</span><span class="o">=</span><span class="s1">&#39;case_01&#39;</span><span class="p">,</span><span class="n">silverman</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+        <span class="c1"># data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_obj</span> <span class="o">=</span> <span class="n">data_obj</span>
+
+        <span class="c1"># spatial coordinates (usually degrees)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">utm_yes</span> <span class="o">=</span> <span class="n">utm_yes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spatial_units</span> <span class="o">=</span> <span class="n">spatial_units</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">utm_yes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">spatial_units</span> <span class="o">=</span> <span class="s1">&#39;km&#39;</span>
+            <span class="n">data_obj</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">X_borders</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">data_obj</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">X_borders_UTM_km</span><span class="p">)</span>
+            <span class="n">data_obj</span><span class="o">.</span><span class="n">data_all</span><span class="o">.</span><span class="n">positions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">data_obj</span><span class="o">.</span><span class="n">data_all</span><span class="o">.</span><span class="n">positions_UTM_km</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Note: all positions are in UTM now!&#39;</span><span class="p">)</span>
+
+        <span class="c1"># data</span>
+        <span class="n">idx_training</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">((</span><span class="n">data_obj</span><span class="o">.</span><span class="n">data_all</span><span class="o">.</span><span class="n">times</span> <span class="o">&gt;=</span> <span class="n">data_obj</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">T_borders_training</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&amp;</span> <span class="p">(</span>
+                <span class="n">data_obj</span><span class="o">.</span><span class="n">data_all</span><span class="o">.</span><span class="n">times</span> <span class="o">&lt;=</span> <span class="n">data_obj</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">T_borders_training</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">N_training</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data_obj</span><span class="o">.</span><span class="n">data_all</span><span class="o">.</span><span class="n">times</span><span class="p">[</span><span class="n">idx_training</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">absX_training</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">data_obj</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">X_borders</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">absT_training</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">data_obj</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">T_borders_training</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">case_name</span> <span class="o">=</span> <span class="n">case_name</span>
+
+        <span class="c1"># start values: offspring params K,c,p,m_alpha,d,gamma,q, m_beta, m0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">theta_start_Kcpadgqbm0</span> <span class="o">=</span> <span class="n">theta_start_Kcpadgqbm0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">m0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">data_obj</span><span class="o">.</span><span class="n">data_all</span><span class="o">.</span><span class="n">magnitudes</span><span class="p">[</span><span class="n">idx_training</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">m_beta</span> <span class="o">=</span> <span class="mf">1.</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data_obj</span><span class="o">.</span><span class="n">data_all</span><span class="o">.</span><span class="n">magnitudes</span><span class="p">[</span><span class="n">idx_training</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">m0</span><span class="p">)</span>  <span class="c1"># np.log(10.)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta_start_Kcpadgqbm0</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">m0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">data_obj</span><span class="o">.</span><span class="n">data_all</span><span class="o">.</span><span class="n">magnitudes</span><span class="p">[</span><span class="n">idx_training</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">m_beta</span> <span class="o">=</span> <span class="mf">1.</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data_obj</span><span class="o">.</span><span class="n">data_all</span><span class="o">.</span><span class="n">magnitudes</span><span class="p">[</span><span class="n">idx_training</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">m0</span><span class="p">)</span>  <span class="c1"># np.log(10.)</span>
+            <span class="c1">### self.theta_start_Kcpadgqbm0 = [0.01 / 4., 0.01, 1.2, 2.3 - 0.1, 0.05, 0.5, 2., self.m_beta, self.m0]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">theta_start_Kcpadgqbm0</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.01</span> <span class="o">/</span> <span class="mf">4.</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">2.</span><span class="o">-</span><span class="mf">0.2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">m_beta</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">m0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">spatial_offspring</span> <span class="o">==</span> <span class="s1">&#39;G&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">theta_start_Kcpadgqbm0</span><span class="p">[</span><span class="mi">5</span><span class="p">:</span><span class="mi">7</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="mf">9999.</span>  <span class="c1"># dummies for gamma, q</span>
+        <span class="k">if</span> <span class="n">spatial_offspring</span> <span class="o">==</span> <span class="s1">&#39;G&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">theta_start_Kcpadgqbm0</span><span class="p">[</span><span class="mi">5</span><span class="p">:</span><span class="mi">7</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="mf">9999.</span>  <span class="c1"># dummies for gamma, q</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">utm_yes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">theta_start_Kcpadgqbm0</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta_start_Kcpadgqbm0</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">*</span> <span class="mf">111.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spatial_offspring</span> <span class="o">=</span> <span class="n">spatial_offspring</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">spatial_offspring</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">spatial_offspring</span> <span class="o">=</span> <span class="s1">&#39;R&#39;</span>  <span class="c1"># rupture length version</span>
+
+        <span class="c1"># start values:  bg params</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mu_start</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">N_training</span> <span class="o">/</span> <span class="mf">2.</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">absX_training</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">absT_training</span>
+        <span class="n">X_borders_NN</span> <span class="o">=</span> <span class="n">data_obj</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">X_borders</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+            <span class="p">[[</span><span class="n">data_obj</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">X_borders</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">data_obj</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">X_borders</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span>
+             <span class="p">[</span><span class="n">data_obj</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">X_borders</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">data_obj</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">X_borders</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">X_borders_NN</span> <span class="o">=</span> <span class="n">X_borders_NN</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">X_grid</span> <span class="o">=</span> <span class="n">X_grid</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_grid</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">X_grid</span> <span class="o">=</span> <span class="n">gpetas</span><span class="o">.</span><span class="n">some_fun</span><span class="o">.</span><span class="n">make_X_grid</span><span class="p">(</span><span class="n">data_obj</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">X_borders</span><span class="p">,</span> <span class="n">nbins</span><span class="o">=</span><span class="n">bins</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bins</span> <span class="o">=</span> <span class="n">bins</span>
+
+        <span class="c1"># kde parameters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Nnearest</span> <span class="o">=</span> <span class="n">Nnearest</span>  <span class="c1"># 5 to 15 # distance of the n. nearest neighbor is used for background smoothing often (n=15)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">h_min_degree</span> <span class="o">=</span> <span class="n">h_min_degree</span>  <span class="c1"># 0.05 #  minimum distance for smoothing, often called stdmin</span>
+        <span class="c1"># h_min often = 0.05 degrees which is the range of localizaton error</span>
+        <span class="k">if</span> <span class="n">silverman</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">h_min_degree</span> <span class="o">=</span> <span class="n">gpetas</span><span class="o">.</span><span class="n">some_fun</span><span class="o">.</span><span class="n">silverman_scott_rule_d</span><span class="p">(</span><span class="n">data_obj</span><span class="o">.</span><span class="n">data_all</span><span class="o">.</span><span class="n">positions</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;h_min_silverman is selected=&#39;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">h_min_degree</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dLL</span> <span class="o">=</span> <span class="mf">10.0</span>  <span class="c1"># difference in log-likelihood value between iterations</span>
+
+        <span class="c1"># constraints: stable theta</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stable_theta</span> <span class="o">=</span> <span class="n">stable_theta</span>
+
+        <span class="c1"># create subdirectory for output</span>
+        <span class="k">if</span> <span class="n">outdir</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">outdir</span> <span class="o">=</span> <span class="s1">&#39;./inference_results&#39;</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">outdir</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">outdir</span> <span class="o">+</span> <span class="s1">&#39; subdirectory exists&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">outdir</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">outdir</span> <span class="o">+</span> <span class="s1">&#39; subdirectory has been created.&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outdir</span> <span class="o">=</span> <span class="n">outdir</span>
+
+        <span class="c1"># write to file</span>
+        <span class="n">fname_setup_obj</span> <span class="o">=</span> <span class="n">outdir</span> <span class="o">+</span> <span class="s2">&quot;/setup_obj_default_</span><span class="si">%s</span><span class="s2">_mle.all&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">case_name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">silverman</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">fname_setup_obj</span> <span class="o">=</span> <span class="n">outdir</span> <span class="o">+</span> <span class="s2">&quot;/setup_obj_silverman_</span><span class="si">%s</span><span class="s2">_mle.all&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">case_name</span><span class="p">)</span>
+        <span class="n">file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname_setup_obj</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span>  <span class="c1"># remember to open the file in binary mode</span>
+        <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span>
+        <span class="n">file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;mle_setup_obj has been created and saved:&#39;</span><span class="p">,</span> <span class="n">fname_setup_obj</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="mle_units">
+<a class="viewcode-back" href="../../../gpetas.utils.html#gpetas.utils.mle_KDE_ETAS.mle_units">[docs]</a>
+<span class="k">class</span> <span class="nc">mle_units</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    mle classical for the KDE-Epidemic Type Aftershock Sequence (ETAS) model.</span>
+<span class="sd">    Spaghetti code translated from the C_code routine GFZ</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_obj</span><span class="p">,</span> <span class="n">setup_obj</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">optmethod</span><span class="o">=</span><span class="s1">&#39;BFGS&#39;</span><span class="p">,</span> <span class="n">fout_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+        <span class="c1"># spatial coordinates, possibly UTM conversion</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">utm_yes</span> <span class="o">=</span> <span class="n">setup_obj</span><span class="o">.</span><span class="n">utm_yes</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">utm_yes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">data_obj</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">X_borders</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">data_obj</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">X_borders_UTM_km</span><span class="p">)</span>
+            <span class="n">data_obj</span><span class="o">.</span><span class="n">data_all</span><span class="o">.</span><span class="n">positions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">data_obj</span><span class="o">.</span><span class="n">data_all</span><span class="o">.</span><span class="n">positions_UTM_km</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Note: all positions are in UTM now!&quot;</span><span class="p">)</span>
+
+        <span class="c1"># set all positions to NN in X_domain</span>
+        <span class="n">data_obj</span><span class="o">.</span><span class="n">data_all</span><span class="o">.</span><span class="n">positions</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">data_obj</span><span class="o">.</span><span class="n">data_all</span><span class="o">.</span><span class="n">positions</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">data_obj</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">X_borders</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">data_obj</span><span class="o">.</span><span class="n">data_all</span><span class="o">.</span><span class="n">positions</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">data_obj</span><span class="o">.</span><span class="n">data_all</span><span class="o">.</span><span class="n">positions</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">data_obj</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">X_borders</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">data_obj</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">X_borders</span> <span class="o">=</span> <span class="n">data_obj</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">X_borders</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+            <span class="p">[[</span><span class="n">data_obj</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">X_borders</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="n">data_obj</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">X_borders</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]])</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;All positions are shifted such that the origin of X domain is (0,0)&quot;</span><span class="p">)</span>
+
+        <span class="c1"># data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_obj</span> <span class="o">=</span> <span class="n">data_obj</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fname_catalog</span> <span class="o">=</span> <span class="n">data_obj</span><span class="o">.</span><span class="n">case_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">optmethod</span> <span class="o">=</span> <span class="n">optmethod</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">idx_training</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">((</span><span class="n">data_obj</span><span class="o">.</span><span class="n">data_all</span><span class="o">.</span><span class="n">times</span> <span class="o">&gt;=</span> <span class="n">data_obj</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">T_borders_training</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&amp;</span> <span class="p">(</span>
+                <span class="n">data_obj</span><span class="o">.</span><span class="n">data_all</span><span class="o">.</span><span class="n">times</span> <span class="o">&lt;=</span> <span class="n">data_obj</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">T_borders_training</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+
+        <span class="c1"># read training data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_read_training_data</span><span class="p">()</span>
+
+        <span class="c1"># setup start parameters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setup_obj</span> <span class="o">=</span> <span class="n">setup_obj</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup_obj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">setup_obj</span> <span class="o">=</span> <span class="n">setup_mle</span><span class="p">(</span><span class="n">data_obj</span><span class="p">)</span>
+        <span class="n">spatial_units</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup_obj</span><span class="o">.</span><span class="n">spatial_units</span>
+
+        <span class="c1"># info of the setup</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_print_info</span><span class="p">()</span>
+
+        <span class="c1"># external version for testing</span>
+        <span class="n">m0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup_obj</span><span class="o">.</span><span class="n">m0</span>
+        <span class="n">outname</span> <span class="o">=</span> <span class="s1">&#39;estimated-parameters-</span><span class="si">%s</span><span class="s1">.out&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">optmethod</span><span class="p">)</span>
+
+        <span class="n">Mcut</span> <span class="o">=</span> <span class="n">m0</span>  <span class="c1"># cutoff magnitude</span>
+        <span class="n">T1</span> <span class="o">=</span> <span class="n">data_obj</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">T_borders_training</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># 0.0  # start time of fitting period [days]</span>
+        <span class="n">T2</span> <span class="o">=</span> <span class="n">data_obj</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">T_borders_training</span><span class="p">[</span>
+            <span class="mi">1</span><span class="p">]</span>  <span class="c1"># 1e10  # end time of fitting period [days] ... if T2&gt;T_catalog_end: T2=T_catalog_end</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">absT_training</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">data_obj</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">T_borders_training</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">T1</span> <span class="o">=</span> <span class="n">T1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">T2</span> <span class="o">=</span> <span class="n">T2</span>
+        <span class="n">Nnearest</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup_obj</span><span class="o">.</span><span class="n">Nnearest</span>  <span class="c1"># 5  # distance of the n. nearest neighbor is used for background smoothing</span>
+
+        <span class="k">if</span> <span class="n">spatial_units</span> <span class="o">==</span> <span class="s1">&#39;km&#39;</span><span class="p">:</span>
+            <span class="n">stdmin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup_obj</span><span class="o">.</span><span class="n">h_min_degree</span> <span class="o">*</span> <span class="mf">111.13</span>  <span class="c1"># 0.05 * dist(1.0, 0, 0, 0)  # [km] minimum distance for smoothing</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">stdmin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup_obj</span><span class="o">.</span><span class="n">h_min_degree</span>  <span class="c1"># 0.05 * dist(1.0, 0, 0, 0)  # [km] minimum distance for smoothing</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stdmin</span> <span class="o">=</span> <span class="n">stdmin</span>
+        <span class="n">catname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fname_catalog</span>
+
+        <span class="c1"># all data</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">data_obj</span><span class="o">.</span><span class="n">data_all</span><span class="o">.</span><span class="n">times</span> <span class="o">&lt;=</span> <span class="n">T2</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">data_obj</span><span class="o">.</span><span class="n">data_all</span><span class="o">.</span><span class="n">times</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+        <span class="n">lon</span> <span class="o">=</span> <span class="n">data_obj</span><span class="o">.</span><span class="n">data_all</span><span class="o">.</span><span class="n">positions</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>  <span class="c1"># x</span>
+        <span class="n">lat</span> <span class="o">=</span> <span class="n">data_obj</span><span class="o">.</span><span class="n">data_all</span><span class="o">.</span><span class="n">positions</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>  <span class="c1"># y</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">data_obj</span><span class="o">.</span><span class="n">data_all</span><span class="o">.</span><span class="n">magnitudes</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">m_beta_lower_T2</span> <span class="o">=</span> <span class="mf">1.</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data_obj</span><span class="o">.</span><span class="n">data_all</span><span class="o">.</span><span class="n">magnitudes</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup_obj</span><span class="o">.</span><span class="n">m0</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n\t</span><span class="s1"> X domain of inference is:&#39;</span><span class="p">,</span> <span class="n">data_obj</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">X_borders</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n\t</span><span class="s1"> </span><span class="si">%s</span><span class="s1"> read with </span><span class="si">%d</span><span class="s1"> (m&gt;=</span><span class="si">%.2f</span><span class="s1"> &amp; t&lt;=</span><span class="si">%.1f</span><span class="s1">) events</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">catname</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="p">),</span> <span class="n">Mcut</span><span class="p">,</span> <span class="n">T2</span><span class="p">))</span>
+
+        <span class="n">ti</span> <span class="o">=</span> <span class="n">t</span><span class="p">[(</span><span class="n">t</span> <span class="o">&gt;=</span> <span class="n">T1</span><span class="p">)]</span>
+        <span class="n">lati</span> <span class="o">=</span> <span class="n">lat</span><span class="p">[(</span><span class="n">t</span> <span class="o">&gt;=</span> <span class="n">T1</span><span class="p">)]</span>
+        <span class="n">loni</span> <span class="o">=</span> <span class="n">lon</span><span class="p">[(</span><span class="n">t</span> <span class="o">&gt;=</span> <span class="n">T1</span><span class="p">)]</span>
+        <span class="n">Ri</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">lati</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">lat</span><span class="p">)))</span>
+        <span class="n">Rii</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">lati</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">lati</span><span class="p">)))</span>
+        <span class="n">stdi</span> <span class="o">=</span> <span class="n">stdmin</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lati</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lati</span><span class="p">)):</span>
+            <span class="n">Ri</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dist</span><span class="p">(</span><span class="n">lati</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">loni</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">lat</span><span class="p">,</span> <span class="n">lon</span><span class="p">)</span>
+            <span class="n">Rii</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dist</span><span class="p">(</span><span class="n">lati</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">loni</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">lati</span><span class="p">,</span> <span class="n">loni</span><span class="p">)</span>
+            <span class="n">Rii</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+            <span class="n">ri</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">Rii</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:])</span>
+            <span class="k">if</span> <span class="n">ri</span><span class="p">[</span><span class="n">Nnearest</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">stdi</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+                <span class="n">stdi</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ri</span><span class="p">[</span><span class="n">Nnearest</span><span class="p">]</span>
+
+        <span class="n">pbacki</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lati</span><span class="p">))</span>
+        <span class="n">mui</span><span class="p">,</span> <span class="n">mutot</span> <span class="o">=</span> <span class="n">calculate_mu</span><span class="p">(</span><span class="n">Rii</span><span class="p">,</span> <span class="n">stdi</span><span class="p">,</span> <span class="n">pbacki</span><span class="p">,</span> <span class="n">T1</span><span class="p">,</span> <span class="n">T2</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; --&gt; RESULT for time interval [</span><span class="si">%.1f</span><span class="s2">  </span><span class="si">%.1f</span><span class="s2">]:</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">T1</span><span class="p">,</span> <span class="n">T2</span><span class="p">))</span>
+
+        <span class="n">dLL</span> <span class="o">=</span> <span class="mf">10.0</span>
+        <span class="n">nround</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="n">dLL</span> <span class="o">&gt;</span> <span class="mf">0.1</span><span class="p">:</span>
+            <span class="n">nround</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">mufac</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">LL</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_LLoptimize</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">ti</span><span class="p">,</span> <span class="n">Ri</span><span class="p">,</span> <span class="n">mui</span><span class="p">,</span> <span class="n">mutot</span><span class="p">,</span> <span class="n">Mcut</span><span class="p">,</span> <span class="n">T1</span><span class="p">,</span> <span class="n">T2</span><span class="p">,</span>
+                                                                      <span class="n">optmethod</span><span class="p">)</span>
+            <span class="n">mui</span> <span class="o">*=</span> <span class="n">mufac</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+                <span class="n">pbacki</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_update_prob</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">ti</span><span class="p">,</span> <span class="n">Ri</span><span class="p">,</span> <span class="n">mui</span><span class="p">,</span> <span class="n">Mcut</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">gamma</span><span class="p">)</span>
+                <span class="n">mui</span><span class="p">,</span> <span class="n">mutot</span> <span class="o">=</span> <span class="n">calculate_mu</span><span class="p">(</span><span class="n">Rii</span><span class="p">,</span> <span class="n">stdi</span><span class="p">,</span> <span class="n">pbacki</span><span class="p">,</span> <span class="n">T1</span><span class="p">,</span> <span class="n">T2</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">nround</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">dLL</span> <span class="o">=</span> <span class="mf">10.0</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">dLL</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">LL</span> <span class="o">-</span> <span class="n">LL0</span><span class="p">)</span>
+            <span class="n">LL0</span> <span class="o">=</span> <span class="n">LL</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; nround=</span><span class="si">%d</span><span class="s2">:  mufac=</span><span class="si">%f</span><span class="s2">  c=</span><span class="si">%f</span><span class="s2">   p=</span><span class="si">%f</span><span class="s2">  K=</span><span class="si">%f</span><span class="s2">  alpha=</span><span class="si">%f</span><span class="s2">   q=</span><span class="si">%f</span><span class="s2">  d0=</span><span class="si">%f</span><span class="s2">  gamma=</span><span class="si">%f</span><span class="s2">   LL=</span><span class="si">%f</span><span class="s2">  dLL=</span><span class="si">%f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span>
+                <span class="n">nround</span><span class="p">,</span> <span class="n">mufac</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">LL</span><span class="p">,</span> <span class="n">dLL</span><span class="p">))</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1"> Estimated values: mu=</span><span class="si">%f</span><span class="se">\t</span><span class="s1">K=</span><span class="si">%f</span><span class="se">\t</span><span class="s1">alpha=</span><span class="si">%f</span><span class="se">\t</span><span class="s1">c=</span><span class="si">%f</span><span class="se">\t</span><span class="s1">p=</span><span class="si">%f</span><span class="se">\t</span><span class="s1">d=</span><span class="si">%f</span><span class="se">\t</span><span class="s1">gamma=</span><span class="si">%f</span><span class="se">\t</span><span class="s1">q=</span><span class="si">%f</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span>
+            <span class="n">mufac</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">q</span><span class="p">))</span>
+
+        <span class="c1"># save info</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">theta_mle_Kcpadgq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">K</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">q</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">C_mui</span> <span class="o">=</span> <span class="n">mui</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">C_mutot</span> <span class="o">=</span> <span class="n">mutot</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">p_i_vec</span> <span class="o">=</span> <span class="n">pbacki</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">C_LL</span> <span class="o">=</span> <span class="n">LL</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">C_dLL</span> <span class="o">=</span> <span class="n">dLL</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">C_mufac</span> <span class="o">=</span> <span class="n">mufac</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">h_i_vec</span> <span class="o">=</span> <span class="n">stdi</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nround</span> <span class="o">=</span> <span class="n">nround</span>
+
+        <span class="c1"># construct mu grid</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">X_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">setup_obj</span><span class="o">.</span><span class="n">X_grid</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">X_grid_NN</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X_grid</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_obj</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">X_borders_original</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">][</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">absX</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">setup_obj</span><span class="o">.</span><span class="n">X_borders_NN</span><span class="p">))</span>
+        <span class="c1"># data_positions_training = np.array(self.data.positions)</span>
+        <span class="n">data_positions_training</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_obj</span><span class="o">.</span><span class="n">data_all</span><span class="o">.</span><span class="n">positions</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">idx_training</span><span class="p">])</span>
+        <span class="n">sfac</span><span class="p">,</span> <span class="n">integ</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scaling_factor_kde</span><span class="p">(</span><span class="n">data_positions_training</span><span class="o">=</span><span class="n">data_positions_training</span><span class="p">,</span> <span class="n">h_vec</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">h_i_vec</span><span class="p">,</span>
+                                               <span class="n">p_vec</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">p_i_vec</span><span class="p">,</span> <span class="n">X_borders</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">setup_obj</span><span class="o">.</span><span class="n">X_borders_NN</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">integral_mu_unit_time_mle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">p_i_vec</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">absT_training</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sfac_integ</span> <span class="o">=</span> <span class="n">integ</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sfac</span> <span class="o">=</span> <span class="n">sfac</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kde_unscaled_grid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eval_kde_unscaled</span><span class="p">(</span><span class="n">x_prime</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">X_grid_NN</span><span class="p">,</span>
+                                                        <span class="n">data_positions_training</span><span class="o">=</span><span class="n">data_positions_training</span><span class="p">,</span>
+                                                        <span class="n">h_vec</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">h_i_vec</span><span class="p">,</span> <span class="n">p_vec</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">p_i_vec</span><span class="p">,</span>
+                                                        <span class="n">absT_training</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">absT_training</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sfac_riemann_approx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">p_i_vec</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">absT_training</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">absX</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kde_unscaled_grid</span><span class="p">))</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kde_unscaled_grid</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sfac_riemann_approx_integ</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">absT_training</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">absX</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kde_unscaled_grid</span><span class="p">))</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kde_unscaled_grid</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mu_xi_at_all_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eval_kde_unscaled</span><span class="p">(</span><span class="n">x_prime</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data_obj</span><span class="o">.</span><span class="n">data_all</span><span class="o">.</span><span class="n">positions</span><span class="p">,</span>
+                                                        <span class="n">data_positions_training</span><span class="o">=</span><span class="n">data_positions_training</span><span class="p">,</span>
+                                                        <span class="n">h_vec</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">h_i_vec</span><span class="p">,</span>
+                                                        <span class="n">p_vec</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">p_i_vec</span><span class="p">,</span>
+                                                        <span class="n">absT_training</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">absT_training</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">sfac_riemann_approx</span>  <span class="c1"># or sfac</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mu_grid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kde_unscaled_grid</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">sfac_riemann_approx</span>
+        <span class="n">scaling_factor_kde_used</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sfac_riemann_approx</span><span class="p">)</span>
+
+        <span class="c1"># compute likelihood: training (T_borders_training)</span>
+        <span class="n">lnl</span> <span class="o">=</span> <span class="n">gpetas</span><span class="o">.</span><span class="n">loglike</span><span class="o">.</span><span class="n">eval_lnl</span><span class="p">(</span><span class="n">data_obj</span><span class="o">=</span><span class="n">data_obj</span><span class="p">,</span>
+                                      <span class="n">mu_xi_at_all_data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mu_xi_at_all_data</span><span class="p">,</span>
+                                      <span class="n">integral_mu_x_unit_time</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">integral_mu_unit_time_mle</span><span class="p">,</span>
+                                      <span class="n">theta_phi__Kcpadgq</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">theta_mle_Kcpadgq</span><span class="p">,</span>
+                                      <span class="n">m0</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data_obj</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">m0</span><span class="p">,</span>
+                                      <span class="n">X_borders_eval_l</span><span class="o">=</span><span class="n">data_obj</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">X_borders</span><span class="p">,</span>
+                                      <span class="n">T_borders_eval_l</span><span class="o">=</span><span class="p">[</span><span class="n">T1</span><span class="p">,</span> <span class="n">T2</span><span class="p">],</span>
+                                      <span class="n">spatial_kernel</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">setup_obj</span><span class="o">.</span><span class="n">spatial_offspring</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lnl_mle_training</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">lnl</span><span class="o">.</span><span class="n">lnl_value</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lnl_mle_training</span><span class="p">)</span>
+
+        <span class="c1"># Shifting back to original X domain: X_borders, positions of data_all, X_grid</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_obj</span><span class="o">.</span><span class="n">data_all</span><span class="o">.</span><span class="n">positions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_obj</span><span class="o">.</span><span class="n">data_all</span><span class="o">.</span><span class="n">positions</span><span class="p">)</span> <span class="o">+</span> \
+                                           <span class="bp">self</span><span class="o">.</span><span class="n">data_obj</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">X_borders_original</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">][</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_obj</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">X_borders</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_obj</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">X_borders_original</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;All positions are rescaled with origin of original X domain&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_obj</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">X_borders_original</span><span class="p">)</span>
+
+        <span class="c1"># save output</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">save_data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;theta_phi_mle__Kcpadgq&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta_mle_Kcpadgq</span><span class="p">,</span>
+                          <span class="s1">&#39;theta_phi_start__Kcpadgq&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta_start_Kcpadgq</span><span class="p">,</span>
+                          <span class="s1">&#39;lnl_mle_training&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">lnl_mle_training</span><span class="p">,</span>
+                          <span class="s1">&#39;p_i_vec&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">p_i_vec</span><span class="p">,</span>
+                          <span class="s1">&#39;h_i_vec&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">h_i_vec</span><span class="p">,</span>
+                          <span class="s1">&#39;data_training&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+                          <span class="s1">&#39;mu_grid&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">mu_grid</span><span class="p">,</span>
+                          <span class="s1">&#39;mu_xi_at_all_data&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">mu_xi_at_all_data</span><span class="p">,</span>
+                          <span class="s1">&#39;integral_mu_unit_time_mle&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">integral_mu_unit_time_mle</span><span class="p">,</span>
+                          <span class="s1">&#39;Nnearest&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup_obj</span><span class="o">.</span><span class="n">Nnearest</span><span class="p">,</span>
+                          <span class="s1">&#39;h_min&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup_obj</span><span class="o">.</span><span class="n">h_min_degree</span><span class="p">,</span>
+                          <span class="s1">&#39;m0&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup_obj</span><span class="o">.</span><span class="n">m0</span><span class="p">,</span>
+                          <span class="s1">&#39;m_beta_training&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup_obj</span><span class="o">.</span><span class="n">m_beta</span><span class="p">,</span>
+                          <span class="s1">&#39;m_beta_lower_T2&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">m_beta_lower_T2</span><span class="p">,</span>
+                          <span class="s1">&#39;spatial_offspring&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup_obj</span><span class="o">.</span><span class="n">spatial_offspring</span><span class="p">,</span>
+                          <span class="s1">&#39;data_obj&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_obj</span><span class="p">,</span>
+                          <span class="s1">&#39;X_grid&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_grid</span><span class="p">,</span>
+                          <span class="s1">&#39;X_grid_NN&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_grid_NN</span><span class="p">,</span>
+                          <span class="s1">&#39;N_training&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">N_training</span><span class="p">,</span>
+                          <span class="s1">&#39;T_borders_training&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_obj</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">T_borders_training</span><span class="p">,</span>
+                          <span class="s1">&#39;absT_training&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_obj</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">T_borders_training</span><span class="p">),</span>
+                          <span class="s1">&#39;X_borders&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_obj</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">X_borders</span><span class="p">,</span>
+                          <span class="s1">&#39;absX&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">absX</span><span class="p">,</span>
+                          <span class="s1">&#39;spatial_units&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup_obj</span><span class="o">.</span><span class="n">spatial_units</span><span class="p">,</span>
+                          <span class="s1">&#39;scaling_factor_kde_used&#39;</span><span class="p">:</span> <span class="n">scaling_factor_kde_used</span><span class="p">,</span>
+                          <span class="s1">&#39;C_mufac&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">C_mufac</span><span class="p">,</span>
+                          <span class="s1">&#39;C_LL_lnl_value&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">C_LL</span><span class="p">,</span>
+                          <span class="s1">&#39;C_mui&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">C_mui</span><span class="p">,</span>
+                          <span class="s1">&#39;C_mutot&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">C_mutot</span><span class="p">,</span>
+                          <span class="s1">&#39;C_dLL&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">C_dLL</span><span class="p">,</span>
+                          <span class="s1">&#39;C_nround&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">nround</span><span class="p">,</span>
+                          <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+                          <span class="s1">&#39;sfac_integ&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">sfac_integ</span><span class="p">,</span>
+                          <span class="s1">&#39;sfac&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">sfac</span><span class="p">,</span>
+                          <span class="s1">&#39;sfac_riemann_approx_integ&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">sfac_riemann_approx_integ</span><span class="p">,</span>
+                          <span class="s1">&#39;sfac_riemann_approx&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">sfac_riemann_approx</span><span class="p">,</span>
+                          <span class="s1">&#39;h_min_degree&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup_obj</span><span class="o">.</span><span class="n">h_min_degree</span><span class="p">}</span>
+        <span class="c1"># write to file</span>
+        <span class="k">if</span> <span class="n">fout_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">fout_name</span> <span class="o">=</span> <span class="s2">&quot;mle_default_hmin_&quot;</span>
+        <span class="n">file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">setup_obj</span><span class="o">.</span><span class="n">outdir</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">fout_name</span> <span class="o">+</span> <span class="n">data_obj</span><span class="o">.</span><span class="n">case_name</span> <span class="o">+</span> <span class="s2">&quot;.all&quot;</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span>
+        <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span>
+        <span class="n">file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<div class="viewcode-block" id="mle_units.eval_kde_xprime">
+<a class="viewcode-back" href="../../../gpetas.utils.html#gpetas.utils.mle_KDE_ETAS.mle_units.eval_kde_xprime">[docs]</a>
+    <span class="k">def</span> <span class="nf">eval_kde_xprime</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_prime</span><span class="p">):</span>
+        <span class="n">data_positions_training</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_obj</span><span class="o">.</span><span class="n">data_all</span><span class="o">.</span><span class="n">positions</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">idx_training</span><span class="p">])</span>
+        <span class="n">h_vec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">h_i_vec</span><span class="p">)</span>
+        <span class="n">p_vec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">p_i_vec</span><span class="p">)</span>
+        <span class="n">absT_training</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">absT_training</span><span class="p">)</span>
+        <span class="n">X_borders</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_obj</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">X_borders</span><span class="p">)</span>
+        <span class="n">kde_xprime_unscaled</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eval_kde_unscaled</span><span class="p">(</span><span class="n">x_prime</span><span class="p">,</span> <span class="n">data_positions_training</span><span class="p">,</span> <span class="n">h_vec</span><span class="p">,</span> <span class="n">p_vec</span><span class="p">,</span> <span class="n">absT_training</span><span class="p">)</span>
+        <span class="n">scaling_fac_analytical</span><span class="p">,</span> <span class="n">integral</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scaling_factor_kde</span><span class="p">(</span><span class="n">data_positions_training</span><span class="p">,</span> <span class="n">h_vec</span><span class="p">,</span> <span class="n">p_vec</span><span class="p">,</span> <span class="n">X_borders</span><span class="p">)</span>
+        <span class="n">kde_xprime</span> <span class="o">=</span> <span class="n">kde_xprime_unscaled</span> <span class="o">*</span> <span class="n">scaling_fac_analytical</span>
+        <span class="k">return</span> <span class="n">kde_xprime</span></div>
+
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_scaling_factor_kde</span><span class="p">(</span><span class="n">data_positions_training</span><span class="p">,</span> <span class="n">h_vec</span><span class="p">,</span> <span class="n">p_vec</span><span class="p">,</span> <span class="n">X_borders</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        computes scaling factor of the kde background intensity</span>
+<span class="sd">        integral: int_|X|int_|T| 1/|T| sum_i^Ndata (pi0 * k(x-x_i|h_i))</span>
+<span class="sd">        scaling_fac: sum(p_i0)/integ_kde</span>
+<span class="sd">        where</span>
+<span class="sd">        k(x-x_i|h_i): is isotropic Gaussian kernel with individual</span>
+<span class="sd">                      bandwidth</span>
+
+<span class="sd">        :param data_positions_training: (N,2) array, with N x_training points</span>
+<span class="sd">        :param h_vec:</span>
+<span class="sd">        :param p_vec:</span>
+<span class="sd">        :param X_borders:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">data_positions_training</span>
+        <span class="n">dim</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">N</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">/</span> <span class="n">dim</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">h_vec</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="n">N</span>
+        <span class="k">assert</span> <span class="n">p_vec</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="n">N</span>
+        <span class="c1"># proper shaping</span>
+        <span class="n">h_vec</span> <span class="o">=</span> <span class="n">h_vec</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+        <span class="n">p_vec</span> <span class="o">=</span> <span class="n">p_vec</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+        <span class="n">integral_dim</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">([</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dim</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">dim</span><span class="p">):</span>
+            <span class="n">A_to_substract</span> <span class="o">=</span> <span class="n">norm</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">X_borders</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">loc</span><span class="o">=</span><span class="n">X</span><span class="p">[:,</span> <span class="n">i</span><span class="p">],</span> <span class="n">scale</span><span class="o">=</span><span class="n">h_vec</span><span class="p">)</span>
+            <span class="n">A_all</span> <span class="o">=</span> <span class="n">norm</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">X_borders</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">loc</span><span class="o">=</span><span class="n">X</span><span class="p">[:,</span> <span class="n">i</span><span class="p">],</span> <span class="n">scale</span><span class="o">=</span><span class="n">h_vec</span><span class="p">)</span>
+            <span class="n">integral_dim</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">A_all</span> <span class="o">-</span> <span class="n">A_to_substract</span>
+        <span class="n">integral</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">p_vec</span><span class="o">.</span><span class="n">T</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">integral_dim</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">scaling_fac</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">p_vec</span><span class="p">)</span> <span class="o">/</span> <span class="n">integral</span>
+        <span class="k">return</span> <span class="n">scaling_fac</span><span class="p">,</span> <span class="n">integral</span>
+
+<div class="viewcode-block" id="mle_units.eval_kde_unscaled">
+<a class="viewcode-back" href="../../../gpetas.utils.html#gpetas.utils.mle_KDE_ETAS.mle_units.eval_kde_unscaled">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">eval_kde_unscaled</span><span class="p">(</span><span class="n">x_prime</span><span class="p">,</span> <span class="n">data_positions_training</span><span class="p">,</span> <span class="n">h_vec</span><span class="p">,</span> <span class="n">p_vec</span><span class="p">,</span> <span class="n">absT_training</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Computes KDE at x_prime positions assuming domain X is R^2, therefore unscaled</span>
+<span class="sd">        :param x_prime: (N,2) array, with N x_prime points</span>
+<span class="sd">        :param data_positions_training: (N,2) array, with N x_training points</span>
+<span class="sd">        :param p_vec: (N,1) array</span>
+<span class="sd">        :param h_vec: (N,1) array</span>
+<span class="sd">        :param absT_training:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># correct shaping in order to have broadcasts correct</span>
+        <span class="n">h_vec</span> <span class="o">=</span> <span class="n">h_vec</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">p_vec</span> <span class="o">=</span> <span class="n">p_vec</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">x_prime</span> <span class="o">=</span> <span class="n">x_prime</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="c1"># computation</span>
+        <span class="n">kde_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">x_prime</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+        <span class="n">T</span> <span class="o">=</span> <span class="n">absT_training</span>
+        <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">x_prime</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">x_prime</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span> <span class="p">:]</span>
+            <span class="n">r_squared</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">x</span><span class="p">[</span><span class="kc">None</span><span class="p">]</span><span class="o">.</span><span class="n">T</span> <span class="o">-</span> <span class="n">data_positions_training</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">.</span><span class="n">T</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">r_squared</span> <span class="o">=</span> <span class="n">r_squared</span><span class="p">[</span><span class="kc">None</span><span class="p">]</span><span class="o">.</span><span class="n">T</span>  <span class="c1"># (N,1)</span>
+            <span class="n">Z</span> <span class="o">=</span> <span class="mf">2.</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">h_vec</span> <span class="o">**</span> <span class="mi">2</span>  <span class="c1"># (N,1)</span>
+            <span class="n">kde_x</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.</span> <span class="o">/</span> <span class="n">T</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">p_vec</span> <span class="o">*</span> <span class="mf">1.</span> <span class="o">/</span> <span class="n">Z</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">1.</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="mf">1.</span> <span class="o">/</span> <span class="n">h_vec</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">r_squared</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">kde_x</span></div>
+
+
+
+    <span class="k">def</span> <span class="nf">_read_training_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">idx_training</span>
+        <span class="n">data_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_obj</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data_structure</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">times</span> <span class="o">=</span> <span class="n">data_obj</span><span class="o">.</span><span class="n">data_all</span><span class="o">.</span><span class="n">times</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">magnitudes</span> <span class="o">=</span> <span class="n">data_obj</span><span class="o">.</span><span class="n">data_all</span><span class="o">.</span><span class="n">magnitudes</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">positions</span> <span class="o">=</span> <span class="n">data_obj</span><span class="o">.</span><span class="n">data_all</span><span class="o">.</span><span class="n">positions</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">idx</span><span class="p">),</span> <span class="p">:]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">positions</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">positions</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">data_obj</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">X_borders</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">positions</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">positions</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">data_obj</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">X_borders</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">N_training</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">idx</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">N_all</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data_obj</span><span class="o">.</span><span class="n">data_all</span><span class="o">.</span><span class="n">times</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_print_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">data_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_obj</span>
+        <span class="n">m0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup_obj</span><span class="o">.</span><span class="n">m0</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;MLE routine   : mle_units()&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n\t</span><span class="s1"> </span><span class="si">%s</span><span class="s1"> read with </span><span class="si">%d</span><span class="s1"> (m&gt;=</span><span class="si">%.2f</span><span class="s1"> &amp; </span><span class="si">%.1f</span><span class="s1"> &lt;= t &lt;=</span><span class="si">%.1f</span><span class="s1">) events</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fname_catalog</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">N_training</span><span class="p">,</span> <span class="n">m0</span><span class="p">,</span> <span class="n">data_obj</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">T_borders_training</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">data_obj</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">T_borders_training</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Start values of the params: mu_start=&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup_obj</span><span class="o">.</span><span class="n">mu_start</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;spatial kernel for offspring         :&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup_obj</span><span class="o">.</span><span class="n">spatial_offspring</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Check setup theta_start [mufac, K, alpha, c, p, d, gamma, q - 1]:&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_setstartparameter</span><span class="p">())</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup_obj</span><span class="o">.</span><span class="n">spatial_offspring</span> <span class="o">==</span> <span class="s1">&#39;R&#39;</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Rupture length parameterization with:&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Start values of the params: K,c,p,a,d,g,q,b,m0=&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup_obj</span><span class="o">.</span><span class="n">theta_start_Kcpadgqbm0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup_obj</span><span class="o">.</span><span class="n">spatial_offspring</span> <span class="o">==</span> <span class="s1">&#39;P&#39;</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Classical power law parameterization with:&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Start values of the params: K,c,p,a,d,g,q,b,m0=&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup_obj</span><span class="o">.</span><span class="n">theta_start_Kcpadgqbm0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup_obj</span><span class="o">.</span><span class="n">spatial_offspring</span> <span class="o">==</span> <span class="s1">&#39;G&#39;</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Gaussian kernel for offspring (low range) parameterization with:&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Start values of the params: K,c,p,a,D,b,m0=&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup_obj</span><span class="o">.</span><span class="n">theta_start_Kcpadgqbm0</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;--------------------------------------------------------------&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;KDE parameters:&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Nnearest     =&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup_obj</span><span class="o">.</span><span class="n">Nnearest</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;h_min_degree =&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup_obj</span><span class="o">.</span><span class="n">h_min_degree</span><span class="p">,</span> <span class="s1">&#39; (units) degrees.&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup_obj</span><span class="o">.</span><span class="n">spatial_units</span> <span class="o">==</span> <span class="s1">&#39;km&#39;</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;UTM km are used:&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;h_min_km :&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup_obj</span><span class="o">.</span><span class="n">h_min_degree</span> <span class="o">*</span> <span class="mf">111.13</span><span class="p">,</span> <span class="s1">&#39; km&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_dist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lat1</span><span class="p">,</span> <span class="n">lon1</span><span class="p">,</span> <span class="n">lat2</span><span class="p">,</span> <span class="n">lon2</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Euklidean Distance (in degree or [km]) between 2 points</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">lon2</span> <span class="o">-</span> <span class="n">lon1</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">lat2</span> <span class="o">-</span> <span class="n">lat1</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">R</span>
+
+    <span class="k">def</span> <span class="nf">_setstartparameter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">theta_start_Kcpadgqbm0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup_obj</span><span class="o">.</span><span class="n">theta_start_Kcpadgqbm0</span>
+        <span class="k">if</span> <span class="n">theta_start_Kcpadgqbm0</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">mufac</span> <span class="o">=</span> <span class="mf">1.0</span>
+            <span class="n">K</span> <span class="o">=</span> <span class="mf">0.05</span>
+            <span class="n">alpha</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mf">10.</span><span class="p">)</span>  <span class="c1"># exponent for base e</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="mf">0.01</span>  <span class="c1"># [days]</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="mf">1.3</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="mf">0.013</span>  <span class="c1"># ... with D = d0 * 10^(gamma*M)</span>
+            <span class="n">gamma</span> <span class="o">=</span> <span class="mf">0.5</span>  <span class="c1"># L(M) = d0*10^(gamma*M); d0=0.013  gamma=0.5  (Wells &amp; Coppersmith 1994; RLD normal faulting)</span>
+            <span class="n">q</span> <span class="o">=</span> <span class="mf">1.5</span>  <span class="c1"># spatial probability density: f(r) = (q-1)/(pi*D^2) * ( 1 + r^2/D^2 )^(-q)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">K</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">m_alpha</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">m_beta</span><span class="p">,</span> <span class="n">m0</span> <span class="o">=</span> <span class="n">theta_start_Kcpadgqbm0</span>
+            <span class="n">mufac</span> <span class="o">=</span> <span class="mf">1.0</span>
+            <span class="n">alpha</span> <span class="o">=</span> <span class="n">m_alpha</span>  <span class="c1"># exponent for base e</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="n">D</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">theta_start_Kcpadgq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">K</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">q</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">mufac</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">q</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">_LLoptimize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">ti</span><span class="p">,</span> <span class="n">Ri</span><span class="p">,</span> <span class="n">mui</span><span class="p">,</span> <span class="n">mutot</span><span class="p">,</span> <span class="n">Mmin</span><span class="p">,</span> <span class="n">T1</span><span class="p">,</span> <span class="n">T2</span><span class="p">,</span> <span class="n">optmethod</span><span class="p">):</span>
+        <span class="n">x0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_setstartparameter</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup_obj</span><span class="o">.</span><span class="n">stable_theta</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_nLLETAS</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x0</span><span class="p">),</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">ti</span><span class="p">,</span> <span class="n">Ri</span><span class="p">,</span> <span class="n">mui</span><span class="p">,</span> <span class="n">mutot</span><span class="p">,</span> <span class="n">Mmin</span><span class="p">,</span> <span class="n">T1</span><span class="p">,</span> <span class="n">T2</span><span class="p">),</span> <span class="n">method</span><span class="o">=</span><span class="n">optmethod</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># dim(x)=8, i.e. x[0] = mufac, x[1]=K, x[2]=m_alpha, x[3]=c, x[4]=p, x[5]=d, x[6]=gamma, x[7]=q-1)</span>
+            <span class="n">problem</span> <span class="o">=</span> <span class="n">mle_stable_hawkes</span><span class="p">(</span><span class="n">m_beta</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">setup_obj</span><span class="o">.</span><span class="n">m_beta</span><span class="p">)</span>
+            <span class="n">nonlinear_constraint</span> <span class="o">=</span> <span class="n">NonlinearConstraint</span><span class="p">(</span><span class="n">problem</span><span class="o">.</span><span class="n">nl_constraint</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span>
+                                                       <span class="n">jac</span><span class="o">=</span><span class="n">problem</span><span class="o">.</span><span class="n">jacobian_nl_cons</span><span class="p">,</span>
+                                                       <span class="n">hess</span><span class="o">=</span><span class="n">sc</span><span class="o">.</span><span class="n">optimize</span><span class="o">.</span><span class="n">BFGS</span><span class="p">())</span>
+            <span class="n">bounds</span> <span class="o">=</span> <span class="n">Bounds</span><span class="p">([</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">],</span>
+                            <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">])</span>
+
+            <span class="c1">#            linear_constraint = LinearConstraint(problem.l_constraint,</span>
+            <span class="c1">#                                                 [-np.inf, -np.inf, -np.inf, -np.inf, 1., -np.inf, -np.inf, -np.inf],</span>
+            <span class="c1">#                                                 [np.inf, np.inf, np.inf, np.inf, np.inf, np.inf, np.inf, np.inf])</span>
+
+            <span class="n">res</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_nLLETAS</span><span class="p">,</span>
+                           <span class="n">x0</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x0</span><span class="p">),</span>
+                           <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">ti</span><span class="p">,</span> <span class="n">Ri</span><span class="p">,</span> <span class="n">mui</span><span class="p">,</span> <span class="n">mutot</span><span class="p">,</span> <span class="n">Mmin</span><span class="p">,</span> <span class="n">T1</span><span class="p">,</span> <span class="n">T2</span><span class="p">),</span>
+                           <span class="n">method</span><span class="o">=</span><span class="s1">&#39;trust-constr&#39;</span><span class="p">,</span>
+                           <span class="n">hess</span><span class="o">=</span><span class="n">sc</span><span class="o">.</span><span class="n">optimize</span><span class="o">.</span><span class="n">BFGS</span><span class="p">(),</span>
+                           <span class="n">jac</span><span class="o">=</span><span class="s1">&#39;cs&#39;</span><span class="p">,</span>
+                           <span class="n">constraints</span><span class="o">=</span><span class="p">[</span><span class="n">nonlinear_constraint</span><span class="p">],</span>
+                           <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;verbose&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;maxiter&#39;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">},</span>
+                           <span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;n problem&#39;</span><span class="p">,</span> <span class="n">problem</span><span class="o">.</span><span class="n">n_problem</span><span class="p">)</span>
+
+        <span class="n">mufac</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">K</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span>
+        <span class="n">gamma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">6</span><span class="p">])</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">7</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">mufac</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="o">-</span><span class="n">res</span><span class="o">.</span><span class="n">fun</span>
+
+    <span class="k">def</span> <span class="nf">_nLLETAS</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arguments</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">ti</span><span class="p">,</span> <span class="n">Ri</span><span class="p">,</span> <span class="n">mui</span><span class="p">,</span> <span class="n">mutot</span><span class="p">,</span> <span class="n">Mmin</span><span class="p">,</span> <span class="n">T1</span><span class="p">,</span> <span class="n">T2</span><span class="p">):</span>
+        <span class="n">mufac</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">arguments</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">K</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">arguments</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">arguments</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">arguments</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">arguments</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">arguments</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span>
+        <span class="n">gamma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">arguments</span><span class="p">[</span><span class="mi">6</span><span class="p">])</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">arguments</span><span class="p">[</span><span class="mi">7</span><span class="p">])</span>
+        <span class="n">Na</span> <span class="o">=</span> <span class="n">K</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">alpha</span> <span class="o">*</span> <span class="p">(</span><span class="n">m</span> <span class="o">-</span> <span class="n">Mmin</span><span class="p">))</span>
+        <span class="c1"># calculation of SUM log(R(t_i):</span>
+        <span class="n">ff</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ti</span><span class="p">)):</span>
+            <span class="n">rate</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calculate_ETASrate</span><span class="p">(</span><span class="n">ti</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">t</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">Ri</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:],</span> <span class="n">mufac</span> <span class="o">*</span> <span class="n">mui</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">Na</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span>
+            <span class="n">ff</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">rate</span><span class="p">)</span>
+        <span class="c1"># calculation of INTEGRAL R(t) dt:</span>
+        <span class="n">ft</span> <span class="o">=</span> <span class="n">integrateETAS</span><span class="p">(</span><span class="n">T1</span><span class="p">,</span> <span class="n">T2</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">mufac</span> <span class="o">*</span> <span class="n">mutot</span><span class="p">,</span> <span class="n">Na</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+        <span class="n">nLL</span> <span class="o">=</span> <span class="n">ft</span> <span class="o">-</span> <span class="n">ff</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">C_ff_intensity_part</span> <span class="o">=</span> <span class="n">ff</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">C_ft_integral_part</span> <span class="o">=</span> <span class="n">ft</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">C_mutot_times_mufac</span> <span class="o">=</span> <span class="n">mufac</span> <span class="o">*</span> <span class="n">mutot</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">C_Na</span> <span class="o">=</span> <span class="n">Na</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">nLL</span><span class="p">):</span>
+            <span class="n">nLL</span> <span class="o">=</span> <span class="mf">1e10</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\r</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span>
+            <span class="s1">&#39;search: mu=</span><span class="si">%.3f</span><span class="s1">  K=</span><span class="si">%.4f</span><span class="s1">  alpha=</span><span class="si">%.2f</span><span class="s1">  c=</span><span class="si">%.4f</span><span class="s1">  p=</span><span class="si">%.2f</span><span class="s1"> d=</span><span class="si">%.4f</span><span class="s1">  gamma=</span><span class="si">%.2f</span><span class="s1">  q=</span><span class="si">%.2f</span><span class="s1"> --&gt; Nback=</span><span class="si">%.1f</span><span class="s1"> Ntot=</span><span class="si">%.1f</span><span class="s1"> (Z=</span><span class="si">%d</span><span class="s1">) nLL=</span><span class="si">%f</span><span class="se">\r</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span>
+                <span class="n">mufac</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">mufac</span> <span class="o">*</span> <span class="n">mutot</span><span class="p">,</span> <span class="n">ft</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">ti</span><span class="p">),</span> <span class="n">nLL</span><span class="p">)))</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+        <span class="c1"># print(&#39;\nsearch: mu=%.3f  K=%.4f  alpha=%.2f  c=%.4f  p=%.2f d=%.4f  gamma=%.2f  q=%.2f --&gt; nLL=%f\n&#39; % (mufac, K, alpha, c, p, d, gamma, q, nLL))</span>
+        <span class="k">return</span> <span class="n">nLL</span>
+
+    <span class="k">def</span> <span class="nf">_calculate_ETASrate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">Na</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">alpha</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39; spatial offspring kernel &#39;&#39;&#39;</span>
+        <span class="n">spatial_offspring</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup_obj</span><span class="o">.</span><span class="n">spatial_offspring</span>
+        <span class="n">m0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup_obj</span><span class="o">.</span><span class="n">m0</span>
+
+        <span class="k">if</span> <span class="n">spatial_offspring</span> <span class="o">==</span> <span class="s1">&#39;R&#39;</span><span class="p">:</span>
+            <span class="n">R0</span> <span class="o">=</span> <span class="n">mu</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span>
+                <span class="n">Na</span><span class="p">[(</span><span class="n">t</span> <span class="o">&lt;</span> <span class="n">time</span><span class="p">)]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">c</span> <span class="o">+</span> <span class="n">time</span> <span class="o">-</span> <span class="n">t</span><span class="p">[(</span><span class="n">t</span> <span class="o">&lt;</span> <span class="n">time</span><span class="p">)],</span> <span class="o">-</span><span class="n">p</span><span class="p">)</span> <span class="o">*</span> <span class="n">fR</span><span class="p">(</span><span class="n">r</span><span class="p">[(</span><span class="n">t</span> <span class="o">&lt;</span> <span class="n">time</span><span class="p">)],</span> <span class="n">m</span><span class="p">[(</span><span class="n">t</span> <span class="o">&lt;</span> <span class="n">time</span><span class="p">)],</span> <span class="n">d</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span>
+                                                                             <span class="n">q</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">spatial_offspring</span> <span class="o">==</span> <span class="s1">&#39;P&#39;</span><span class="p">:</span>
+            <span class="n">R0</span> <span class="o">=</span> <span class="n">mu</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span>
+                <span class="n">Na</span><span class="p">[(</span><span class="n">t</span> <span class="o">&lt;</span> <span class="n">time</span><span class="p">)]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">c</span> <span class="o">+</span> <span class="n">time</span> <span class="o">-</span> <span class="n">t</span><span class="p">[(</span><span class="n">t</span> <span class="o">&lt;</span> <span class="n">time</span><span class="p">)],</span> <span class="o">-</span><span class="n">p</span><span class="p">)</span> <span class="o">*</span> <span class="n">fP</span><span class="p">(</span><span class="n">r</span><span class="p">[(</span><span class="n">t</span> <span class="o">&lt;</span> <span class="n">time</span><span class="p">)],</span> <span class="p">(</span><span class="n">m</span><span class="p">[(</span><span class="n">t</span> <span class="o">&lt;</span> <span class="n">time</span><span class="p">)]</span> <span class="o">-</span> <span class="n">m0</span><span class="p">),</span> <span class="n">d</span><span class="p">,</span>
+                                                                             <span class="n">gamma</span><span class="p">,</span> <span class="n">q</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">spatial_offspring</span> <span class="o">==</span> <span class="s1">&#39;G&#39;</span><span class="p">:</span>
+            <span class="n">R0</span> <span class="o">=</span> <span class="n">mu</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span>
+                <span class="n">Na</span><span class="p">[(</span><span class="n">t</span> <span class="o">&lt;</span> <span class="n">time</span><span class="p">)]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">c</span> <span class="o">+</span> <span class="n">time</span> <span class="o">-</span> <span class="n">t</span><span class="p">[(</span><span class="n">t</span> <span class="o">&lt;</span> <span class="n">time</span><span class="p">)],</span> <span class="o">-</span><span class="n">p</span><span class="p">)</span> <span class="o">*</span> <span class="n">fG</span><span class="p">(</span><span class="n">r</span><span class="p">[(</span><span class="n">t</span> <span class="o">&lt;</span> <span class="n">time</span><span class="p">)],</span> <span class="p">(</span><span class="n">m</span><span class="p">[(</span><span class="n">t</span> <span class="o">&lt;</span> <span class="n">time</span><span class="p">)]</span> <span class="o">-</span> <span class="n">m0</span><span class="p">),</span> <span class="n">d</span><span class="p">,</span>
+                                                                             <span class="n">alpha</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">R0</span>
+
+    <span class="k">def</span> <span class="nf">_update_prob</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">ti</span><span class="p">,</span> <span class="n">Ri</span><span class="p">,</span> <span class="n">mui</span><span class="p">,</span> <span class="n">Mmin</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">gamma</span><span class="p">):</span>
+        <span class="n">Na</span> <span class="o">=</span> <span class="n">K</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">alpha</span> <span class="o">*</span> <span class="p">(</span><span class="n">m</span> <span class="o">-</span> <span class="n">Mmin</span><span class="p">))</span>
+        <span class="n">prob</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ti</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ti</span><span class="p">)):</span>
+            <span class="n">rate</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calculate_ETASrate</span><span class="p">(</span><span class="n">ti</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">t</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">Ri</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:],</span> <span class="n">mui</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">Na</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span>
+            <span class="c1"># probability to be background event (see Eq.14 of Zhuang &amp; Ogata JGR 2004):</span>
+            <span class="n">prob</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">mui</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="n">rate</span>
+        <span class="k">return</span> <span class="n">prob</span></div>
+
+
+
+<span class="c1"># additional functions</span>
+<div class="viewcode-block" id="calculate_mu">
+<a class="viewcode-back" href="../../../gpetas.utils.html#gpetas.utils.mle_KDE_ETAS.calculate_mu">[docs]</a>
+<span class="k">def</span> <span class="nf">calculate_mu</span><span class="p">(</span><span class="n">Rii</span><span class="p">,</span> <span class="n">stdi</span><span class="p">,</span> <span class="n">pbacki</span><span class="p">,</span> <span class="n">T1</span><span class="p">,</span> <span class="n">T2</span><span class="p">):</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">stdi</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">stdi</span><span class="p">)):</span>
+        <span class="n">mu</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">pbacki</span> <span class="o">*</span> <span class="n">gaussian</span><span class="p">(</span><span class="n">Rii</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:],</span> <span class="n">stdi</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="n">T2</span> <span class="o">-</span> <span class="n">T1</span><span class="p">)</span>
+    <span class="n">mutot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">pbacki</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">mu</span><span class="p">,</span> <span class="n">mutot</span></div>
+
+
+
+<div class="viewcode-block" id="gaussian">
+<a class="viewcode-back" href="../../../gpetas.utils.html#gpetas.utils.mle_KDE_ETAS.gaussian">[docs]</a>
+<span class="k">def</span> <span class="nf">gaussian</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">sig</span><span class="p">):</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">r</span> <span class="o">/</span> <span class="n">sig</span><span class="p">,</span> <span class="mf">2.</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="mf">2.</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">res</span></div>
+
+
+
+<div class="viewcode-block" id="fR">
+<a class="viewcode-back" href="../../../gpetas.utils.html#gpetas.utils.mle_KDE_ETAS.fR">[docs]</a>
+<span class="k">def</span> <span class="nf">fR</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">q</span><span class="p">):</span>
+    <span class="n">D</span> <span class="o">=</span> <span class="n">d</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="mf">10.</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">*</span> <span class="n">m</span><span class="p">);</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">r</span> <span class="o">/</span> <span class="n">D</span><span class="p">)</span>
+    <span class="n">fr</span> <span class="o">=</span> <span class="p">((</span><span class="n">q</span> <span class="o">-</span> <span class="mf">1.</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">D</span><span class="p">)))</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">-</span><span class="n">q</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">fr</span></div>
+
+
+
+<div class="viewcode-block" id="fP">
+<a class="viewcode-back" href="../../../gpetas.utils.html#gpetas.utils.mle_KDE_ETAS.fP">[docs]</a>
+<span class="k">def</span> <span class="nf">fP</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">m_reduced</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">q</span><span class="p">):</span>
+    <span class="c1"># D = d * np.power(10., gamma * m)</span>
+    <span class="n">D</span> <span class="o">=</span> <span class="n">d</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">gamma</span> <span class="o">*</span> <span class="n">m_reduced</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">r</span> <span class="o">/</span> <span class="n">D</span><span class="p">)</span>
+    <span class="n">fr</span> <span class="o">=</span> <span class="p">((</span><span class="n">q</span> <span class="o">-</span> <span class="mf">1.</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">D</span><span class="p">)))</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">-</span><span class="n">q</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">fr</span></div>
+
+
+
+<div class="viewcode-block" id="fG">
+<a class="viewcode-back" href="../../../gpetas.utils.html#gpetas.utils.mle_KDE_ETAS.fG">[docs]</a>
+<span class="k">def</span> <span class="nf">fG</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">m_reduced</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">alpha</span><span class="p">):</span>
+    <span class="n">D</span> <span class="o">=</span> <span class="n">d</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">m_reduced</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">r</span> <span class="o">/</span> <span class="n">D</span><span class="p">)</span>
+    <span class="n">fr</span> <span class="o">=</span> <span class="mf">1.</span> <span class="o">/</span> <span class="p">(</span><span class="mf">2.</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">D</span><span class="p">))</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">fr</span></div>
+
+
+
+<div class="viewcode-block" id="integrateETAS">
+<a class="viewcode-back" href="../../../gpetas.utils.html#gpetas.utils.mle_KDE_ETAS.integrateETAS">[docs]</a>
+<span class="k">def</span> <span class="nf">integrateETAS</span><span class="p">(</span><span class="n">T1</span><span class="p">,</span> <span class="n">T2</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">mutot</span><span class="p">,</span> <span class="n">Na</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+    <span class="n">t0</span> <span class="o">=</span> <span class="n">T1</span> <span class="o">-</span> <span class="n">t</span><span class="p">[(</span><span class="n">t</span> <span class="o">&lt;</span> <span class="n">T2</span><span class="p">)]</span>
+    <span class="n">t0</span><span class="p">[(</span><span class="n">t0</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)]</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">t1</span> <span class="o">=</span> <span class="n">t0</span> <span class="o">+</span> <span class="n">c</span>
+    <span class="n">t2</span> <span class="o">=</span> <span class="n">T2</span> <span class="o">-</span> <span class="n">t</span><span class="p">[(</span><span class="n">t</span> <span class="o">&lt;</span> <span class="n">T2</span><span class="p">)]</span> <span class="o">+</span> <span class="n">c</span>
+    <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">dum1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">t1</span><span class="p">)</span>
+        <span class="n">dum2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">t2</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">dum1</span> <span class="o">=</span> <span class="n">t1</span> <span class="o">**</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">p</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">p</span><span class="p">)</span>
+        <span class="n">dum2</span> <span class="o">=</span> <span class="n">t2</span> <span class="o">**</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">p</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">p</span><span class="p">)</span>
+    <span class="n">ft</span> <span class="o">=</span> <span class="n">mutot</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">Na</span><span class="p">[(</span><span class="n">t</span> <span class="o">&lt;</span> <span class="n">T2</span><span class="p">)]</span> <span class="o">*</span> <span class="p">(</span><span class="n">dum2</span> <span class="o">-</span> <span class="n">dum1</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">ft</span></div>
+
+
+
+<div class="viewcode-block" id="dist">
+<a class="viewcode-back" href="../../../gpetas.utils.html#gpetas.utils.mle_KDE_ETAS.dist">[docs]</a>
+<span class="k">def</span> <span class="nf">dist</span><span class="p">(</span><span class="n">lat1</span><span class="p">,</span> <span class="n">lon1</span><span class="p">,</span> <span class="n">lat2</span><span class="p">,</span> <span class="n">lon2</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Distance (in [km]) between points given as [lat,lon]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">R0</span> <span class="o">=</span> <span class="mf">6367.3</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">R0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">lat1</span><span class="p">))</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">lat2</span><span class="p">))</span> <span class="o">+</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">lat1</span><span class="p">))</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">lat2</span><span class="p">))</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">lon1</span> <span class="o">-</span> <span class="n">lon2</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">R</span></div>
+
+
+
+<span class="c1"># subclasses</span>
+<div class="viewcode-block" id="data_structure">
+<a class="viewcode-back" href="../../../gpetas.utils.html#gpetas.utils.mle_KDE_ETAS.data_structure">[docs]</a>
+<span class="k">class</span> <span class="nc">data_structure</span><span class="p">():</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">times</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">magnitudes</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">positions</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+
+<div class="viewcode-block" id="mle_stable_hawkes">
+<a class="viewcode-back" href="../../../gpetas.utils.html#gpetas.utils.mle_KDE_ETAS.mle_stable_hawkes">[docs]</a>
+<span class="k">class</span> <span class="nc">mle_stable_hawkes</span><span class="p">():</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m_beta</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">10</span><span class="p">)):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">m_beta</span> <span class="o">=</span> <span class="n">m_beta</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_problem</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1"># dim(x)=8, i.e. x[0] = mufac, x[1]=K, x[2]=m_alpha, x[3]=c, x[4]=p, x[5]=d, x[6]=gamma, x[7]=q-1</span>
+
+<div class="viewcode-block" id="mle_stable_hawkes.nl_constraint">
+<a class="viewcode-back" href="../../../gpetas.utils.html#gpetas.utils.mle_KDE_ETAS.mle_stable_hawkes.nl_constraint">[docs]</a>
+    <span class="k">def</span> <span class="nf">nl_constraint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">xsquared</span> <span class="o">=</span> <span class="n">x</span> <span class="o">**</span> <span class="mf">2.</span>
+        <span class="n">mufac</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">m_alpha</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">qminus1</span> <span class="o">=</span> <span class="n">xsquared</span>
+        <span class="n">n_problem</span> <span class="o">=</span> <span class="n">c</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">p</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">p</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">K</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.</span> <span class="o">-</span> <span class="n">m_alpha</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">m_beta</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_problem</span> <span class="o">=</span> <span class="n">n_problem</span>
+        <span class="k">return</span> <span class="n">n_problem</span></div>
+
+
+<div class="viewcode-block" id="mle_stable_hawkes.jacobian_nl_cons">
+<a class="viewcode-back" href="../../../gpetas.utils.html#gpetas.utils.mle_KDE_ETAS.mle_stable_hawkes.jacobian_nl_cons">[docs]</a>
+    <span class="k">def</span> <span class="nf">jacobian_nl_cons</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">xsquared</span> <span class="o">=</span> <span class="n">x</span> <span class="o">**</span> <span class="mf">2.</span>
+        <span class="n">mufac</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">m_alpha</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">qminus1</span> <span class="o">=</span> <span class="n">xsquared</span>
+        <span class="n">j1</span> <span class="o">=</span> <span class="n">c</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">p</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">p</span> <span class="o">-</span> <span class="mf">1.</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1.</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.</span> <span class="o">-</span> <span class="n">m_alpha</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">m_beta</span><span class="p">)</span> <span class="o">*</span> <span class="mf">2.</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">K</span><span class="p">)</span>  <span class="c1"># d/dsqrt(K)</span>
+        <span class="n">j2</span> <span class="o">=</span> <span class="n">c</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">p</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">p</span> <span class="o">-</span> <span class="mf">1.</span><span class="p">)</span> <span class="o">*</span> <span class="n">K</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">m_alpha</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">m_beta</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span>
+                    <span class="n">m_alpha</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">m_beta</span><span class="p">)</span> <span class="o">**</span> <span class="mf">2.</span>  <span class="c1"># d/dsqrt(m_alpha)</span>
+        <span class="n">j3</span> <span class="o">=</span> <span class="n">K</span> <span class="o">/</span> <span class="p">((</span><span class="n">p</span> <span class="o">-</span> <span class="mf">1.</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.</span> <span class="o">-</span> <span class="n">m_alpha</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">m_beta</span><span class="p">))</span> <span class="o">*</span> <span class="mf">2.</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.</span> <span class="o">-</span> <span class="n">p</span><span class="p">)</span> <span class="o">*</span> <span class="n">c</span> <span class="o">**</span> <span class="p">(</span><span class="mf">0.5</span> <span class="o">-</span> <span class="n">p</span><span class="p">)</span>  <span class="c1"># d/dsqrt(c)</span>
+        <span class="n">j4</span> <span class="o">=</span> <span class="n">K</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.</span> <span class="o">-</span> <span class="n">m_alpha</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">m_beta</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="o">*</span> <span class="n">c</span> <span class="o">**</span> <span class="p">(</span><span class="mf">1.</span> <span class="o">-</span> <span class="n">p</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="n">p</span> <span class="o">-</span> <span class="mf">1.</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span>
+                    <span class="n">p</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="mf">2.</span>  <span class="c1"># d/dsqrt(p)</span>
+        <span class="n">jac</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.</span><span class="p">,</span> <span class="n">j1</span><span class="p">,</span> <span class="n">j2</span><span class="p">,</span> <span class="n">j3</span><span class="p">,</span> <span class="n">j4</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
+        <span class="k">return</span> <span class="n">jac</span></div>
+
+
+<div class="viewcode-block" id="mle_stable_hawkes.l_constraint">
+<a class="viewcode-back" href="../../../gpetas.utils.html#gpetas.utils.mle_KDE_ETAS.mle_stable_hawkes.l_constraint">[docs]</a>
+    <span class="k">def</span> <span class="nf">l_constraint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">x</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span></div>
+</div>
+
+</pre></div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By chrism
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023, chrism.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

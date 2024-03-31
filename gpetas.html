@@ -1,0 +1,750 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>gpetas package &#8212; gpetas 0.0.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=384b581d" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script src="_static/documentation_options.js?v=e645c8fa"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'gpetas';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="gpetas.core package" href="gpetas.core.html" />
+    <link rel="prev" title="Results" href="notebooks/05_results_summary.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.svg" class="logo__image only-light" alt="gpetas 0.0.1 documentation - Home"/>
+    <script>document.write(`<img src="_static/logo.svg" class="logo__image only-dark" alt="gpetas 0.0.1 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="notebooks/00_domain_setup.html">Define domain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/01_getdata_from_file.html">Data from a text file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/02_getdata_from_online_via_pycsep.html">Data from an online source</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="notebooks/03_inference_setup.html">Inference setup, model setup</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="notebooks/04_gibbs_sampling_gpetas.html">Inference: GP-ETAS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/04a_classical_inference_MLE_KDE_ETAS.html">Inference: classical ETAS MLE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/05_results_summary.html">Results</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">API reference</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">gpetas package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="gpetas.core.html">gpetas.core package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gpetas.synthetic_experiments.html">gpetas.synthetic_experiments package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gpetas.utils.html">gpetas.utils package</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/chris-molki/gpetas" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/gpetas.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>gpetas package</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#subpackages">Subpackages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-gpetas">Module contents</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="gpetas-package">
+<h1>gpetas package<a class="headerlink" href="#gpetas-package" title="Link to this heading">#</a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading">#</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="gpetas.core.html">gpetas.core package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="gpetas.core.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gpetas.core.html#module-gpetas.core.Gibbs_sampler">gpetas.core.Gibbs_sampler module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.Gibbs_sampler.GS_ETAS"><code class="docutils literal notranslate"><span class="pre">GS_ETAS</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.core.html#gpetas.core.Gibbs_sampler.GS_ETAS.sample"><code class="docutils literal notranslate"><span class="pre">GS_ETAS.sample()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.core.html#gpetas.core.Gibbs_sampler.GS_ETAS.sample_background_intensity"><code class="docutils literal notranslate"><span class="pre">GS_ETAS.sample_background_intensity()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.core.html#gpetas.core.Gibbs_sampler.GS_ETAS.sample_branching_structure"><code class="docutils literal notranslate"><span class="pre">GS_ETAS.sample_branching_structure()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.core.html#gpetas.core.Gibbs_sampler.GS_ETAS.sample_offspring_parameters"><code class="docutils literal notranslate"><span class="pre">GS_ETAS.sample_offspring_parameters()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.core.html#gpetas.core.Gibbs_sampler.GS_ETAS.evaluate_log_prior"><code class="docutils literal notranslate"><span class="pre">GS_ETAS.evaluate_log_prior()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.core.html#gpetas.core.Gibbs_sampler.GS_ETAS.calculate_log_likelihood"><code class="docutils literal notranslate"><span class="pre">GS_ETAS.calculate_log_likelihood()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.core.html#gpetas.core.Gibbs_sampler.GS_ETAS.save_sample"><code class="docutils literal notranslate"><span class="pre">GS_ETAS.save_sample()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.core.html#gpetas.core.Gibbs_sampler.GS_ETAS.save_data_init_info"><code class="docutils literal notranslate"><span class="pre">GS_ETAS.save_data_init_info()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.core.html#gpetas.core.Gibbs_sampler.GS_ETAS.save_results_and_info"><code class="docutils literal notranslate"><span class="pre">GS_ETAS.save_results_and_info()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.core.html#gpetas.core.Gibbs_sampler.GS_ETAS.track_vars_per_iter"><code class="docutils literal notranslate"><span class="pre">GS_ETAS.track_vars_per_iter()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.Gibbs_sampler.data_structure"><code class="docutils literal notranslate"><span class="pre">data_structure</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="gpetas.core.html#module-gpetas.core.bg_intensity">gpetas.core.bg_intensity module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.bg_intensity.BG_Intensity_Sampler"><code class="docutils literal notranslate"><span class="pre">BG_Intensity_Sampler</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.core.html#gpetas.core.bg_intensity.BG_Intensity_Sampler.sample"><code class="docutils literal notranslate"><span class="pre">BG_Intensity_Sampler.sample()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.core.html#gpetas.core.bg_intensity.BG_Intensity_Sampler.sample_g_at_all_points"><code class="docutils literal notranslate"><span class="pre">BG_Intensity_Sampler.sample_g_at_all_points()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.core.html#gpetas.core.bg_intensity.BG_Intensity_Sampler.set_new_branching"><code class="docutils literal notranslate"><span class="pre">BG_Intensity_Sampler.set_new_branching()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.core.html#gpetas.core.bg_intensity.BG_Intensity_Sampler.sample_unthinned_set"><code class="docutils literal notranslate"><span class="pre">BG_Intensity_Sampler.sample_unthinned_set()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.core.html#gpetas.core.bg_intensity.BG_Intensity_Sampler.cov_func"><code class="docutils literal notranslate"><span class="pre">BG_Intensity_Sampler.cov_func()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.core.html#gpetas.core.bg_intensity.BG_Intensity_Sampler.sample_marks"><code class="docutils literal notranslate"><span class="pre">BG_Intensity_Sampler.sample_marks()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.core.html#gpetas.core.bg_intensity.BG_Intensity_Sampler.sample_lmbda"><code class="docutils literal notranslate"><span class="pre">BG_Intensity_Sampler.sample_lmbda()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.core.html#gpetas.core.bg_intensity.BG_Intensity_Sampler.sample_g"><code class="docutils literal notranslate"><span class="pre">BG_Intensity_Sampler.sample_g()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.core.html#gpetas.core.bg_intensity.BG_Intensity_Sampler.sample_latent_poisson"><code class="docutils literal notranslate"><span class="pre">BG_Intensity_Sampler.sample_latent_poisson()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.core.html#gpetas.core.bg_intensity.BG_Intensity_Sampler.sample_from_cond_GP"><code class="docutils literal notranslate"><span class="pre">BG_Intensity_Sampler.sample_from_cond_GP()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.core.html#gpetas.core.bg_intensity.BG_Intensity_Sampler.update_kernels"><code class="docutils literal notranslate"><span class="pre">BG_Intensity_Sampler.update_kernels()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.core.html#gpetas.core.bg_intensity.BG_Intensity_Sampler.sample_kernel_params"><code class="docutils literal notranslate"><span class="pre">BG_Intensity_Sampler.sample_kernel_params()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.core.html#gpetas.core.bg_intensity.BG_Intensity_Sampler.compute_kernel_param_prop"><code class="docutils literal notranslate"><span class="pre">BG_Intensity_Sampler.compute_kernel_param_prop()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="gpetas.core.html#module-gpetas.core.loglike">gpetas.core.loglike module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.loglike.eval_lnl"><code class="docutils literal notranslate"><span class="pre">eval_lnl</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.loglike.lnl_sample"><code class="docutils literal notranslate"><span class="pre">lnl_sample</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.loglike.test_likelihood_GS"><code class="docutils literal notranslate"><span class="pre">test_likelihood_GS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.loglike.test_likelihood_mle"><code class="docutils literal notranslate"><span class="pre">test_likelihood_mle</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="gpetas.core.html#module-gpetas.core.prediction_1d">gpetas.core.prediction_1d module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_1d.init_outdir"><code class="docutils literal notranslate"><span class="pre">init_outdir()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_1d.plot_LTF"><code class="docutils literal notranslate"><span class="pre">plot_LTF()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_1d.plot_2D_z"><code class="docutils literal notranslate"><span class="pre">plot_2D_z()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_1d.get_data_star"><code class="docutils literal notranslate"><span class="pre">get_data_star()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_1d.performance_LTF_HE07_m495"><code class="docutils literal notranslate"><span class="pre">performance_LTF_HE07_m495</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_1d.performance_LTF_HE07_m495.poisson_likelihood"><code class="docutils literal notranslate"><span class="pre">performance_LTF_HE07_m495.poisson_likelihood()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_1d.performance_LTF_HE07_m0"><code class="docutils literal notranslate"><span class="pre">performance_LTF_HE07_m0</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_1d.performance_LTF_HE07_m0.poisson_likelihood"><code class="docutils literal notranslate"><span class="pre">performance_LTF_HE07_m0.poisson_likelihood()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_1d.resolution_mu_mle"><code class="docutils literal notranslate"><span class="pre">resolution_mu_mle</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_1d.resolution_mu_gpetas"><code class="docutils literal notranslate"><span class="pre">resolution_mu_gpetas</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_1d.new_extract_forecast_original_units"><code class="docutils literal notranslate"><span class="pre">new_extract_forecast_original_units()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_1d.simulation"><code class="docutils literal notranslate"><span class="pre">simulation()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_1d.predictions_1d"><code class="docutils literal notranslate"><span class="pre">predictions_1d</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_1d.predictions_1d.init_general_fixed_params"><code class="docutils literal notranslate"><span class="pre">predictions_1d.init_general_fixed_params()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_1d.predictions_1d.get_Ht"><code class="docutils literal notranslate"><span class="pre">predictions_1d.get_Ht()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_1d.predictions_1d.sim_background_gpetas"><code class="docutils literal notranslate"><span class="pre">predictions_1d.sim_background_gpetas()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_1d.predictions_1d.sim_background_mle"><code class="docutils literal notranslate"><span class="pre">predictions_1d.sim_background_mle()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_1d.init_save_dictionary"><code class="docutils literal notranslate"><span class="pre">init_save_dictionary()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_1d.GRsampling"><code class="docutils literal notranslate"><span class="pre">GRsampling()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_1d.dist"><code class="docutils literal notranslate"><span class="pre">dist()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_1d.probr"><code class="docutils literal notranslate"><span class="pre">probr()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_1d.sample_from_truncated_exponential_rv"><code class="docutils literal notranslate"><span class="pre">sample_from_truncated_exponential_rv()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_1d.sample_long_range_decay_RL_pwl"><code class="docutils literal notranslate"><span class="pre">sample_long_range_decay_RL_pwl()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_1d.predictions_1d_gpetas"><code class="docutils literal notranslate"><span class="pre">predictions_1d_gpetas</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_1d.predictions_1d_mle"><code class="docutils literal notranslate"><span class="pre">predictions_1d_mle</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_1d.sim_add_offspring"><code class="docutils literal notranslate"><span class="pre">sim_add_offspring()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_1d.NHPPsim"><code class="docutils literal notranslate"><span class="pre">NHPPsim()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_1d.sim_offspring_from_Ht"><code class="docutils literal notranslate"><span class="pre">sim_offspring_from_Ht()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="gpetas.core.html#module-gpetas.core.prediction_2d">gpetas.core.prediction_2d module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_2d.init_outdir"><code class="docutils literal notranslate"><span class="pre">init_outdir()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_2d.blockPrint"><code class="docutils literal notranslate"><span class="pre">blockPrint()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_2d.enablePrint"><code class="docutils literal notranslate"><span class="pre">enablePrint()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_2d.sample_from_truncated_exponential_rv"><code class="docutils literal notranslate"><span class="pre">sample_from_truncated_exponential_rv()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_2d.setup_pred"><code class="docutils literal notranslate"><span class="pre">setup_pred</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_2d.setup_sequential_pred"><code class="docutils literal notranslate"><span class="pre">setup_sequential_pred</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_2d.PHI_t_omori"><code class="docutils literal notranslate"><span class="pre">PHI_t_omori()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_2d.n"><code class="docutils literal notranslate"><span class="pre">n()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_2d.NHPPsim"><code class="docutils literal notranslate"><span class="pre">NHPPsim()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_2d.init_save_dictionary"><code class="docutils literal notranslate"><span class="pre">init_save_dictionary()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_2d.sim_add_offspring"><code class="docutils literal notranslate"><span class="pre">sim_add_offspring()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_2d.sim_offspring_from_Ht"><code class="docutils literal notranslate"><span class="pre">sim_offspring_from_Ht()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_2d.predictions_mle"><code class="docutils literal notranslate"><span class="pre">predictions_mle</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_2d.predictions_gpetas"><code class="docutils literal notranslate"><span class="pre">predictions_gpetas</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_2d.predictions_gpetas.tic"><code class="docutils literal notranslate"><span class="pre">predictions_gpetas.tic</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_2d.predictions_gpetas.NHPPsim"><code class="docutils literal notranslate"><span class="pre">predictions_gpetas.NHPPsim()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_2d.predictions_gpetas.init_save_dictionary"><code class="docutils literal notranslate"><span class="pre">predictions_gpetas.init_save_dictionary()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_2d.predictions_gpetas.sample_from_cond_GP"><code class="docutils literal notranslate"><span class="pre">predictions_gpetas.sample_from_cond_GP()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_2d.predictions_gpetas.mean_from_cond_GP"><code class="docutils literal notranslate"><span class="pre">predictions_gpetas.mean_from_cond_GP()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_2d.predictions_gpetas.cov_func"><code class="docutils literal notranslate"><span class="pre">predictions_gpetas.cov_func()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_2d.sample_s_xy_short_range"><code class="docutils literal notranslate"><span class="pre">sample_s_xy_short_range()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_2d.sample_long_range_decay_pwl"><code class="docutils literal notranslate"><span class="pre">sample_long_range_decay_pwl()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_2d.sample_long_range_decay_RL_pwl"><code class="docutils literal notranslate"><span class="pre">sample_long_range_decay_RL_pwl()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_2d.cumsum_events_pred"><code class="docutils literal notranslate"><span class="pre">cumsum_events_pred()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_2d.get_marginal_Nt_pred"><code class="docutils literal notranslate"><span class="pre">get_marginal_Nt_pred()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_2d.plot_pred_hist_cumsum_Nt_at_t"><code class="docutils literal notranslate"><span class="pre">plot_pred_hist_cumsum_Nt_at_t()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_2d.plot_pred_cumsum_Nt_path"><code class="docutils literal notranslate"><span class="pre">plot_pred_cumsum_Nt_path()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_2d.plot_pred_boxplot"><code class="docutils literal notranslate"><span class="pre">plot_pred_boxplot()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_2d.plot_pred_quantile"><code class="docutils literal notranslate"><span class="pre">plot_pred_quantile()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_2d.plot_pred_histkernel_Nt_at_t"><code class="docutils literal notranslate"><span class="pre">plot_pred_histkernel_Nt_at_t()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_2d.plot_pred_prediction2d"><code class="docutils literal notranslate"><span class="pre">plot_pred_prediction2d()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_2d.plot_pred_uncertainty_in_time"><code class="docutils literal notranslate"><span class="pre">plot_pred_uncertainty_in_time()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_2d.generate_tau1_tau2_vec_seq_forecast"><code class="docutils literal notranslate"><span class="pre">generate_tau1_tau2_vec_seq_forecast()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_2d.forecast_sequential"><code class="docutils literal notranslate"><span class="pre">forecast_sequential</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_2d.pred_summary"><code class="docutils literal notranslate"><span class="pre">pred_summary()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_2d.plot_pred_seq_forecast_updated"><code class="docutils literal notranslate"><span class="pre">plot_pred_seq_forecast_updated()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.prediction_2d.write_table_prediction_report"><code class="docutils literal notranslate"><span class="pre">write_table_prediction_report()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="gpetas.core.html#module-gpetas.core.setup_Gibbs_sampler">gpetas.core.setup_Gibbs_sampler module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.setup_Gibbs_sampler.setup_sampler"><code class="docutils literal notranslate"><span class="pre">setup_sampler</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.setup_Gibbs_sampler.kth_sample"><code class="docutils literal notranslate"><span class="pre">kth_sample</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.setup_Gibbs_sampler.get_last_sample"><code class="docutils literal notranslate"><span class="pre">get_last_sample()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.setup_Gibbs_sampler.get_kth_sample_from_mle"><code class="docutils literal notranslate"><span class="pre">get_kth_sample_from_mle()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.setup_Gibbs_sampler.data_structure"><code class="docutils literal notranslate"><span class="pre">data_structure</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.core.html#gpetas.core.setup_Gibbs_sampler.setup_obj_mle_from_setup_obj_GS"><code class="docutils literal notranslate"><span class="pre">setup_obj_mle_from_setup_obj_GS()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="gpetas.core.html#module-gpetas.core">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="gpetas.synthetic_experiments.html">gpetas.synthetic_experiments package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="gpetas.synthetic_experiments.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gpetas.synthetic_experiments.html#module-gpetas.synthetic_experiments.generative_model">gpetas.synthetic_experiments.generative_model module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.synthetic_experiments.html#gpetas.synthetic_experiments.generative_model.generate_synthetic_data"><code class="docutils literal notranslate"><span class="pre">generate_synthetic_data</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.synthetic_experiments.html#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.sim_case_01"><code class="docutils literal notranslate"><span class="pre">generate_synthetic_data.sim_case_01()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.synthetic_experiments.html#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.sim_case_02"><code class="docutils literal notranslate"><span class="pre">generate_synthetic_data.sim_case_02()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.synthetic_experiments.html#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.sim_case_03_gaborlike"><code class="docutils literal notranslate"><span class="pre">generate_synthetic_data.sim_case_03_gaborlike()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.synthetic_experiments.html#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.sim_Xall_tmxyz_branching"><code class="docutils literal notranslate"><span class="pre">generate_synthetic_data.sim_Xall_tmxyz_branching()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.synthetic_experiments.html#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.PHI_t_omori"><code class="docutils literal notranslate"><span class="pre">generate_synthetic_data.PHI_t_omori()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.synthetic_experiments.html#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.n"><code class="docutils literal notranslate"><span class="pre">generate_synthetic_data.n()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.synthetic_experiments.html#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.sim_NHPP"><code class="docutils literal notranslate"><span class="pre">generate_synthetic_data.sim_NHPP()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.synthetic_experiments.html#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.sample_s_xy_short_range"><code class="docutils literal notranslate"><span class="pre">generate_synthetic_data.sample_s_xy_short_range()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.synthetic_experiments.html#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.sample_long_range_decay_pwl"><code class="docutils literal notranslate"><span class="pre">generate_synthetic_data.sample_long_range_decay_pwl()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.synthetic_experiments.html#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.sample_long_range_decay_RL_pwl"><code class="docutils literal notranslate"><span class="pre">generate_synthetic_data.sample_long_range_decay_RL_pwl()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.synthetic_experiments.html#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.gabor_like_intensity"><code class="docutils literal notranslate"><span class="pre">generate_synthetic_data.gabor_like_intensity()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.synthetic_experiments.html#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.pos_gabor"><code class="docutils literal notranslate"><span class="pre">generate_synthetic_data.pos_gabor()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.synthetic_experiments.html#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.integral_ut_gabor_like_intensity"><code class="docutils literal notranslate"><span class="pre">generate_synthetic_data.integral_ut_gabor_like_intensity()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.synthetic_experiments.html#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.write_to_file"><code class="docutils literal notranslate"><span class="pre">generate_synthetic_data.write_to_file()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.synthetic_experiments.html#gpetas.synthetic_experiments.generative_model.generate_synthetic_data.plot_paper_figure02_data"><code class="docutils literal notranslate"><span class="pre">generate_synthetic_data.plot_paper_figure02_data()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.synthetic_experiments.html#gpetas.synthetic_experiments.generative_model.make_X_grid"><code class="docutils literal notranslate"><span class="pre">make_X_grid()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.synthetic_experiments.html#gpetas.synthetic_experiments.generative_model.dom"><code class="docutils literal notranslate"><span class="pre">dom</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.synthetic_experiments.html#gpetas.synthetic_experiments.generative_model.obs"><code class="docutils literal notranslate"><span class="pre">obs</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.synthetic_experiments.html#gpetas.synthetic_experiments.generative_model.case01_info"><code class="docutils literal notranslate"><span class="pre">case01_info</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.synthetic_experiments.html#gpetas.synthetic_experiments.generative_model.case02_info"><code class="docutils literal notranslate"><span class="pre">case02_info</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.synthetic_experiments.html#gpetas.synthetic_experiments.generative_model.case03_info"><code class="docutils literal notranslate"><span class="pre">case03_info</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="gpetas.synthetic_experiments.html#module-gpetas.synthetic_experiments.synthetic_cases_aux_functions">gpetas.synthetic_experiments.synthetic_cases_aux_functions module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.synthetic_experiments.html#gpetas.synthetic_experiments.synthetic_cases_aux_functions.write_results_to_tex_file"><code class="docutils literal notranslate"><span class="pre">write_results_to_tex_file()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.synthetic_experiments.html#gpetas.synthetic_experiments.synthetic_cases_aux_functions.write_table2_theta"><code class="docutils literal notranslate"><span class="pre">write_table2_theta()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.synthetic_experiments.html#gpetas.synthetic_experiments.synthetic_cases_aux_functions.write_table3_l2_background"><code class="docutils literal notranslate"><span class="pre">write_table3_l2_background()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="gpetas.synthetic_experiments.html#module-gpetas.synthetic_experiments">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="gpetas.utils.html">gpetas.utils package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="gpetas.utils.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gpetas.utils.html#module-gpetas.utils.R00x_setup">gpetas.utils.R00x_setup module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.R00x_setup.R00x_california_set_domain"><code class="docutils literal notranslate"><span class="pre">R00x_california_set_domain</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.R00x_setup.R00x_california_set_domain.get_region"><code class="docutils literal notranslate"><span class="pre">R00x_california_set_domain.get_region()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.R00x_setup.R00x_california_set_domain.regions_X_domain"><code class="docutils literal notranslate"><span class="pre">R00x_california_set_domain.regions_X_domain()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.R00x_setup.region_class"><code class="docutils literal notranslate"><span class="pre">region_class</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.R00x_setup.event"><code class="docutils literal notranslate"><span class="pre">event</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.R00x_setup.special_events"><code class="docutils literal notranslate"><span class="pre">special_events</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="gpetas.utils.html#module-gpetas.utils.get_data_pycsep">gpetas.utils.get_data_pycsep module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.get_data_pycsep.init_outdir"><code class="docutils literal notranslate"><span class="pre">init_outdir()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.get_data_pycsep.data_obj__from_catalog_obj"><code class="docutils literal notranslate"><span class="pre">data_obj__from_catalog_obj()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.get_data_pycsep.plot_regions"><code class="docutils literal notranslate"><span class="pre">plot_regions()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.get_data_pycsep.plot_regions_with_catalog"><code class="docutils literal notranslate"><span class="pre">plot_regions_with_catalog()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="gpetas.utils.html#module-gpetas.utils.mle_KDE_ETAS">gpetas.utils.mle_KDE_ETAS module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.mle_KDE_ETAS.setup_mle"><code class="docutils literal notranslate"><span class="pre">setup_mle</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.mle_KDE_ETAS.mle_units"><code class="docutils literal notranslate"><span class="pre">mle_units</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.mle_KDE_ETAS.mle_units.eval_kde_xprime"><code class="docutils literal notranslate"><span class="pre">mle_units.eval_kde_xprime()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.mle_KDE_ETAS.mle_units.eval_kde_unscaled"><code class="docutils literal notranslate"><span class="pre">mle_units.eval_kde_unscaled()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.mle_KDE_ETAS.calculate_mu"><code class="docutils literal notranslate"><span class="pre">calculate_mu()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.mle_KDE_ETAS.gaussian"><code class="docutils literal notranslate"><span class="pre">gaussian()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.mle_KDE_ETAS.fR"><code class="docutils literal notranslate"><span class="pre">fR()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.mle_KDE_ETAS.fP"><code class="docutils literal notranslate"><span class="pre">fP()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.mle_KDE_ETAS.fG"><code class="docutils literal notranslate"><span class="pre">fG()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.mle_KDE_ETAS.integrateETAS"><code class="docutils literal notranslate"><span class="pre">integrateETAS()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.mle_KDE_ETAS.dist"><code class="docutils literal notranslate"><span class="pre">dist()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.mle_KDE_ETAS.data_structure"><code class="docutils literal notranslate"><span class="pre">data_structure</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.mle_KDE_ETAS.mle_stable_hawkes"><code class="docutils literal notranslate"><span class="pre">mle_stable_hawkes</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.mle_KDE_ETAS.mle_stable_hawkes.nl_constraint"><code class="docutils literal notranslate"><span class="pre">mle_stable_hawkes.nl_constraint()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.mle_KDE_ETAS.mle_stable_hawkes.jacobian_nl_cons"><code class="docutils literal notranslate"><span class="pre">mle_stable_hawkes.jacobian_nl_cons()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.mle_KDE_ETAS.mle_stable_hawkes.l_constraint"><code class="docutils literal notranslate"><span class="pre">mle_stable_hawkes.l_constraint()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="gpetas.utils.html#module-gpetas.utils.plotting">gpetas.utils.plotting module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.plotting.plot_slice_x"><code class="docutils literal notranslate"><span class="pre">plot_slice_x()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.plotting.plot_priors_offspring"><code class="docutils literal notranslate"><span class="pre">plot_priors_offspring()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.plotting.plot_l_ltest"><code class="docutils literal notranslate"><span class="pre">plot_l_ltest()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.plotting.plot_1D_estimation"><code class="docutils literal notranslate"><span class="pre">plot_1D_estimation()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.plotting.plot_autocorr_hyperparams"><code class="docutils literal notranslate"><span class="pre">plot_autocorr_hyperparams()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.plotting.plot_autocorr_data"><code class="docutils literal notranslate"><span class="pre">plot_autocorr_data()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.plotting.plot_hyperparams"><code class="docutils literal notranslate"><span class="pre">plot_hyperparams()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.plotting.plot_acceptance_offspring"><code class="docutils literal notranslate"><span class="pre">plot_acceptance_offspring()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.plotting.plot_autocorr"><code class="docutils literal notranslate"><span class="pre">plot_autocorr()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.plotting.plot_offspring_mcmc_chains"><code class="docutils literal notranslate"><span class="pre">plot_offspring_mcmc_chains()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.plotting.plot_scatter"><code class="docutils literal notranslate"><span class="pre">plot_scatter()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.plotting.plot_scatter_data"><code class="docutils literal notranslate"><span class="pre">plot_scatter_data()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.plotting.plot_number_of_bg_events"><code class="docutils literal notranslate"><span class="pre">plot_number_of_bg_events()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.plotting.plot_hist_lambda_bar"><code class="docutils literal notranslate"><span class="pre">plot_hist_lambda_bar()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.plotting.plot_lambda_bar"><code class="docutils literal notranslate"><span class="pre">plot_lambda_bar()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.plotting.plot_slices_and_upper_bound"><code class="docutils literal notranslate"><span class="pre">plot_slices_and_upper_bound()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.plotting.plot_intensity_2d"><code class="docutils literal notranslate"><span class="pre">plot_intensity_2d()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.plotting.plot_setting"><code class="docutils literal notranslate"><span class="pre">plot_setting()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="gpetas.utils.html#module-gpetas.utils.some_fun">gpetas.utils.some_fun module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.some_fun.init_outdir"><code class="docutils literal notranslate"><span class="pre">init_outdir()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.some_fun.score_CRPS"><code class="docutils literal notranslate"><span class="pre">score_CRPS()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.some_fun.score_CRPS_SR"><code class="docutils literal notranslate"><span class="pre">score_CRPS_SR()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.some_fun.NB_n_p_methods_of_moments"><code class="docutils literal notranslate"><span class="pre">NB_n_p_methods_of_moments()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.some_fun.lonlat2xy_short"><code class="docutils literal notranslate"><span class="pre">lonlat2xy_short()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.some_fun.lonlat2xy_flatmap"><code class="docutils literal notranslate"><span class="pre">lonlat2xy_flatmap()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.some_fun.etas_intensity"><code class="docutils literal notranslate"><span class="pre">etas_intensity()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.some_fun.etas_intensity_mle"><code class="docutils literal notranslate"><span class="pre">etas_intensity_mle()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.some_fun.eval_n"><code class="docutils literal notranslate"><span class="pre">eval_n()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.some_fun.integral_offspring"><code class="docutils literal notranslate"><span class="pre">integral_offspring()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.some_fun.Lambda_t_1D"><code class="docutils literal notranslate"><span class="pre">Lambda_t_1D()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.some_fun.n_mol"><code class="docutils literal notranslate"><span class="pre">n_mol()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.some_fun.n"><code class="docutils literal notranslate"><span class="pre">n()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.some_fun.mu_posterior_grid"><code class="docutils literal notranslate"><span class="pre">mu_posterior_grid()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.some_fun.get_grid_count_forecast"><code class="docutils literal notranslate"><span class="pre">get_grid_count_forecast()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.some_fun.get_grid_count_data"><code class="docutils literal notranslate"><span class="pre">get_grid_count_data()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.some_fun.cumsum_events"><code class="docutils literal notranslate"><span class="pre">cumsum_events()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.some_fun.cumsum_events_pred"><code class="docutils literal notranslate"><span class="pre">cumsum_events_pred()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.some_fun.autocorr"><code class="docutils literal notranslate"><span class="pre">autocorr()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.some_fun.autocorr2"><code class="docutils literal notranslate"><span class="pre">autocorr2()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.some_fun.make_X_grid"><code class="docutils literal notranslate"><span class="pre">make_X_grid()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.some_fun.create_data_obj_from_cat_file"><code class="docutils literal notranslate"><span class="pre">create_data_obj_from_cat_file</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.some_fun.create_data_obj_from_cat_file.utm_conversion"><code class="docutils literal notranslate"><span class="pre">create_data_obj_from_cat_file.utm_conversion()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.some_fun.silverman_scott_rule_d"><code class="docutils literal notranslate"><span class="pre">silverman_scott_rule_d()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.some_fun.mu_xprime_interpol"><code class="docutils literal notranslate"><span class="pre">mu_xprime_interpol()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.some_fun.mu_xprime_gpetas"><code class="docutils literal notranslate"><span class="pre">mu_xprime_gpetas()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.some_fun.sample_from_cond_gp"><code class="docutils literal notranslate"><span class="pre">sample_from_cond_gp()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.some_fun.inverse"><code class="docutils literal notranslate"><span class="pre">inverse()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.some_fun.cov_func"><code class="docutils literal notranslate"><span class="pre">cov_func()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.some_fun.get_grid_data_for_a_point"><code class="docutils literal notranslate"><span class="pre">get_grid_data_for_a_point()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.some_fun.write_table_l_test_real_data"><code class="docutils literal notranslate"><span class="pre">write_table_l_test_real_data()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.some_fun.dom"><code class="docutils literal notranslate"><span class="pre">dom</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.some_fun.obs"><code class="docutils literal notranslate"><span class="pre">obs</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="gpetas.utils.html#module-gpetas.utils.summary">gpetas.utils.summary module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="gpetas.utils.html#gpetas.utils.summary.summary_gpetas"><code class="docutils literal notranslate"><span class="pre">summary_gpetas</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="gpetas.utils.html#module-gpetas.utils">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="module-gpetas">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-gpetas" title="Link to this heading">#</a></h2>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="notebooks/05_results_summary.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Results</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="gpetas.core.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">gpetas.core package</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#subpackages">Subpackages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-gpetas">Module contents</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By chrism
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023, chrism.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
