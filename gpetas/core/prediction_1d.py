@@ -236,11 +236,13 @@ def get_data_star(save_obj_GS, tau1, tau2, mstar=None):
         mstar = m0
     idx = np.where(
         (data_obj.data_all.times >= tau1) & (data_obj.data_all.times <= tau2) & (data_obj.data_all.magnitudes >= mstar))
-    data_star = np.empty([len(data_obj.data_all.times[idx]), 4])
+    data_star = np.empty([len(data_obj.data_all.times[idx]), 6])
     data_star[:, 0] = np.copy(data_obj.data_all.times[idx])
     data_star[:, 1] = np.copy(data_obj.data_all.magnitudes[idx])
     data_star[:, 2] = np.copy(data_obj.data_all.positions[idx, 0])
     data_star[:, 3] = np.copy(data_obj.data_all.positions[idx, 1])
+    data_star[:, 4] = np.copy(data_obj.data_all.positions_lon_lat[idx, 0])
+    data_star[:, 5] = np.copy(data_obj.data_all.positions_lon_lat[idx, 1])
     return data_star
 
 
